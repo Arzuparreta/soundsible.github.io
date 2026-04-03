@@ -1,0 +1,81 @@
+---
+const desktop = {
+  src: "/screenshots/desktop-player-dark.png",
+  alt: "Soundsible desktop player with dark theme showing library and playback",
+  caption: "Station — desktop",
+};
+const mobile = [
+  {
+    src: "/screenshots/mobile-yt-search.PNG",
+    alt: "YouTube search on Soundsible mobile",
+    cap: "Search",
+  },
+  {
+    src: "/screenshots/mobile-now-playing.PNG",
+    alt: "Now playing screen on mobile",
+    cap: "Now playing",
+  },
+  {
+    src: "/screenshots/mobile-songs-library.PNG",
+    alt: "Songs library on mobile",
+    cap: "Library",
+  },
+] as const;
+---
+
+<section
+  class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8"
+  aria-labelledby="showcase-heading"
+>
+  <div data-reveal class="text-center">
+    <h2
+      id="showcase-heading"
+      class="font-display text-3xl font-semibold tracking-tight text-main sm:text-4xl"
+    >
+      Built for daily listening
+    </h2>
+    <p class="mx-auto mt-4 max-w-2xl text-lg text-dim">
+      The same interface scales from your desk to your phone—dark-first, sharp typography, and room for your whole collection.
+    </p>
+  </div>
+
+  <div data-reveal class="mt-14 space-y-8">
+    <figure
+      class="overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm"
+    >
+      <img
+        src={desktop.src}
+        alt={desktop.alt}
+        width="1200"
+        height="675"
+        class="h-auto w-full object-cover object-top"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption class="border-t border-[var(--glass-border)] px-4 py-3 text-center text-sm text-dim">
+        {desktop.caption}
+      </figcaption>
+    </figure>
+
+    <div class="grid gap-5 sm:grid-cols-3">
+      {
+        mobile.map((m) => (
+          <figure class="overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
+            <img
+              src={m.src}
+              alt={m.alt}
+              width="390"
+              height="844"
+              class="h-auto w-full object-cover object-top"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption class="border-t border-[var(--glass-border)] px-3 py-2 text-center text-xs text-dim sm:text-sm">
+              {m.cap}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

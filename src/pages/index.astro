@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import FeatureGrid from "../components/FeatureGrid.astro";
+import QuickStart from "../components/QuickStart.astro";
+import Showcase from "../components/Showcase.astro";
+import LegalTeaser from "../components/LegalTeaser.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { SITE_URL } from "../constants";
+
+const title = "Soundsible — Self-hosted music, streaming-grade experience";
+const description =
+  "Run your own full-featured music environment: library, search, playback, and sync across devices. Open source (MIT). Install from GitHub.";
+---
+
+<Layout title={title} description={description} ogImage={`${SITE_URL}/og-image.png`}>
+  <Hero />
+  <FeatureGrid />
+  <QuickStart />
+  <Showcase />
+  <LegalTeaser />
+  <SiteFooter />
+</Layout>

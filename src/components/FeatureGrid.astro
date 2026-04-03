@@ -1,0 +1,75 @@
+---
+const features = [
+  {
+    title: "Unified search",
+    body: "Search your library and the web from one place—discover, preview, and add without leaving the player.",
+  },
+  {
+    title: "Library & metadata",
+    body: "Edit tracks, artwork, and playlists with tools that feel like a premium streaming service—for your files.",
+  },
+  {
+    title: "Play everywhere",
+    body: "Stream from your main machine to desktop and mobile; queue and playback stay in sync across sessions.",
+  },
+  {
+    title: "Discovery pipeline",
+    body: "Built-in acquisition flow normalizes audio and metadata and lands tracks in your library automatically.",
+  },
+  {
+    title: "Flexible storage",
+    body: "Local disk, NAS, or object storage—pick what fits your setup, including common S3-compatible backends.",
+  },
+  {
+    title: "Reachable anywhere",
+    body: "Run at home or expose safely via Tailscale or your reverse proxy so your music follows you.",
+  },
+] as const;
+---
+
+<section
+  class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8"
+  aria-labelledby="features-heading"
+>
+  <div data-reveal class="max-w-2xl">
+    <h2
+      id="features-heading"
+      class="font-display text-3xl font-semibold tracking-tight text-main sm:text-4xl"
+    >
+      Everything you expect from a modern player
+    </h2>
+    <p class="mt-4 text-lg text-dim">
+      Soundsible is the Station for your own collection—self-hosted, private,
+      and as polished as the apps you grew up streaming on.
+    </p>
+  </div>
+
+  <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" role="list">
+    {
+      features.map((f, i) => (
+        <li data-reveal>
+          <article class="group relative h-full overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/90 p-6 shadow-card backdrop-blur-md transition hover:border-accent/35">
+            <div
+              class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-accent/10 opacity-0 blur-2xl transition group-hover:opacity-100"
+              aria-hidden="true"
+            />
+            <div class="relative">
+              <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-surface ring-1 ring-[var(--glass-border)]">
+                <span
+                  class="flex h-6 w-6 items-center justify-center font-display text-sm font-bold text-accent"
+                  aria-hidden="true"
+                >
+                  {i + 1}
+                </span>
+              </div>
+              <h3 class="font-display text-lg font-semibold text-main">
+                {f.title}
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-dim">{f.body}</p>
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</section>

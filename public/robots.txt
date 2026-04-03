@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://soundsible.github.io/sitemap.xml

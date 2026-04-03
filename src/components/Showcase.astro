@@ -67,8 +67,13 @@ const mobile = [
       aria-label="Mobile app screenshots"
     >
       {
-        mobile.map((m) => (
-          <figure class="min-w-0 flex-1 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
+        mobile.map((m, i) => (
+          <figure
+            class:list={[
+              "min-w-0 flex-1 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm",
+              i === 0 && "hidden sm:block",
+            ]}
+          >
             <img
               src={m.src}
               alt={m.alt}

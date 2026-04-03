@@ -59,10 +59,10 @@ const mobile = [
       </figcaption>
     </figure>
 
-    <div class="grid gap-5 sm:grid-cols-3">
+    <div class="flex flex-col items-center gap-8 sm:gap-10">
       {
         mobile.map((m) => (
-          <figure class="overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
+          <figure class="w-full max-w-[390px] overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
             <img
               src={m.src}
               alt={m.alt}

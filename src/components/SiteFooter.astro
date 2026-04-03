@@ -1,5 +1,6 @@
 ---
 import { REPO_URL } from "../constants";
+import { publicAsset } from "../public-asset";
 const year = new Date().getFullYear();
 ---
 
@@ -11,7 +12,7 @@ const year = new Date().getFullYear();
     class="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 text-center sm:flex-row sm:justify-between sm:px-6 sm:text-left lg:px-8"
   >
     <div class="flex items-center gap-3">
-      <img src="/logo-app.png" alt="" width="40" height="40" class="rounded-lg" />
+      <img src={publicAsset("/logo-app.png")} alt="" width="40" height="40" class="rounded-lg" />
       <div>
         <div class="font-display font-semibold text-main">Soundsible</div>
         <div class="text-sm text-dim">Self-hosted music environment</div>

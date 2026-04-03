@@ -2,21 +2,21 @@
 import "@fontsource-variable/outfit/wght.css";
 import "@fontsource-variable/dm-sans/wght.css";
 import "../styles/global.css";
-import { SITE_URL } from "../constants";
+import { publicAsset } from "../public-asset";
 
 interface Props {
   title: string;
   description: string;
+  /** Absolute URL; default = og-image.png under the deployed base path */
   ogImage?: string;
 }
 
-const {
-  title,
-  description,
-  ogImage = `${SITE_URL}/og-image.png`,
-} = Astro.props;
+const { title, description, ogImage: ogImageProp } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage =
+  ogImageProp ??
+  new URL(publicAsset("og-image.png"), Astro.site).href;
 ---
 
 <!doctype html>
@@ -27,7 +27,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="theme-color" content="#0d0d0f" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href={publicAsset("/favicon.png")} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />

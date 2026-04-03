@@ -1,22 +1,24 @@
 ---
+import { publicAsset } from "../public-asset";
+
 const desktop = {
-  src: "/screenshots/desktop-player-dark.png",
+  src: publicAsset("/screenshots/desktop-player-dark.png"),
   alt: "Soundsible desktop player with dark theme showing library and playback",
   caption: "Station — desktop",
 };
 const mobile = [
   {
-    src: "/screenshots/mobile-yt-search.PNG",
+    src: publicAsset("/screenshots/mobile-yt-search.PNG"),
     alt: "YouTube search on Soundsible mobile",
     cap: "Search",
   },
   {
-    src: "/screenshots/mobile-now-playing.PNG",
+    src: publicAsset("/screenshots/mobile-now-playing.PNG"),
     alt: "Now playing screen on mobile",
     cap: "Now playing",
   },
   {
-    src: "/screenshots/mobile-songs-library.PNG",
+    src: publicAsset("/screenshots/mobile-songs-library.PNG"),
     alt: "Songs library on mobile",
     cap: "Library",
   },

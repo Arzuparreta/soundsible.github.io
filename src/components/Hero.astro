@@ -1,5 +1,6 @@
 ---
 import { REPO_URL, DOCS_INSTALL_URL } from "../constants";
+import { publicAsset } from "../public-asset";
 ---
 
 <section
@@ -8,7 +9,7 @@ import { REPO_URL, DOCS_INSTALL_URL } from "../constants";
 >
   <div data-reveal class="mb-8 flex items-center gap-3 sm:mb-10">
     <img
-      src="/logo-app.png"
+      src={publicAsset("/logo-app.png")}
       alt=""
       width="56"
       height="56"

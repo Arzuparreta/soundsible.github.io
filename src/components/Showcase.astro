@@ -61,31 +61,41 @@ const mobile = [
       </figcaption>
     </figure>
 
-    <div
-      class="flex flex-row items-start justify-center gap-3 sm:gap-5 md:gap-6"
-      role="group"
-      aria-label="Mobile app screenshots"
+    <figure
+      class="overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm"
     >
-      {
-        mobile.map((m) => (
-          <figure class="min-w-0 flex-1 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
-            <img
-              src={m.src}
-              alt={m.alt}
-              width="390"
-              height="844"
-              class="h-auto w-full object-cover object-top"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption
-              class="min-w-0 truncate border-t border-[var(--glass-border)] px-4 py-3 text-center text-sm text-dim"
-            >
-              {m.cap}
-            </figcaption>
-          </figure>
-        ))
-      }
-    </div>
+      <div
+        class="flex flex-row items-start justify-center gap-3 px-3 py-5 sm:gap-6 sm:px-6 sm:py-7 md:gap-8 md:px-8 md:py-8"
+        role="group"
+        aria-label="Mobile app screenshots"
+      >
+        {
+          mobile.map((m) => (
+            <div class="flex min-w-0 flex-1 flex-col">
+              <div class="aspect-[390/844] w-full overflow-hidden">
+                <img
+                  src={m.src}
+                  alt={m.alt}
+                  width="390"
+                  height="844"
+                  class="h-full w-full object-contain object-top"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <figcaption
+        class="grid grid-cols-3 gap-3 border-t border-[var(--glass-border)] px-3 py-3 sm:gap-6 sm:px-6 md:gap-8 md:px-8"
+      >
+        {
+          mobile.map((m) => (
+            <span class="min-w-0 truncate text-center text-sm text-dim">{m.cap}</span>
+          ))
+        }
+      </figcaption>
+    </figure>
   </div>
 </section>

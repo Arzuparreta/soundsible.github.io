@@ -1,6 +1,6 @@
 # Soundsible landing
 
-Marketing site for [Soundsible](https://github.com/Arzuparreta/Arzuparreta/tree/main/projects/repos/soundsible).
+Marketing site for [Soundsible](https://github.com/Arzuparreta/soundsible).
 
 This app lives in this repository at `projects/repos/soundsible-site`.
 The public entry point is the portfolio site at `https://arzuparreta.github.io/`.

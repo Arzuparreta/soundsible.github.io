@@ -22,32 +22,32 @@ const description =
         <h1 id="track-title"></h1>
         <p id="track-artist" class="artist"></p>
 
-        <div class="actions">
-          <a id="open-desktop" class="primary" href="#">Open Soundsible desktop</a>
-          <a id="open-youtube" class="secondary" href="#" target="_blank" rel="noreferrer">
-            Open on YouTube
-          </a>
-        </div>
-
-        <div class="divider"><span>or use your web player</span></div>
         <form id="instance-form">
-          <label for="instance-url">Your Soundsible URL</label>
+          <label for="instance-url">Open it on your Soundsible</label>
           <div class="url-row">
             <input
               id="instance-url"
-              type="url"
+              type="text"
               inputmode="url"
               autocomplete="url"
-              placeholder="https://music.example/player/"
+              spellcheck="false"
+              placeholder="192.168.1.20:5005/player/"
               required
             />
             <button type="submit">Open</button>
           </div>
           <p id="instance-error" class="error" hidden>
-            Enter the full URL ending in /player/.
+            That is not a Soundsible player address. Use the one you open Soundsible with.
           </p>
-          <p class="privacy">Saved in this browser for future Soundsible links.</p>
+          <p class="privacy">Saved in this browser, so the next shared song opens straight away.</p>
         </form>
+
+        <div class="divider"><span>or</span></div>
+        <div class="actions">
+          <a id="open-youtube" class="secondary" href="#" target="_blank" rel="noreferrer">
+            Open on YouTube
+          </a>
+        </div>
       </div>
 
       <div id="register" hidden>

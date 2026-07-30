@@ -82,8 +82,11 @@ function trackMode(encoded: string): void {
   view("track-title").textContent = capsule.title;
   view("track-artist").textContent = capsule.artist;
 
-  const desktop = view("open-desktop") as HTMLAnchorElement;
-  desktop.href = `soundsible://track/${encoded}`;
+  // No `soundsible://` button here. A custom scheme with nothing registered
+  // behind it fails silently — no error, no navigation, nothing — and on every
+  // machine without the desktop app that is what the primary action did. The
+  // web player is the one destination that always exists; add the desktop link
+  // back when there is a released app to catch it.
   const youtube = view("open-youtube") as HTMLAnchorElement;
   youtube.href = `https://www.youtube.com/watch?v=${encodeURIComponent(capsule.yt)}`;
 

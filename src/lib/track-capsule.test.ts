@@ -38,6 +38,33 @@ describe("share bridge capsule", () => {
     expect(normalizedPlayerBase("https://music.example/admin/")).toBeNull();
   });
 
+  // What people actually paste: the URL bar of their own player, in whatever
+  // shape it was in. Every one of these names the same player.
+  it("accepts the addresses a self-hosted player is reached by", () => {
+    const base = "http://192.168.1.20:5005/player/";
+    expect(normalizedPlayerBase("192.168.1.20:5005/player/")).toBe(base);
+    expect(normalizedPlayerBase("http://192.168.1.20:5005/player")).toBe(base);
+    expect(normalizedPlayerBase("http://192.168.1.20:5005")).toBe(base);
+    expect(normalizedPlayerBase("http://192.168.1.20:5005/player/#/library")).toBe(base);
+    expect(normalizedPlayerBase("http://192.168.1.20:5005/player/desktop/")).toBe(base);
+    expect(normalizedPlayerBase("  http://192.168.1.20:5005/player/  ")).toBe(base);
+  });
+
+  it("still refuses anything that is not a player", () => {
+    expect(normalizedPlayerBase("")).toBeNull();
+    expect(normalizedPlayerBase("   ")).toBeNull();
+    expect(normalizedPlayerBase("file:///etc/passwd")).toBeNull();
+    expect(normalizedPlayerBase("https://music.example/playerish/")).toBeNull();
+    expect(normalizedPlayerBase("https://music.example/admin/panel")).toBeNull();
+  });
+
+  it("opens a forgiving address on the player it names", () => {
+    const encoded = encode(capsule);
+    expect(playerTrackUrl("192.168.1.20:5005", encoded)).toBe(
+      `http://192.168.1.20:5005/player/#/search?shared=${encoded}`,
+    );
+  });
+
   it("keeps the capsule in the recipient URL fragment", () => {
     const encoded = encode(capsule);
     expect(playerTrackUrl("https://music.example/player/", encoded)).toBe(

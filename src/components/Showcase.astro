@@ -1,38 +1,21 @@
 ---
 import { publicAsset } from "../public-asset";
 
-const desktop = [
-  {
-    src: publicAsset("/screenshots/desktop-library.png"),
-    alt: "Soundsible desktop library with dark theme",
-    caption: "Library — desktop",
-  },
-  {
-    src: publicAsset("/screenshots/desktop-np.png"),
-    alt: "Soundsible desktop now playing screen with dark theme",
-    caption: "Now playing — desktop",
-  },
-];
+const desktop = {
+  src: publicAsset("/screenshots/now-playing-desktop.png"),
+  alt: "Soundsible desktop Now Playing with synced lyrics and the upcoming queue",
+  caption: "Now Playing — desktop",
+};
 const mobile = [
   {
-    src: publicAsset("/screenshots/mobile-search.PNG"),
-    alt: "Search screen on Soundsible mobile",
-    cap: "Search",
-  },
-  {
-    src: publicAsset("/screenshots/mobile-discover.PNG"),
-    alt: "Discover screen on Soundsible mobile",
-    cap: "Discover",
-  },
-  {
-    src: publicAsset("/screenshots/mobile-np.PNG"),
-    alt: "Now playing screen on mobile",
-    cap: "Now playing",
-  },
-  {
     src: publicAsset("/screenshots/mobile-library.PNG"),
-    alt: "Library screen on mobile",
-    cap: "Library",
+    alt: "Soundsible music library on mobile",
+    caption: "Library",
+  },
+  {
+    src: publicAsset("/screenshots/mobile-now-playing-lyrics.PNG"),
+    alt: "Soundsible mobile Now Playing with synced lyrics",
+    caption: "Now Playing · synced lyrics",
   },
 ] as const;
 ---
@@ -53,50 +36,37 @@ const mobile = [
     </p>
   </div>
 
-  <div data-reveal class="mt-14 space-y-8">
+  <div
+    data-reveal
+    class="mt-14 grid gap-5 lg:grid-cols-[minmax(0,1.9fr)_minmax(18rem,1fr)] lg:items-start"
+    role="group"
+    aria-label="Soundsible app screenshots"
+  >
+    <figure class="overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
+      <img
+        src={desktop.src}
+        alt={desktop.alt}
+        width="1906"
+        height="944"
+        class="h-auto w-full object-cover object-top"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption class="min-w-0 truncate border-t border-[var(--glass-border)] px-4 py-3 text-center text-sm text-dim">
+        {desktop.caption}
+      </figcaption>
+    </figure>
     <div
-      class="grid grid-cols-1 gap-8 md:grid-cols-2"
-      role="group"
-      aria-label="Desktop app screenshots"
+      class="mx-auto grid w-full max-w-2xl grid-cols-2 items-start gap-3 sm:gap-5 lg:max-w-none"
     >
       {
-        desktop.map((d) => (
-          <figure class="overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
+        mobile.map((shot) => (
+          <figure class="min-w-0 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm">
             <img
-              src={d.src}
-              alt={d.alt}
-              width="1200"
-              height="675"
-              class="h-auto w-full object-cover object-top"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption class="min-w-0 truncate border-t border-[var(--glass-border)] px-4 py-3 text-center text-sm text-dim">
-              {d.caption}
-            </figcaption>
-          </figure>
-        ))
-      }
-    </div>
-
-    <div
-      class="flex flex-row items-start justify-center gap-3 sm:gap-5 md:gap-6"
-      role="group"
-      aria-label="Mobile app screenshots"
-    >
-      {
-        mobile.map((m, i) => (
-          <figure
-            class:list={[
-              "min-w-0 flex-1 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/60 shadow-card backdrop-blur-sm",
-              i === 0 && "hidden sm:block",
-            ]}
-          >
-            <img
-              src={m.src}
-              alt={m.alt}
-              width="390"
-              height="844"
+              src={shot.src}
+              alt={shot.alt}
+              width="1170"
+              height="2532"
               class="h-auto w-full object-cover object-top"
               loading="lazy"
               decoding="async"
@@ -104,7 +74,7 @@ const mobile = [
             <figcaption
               class="min-w-0 truncate border-t border-[var(--glass-border)] px-4 py-3 text-center text-sm text-dim"
             >
-              {m.cap}
+              {shot.caption}
             </figcaption>
           </figure>
         ))

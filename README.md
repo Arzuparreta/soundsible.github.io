@@ -32,8 +32,8 @@ npm run preview  # serve dist locally
 Screenshots and the app logo live under `public/`. To refresh them after a product update, copy from the main Soundsible repo, for example:
 
 - `branding/logo-app.png` → `public/logo-app.png`
-- The three current images from `docs/images/` → `public/screenshots/`
-- `docs/images/now-playing-desktop.png` → `public/og-image.png`
+- The four current images from `docs/images/` → `public/screenshots/`
+- `docs/images/desktop-now-playing.png` → `public/og-image.png`
 
 Regenerate `public/favicon.png` from the logo if the icon changes (64×64 PNG is enough).
 

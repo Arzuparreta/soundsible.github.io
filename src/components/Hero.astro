@@ -48,8 +48,14 @@ import { publicAsset } from "../public-asset";
     class="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center"
   >
     <a
-      href={REPO_URL}
+      href={publicAsset("live/")}
       class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-base font-semibold text-white shadow-card transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      Listen live
+    </a>
+    <a
+      href={REPO_URL}
+      class="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--glass-border)] bg-surface px-8 py-3.5 text-base font-semibold text-main backdrop-blur-md transition hover:border-accent/40 hover:bg-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
     >
       <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path

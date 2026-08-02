@@ -42,6 +42,7 @@ const communityUrl =
         <div class="stage-top">
           <button id="leave-room" type="button">← Live</button>
           <span id="room-host"></span>
+          <button id="share-room" type="button">Share</button>
         </div>
         <div id="room-art" class="art"><span>♪</span></div>
         <div class="track">
@@ -187,6 +188,13 @@ const communityUrl =
     font-size: 1.45rem;
   }
 
+  .stage-top > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .directory-head button,
   .stage-top button {
     min-height: 42px;
@@ -286,7 +294,8 @@ const communityUrl =
     text-transform: uppercase;
   }
 
-  :global(.live-state[data-status="waiting"]) {
+  :global(.live-state[data-status="waiting"]),
+  :global(.live-state[data-status="paused"]) {
     color: #ffb44c;
     background: rgba(224, 167, 43, .09);
   }

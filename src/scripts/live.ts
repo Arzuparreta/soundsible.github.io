@@ -1,4 +1,6 @@
 import { io, type Socket } from "socket.io-client";
+import { communityResourceLocation, discoverIceServers } from "../lib/whep";
+import { directoryLink, roomLink, sessionFromSearch } from "../lib/live-link";
 
 interface LiveDeck {
   id: string;
@@ -12,7 +14,10 @@ interface LiveDeck {
 
 interface LiveProgram {
   seq: number;
+  emitted_at: number;
   transport: "playing" | "paused";
+  /** Host clock at the moment the music stopped. Null while it is playing. */
+  paused_since: number | null;
   primary: LiveDeck | null;
   secondary: LiveDeck | null;
   transition?: {
@@ -49,11 +54,17 @@ const empty = document.querySelector<HTMLElement>("#empty-sessions")!;
 const directoryError = document.querySelector<HTMLElement>("#directory-error")!;
 const audio = document.querySelector<HTMLAudioElement>("#live-audio")!;
 const listen = document.querySelector<HTMLButtonElement>("#listen-live")!;
+const share = document.querySelector<HTMLButtonElement>("#share-room");
 const listenError = document.querySelector<HTMLElement>("#listen-error")!;
 const chatMessages = document.querySelector<HTMLElement>("#chat-messages")!;
 const chatEmpty = document.querySelector<HTMLElement>("#chat-empty")!;
 const chatForm = document.querySelector<HTMLFormElement>("#chat-form")!;
 const chatInput = document.querySelector<HTMLInputElement>("#chat-input")!;
+
+type AudioState = "idle" | "connecting" | "connected" | "blocked" | "recovering" | "failed";
+
+const RETRY_DELAYS_MS = [1000, 2000, 4000, 8000];
+const RECOVERY_WINDOW_MS = 90_000;
 
 let sessions: LiveSession[] = [];
 let active: LiveSession | null = null;
@@ -63,6 +74,15 @@ let peer: PeerHandle | null = null;
 let statsTimer: number | undefined;
 let programTimer: number | undefined;
 let playoutDelayMs = 120;
+let audioState: AudioState = "idle";
+let listening = false;
+let listenGeneration = 0;
+let retryAttempt = 0;
+let retryTimer: number | undefined;
+let recoveryDeadline = 0;
+let breakTimer: number | undefined;
+let breakBase = 0;
+let breakArrived = 0;
 
 function node<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -104,8 +124,20 @@ function card(session: LiveSession): HTMLButtonElement {
   if (session.host.avatar_color) avatar.style.background = session.host.avatar_color;
   const copy = node("span", "live-card-copy");
   copy.append(node("strong", undefined, session.title), node("small", undefined, session.host.display_name));
-  const state = node("span", "live-state", session.status === "live" ? "Live" : session.status === "waiting" ? "Waiting" : "Reconnecting");
-  state.dataset.status = session.status;
+  const resting = session.status === "live" && session.program?.transport === "paused";
+  const status = resting ? "paused" : session.status;
+  const state = node(
+    "span",
+    "live-state",
+    status === "live"
+      ? "Live"
+      : status === "paused"
+        ? "On a break"
+        : status === "waiting"
+          ? "Waiting"
+          : "Reconnecting",
+  );
+  state.dataset.status = status;
   head.append(avatar, copy, state);
   button.append(head);
   if (session.program?.primary) {
@@ -168,11 +200,61 @@ function text(id: string, value: string): void {
   if (element) element.textContent = value;
 }
 
+function clock(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+/**
+ * Seconds of dead air, or null while the music plays.
+ *
+ * The break is measured against the host's own clock inside the payload and
+ * advanced locally from there, so a listener whose clock disagrees still counts
+ * the same break rather than an offset one.
+ */
+function breakSeconds(): number | null {
+  if (program?.transport !== "paused" || program.paused_since == null) return null;
+  return breakBase + Math.round((Date.now() - breakArrived) / 1000);
+}
+
+/** Adopt a program payload and keep the break counter in step with it. */
+function adoptProgram(next: LiveProgram | null): void {
+  program = next;
+  const since = next?.transport === "paused" ? next.paused_since : null;
+  if (next && since != null) {
+    breakBase = Math.max(0, Math.round((next.emitted_at - since) / 1000));
+    breakArrived = Date.now();
+    if (breakTimer === undefined) breakTimer = window.setInterval(renderBreak, 1000);
+    return;
+  }
+  window.clearInterval(breakTimer);
+  breakTimer = undefined;
+}
+
+function renderBreak(): void {
+  const resting = breakSeconds();
+  if (resting === null) return;
+  text("room-status", `Back in a moment · ${clock(resting)}`);
+}
+
 function renderProgram(): void {
   if (!active) return;
-  text("room-status", active.status === "live" ? "Live" : active.status === "reconnecting" ? "Reconnecting" : "Waiting");
+  const resting = breakSeconds();
+  text(
+    "room-status",
+    resting !== null
+      ? `Back in a moment · ${clock(resting)}`
+      : active.status === "live"
+        ? "Live"
+        : active.status === "reconnecting"
+          ? "Reconnecting"
+          : "Waiting",
+  );
   text("room-title", program?.primary?.title ?? active.title);
-  text("room-artist", program?.primary?.artist ?? "About to start");
+  text(
+    "room-artist",
+    resting !== null ? "The DJ paused the music." : program?.primary?.artist ?? "About to start",
+  );
   const art = document.querySelector<HTMLElement>("#room-art")!;
   art.replaceChildren();
   if (program?.primary?.artwork_url) {
@@ -191,22 +273,54 @@ function renderProgram(): void {
     const progress = document.querySelector<HTMLElement>("#transition-progress")!;
     progress.style.width = `${Math.round((program.transition?.progress ?? 0) * 100)}%`;
   }
-  if (!peer) {
-    listen.disabled = !program?.primary;
-    listen.textContent = program?.primary ? "Listen live" : "About to start";
+  renderListen();
+}
+
+/** The button is the audio state: the room status above it belongs to the
+ * session, and the two drift apart whenever a listener reconnects alone. */
+function renderListen(): void {
+  if (audioState === "idle") {
+    const ready = Boolean(program?.primary);
+    listen.disabled = !ready;
+    listen.textContent = ready ? "Listen live" : "About to start";
+    listenError.hidden = true;
+    return;
   }
+  listen.disabled = audioState === "connecting" || audioState === "recovering";
+  listen.textContent =
+    audioState === "connected"
+      ? "Listening live"
+      : audioState === "connecting"
+        ? "Connecting…"
+        : audioState === "blocked"
+          ? "Tap to play"
+          : audioState === "recovering"
+            ? "Reconnecting…"
+            : "Try again";
+  listenError.hidden = audioState === "connecting" || audioState === "connected";
+  listenError.textContent =
+    audioState === "recovering"
+      ? "The live audio dropped. Reconnecting…"
+      : audioState === "blocked"
+        ? "Your browser blocked playback. Tap to start the audio."
+        : "The live audio could not be connected.";
+}
+
+function setAudioState(next: AudioState): void {
+  audioState = next;
+  renderListen();
 }
 
 function receiveProgram(next: LiveProgram): void {
   if ((program?.seq ?? -1) >= next.seq) return;
   if (!peer) {
-    program = next;
+    adoptProgram(next);
     renderProgram();
     return;
   }
   window.clearTimeout(programTimer);
   programTimer = window.setTimeout(() => {
-    program = next;
+    adoptProgram(next);
     renderProgram();
   }, playoutDelayMs);
 }
@@ -215,7 +329,7 @@ function updateSession(next: LiveSession): void {
   sessions = sessions.map((session) => session.id === next.id ? next : session);
   if (active?.id === next.id) {
     active = next;
-    if (next.program) program = next.program;
+    if (next.program) adoptProgram(next.program);
     text("listener-count", `${next.listener_count} listeners`);
     renderProgram();
   }
@@ -256,22 +370,65 @@ function connect(session: LiveSession): void {
     text("listener-count", `${listener_count} listeners`);
   });
   socket.on("chat_message", addMessage);
-  socket.on("session_ended", leave);
+  socket.on("session_ended", () => leave());
+}
+
+function clearRetry(): void {
+  window.clearTimeout(retryTimer);
+  retryTimer = undefined;
+}
+
+function releasePeer(handle: PeerHandle | null): void {
+  if (!handle) return;
+  handle.pc.close();
+  if (handle.resourceUrl) void fetch(handle.resourceUrl, { method: "DELETE" }).catch(() => {});
 }
 
 function closePeer(): void {
-  if (!peer) return;
-  peer.pc.close();
-  if (peer.resourceUrl) void fetch(peer.resourceUrl, { method: "DELETE" }).catch(() => {});
-  peer = null;
+  clearRetry();
   window.clearInterval(statsTimer);
   window.clearTimeout(programTimer);
+  releasePeer(peer);
+  peer = null;
   audio.srcObject = null;
 }
 
-function enter(session: LiveSession): void {
+function requestedSessionId(): string | null {
+  return sessionFromSearch(window.location.search);
+}
+
+/** Keep the address bar on the room, so the link a DJ shares lands on it. */
+function pushRoomUrl(id: string | null): void {
+  const href = id ? roomLink(window.location.href, id) : directoryLink(window.location.href);
+  if (href !== window.location.href) window.history.pushState({ session: id }, "", href);
+}
+
+async function openRequestedRoom(): Promise<void> {
+  const id = requestedSessionId();
+  if (!id || active?.id === id) return;
+  const known = sessions.find((session) => session.id === id);
+  if (known) {
+    enter(known, false);
+    return;
+  }
+  try {
+    const response = await fetch(`${apiUrl}/v1/sessions/${encodeURIComponent(id)}`);
+    if (!response.ok) throw new Error(String(response.status));
+    enter((await response.json()).session as LiveSession, false);
+  } catch {
+    // The room ended before the link was opened; do not keep a dead address.
+    pushRoomUrl(null);
+  }
+}
+
+function enter(session: LiveSession, push = true): void {
+  if (push) pushRoomUrl(session.id);
+  listenGeneration += 1;
+  listening = false;
+  closePeer();
+  audioState = "idle";
   active = session;
-  program = session.program ?? null;
+  adoptProgram(session.program ?? null);
   directory.hidden = true;
   room.hidden = false;
   text("room-host", session.host.display_name);
@@ -279,18 +436,20 @@ function enter(session: LiveSession): void {
   text("listener-count", `${session.listener_count} listeners`);
   chatMessages.querySelectorAll(".chat-message").forEach((message) => message.remove());
   chatEmpty.hidden = false;
-  listen.textContent = "Listen live";
-  listenError.hidden = true;
   renderProgram();
   connect(session);
 }
 
-function leave(): void {
+function leave(push = true): void {
+  if (push) pushRoomUrl(null);
+  listenGeneration += 1;
+  listening = false;
   closePeer();
+  audioState = "idle";
   socket?.disconnect();
   socket = null;
   active = null;
-  program = null;
+  adoptProgram(null);
   room.hidden = true;
   directory.hidden = false;
   void refresh();
@@ -312,60 +471,161 @@ function waitIce(pc: RTCPeerConnection): Promise<void> {
   });
 }
 
-async function startListening(): Promise<void> {
-  if (!active || peer) return;
-  listen.disabled = true;
-  listen.textContent = "Connecting…";
-  listenError.hidden = true;
-  const pc = new RTCPeerConnection();
+function startStats(pc: RTCPeerConnection): void {
+  window.clearInterval(statsTimer);
+  statsTimer = window.setInterval(() => {
+    void pc.getStats().then((report) => {
+      report.forEach((stat) => {
+        if (stat.type !== "inbound-rtp" || stat.kind !== "audio") return;
+        if (typeof stat.estimatedPlayoutTimestamp === "number" && typeof stat.timestamp === "number") {
+          const estimate = stat.estimatedPlayoutTimestamp - stat.timestamp;
+          if (estimate >= 0 && estimate < 2000) playoutDelayMs = estimate;
+        } else if (stat.jitterBufferEmittedCount > 0) {
+          const estimate = (stat.jitterBufferDelay / stat.jitterBufferEmittedCount) * 1000;
+          if (Number.isFinite(estimate)) playoutDelayMs = Math.min(1000, Math.max(20, estimate + 20));
+        }
+      });
+    }).catch(() => {});
+  }, 1000);
+}
+
+async function establishPeer(generation: number): Promise<void> {
+  const session = active;
+  if (!session || generation !== listenGeneration) return;
+  setAudioState(retryAttempt > 0 ? "recovering" : "connecting");
+  const iceServers = await discoverIceServers(session.whep_url);
+  const pc = new RTCPeerConnection({ iceServers });
   const stream = new MediaStream();
   pc.addTransceiver("audio", { direction: "recvonly" });
   pc.addEventListener("track", (event) => {
     for (const track of event.streams[0]?.getTracks() ?? [event.track]) stream.addTrack(track);
     audio.srcObject = stream;
   });
+
+  let response: Response;
   try {
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
     await waitIce(pc);
-    const response = await fetch(active.whep_url, {
+    response = await fetch(session.whep_url, {
       method: "POST",
       headers: { "Content-Type": "application/sdp" },
       body: pc.localDescription?.sdp,
     });
-    if (!response.ok) throw new Error(String(response.status));
+    if (!response.ok) throw new Error(`whep_${response.status}`);
     await pc.setRemoteDescription({ type: "answer", sdp: await response.text() });
-    const location = response.headers.get("Location");
-    peer = { pc, resourceUrl: location ? new URL(location, active.whep_url).href : undefined };
-    window.clearInterval(statsTimer);
-    statsTimer = window.setInterval(() => {
-      void pc.getStats().then((report) => {
-        report.forEach((stat) => {
-          if (stat.type !== "inbound-rtp" || stat.kind !== "audio") return;
-          if (typeof stat.estimatedPlayoutTimestamp === "number" && typeof stat.timestamp === "number") {
-            const estimate = stat.estimatedPlayoutTimestamp - stat.timestamp;
-            if (estimate >= 0 && estimate < 2000) playoutDelayMs = estimate;
-          } else if (stat.jitterBufferEmittedCount > 0) {
-            const estimate = (stat.jitterBufferDelay / stat.jitterBufferEmittedCount) * 1000;
-            if (Number.isFinite(estimate)) playoutDelayMs = Math.min(1000, Math.max(20, estimate + 20));
-          }
-        });
-      }).catch(() => {});
-    }, 1000);
-    await audio.play();
-    listen.textContent = "Listening live";
-  } catch {
+  } catch (error) {
     pc.close();
-    listenError.hidden = false;
-    listen.textContent = "Try again";
-  } finally {
-    listen.disabled = false;
+    throw error;
+  }
+  if (generation !== listenGeneration) {
+    pc.close();
+    return;
+  }
+
+  peer = { pc, resourceUrl: communityResourceLocation(session.whep_url, response) };
+  pc.addEventListener("connectionstatechange", () => {
+    if (generation !== listenGeneration || peer?.pc !== pc) return;
+    if (pc.connectionState === "connected") {
+      retryAttempt = 0;
+      if (audioState !== "blocked") setAudioState("connected");
+      return;
+    }
+    if (
+      pc.connectionState === "failed"
+      || pc.connectionState === "closed"
+      || pc.connectionState === "disconnected"
+    ) {
+      peer = null;
+      if (pc.connectionState !== "disconnected") pc.close();
+      scheduleRecovery(generation);
+    }
+  });
+  startStats(pc);
+  try {
+    await audio.play();
+  } catch {
+    // A connected peer that cannot sound is still a failure the page must own.
+    setAudioState("blocked");
+    return;
+  }
+  if (pc.connectionState === "connected") {
+    retryAttempt = 0;
+    setAudioState("connected");
+  }
+}
+
+/**
+ * Rebuild a dropped listener rather than leaving a silent page behind.
+ *
+ * The window matches the host's own reconnect grace: past it, a room that
+ * never came back is a room that ended.
+ */
+function scheduleRecovery(generation: number): void {
+  if (generation !== listenGeneration || retryTimer !== undefined || !listening || !active) return;
+  if (retryAttempt === 0 && audioState === "connected") {
+    recoveryDeadline = Date.now() + RECOVERY_WINDOW_MS;
+  }
+  if (Date.now() >= recoveryDeadline) {
+    setAudioState("failed");
+    return;
+  }
+  setAudioState("recovering");
+  const delay = RETRY_DELAYS_MS[Math.min(retryAttempt, RETRY_DELAYS_MS.length - 1)];
+  retryAttempt += 1;
+  retryTimer = window.setTimeout(() => {
+    retryTimer = undefined;
+    if (generation !== listenGeneration || !listening) return;
+    const previous = peer;
+    peer = null;
+    releasePeer(previous);
+    window.clearInterval(statsTimer);
+    audio.srcObject = null;
+    void establishPeer(generation).catch(() => scheduleRecovery(generation));
+  }, delay);
+}
+
+async function startListening(): Promise<void> {
+  if (!active) return;
+  if (peer && audioState !== "failed") return;
+  listening = true;
+  listenGeneration += 1;
+  const generation = listenGeneration;
+  recoveryDeadline = Date.now() + RECOVERY_WINDOW_MS;
+  retryAttempt = 0;
+  closePeer();
+  try {
+    await establishPeer(generation);
+  } catch {
+    scheduleRecovery(generation);
   }
 }
 
 document.querySelector("#refresh-sessions")?.addEventListener("click", () => void refresh());
-document.querySelector("#leave-room")?.addEventListener("click", leave);
-listen.addEventListener("click", () => void startListening());
+document.querySelector("#leave-room")?.addEventListener("click", () => leave());
+if (share) {
+  const button = share;
+  button.addEventListener("click", () => {
+    if (!active) return;
+    const link = roomLink(window.location.href, active.id);
+    void navigator.clipboard?.writeText(link)
+      .then(() => {
+        button.textContent = "Link copied";
+        window.setTimeout(() => { button.textContent = "Share"; }, 2000);
+      })
+      .catch(() => {
+        // Clipboard access is not granted everywhere; offer the link by hand.
+        window.prompt("Copy this link", link);
+      });
+  });
+}
+listen.addEventListener("click", () => {
+  if (audioState === "blocked") {
+    void audio.play().then(() => setAudioState("connected")).catch(() => {});
+    return;
+  }
+  void startListening();
+});
 chatForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const value = chatInput.value.trim();
@@ -374,7 +634,14 @@ chatForm.addEventListener("submit", (event) => {
   chatInput.value = "";
 });
 
-void refresh();
+void refresh().then(openRequestedRoom);
+window.addEventListener("popstate", () => {
+  if (!requestedSessionId()) {
+    if (active) leave(false);
+    return;
+  }
+  void openRequestedRoom();
+});
 window.setInterval(() => {
   if (!active) void refresh();
 }, 10_000);

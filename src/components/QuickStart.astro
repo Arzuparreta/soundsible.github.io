@@ -1,11 +1,6 @@
 ---
 import { README_INSTALL_URL } from "../constants";
 
-const dockerSteps = String.raw`git clone https://github.com/Arzuparreta/soundsible.git
-cd soundsible
-docker compose up -d --build
-docker compose ps`;
-
 const nativeSteps = String.raw`git clone https://github.com/Arzuparreta/soundsible.git
 cd soundsible
 
@@ -14,6 +9,11 @@ cd ui_web && npm ci && cd ..
 
 # Run it — setup wizard opens on first launch
 python3 run.py`;
+
+const dockerSteps = String.raw`git clone https://github.com/Arzuparreta/soundsible.git
+cd soundsible
+docker compose up -d --build
+docker compose ps`;
 ---
 
 <section
@@ -28,76 +28,20 @@ python3 run.py`;
       Up and listening in minutes
     </h2>
     <p class="mt-4 text-lg text-dim">
-      Choose <strong class="font-medium text-main">Docker</strong> for the simplest
-      deployment, or run <strong class="font-medium text-main">natively</strong> on
-      Linux, macOS, or Windows.
+      Run <strong class="font-medium text-main">natively</strong> on Linux,
+      macOS, or Windows, or use <strong class="font-medium text-main">Docker</strong>
+      for a containerized deployment.
     </p>
   </div>
 
   <div class="mt-14 grid min-w-0 gap-8 lg:grid-cols-2">
-    <!-- Docker -->
+    <!-- Native (Recommended) -->
     <div data-reveal class="relative min-w-0">
       <div class="mb-4 flex items-center gap-3">
         <span
           class="rounded-lg bg-accent/15 px-3 py-1 font-display text-xs font-bold uppercase tracking-wider text-accent"
         >
           Recommended
-        </span>
-        <h3 class="font-display text-xl font-semibold text-main">Docker</h3>
-      </div>
-      <p class="mb-4 text-sm text-dim">
-        Needs <strong class="font-medium text-main">Docker</strong> and
-        <strong class="font-medium text-main">git</strong>. Same commands on
-        Linux, macOS, and Windows.
-      </p>
-      <div
-        class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-accent/20 via-transparent to-secondary/15 opacity-70 blur-xl"
-        aria-hidden="true"
-      ></div>
-      <div
-        class="relative min-w-0 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-[#0d0d0f] shadow-card"
-      >
-        <div
-          class="flex items-center gap-2 border-b border-[var(--glass-border)] px-4 py-3"
-        >
-          <span
-            class="h-3 w-3 rounded-full bg-[#ff5f57]"
-            aria-hidden="true"
-          ></span>
-          <span
-            class="h-3 w-3 rounded-full bg-[#febc2e]"
-            aria-hidden="true"
-          ></span>
-          <span
-            class="h-3 w-3 rounded-full bg-[#28c840]"
-            aria-hidden="true"
-          ></span>
-          <span class="ml-3 text-xs text-dim">terminal</span>
-        </div>
-        <pre
-          class="min-w-0 overflow-x-auto p-4 font-mono text-[0.8rem] leading-relaxed text-main sm:text-sm"
-          tabindex="0"
-        ><code>{dockerSteps}</code></pre>
-        <div
-          class="border-t border-[var(--glass-border)] bg-card/50 px-4 py-3 text-sm text-dim"
-        >
-          Wait for <code class="rounded bg-card px-1.5 py-0.5 text-xs text-main"
-            >healthy</code
-          >, then open
-          <span class="font-medium text-accent"
-            >http://localhost:5005/player/</span
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- Native -->
-    <div data-reveal class="relative min-w-0">
-      <div class="mb-4 flex items-center gap-3">
-        <span
-          class="rounded-lg bg-secondary/15 px-3 py-1 font-display text-xs font-bold uppercase tracking-wider text-secondary"
-        >
-          Native
         </span>
         <h3 class="font-display text-xl font-semibold text-main">
           Linux / macOS / Windows
@@ -110,7 +54,7 @@ python3 run.py`;
         <strong class="font-medium text-main">git</strong>.
       </p>
       <div
-        class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-secondary/20 via-transparent to-accent/15 opacity-70 blur-xl"
+        class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-accent/20 via-transparent to-secondary/15 opacity-70 blur-xl"
         aria-hidden="true"
       ></div>
       <div
@@ -148,6 +92,62 @@ python3 run.py`;
           <span class="font-medium text-accent"
             >http://localhost:5005/player/</span
           >.
+        </div>
+      </div>
+    </div>
+
+    <!-- Docker -->
+    <div data-reveal class="relative min-w-0">
+      <div class="mb-4 flex items-center gap-3">
+        <span
+          class="rounded-lg bg-secondary/15 px-3 py-1 font-display text-xs font-bold uppercase tracking-wider text-secondary"
+        >
+          Docker
+        </span>
+        <h3 class="font-display text-xl font-semibold text-main">Docker</h3>
+      </div>
+      <p class="mb-4 text-sm text-dim">
+        Needs <strong class="font-medium text-main">Docker</strong> and
+        <strong class="font-medium text-main">git</strong>. Same commands on
+        Linux, macOS, and Windows.
+      </p>
+      <div
+        class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-secondary/20 via-transparent to-accent/15 opacity-70 blur-xl"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="relative min-w-0 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-[#0d0d0f] shadow-card"
+      >
+        <div
+          class="flex items-center gap-2 border-b border-[var(--glass-border)] px-4 py-3"
+        >
+          <span
+            class="h-3 w-3 rounded-full bg-[#ff5f57]"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="h-3 w-3 rounded-full bg-[#febc2e]"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="h-3 w-3 rounded-full bg-[#28c840]"
+            aria-hidden="true"
+          ></span>
+          <span class="ml-3 text-xs text-dim">terminal</span>
+        </div>
+        <pre
+          class="min-w-0 overflow-x-auto p-4 font-mono text-[0.8rem] leading-relaxed text-main sm:text-sm"
+          tabindex="0"
+        ><code>{dockerSteps}</code></pre>
+        <div
+          class="border-t border-[var(--glass-border)] bg-card/50 px-4 py-3 text-sm text-dim"
+        >
+          Wait for <code class="rounded bg-card px-1.5 py-0.5 text-xs text-main"
+            >healthy</code
+          >, then open
+          <span class="font-medium text-accent"
+            >http://localhost:5005/player/</span
+          >
         </div>
       </div>
     </div>

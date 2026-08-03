@@ -12,9 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Arzuparreta/Arzuparreta.git"
+    "url": "git+https://github.com/Arzuparreta/soundsible.github.io.git"
   },
-  "homepage": "https://arzuparreta.github.io/",
+  "homepage": "https://arzuparreta.github.io/soundsible.github.io/",
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",
     "@fontsource-variable/dm-sans": "^5.2.8",

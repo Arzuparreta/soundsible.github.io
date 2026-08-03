@@ -1,28 +1,40 @@
 ---
 const features = [
   {
-    title: "YouTube & YouTube Music",
-    body: "Search within youtube and youtube music results. Download them to your library in losless quality.",
+    title: "YouTube, YouTube Music & Podcasts",
+    body: "Search and download from a practically unlimited catalog. iTunes podcasts in the same player. Deezer metadata for charts and discovery.",
   },
   {
-    title: "Library & metadata",
-    body: "Manage and edit tracks, artwork, and playlists with a polished, app-like workflow. From any device.",
+    title: "Your Library, Your Rules",
+    body: "Album grids, artist pages, playlists, and favourites. Edit metadata and artwork. Organize your music exactly how you want, from any device.",
   },
   {
-    title: "Everything in sync",
-    body: "Stream from your main Station to desktop and mobile. Queue and playback stay in sync across sessions.",
+    title: "Synced Lyrics",
+    body: "Follow songs line by line on mobile or desktop while you listen. Lyrics stay in sync with playback automatically.",
   },
   {
-    title: "Browse your library",
-    body: "Album grids, artist pages, and playlists built for large collections. Only you may determine how your music is organized.",
+    title: "Every Device, One Player",
+    body: "A responsive SolidJS web player on desktop, tablet, and phone. Install as a PWA for a native-app feel. Desktop beta app available with no terminal needed.",
   },
   {
-    title: "Flexible storage",
-    body: "Store your library on local disk, a NAS, or object storage, including common S3-compatible backends—use what fits your setup.",
+    title: "Live Broadcasting",
+    body: "Go live from your Station and let anyone listen through the community hub. DJ with transitions, crossfade, and real-time chat. No account needed for listeners.",
   },
   {
-    title: "Reachable anywhere",
-    body: "Run at home on your network, or reach your Station safely through Tailscale or a reverse proxy so your music is available when you're away.",
+    title: "Docker & Native Install",
+    body: "Deploy with a single docker compose up. Or run natively on Linux, macOS, or Windows. A guided setup wizard gets you listening in minutes.",
+  },
+  {
+    title: "Flexible Storage Backends",
+    body: "Store your library on local disk, a NAS, or S3-compatible object storage — Cloudflare R2, Backblaze B2, or any S3 provider. Your files, your control.",
+  },
+  {
+    title: "Agent & Car Integrations",
+    body: "REST API for AI assistants like OpenClaw, Hermes, and local agents. Car media surface integration. Control Soundsible from anywhere.",
+  },
+  {
+    title: "Private & Self-hosted",
+    body: "No ads, no tracking, no subscription. Your listening history stays on your machine. Personalized recommendations and endless radio learn from you, not a cloud profile.",
   },
 ] as const;
 ---
@@ -36,12 +48,13 @@ const features = [
       id="features-heading"
       class="font-display text-3xl font-semibold tracking-tight text-main sm:text-4xl"
     >
-      Everything you expect from a modern player
+      Everything you expect from a modern player — and more
     </h2>
     <p class="mt-4 text-lg text-dim">
-      Self-hosted, private, and as polished as the apps you grew up streaming on—with a
-      polished experience for the music you already own, plus dedicated flows for exploring
-      YouTube and YouTube Music and for searching your own library.
+      Self-hosted, private, and as polished as the apps you grew up streaming on.
+      A full-featured music station with streaming-grade playback, live broadcasting,
+      multi-device sync, Docker deployment, and a growing integration ecosystem —
+      all free and open source.
     </p>
   </div>
 

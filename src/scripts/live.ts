@@ -160,6 +160,8 @@ function card(session: LiveSession): HTMLButtonElement {
 function renderDirectory(): void {
   grid.replaceChildren(...sessions.map(card));
   empty.hidden = sessions.length > 0;
+  const heading = document.querySelector<HTMLElement>("#directory-heading");
+  if (heading) heading.textContent = sessions.length > 0 ? "Live now" : "(Or not)";
 }
 
 async function refresh(): Promise<void> {

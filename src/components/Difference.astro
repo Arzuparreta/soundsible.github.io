@@ -1,0 +1,46 @@
+---
+const rows = [
+  ["Music outside your library", "Bring the file first", "Search, preview, acquire, and tag it inside the player"],
+  ["Automatic listening", "Shuffle, playlists, or library radio", "Local recommendations, Radio, Autoplay, and an editable Auto DJ route"],
+  ["Track transitions", "Normal player handoff", "Two decks with cueing, beatmatching, EQ/filter blends, cuts, and safe fades"],
+  ["Sharing the experience", "Share files or links", "Broadcast the complete program mix to a browser room with chat"],
+] as const;
+---
+
+<section
+  class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8"
+  aria-labelledby="difference-heading"
+>
+  <div data-reveal class="mx-auto max-w-3xl text-center">
+    <p class="font-display text-sm font-bold uppercase tracking-[0.2em] text-secondary">The difference</p>
+    <h2 id="difference-heading" class="mt-4 font-display text-3xl font-semibold tracking-tight text-main sm:text-4xl">
+      A music service, not only a library server
+    </h2>
+    <p class="mt-5 text-lg leading-relaxed text-dim">
+      Navidrome and similar servers are great when your collection is already prepared.
+      Soundsible keeps those self-hosted foundations and adds the missing path from
+      “I want to hear this” to “it is mine, organized, and mixed into the session.”
+    </p>
+  </div>
+
+  <div data-reveal class="mt-12 overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-card/90 shadow-card">
+    <div class="hidden grid-cols-[1.05fr_1fr_1.4fr] border-b border-[var(--glass-border)] bg-surface text-xs font-bold uppercase tracking-wider text-dim sm:grid">
+      <div class="p-4">Question</div><div class="p-4">Library-only server</div><div class="p-4 text-accent">Soundsible</div>
+    </div>
+    <dl>
+      {rows.map(([question, typical, soundsible]) => (
+        <div class="grid gap-2 border-b border-[var(--glass-border)] p-5 last:border-0 sm:grid-cols-[1.05fr_1fr_1.4fr] sm:gap-0 sm:p-0">
+          <dt class="font-display font-semibold text-main sm:p-4">{question}</dt>
+          <dd class="text-sm leading-relaxed text-dim sm:p-4">{typical}</dd>
+          <dd class="text-sm leading-relaxed text-main sm:border-l sm:border-[var(--glass-border)] sm:bg-accent/[0.035] sm:p-4">{soundsible}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+
+  <p data-reveal class="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-dim">
+    Both approaches can be private, multi-user, metadata-first, and compatible with
+    Subsonic clients. If you only need an exceptionally lean server for a finished
+    collection, Navidrome may fit better. Soundsible is for the full discovery-to-DJ loop.
+  </p>
+</section>

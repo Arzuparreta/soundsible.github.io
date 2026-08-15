@@ -10,9 +10,8 @@ cd ui_web && npm ci && cd ..
 # Run it — setup wizard opens on first launch
 python3 run.py`;
 
-const dockerSteps = String.raw`git clone https://github.com/Arzuparreta/soundsible.git
-cd soundsible
-docker compose up -d --build
+const dockerSteps = String.raw`curl -O https://raw.githubusercontent.com/Arzuparreta/soundsible/main/compose.yaml
+docker compose up -d
 docker compose ps`;
 ---
 
@@ -102,9 +101,9 @@ docker compose ps`;
         <h3 class="font-display text-xl font-semibold text-main">Docker</h3>
       </div>
       <p class="mb-4 text-sm text-dim">
-        Needs <strong class="font-medium text-main">Docker</strong> and
-        <strong class="font-medium text-main">git</strong>. Same commands on
-        Linux, macOS, and Windows.
+        Needs only <strong class="font-medium text-main">Docker</strong> and
+        <strong class="font-medium text-main">curl</strong>. Published images
+        are ready for AMD64 and ARM64.
       </p>
       <div
         class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-secondary/20 via-transparent to-accent/15 opacity-70 blur-xl"

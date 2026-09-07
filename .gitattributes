@@ -1,0 +1,4 @@
+# Exact upstream bytes are validated against release hashes. Preserve original
+# Markdown hard breaks and line endings instead of normalizing imported files.
+content/upstream/** -text -whitespace
+content/es/originals/** -text -whitespace

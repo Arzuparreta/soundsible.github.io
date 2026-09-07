@@ -1,0 +1,338 @@
+{
+  "native-installation": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "e2c76d8b68a4fc9ff39a37989569e29bea61b973c24eb55703e04cd5744c78ea",
+    "anchors": [
+      "native-installation",
+      "pick-your-os",
+      "first-native-run"
+    ]
+  },
+  "install": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "fd38935a09e24b4190bc86da98e65fffd0b5f388db216f39cee9fc8e3d7ded77",
+    "anchors": [
+      "install--deployment",
+      "1-requirements",
+      "2-headless-server-ssh",
+      "3-remote-access-over-tailscale",
+      "sharing-the-node-with-other-services",
+      "the-station-is-up-but-the-tsnet-url-returns-502",
+      "4-reverse-proxy-optional",
+      "5-vps-with-residential-youtube-relay",
+      "6-storage",
+      "7-security-baseline"
+    ]
+  },
+  "docker": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "075e3dad13c3c2d040d1252d49d69d2cdcd1acf8c6a11801c90cf950af8d0ae1",
+    "anchors": [
+      "docker-deployment",
+      "quick-start",
+      "use-an-existing-host-library",
+      "configuration-and-security",
+      "operations",
+      "maintainer-dependency-updates",
+      "build-from-source-instead",
+      "build-the-image-directly"
+    ]
+  },
+  "desktop": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "74ade6f27b2c839a7d351920ec4df5f0292c1715ac719899186b02ee0b0b1313",
+    "anchors": [
+      "soundsible-desktop--windows-10-rc",
+      "current-release-candidate-contract",
+      "what-ci-proves",
+      "what-ci-cannot-prove",
+      "build-and-release",
+      "stable-release-blockers"
+    ]
+  },
+  "ios": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "56db69d50105a525e909e90d341be0483b89c3c3c64968881a885b609ff4b5bd",
+    "anchors": [
+      "soundsible-for-ios",
+      "installing",
+      "pairing",
+      "in-the-car",
+      "offline",
+      "crossfade-and-auto-mode",
+      "why-not-the-app-store",
+      "the-paid-upgrade-altstore-pal",
+      "what-it-buys",
+      "where-you-are",
+      "the-order",
+      "what-is-verified-and-what-is-not",
+      "where-the-pal-steps-came-from",
+      "the-guesses-in-the-order-they-will-probably-bite",
+      "building-it-yourself",
+      "layout",
+      "what-it-asks-of-the-engine"
+    ]
+  },
+  "opensubsonic": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "cf6b70a7e37530c85ceb09694f9e312125645a4410bc4e88ca7fe5fec3765fb7",
+    "anchors": [
+      "opensubsonic",
+      "connecting-an-app",
+      "the-password",
+      "what-is-implemented",
+      "how-it-maps-onto-soundsible",
+      "transcoding",
+      "not-implemented"
+    ]
+  },
+  "dj-mode": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "bef95307364fd1fbc1809aa1e4676f87388b80ce630d6a057a4d288a56e68023",
+    "anchors": [
+      "dj-mode",
+      "start-a-set",
+      "what-the-dj-listens-for",
+      "make-the-set-yours",
+      "auto-radio-and-autoplay-are-different",
+      "broadcast-the-result",
+      "privacy-and-storage"
+    ]
+  },
+  "live": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "c6d383a4d041f23db03235b461a6bec42daf92b18e03414d7d71b4cac07edbd3",
+    "anchors": [
+      "live--broadcasting-your-soundsible",
+      "1-what-goes-on-air",
+      "2-your-volume-is-not-the-listeners-volume",
+      "3-pauses-and-breaks",
+      "4-how-long-a-broadcast-lasts",
+      "5-broadcasting-needs-https",
+      "6-checking-that-your-stream-actually-sounds",
+      "7-turning-it-off",
+      "8-what-the-relay-knows-about-you"
+    ]
+  },
+  "music-migration": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
+    "anchors": [
+      "moving-from-spotify-or-apple-music-to-soundsible",
+      "spotify",
+      "apple-music",
+      "technical-compatibility",
+      "import-behavior",
+      "why-account-exports-are-the-default"
+    ]
+  },
+  "car": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "48bc04446b198a08aabf88a7cc698d44a62cb70d885ce5fbf2b772c504e90218",
+    "anchors": [
+      "car-integration",
+      "current-web--bluetooth-layer",
+      "api-contract",
+      "ios-companion--built",
+      "carplay-target",
+      "android-target"
+    ]
+  },
+  "configuration": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "4d4da0095f01e778ca6ead21959e96bd2ec65541efdcee99e725c27d3efd1b1c",
+    "anchors": [
+      "configuration--options-and-environment",
+      "1-setup-wizard-recommended",
+      "2-environment-variables",
+      "2a-runtime-and-path-variables",
+      "2b-desktop-runtime-token-files",
+      "3-downloader--odst-settings",
+      "optional-lossless-sources",
+      "3a-web-ui-source-vs-build-note",
+      "4-discover-deezer-metadata",
+      "5-storage-configuration-overview",
+      "6-accounts-multi-user",
+      "6a-pairing-and-admin-auth"
+    ]
+  },
+  "privacy": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "5d1398bf4a8c1a3be3b20f9248c0a58920891234780234cf3b607447100f245a",
+    "anchors": [
+      "soundsible-telemetry-and-privacy-contract",
+      "what-we-collect-when-enabled",
+      "where-it-lives",
+      "retention-and-rotation",
+      "opt-out",
+      "never-collected-phase-1",
+      "operator-rights",
+      "play-timing-segments-play-timingjsonl",
+      "relation-to-product-privacy-claims"
+    ]
+  },
+  "troubleshooting": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "414e13a169158132948f2b8e3aa920bc86bf74cee2330923f05795aa5b067cea",
+    "anchors": [
+      "yt-dlp-requested-format-is-not-available--fix"
+    ]
+  },
+  "legal": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
+    "anchors": [
+      "legal-disclaimer-and-acceptable-use",
+      "no-encouragement-of-piracy",
+      "your-responsibility",
+      "relation-to-the-mit-license"
+    ]
+  },
+  "architecture": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "eab21ae115fbc5a33ad6d593cbe8c4a0c868a61a31943efa40a3d7213a53b491",
+    "anchors": [
+      "architecture--system-overview",
+      "1-mental-model",
+      "2-repository-layout-high-level",
+      "3-process-and-network-view",
+      "4-station-engine-internals",
+      "4a-playback-loading-contract-client",
+      "4b-playback-queue-contract-client",
+      "5-data-and-configuration-conceptual",
+      "5a-accounts-sessions-and-the-identity-gate",
+      "6-security-notes-brief",
+      "7-related-documentation"
+    ]
+  },
+  "agent-integration": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "2d755b11c80dc06730dd2fb5ae90ad6bd7f735587952ddb33f19689f8b900e9f",
+    "anchors": [
+      "soundsible-agent-integration-guide",
+      "agent-rules",
+      "authentication",
+      "mental-model",
+      "devices",
+      "control-playback",
+      "play-music-now",
+      "browser-autoplay-limitation",
+      "library",
+      "playback-queue",
+      "download-queue",
+      "download-queue-item-formats",
+      "1-recommended-resolved-youtube--youtube-music-result",
+      "2-user-provided-youtube-url",
+      "3-plain-text-fallback",
+      "accepted-response",
+      "agent-decision-rules-for-downloads",
+      "deezer-discovery",
+      "playback-state-resume-and-handoff",
+      "podcasts",
+      "recommended-agent-skill-flow",
+      "troubleshooting",
+      "minimal-openapi-style-summary"
+    ]
+  },
+  "relay": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "4fb0cd01573c45cf3583d574163e7983a6136ae4a1676732fc1632d4afa1d93f",
+    "anchors": [
+      "verified-vps-relay",
+      "supported-topology",
+      "install",
+      "verify",
+      "security-contract",
+      "troubleshooting-and-rollback"
+    ]
+  },
+  "contributing": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "4d49b25809758a1e7718e1a423146202157f07d7dfa5e4600b95b829b1180fc3",
+    "anchors": [
+      "contributing-to-soundsible",
+      "prerequisites",
+      "how-to-get-started",
+      "frontend-development",
+      "reporting-bugs--requesting-features",
+      "submitting-pull-requests",
+      "code-style"
+    ]
+  },
+  "desktop-development": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "c8485094259d9da46fa51d97546f4db29967b1de7f4ed63ace659cab1298de13",
+    "anchors": [
+      "soundsible-desktop-shell",
+      "dev-workflow",
+      "architecture",
+      "accessibility",
+      "phone-pairing-6",
+      "build",
+      "sidecar-build-pyinstaller",
+      "smoke-test",
+      "icons-dt3"
+    ]
+  },
+  "relay-deployment": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "dfaa385af3df0d37ac743956cf10956919ab882608c78e0d6532717b3088062e",
+    "anchors": [
+      "soundsible-community-live-stack",
+      "components-and-bounds",
+      "host-deployment",
+      "connect-a-station"
+    ]
+  },
+  "releasing": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "1e6063e655a2270b50b7dd187246a7b9ee73123ccb557f75b41bae09baca0430",
+    "anchors": [
+      "versioning-and-releases",
+      "what-the-number-promises",
+      "what-10-will-mean",
+      "where-the-version-lives",
+      "how-the-number-is-chosen",
+      "cutting-a-release",
+      "what-a-tag-builds"
+    ]
+  },
+  "roadmap": {
+    "tag": "v0.5.0",
+    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+    "sourceHash": "595f2b8d81eea3d0d403df3d57ceecde18ae0724158b7f8588a0352f3aaab5db",
+    "anchors": [
+      "roadmap",
+      "what-soundsible-is",
+      "where-it-is-going",
+      "serve-any-client-not-just-ours",
+      "join-the-open-music-web",
+      "make-acquisition-durable",
+      "sharpen-what-is-already-unique",
+      "deliberately-not-planned",
+      "shipped",
+      "internals"
+    ]
+  }
+}

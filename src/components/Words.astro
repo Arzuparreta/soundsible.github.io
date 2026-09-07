@@ -1,0 +1,11 @@
+---
+import type { Locale } from '../lib/site';
+interface Props {
+  en: string;
+  es: string;
+  locale: Locale;
+}
+const { en, es, locale } = Astro.props;
+---
+
+<span data-en={en} data-es={es}>{locale === 'es' ? es : en}</span>

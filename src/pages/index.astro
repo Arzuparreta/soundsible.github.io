@@ -1,26 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Hero from "../components/Hero.astro";
-import AutoModeSpotlight from "../components/AutoModeSpotlight.astro";
-import Difference from "../components/Difference.astro";
-import FeatureGrid from "../components/FeatureGrid.astro";
-import QuickStart from "../components/QuickStart.astro";
-import Showcase from "../components/Showcase.astro";
-import LegalTeaser from "../components/LegalTeaser.astro";
-import SiteFooter from "../components/SiteFooter.astro";
-
-const title = "Soundsible — Your self-hosted music service and Auto DJ";
-const description =
-  "Search beyond your library, acquire and tag music, then let a two-deck Auto DJ mix an editable set. Free, private, self-hosted, and open source.";
+import HomePage from '../components/HomePage.astro';
 ---
 
-<Layout title={title} description={description}>
-  <Hero />
-  <AutoModeSpotlight />
-  <Difference />
-  <FeatureGrid />
-  <QuickStart />
-  <Showcase />
-  <LegalTeaser />
-  <SiteFooter />
-</Layout>
+<HomePage locale="en" />

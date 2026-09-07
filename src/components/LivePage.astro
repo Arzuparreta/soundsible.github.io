@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Words from './Words.astro';
+import { pick, href, type Locale } from '../lib/site';
+import '../styles/live.css';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const communityUrl = import.meta.env.PUBLIC_COMMUNITY_URL ?? 'https://live.84-247-161-82.sslip.io';
+---
+
+<Layout
+  locale={locale}
+  page="live/"
+  title={pick(locale, 'Soundsible Live — Listen together', 'Soundsible Live — Escuchar juntos')}
+  description={pick(
+    locale,
+    'Listen to music broadcast live from Soundsible.',
+    'Escucha música emitida en directo desde Soundsible.',
+  )}
+>
+  <main id="main">
+    <div id="live-app" class="live-shell" data-community-url={communityUrl}>
+      <section id="directory-view" class="directory container">
+        <header class="page-heading">
+          <p class="eyebrow">SOUNDSIBLE LIVE</p><h1>
+            <Words locale={locale} en="Listen together." es="Escuchar juntos." />
+          </h1><p>
+            <Words
+              locale={locale}
+              en="Music broadcast by people running Soundsible. Pick a session and listen in your browser."
+              es="Música emitida por personas que usan Soundsible. Elige una sesión y escucha desde el navegador."
+            />
+          </p>
+        </header>
+        <div class="directory-head">
+          <h2 id="directory-heading" data-en="Live now" data-es="En directo ahora">
+            {pick(locale, 'Live now', 'En directo ahora')}
+          </h2><button id="refresh-sessions" type="button"
+            ><Words locale={locale} en="Refresh" es="Actualizar" /></button>
+        </div>
+        <p id="directory-error" class="notice" hidden>
+          <Words
+            locale={locale}
+            en="The live service is unavailable. Try again in a moment."
+            es="El servicio de directo no está disponible. Inténtalo de nuevo en un momento."
+          />
+        </p>
+        <div id="session-grid" class="session-grid" aria-live="polite"></div>
+        <div id="empty-sessions" class="empty" hidden>
+          <h3>
+            <Words
+              locale={locale}
+              en="No sessions are live right now."
+              es="Ahora mismo no hay sesiones en directo."
+            />
+          </h3><p>
+            <Words
+              locale={locale}
+              en="Come back later, or start a broadcast from your own Soundsible."
+              es="Vuelve más tarde o inicia una emisión desde tu Soundsible."
+            />
+          </p>
+        </div>
+        <p class="broadcast-help">
+          <a href={href(locale, 'docs/live/')} data-site-path="docs/live/"
+            ><Words locale={locale} en="How to broadcast a session" es="Cómo emitir una sesión" /> →</a>
+        </p>
+      </section>
+      <section
+        id="room-view"
+        class="room"
+        hidden
+        aria-label={pick(locale, 'Listening room', 'Sala de escucha')}
+      >
+        <div class="stage">
+          <div class="stage-top">
+            <button id="leave-room" type="button">← Live</button><span id="room-host"></span><button
+              id="share-room"
+              type="button"><Words locale={locale} en="Share" es="Compartir" /></button>
+          </div>
+          <div id="room-art" class="art"><span>♪</span></div><div class="track">
+            <span id="room-status">{pick(locale, 'Waiting', 'Esperando')}</span><h1 id="room-title">
+            </h1><p id="room-artist">{pick(locale, 'About to start', 'A punto de empezar')}</p>
+          </div>
+          <div id="transition" class="transition" hidden>
+            <small id="transition-technique"></small><div>
+              <span id="transition-progress"></span>
+            </div><strong id="secondary-title"></strong>
+          </div>
+          <audio id="live-audio" autoplay></audio><button
+            id="listen-live"
+            class="listen"
+            type="button">{pick(locale, 'Listen live', 'Escuchar en directo')}</button
+          ><p id="listen-error" class="listen-error" role="status" hidden>
+            {
+              pick(
+                locale,
+                'The live audio could not be connected.',
+                'No se ha podido conectar el audio en directo.',
+              )
+            }
+          </p>
+        </div>
+        <aside class="chat" aria-label="Chat">
+          <header>
+            <div>
+              <small><Words locale={locale} en="Live room" es="Sala en directo" /></small><strong
+                id="chat-title"></strong>
+            </div><span id="listener-count">{pick(locale, '0 listeners', '0 oyentes')}</span>
+          </header><div id="chat-messages" class="messages" aria-live="polite">
+            <p id="chat-empty">
+              <Words
+                locale={locale}
+                en="Messages appear here from the moment you join."
+                es="Aquí aparecen los mensajes desde el momento en que te unes."
+              />
+            </p>
+          </div><form id="chat-form">
+            <input
+              id="chat-input"
+              maxlength="500"
+              placeholder={pick(locale, 'Write a message', 'Escribe un mensaje')}
+              aria-label={pick(locale, 'Write a message', 'Escribe un mensaje')}
+              data-placeholder-en="Write a message"
+              data-placeholder-es="Escribe un mensaje"
+              data-aria-label-en="Write a message"
+              data-aria-label-es="Escribe un mensaje"
+            /><button type="submit"><Words locale={locale} en="Send" es="Enviar" /></button>
+          </form>
+        </aside>
+      </section>
+    </div>
+  </main>
+  <script>
+    import '../scripts/live';
+  </script>
+</Layout>

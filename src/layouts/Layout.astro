@@ -1,64 +1,204 @@
 ---
-import "@fontsource-variable/outfit/wght.css";
-import "@fontsource-variable/dm-sans/wght.css";
-import "../styles/global.css";
-import { publicAsset } from "../public-asset";
-
+import '@fontsource-variable/dm-sans/wght.css';
+import '../styles/global.css';
+import { publicAsset } from '../public-asset';
+import { href, pick, release, repoUrl, type Locale } from '../lib/site';
+import Words from '../components/Words.astro';
 interface Props {
   title: string;
   description: string;
-  /** Absolute URL; default = og-image.png under the deployed base path */
+  locale?: Locale;
+  page?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
-
-const { title, description, ogImage: ogImageProp } = Astro.props;
-
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage =
-  ogImageProp ??
-  new URL(publicAsset("og-image.png"), Astro.site).href;
+const { title, description, locale = 'en', page = '', noindex = false } = Astro.props;
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const canonical = absolute(href(locale, page));
+const ogImage = Astro.props.ogImage ?? absolute(publicAsset('og-image.png'));
+const nav = [
+  ['start/', 'Get started', 'Empezar'],
+  ['docs/', 'Documentation', 'Documentación'],
+  ['live/', 'Live', 'Live'],
+  ['project/', 'Project', 'Proyecto'],
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0d0d0f" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8f8f5" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/png" href={publicAsset("/favicon.png")} />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
-
+    <link rel="alternate" hreflang="en" href={absolute(href('en', page))} />
+    <link rel="alternate" hreflang="es" href={absolute(href('es', page))} />
+    <link rel="alternate" hreflang="x-default" href={absolute(href('en', page))} />
+    <link rel="icon" type="image/png" href={publicAsset('favicon.png')} />
+    <meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} /><meta
+      property="og:description"
+      content={description}
+    /><meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" /><meta
+      name="twitter:title"
+      content={title}
+    /><meta name="twitter:description" content={description} /><meta
+      name="twitter:image"
+      content={ogImage}
+    />
     <title>{title}</title>
+    <script is:inline>
+      try {
+        const choice = localStorage.getItem('soundsible:site-theme') || 'system';
+        document.documentElement.dataset.theme =
+          choice === 'system'
+            ? matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : choice;
+      } catch {
+        document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
+    </script>
   </head>
-  <body class="relative overflow-x-hidden bg-glow-orange bg-glow-blue">
-    <div
-      class="pointer-events-none fixed inset-0 z-0 bg-[length:48px_48px] bg-grid-fade opacity-70"
-      aria-hidden="true"
+  <body data-base={publicAsset('')} data-page={page}>
+    <a class="skip-link" href="#main"
+      ><Words locale={locale} en="Skip to content" es="Saltar al contenido" /></a
     >
-    </div>
-    <div
-      class="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-[#0d0d0f]/80 via-transparent to-[#0a0a0c]"
-      aria-hidden="true"
-    >
-    </div>
-    <div class="relative z-10">
-      <slot />
-    </div>
-
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="site-brand" href={href(locale)} data-site-path="" aria-label="Soundsible"
+          ><img src={publicAsset('logo-app.png')} width="30" height="30" alt="" /><span
+            >soundsible</span
+          ></a
+        >
+        <nav
+          class="desktop-nav"
+          aria-label={pick(locale, 'Main navigation', 'Navegación principal')}
+        >
+          {
+            nav.map(([path, en, es]) => (
+              <a
+                href={href(locale, path)}
+                data-site-path={path}
+                aria-current={page.startsWith(path) ? 'page' : undefined}
+              >
+                <Words locale={locale} en={en} es={es} />
+              </a>
+            ))
+          }
+        </nav>
+        <div class="header-tools">
+          <button
+            class="search-trigger"
+            type="button"
+            data-search-open
+            aria-label={pick(locale, 'Search documentation', 'Buscar documentación')}
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+              ><circle cx="10" cy="10" r="6.5"></circle><path d="m15 15 5 5"></path></svg
+            ><span class="search-label"><Words locale={locale} en="Search" es="Buscar" /></span><kbd
+              >⌘ K</kbd
+            ></button
+          >
+          <a
+            class="language-switch"
+            href={href(locale === 'en' ? 'es' : 'en', page)}
+            data-language-switch
+            hreflang={locale === 'en' ? 'es' : 'en'}
+            lang={locale === 'en' ? 'es' : 'en'}
+            aria-label={pick(locale, 'Leer en español', 'Read in English')}
+            >{locale === 'en' ? 'ES' : 'EN'}</a
+          >
+          <label class="theme-control"
+            ><span class="sr-only"><Words locale={locale} en="Appearance" es="Apariencia" /></span
+            ><select id="theme-select" aria-label={pick(locale, 'Appearance', 'Apariencia')}
+              ><option value="system" data-en="System" data-es="Sistema"
+                >{pick(locale, 'System', 'Sistema')}</option
+              ><option value="light" data-en="Light" data-es="Claro"
+                >{pick(locale, 'Light', 'Claro')}</option
+              ><option value="dark" data-en="Dark" data-es="Oscuro"
+                >{pick(locale, 'Dark', 'Oscuro')}</option
+              ></select
+            ></label
+          >
+          <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav"
+            ><Words locale={locale} en="Menu" es="Menú" /></button
+          >
+        </div>
+      </div>
+      <nav
+        id="mobile-nav"
+        hidden
+        aria-label={pick(locale, 'Mobile navigation', 'Navegación móvil')}
+      >
+        {
+          nav.map(([path, en, es]) => (
+            <a
+              href={href(locale, path)}
+              data-site-path={path}
+              aria-current={page.startsWith(path) ? 'page' : undefined}
+            >
+              <Words locale={locale} en={en} es={es} />
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <div>
+        <a class="footer-brand" href={href(locale)} data-site-path="">Soundsible</a><span
+          ><Words
+            locale={locale}
+            en="Self-hosted music. Open source."
+            es="Tu música en tu servidor. Código abierto."
+          /></span>
+      </div>
+      <nav aria-label={pick(locale, 'Footer', 'Pie de página')}>
+        <a href={release.url}>{release.tag}</a><a
+          href={href(locale, 'docs/legal/')}
+          data-site-path="docs/legal/"
+          ><Words locale={locale} en="Acceptable use" es="Uso aceptable" /></a
+        ><a href={href(locale, 'docs/privacy/')} data-site-path="docs/privacy/"
+          ><Words locale={locale} en="Privacy" es="Privacidad" /></a
+        ><a href={repoUrl}>GitHub ↗</a>
+      </nav>
+    </footer>
+    <dialog id="search-dialog" aria-labelledby="search-title">
+      <div class="dialog-heading">
+        <h2 id="search-title">
+          <Words locale={locale} en="Search documentation" es="Buscar documentación" />
+        </h2><button type="button" data-close-dialog
+          ><Words locale={locale} en="Close" es="Cerrar" /></button>
+      </div>
+      <div id="search" data-pagefind-base={publicAsset('pagefind/')} data-status="idle"></div>
+      <p id="search-error" hidden>
+        <Words
+          locale={locale}
+          en="Search could not load. Browse the documentation instead."
+          es="No se pudo cargar la búsqueda. Puedes consultar el índice de documentación."
+        /><a href={href(locale, 'docs/')} data-site-path="docs/"> →</a>
+      </p>
+      <noscript
+        ><a href={href(locale, 'docs/')}
+          >{pick(locale, 'Browse documentation', 'Consultar documentación')}</a
+        ></noscript
+      >
+    </dialog>
     <script>
-      import "../scripts/reveal-entry.ts";
+      import '../scripts/site';
     </script>
   </body>
 </html>

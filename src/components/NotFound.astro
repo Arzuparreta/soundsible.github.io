@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { pick, href, type Locale } from '../lib/site';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<Layout
+  locale={locale}
+  page="404/"
+  noindex
+  title={pick(locale, 'Page not found — Soundsible', 'Página no encontrada — Soundsible')}
+  description={pick(locale, 'Find your way back to Soundsible.', 'Vuelve a Soundsible.')}
+  ><main id="main" class="container">
+    <header class="page-heading">
+      <p class="eyebrow">404</p><h1>
+        {pick(locale, 'This page is not here.', 'Esta página no está aquí.')}
+      </h1><p>
+        {
+          pick(
+            locale,
+            'The address may have changed. Browse the documentation or return to the home page.',
+            'Es posible que la dirección haya cambiado. Consulta la documentación o vuelve al inicio.',
+          )
+        }
+      </p><div class="actions">
+        <a class="button primary" href={href(locale, 'docs/')}
+          >{pick(locale, 'Documentation', 'Documentación')}</a
+        ><a class="button" href={href(locale)}>{pick(locale, 'Home', 'Inicio')}</a>
+      </div>
+    </header>
+  </main></Layout
+>

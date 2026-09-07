@@ -1,48 +1,83 @@
-name: Deploy to GitHub Pages
+name: Build and publish site
 
 on:
   push:
     branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        description: 'Published stable release tag (empty selects latest)'
+        type: string
+        required: false
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: site-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
           cache: npm
-
-      - name: Install and build
-        run: |
-          npm ci
-          npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - run: npm ci
+      - name: Refresh release documentation
+        if: github.event_name != 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SOURCE_TAG: ${{ inputs.source_tag }}
+        run: npm run docs:sync
+      - name: Verify source and translation integrity
+        run: npm test
+      - name: Build, index and check links
+        run: npm run build
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Check browser behavior and accessibility
+        run: npm run test:browser
+      - name: Preserve browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          path: dist
+          name: browser-results
+          path: |
+            playwright-report/
+            test-results/
+      - name: Preserve exact documentation inputs
+        run: tar -czf documentation-inputs.tar.gz content/upstream content/es
+      - uses: actions/upload-artifact@v4
+        with:
+          name: documentation-inputs
+          path: documentation-inputs.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: dist/
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: dist/
 
   deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Publish validated output
         id: deployment
         uses: actions/deploy-pages@v4

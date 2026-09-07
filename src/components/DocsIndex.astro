@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { href, pick, groups, release, type Locale } from '../lib/site';
+import entries from '../generated/catalog.json';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = (en: string, es: string) => pick(locale, en, es);
+---
+
+<Layout
+  locale={locale}
+  page="docs/"
+  title={t('Documentation — Soundsible', 'Documentación — Soundsible')}
+  description={t(
+    'Guides to installing, using, administering and developing Soundsible.',
+    'Guías para instalar, usar, administrar y desarrollar Soundsible.',
+  )}
+>
+  <main id="main" class="container docs-index">
+    <header class="page-heading">
+      <p class="eyebrow">{t('DOCUMENTATION', 'DOCUMENTACIÓN')}</p><h1>
+        {t('Guides and reference.', 'Guías y referencia.')}
+      </h1><p>
+        {
+          t(
+            'Installation, everyday use and the details underneath. Published from the Soundsible project’s own documentation.',
+            'Instalación, uso diario y detalles técnicos. Publicada a partir de la documentación del propio proyecto Soundsible.',
+          )
+        }
+      </p><div class="actions">
+        <button class="button" data-search-open
+          >{t('Search the documentation', 'Buscar en la documentación')}
+          <span aria-hidden="true">⌕</span></button
+        ><span class="release-line">{release.tag}</span>
+      </div>
+    </header><div class="docs-groups">
+      {
+        groups
+          .filter((group) => entries.some((x) => x.locale === locale && x.group === group.id))
+          .map((group) => (
+            <section class="docs-group">
+              <h2>{group[locale]}</h2>
+              {entries
+                .filter((x) => x.locale === locale && x.group === group.id)
+                .map((doc) => (
+                  <a class="doc-index-link" href={href(locale, `docs/${doc.slug}/`)}>
+                    <strong>{doc.title}</strong>
+                    <p>{doc.description}</p>
+                  </a>
+                ))}
+            </section>
+          ))
+      }
+    </div>
+  </main>
+</Layout>

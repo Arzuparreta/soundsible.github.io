@@ -1,0 +1,67 @@
+{
+  "documents": [],
+  "repository": "Arzuparreta/soundsible",
+  "tag": "v0.5.0",
+  "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
+  "publishedAt": "2026-09-06T23:45:18Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.5.0",
+  "assets": [
+    {
+      "name": "apps.json",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/apps.json"
+    },
+    {
+      "name": "SHA256SUMS-arm64.txt",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/SHA256SUMS-arm64.txt"
+    },
+    {
+      "name": "SHA256SUMS-x64.txt",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/SHA256SUMS-x64.txt"
+    },
+    {
+      "name": "Soundsible.ipa",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/Soundsible.ipa"
+    },
+    {
+      "name": "Soundsible_0.5.0_amd64.deb",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/Soundsible_0.5.0_amd64.deb"
+    },
+    {
+      "name": "Soundsible_0.5.0_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/Soundsible_0.5.0_arm64-setup.exe"
+    },
+    {
+      "name": "Soundsible_0.5.0_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.5.0/Soundsible_0.5.0_x64-setup.exe"
+    }
+  ],
+  "files": {
+    "README.md": "b136d6c5e752eede37e28040216101ea1dc52592e44a6b527d5cfb6dc70d8480",
+    "docs/INSTALL.md": "fd38935a09e24b4190bc86da98e65fffd0b5f388db216f39cee9fc8e3d7ded77",
+    "docs/DOCKER.md": "075e3dad13c3c2d040d1252d49d69d2cdcd1acf8c6a11801c90cf950af8d0ae1",
+    "docs/DESKTOP_BETA.md": "74ade6f27b2c839a7d351920ec4df5f0292c1715ac719899186b02ee0b0b1313",
+    "docs/IOS.md": "56db69d50105a525e909e90d341be0483b89c3c3c64968881a885b609ff4b5bd",
+    "docs/OPENSUBSONIC.md": "cf6b70a7e37530c85ceb09694f9e312125645a4410bc4e88ca7fe5fec3765fb7",
+    "docs/AUTO_MODE.md": "bef95307364fd1fbc1809aa1e4676f87388b80ce630d6a057a4d288a56e68023",
+    "docs/LIVE.md": "c6d383a4d041f23db03235b461a6bec42daf92b18e03414d7d71b4cac07edbd3",
+    "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
+    "docs/CAR_INTEGRATION.md": "48bc04446b198a08aabf88a7cc698d44a62cb70d885ce5fbf2b772c504e90218",
+    "docs/CONFIGURATION.md": "4d4da0095f01e778ca6ead21959e96bd2ec65541efdcee99e725c27d3efd1b1c",
+    "docs/TELEMETRY_PRIVACY.md": "5d1398bf4a8c1a3be3b20f9248c0a58920891234780234cf3b607447100f245a",
+    "docs/troubleshooting-yt-dlp-formats.md": "414e13a169158132948f2b8e3aa920bc86bf74cee2330923f05795aa5b067cea",
+    "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
+    "docs/ARCHITECTURE.md": "eab21ae115fbc5a33ad6d593cbe8c4a0c868a61a31943efa40a3d7213a53b491",
+    "docs/AGENT_INTEGRATION.md": "2d755b11c80dc06730dd2fb5ae90ad6bd7f735587952ddb33f19689f8b900e9f",
+    "docs/VPS_RELAY.md": "4fb0cd01573c45cf3583d574163e7983a6136ae4a1676732fc1632d4afa1d93f",
+    "CONTRIBUTING.md": "4d49b25809758a1e7718e1a423146202157f07d7dfa5e4600b95b829b1180fc3",
+    "desktop-shell/README.md": "c8485094259d9da46fa51d97546f4db29967b1de7f4ed63ace659cab1298de13",
+    "deploy/community/README.md": "dfaa385af3df0d37ac743956cf10956919ab882608c78e0d6532717b3088062e",
+    "docs/RELEASING.md": "1e6063e655a2270b50b7dd187246a7b9ee73123ccb557f75b41bae09baca0430",
+    "docs/ROADMAP.md": "595f2b8d81eea3d0d403df3d57ceecde18ae0724158b7f8588a0352f3aaab5db",
+    "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
+    "docs/images/desktop-now-playing.png": "cc9399bea81b6bf2882c22d35290232c42b384e4e127368f14ce5d57930095fc",
+    "docs/images/mobile-now-playing-library.png": "aedfa11192610f0fa837a0d6e3b9ba5a69b9918a8a091f9c32f9d885341f765e",
+    "docs/images/mobile-now-playing-lyrics.png": "46624cf6eb7ca19ea9f7060d68c513875ddc7969ebe3dee0d4ec0722852b230c",
+    "docs/images/mobile-now-playing.png": "413f9aebc7a585061666ead339b9be09f7290e0e0e143a94ee32aa2e5891dfad"
+  }
+}

@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import StartPage from '../components/StartPage.astro';
+import DocsIndex from '../components/DocsIndex.astro';
+import DocPage from '../components/DocPage.astro';
+import ProjectPage from '../components/ProjectPage.astro';
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return [
+    ...(['en', 'es'] as const).flatMap((locale) =>
+      ['start', 'docs', 'project'].map((page) => ({
+        params: { route: `${locale === 'es' ? 'es/' : ''}${page}` },
+        props: { locale, page, entry: undefined },
+      })),
+    ),
+    ...docs.map((entry) => ({
+      params: { route: `${entry.data.locale === 'es' ? 'es/' : ''}docs/${entry.data.slug}` },
+      props: { locale: entry.data.locale, page: 'article', entry },
+    })),
+  ];
+}
+const { locale, page, entry } = Astro.props;
+---
+
+{page === 'start' && <StartPage locale={locale} />}
+{page === 'docs' && <DocsIndex locale={locale} />}
+{page === 'project' && <ProjectPage locale={locale} />}
+{entry && <DocPage entry={entry} />}

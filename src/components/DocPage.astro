@@ -1,0 +1,153 @@
+---
+import { readFile } from 'node:fs/promises';
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import DocsNav from './DocsNav.astro';
+import { href, pick, groups, release, repoUrl } from '../lib/site';
+import entries from '../generated/catalog.json';
+interface Props {
+  entry: CollectionEntry<'docs'>;
+}
+const { entry } = Astro.props;
+const { locale, slug, title, description, status, source, tag, sha } = entry.data;
+const t = (en: string, es: string) => pick(locale, en, es);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth > 1 && h.depth < 4);
+const localized = entries.filter((x) => x.locale === locale);
+const index = localized.findIndex((x) => x.slug === slug);
+const previous = localized[index - 1],
+  next = localized[index + 1];
+const originalText = await readFile(`content/upstream/${source}`, 'utf8');
+const iosPublished =
+  slug === 'ios' &&
+  /Not published yet/.test(originalText) &&
+  release.assets.some((a) => a.name === 'apps.json') &&
+  release.assets.some((a) => a.name === 'Soundsible.ipa');
+const group = groups.find((x) => x.id === entry.data.group);
+---
+
+<Layout
+  locale={locale}
+  page={`docs/${slug}/`}
+  title={`${title} — Soundsible`}
+  description={description}
+>
+  <details class="mobile-doc-nav">
+    <summary>{t('Browse documentation', 'Explorar documentación')}</summary><nav
+      aria-label={t('Documentation', 'Documentación')}
+    >
+      <DocsNav locale={locale} slug={slug} />{
+        toc.length > 0 && (
+          <section>
+            <h2>{t('On this page', 'En esta página')}</h2>
+            {toc.map((h) => (
+              <a href={`#${h.slug}`}>{h.text}</a>
+            ))}
+          </section>
+        )
+      }
+    </nav>
+  </details>
+  <div class="docs-shell">
+    <nav class="docs-sidebar" aria-label={t('Documentation', 'Documentación')}>
+      <DocsNav locale={locale} slug={slug} />
+    </nav>
+    <main id="main" class="doc-main">
+      <nav class="breadcrumbs" aria-label={t('Breadcrumb', 'Ruta de navegación')}>
+        <a href={href(locale, 'docs/')}>{t('Documentation', 'Documentación')}</a><span
+          aria-hidden="true">/</span
+        ><span>{group?.[locale] ?? t('Project', 'Proyecto')}</span>
+      </nav>
+      <div class="doc-meta">
+        <span>{t('Documentation for', 'Documentación de')} {tag}</span><a
+          href={`${repoUrl}/blob/${sha}/${source}`}
+          >{t('View original source', 'Ver fuente original')} ↗</a
+        >
+      </div>
+      {
+        locale === 'es' && status !== 'current' && (
+          <aside class="translation-notice">
+            {status === 'outdated'
+              ? `Esta traducción corresponde a ${tag}. El original en inglés se ha actualizado para ${release.tag}.`
+              : 'La traducción de este artículo está pendiente. A continuación se muestra el original en inglés.'}{' '}
+            <a href={href('en', `docs/${slug}/`)} lang="en">
+              Read the current English version →
+            </a>
+          </aside>
+        )
+      }
+      {
+        (slug === 'native-installation' || slug === 'docker') && (
+          <aside class="translation-notice">
+            {t(
+              'The source guide defaults to the development version. For commands pinned to this release, use',
+              'La guía original utiliza la versión de desarrollo por defecto. Para usar comandos fijados a esta versión, consulta',
+            )}{' '}
+            <a href={href(locale, 'start/')}>{t('Get started', 'Empezar')} →</a>
+          </aside>
+        )
+      }
+      {
+        (slug === 'install' || slug === 'contributing') && (
+          <aside class="translation-notice">
+            {t(
+              'For a source installation, the release README also requires Node.js 22+ and the web player dependencies. Complete the native prerequisites before following these server instructions.',
+              'Para instalar desde el código fuente, el README de esta versión también exige Node.js 22+ y las dependencias del reproductor web. Completa los requisitos de instalación nativa antes de seguir estas instrucciones de servidor.',
+            )}{' '}
+            <a href={href(locale, 'docs/native-installation/')}>
+              {t('Native prerequisites', 'Requisitos de instalación nativa')} →
+            </a>
+          </aside>
+        )
+      }
+      {
+        iosPublished && (
+          <aside class="translation-notice">
+            {t(
+              'This release includes apps.json and Soundsible.ipa. The “not published yet” paragraph in the original guide is outdated. The separate AltStore PAL path remains unverified.',
+              'Esta versión incluye apps.json y Soundsible.ipa. El párrafo «Aún no publicado» de la guía original ha quedado desactualizado. La vía de AltStore PAL sigue sin estar verificada.',
+            )}{' '}
+            <a href={release.url}>{t('View release downloads', 'Ver descargas de la versión')} ↗</a>
+          </aside>
+        )
+      }
+      <article
+        class="prose"
+        data-pagefind-body={status === 'missing' ? undefined : true}
+        lang={status === 'missing' ? 'en' : locale}
+      >
+        {!headings.some((h) => h.depth === 1) && <h1>{title}</h1>}<Content />
+      </article>
+      <nav class="doc-pagination" aria-label={t('Adjacent articles', 'Artículos contiguos')}>
+        {
+          previous ? (
+            <a href={href(locale, `docs/${previous.slug}/`)}>
+              <small>← {t('Previous', 'Anterior')}</small>
+              {previous.title}
+            </a>
+          ) : (
+            <span />
+          )
+        }{
+          next ? (
+            <a href={href(locale, `docs/${next.slug}/`)}>
+              <small>{t('Next', 'Siguiente')} →</small>
+              {next.title}
+            </a>
+          ) : (
+            <span />
+          )
+        }
+      </nav>
+    </main>
+    <nav class="docs-toc" aria-label={t('On this page', 'En esta página')}>
+      <h2>{t('On this page', 'En esta página')}</h2>{
+        toc.map((h) => (
+          <a href={`#${h.slug}`} data-depth={h.depth}>
+            {h.text}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</Layout>

@@ -1,0 +1,32 @@
+---
+import { href, groups, pick, type Locale } from '../lib/site';
+import entries from '../generated/catalog.json';
+interface Props {
+  locale: Locale;
+  slug: string;
+}
+const { locale, slug } = Astro.props;
+---
+
+<a class="sidebar-title" href={href(locale, 'docs/')}
+  >{pick(locale, 'Documentation', 'Documentación')}</a
+>
+{
+  [...groups, { id: 'project', en: 'Project', es: 'Proyecto' }]
+    .filter((group) => entries.some((x) => x.locale === locale && x.group === group.id))
+    .map((group) => (
+      <section class="sidebar-group">
+        <h2>{group[locale]}</h2>
+        {entries
+          .filter((x) => x.locale === locale && x.group === group.id)
+          .map((doc) => (
+            <a
+              href={href(locale, `docs/${doc.slug}/`)}
+              aria-current={doc.slug === slug ? 'page' : undefined}
+            >
+              {doc.title}
+            </a>
+          ))}
+      </section>
+    ))
+}

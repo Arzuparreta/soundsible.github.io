@@ -1,0 +1,197 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { pick, href, type Locale } from '../lib/site';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = (en: string, es: string) => pick(locale, en, es);
+---
+
+<Layout
+  locale={locale}
+  page="open/"
+  noindex
+  title={t('Open in Soundsible', 'Abrir en Soundsible')}
+  description={t(
+    'Open a shared song in your Soundsible player.',
+    'Abre una canción compartida en tu reproductor Soundsible.',
+  )}
+>
+  <main id="main" class="open-shell">
+    <section class="open-card" aria-live="polite">
+      <div id="loading">
+        <p class="eyebrow">SOUNDSIBLE</p><h1>
+          {t('Opening your player…', 'Abriendo tu reproductor…')}
+        </h1>
+      </div>
+      <div id="track" hidden>
+        <p class="eyebrow">{t('SHARED WITH YOU', 'COMPARTIDO CONTIGO')}</p><h1 id="track-title">
+        </h1><p id="track-artist" class="artist"></p><form id="instance-form">
+          <label for="instance-url"
+            >{t('Open it on your Soundsible', 'Ábrela en tu Soundsible')}</label
+          ><div class="url-row">
+            <input
+              id="instance-url"
+              type="text"
+              inputmode="url"
+              autocomplete="url"
+              spellcheck="false"
+              placeholder="192.168.1.20:5005/player/"
+              aria-describedby="instance-help"
+              required
+            /><button type="submit">{t('Open', 'Abrir')}</button>
+          </div><p id="instance-help" class="privacy">
+            {
+              t(
+                'Use the address you normally open your Soundsible player with.',
+                'Usa la dirección con la que abres normalmente tu reproductor Soundsible.',
+              )
+            }
+          </p><p id="instance-error" class="error" hidden>
+            {
+              t(
+                'That is not a Soundsible player address. Use the one you open Soundsible with.',
+                'Esa dirección no es válida. Usa la dirección con la que abres Soundsible.',
+              )
+            }
+          </p><p class="privacy">
+            {
+              t(
+                'Saved in this browser, so the next shared song opens straight away.',
+                'Se guarda en este navegador para que la próxima canción compartida se abra directamente.',
+              )
+            }
+          </p>
+        </form><div class="divider"><span>{t('or', 'o')}</span></div><div class="actions">
+          <a id="open-youtube" class="button" href="#" target="_blank" rel="noreferrer"
+            >{t('Open on YouTube', 'Abrir en YouTube')} ↗</a>
+        </div>
+      </div>
+      <div id="register" hidden>
+        <p class="eyebrow">{t('SHARED LINKS', 'ENLACES COMPARTIDOS')}</p><h1>
+          {t('Use this Soundsible player?', '¿Usar este reproductor Soundsible?')}
+        </h1><p class="artist">
+          {
+            t(
+              'Future song links will open directly on',
+              'Los próximos enlaces de canciones se abrirán directamente en',
+            )
+          }
+          <strong id="instance-host"></strong>.
+        </p><button id="register-button" class="button primary" type="button"
+          >{t('Use this player', 'Usar este reproductor')}</button
+        ><p class="privacy">
+          {
+            t(
+              'This choice stays only in this browser.',
+              'Esta elección solo se guarda en este navegador.',
+            )
+          }
+        </p>
+      </div>
+      <div id="invalid" hidden>
+        <p class="eyebrow">{t('SHARED LINKS', 'ENLACES COMPARTIDOS')}</p><h1>
+          {t('This link is not valid', 'Este enlace no es válido')}
+        </h1><p class="artist">
+          {
+            t(
+              'Ask the sender to share the song again.',
+              'Pide a quien te lo envió que vuelva a compartir la canción.',
+            )
+          }
+        </p><a class="button" href={href(locale)}>{t('Go to Soundsible', 'Ir a Soundsible')} →</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    import '../scripts/open-track';
+  </script>
+</Layout>
+<style>
+  .open-shell {
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    padding: 50px 20px;
+  }
+  .open-card {
+    width: min(100%, 500px);
+    padding: 30px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+  .open-card h1 {
+    font-size: 27px;
+    overflow-wrap: anywhere;
+  }
+  .artist {
+    margin: 14px 0 24px;
+    color: var(--muted);
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+  .open-card label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 24px 0 8px;
+  }
+  .url-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .url-row input {
+    min-width: 0;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    border-radius: 4px;
+    color: var(--text);
+    padding: 10px;
+    font-size: 12px;
+  }
+  .url-row button {
+    border: 0;
+    border-radius: 4px;
+    padding: 10px 18px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 13px;
+  }
+  .privacy {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+  .error {
+    color: var(--accent);
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  .divider {
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  .divider span {
+    position: relative;
+    top: -13px;
+    background: var(--surface);
+    padding: 0 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .open-card .actions {
+    margin-top: 0;
+  }
+  @media (max-width: 600px) {
+    .open-card {
+      padding: 24px;
+    }
+    .open-card h1 {
+      font-size: 24px;
+    }
+  }
+</style>

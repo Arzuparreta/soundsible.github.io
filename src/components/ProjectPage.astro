@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { href, pick, release, repoUrl, type Locale } from '../lib/site';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = (en: string, es: string) => pick(locale, en, es);
+const links = [
+  [
+    t('Roadmap', 'Hoja de ruta'),
+    t(
+      'Where the product is going. Planned work is distinct from what has shipped.',
+      'Hacia dónde va el producto. El trabajo previsto se distingue de lo ya publicado.',
+    ),
+    href(locale, 'docs/roadmap/'),
+  ],
+  [
+    t('Contribute', 'Contribuir'),
+    t(
+      'Set up a development environment and understand the contribution process.',
+      'Prepara un entorno de desarrollo y conoce el proceso de contribución.',
+    ),
+    href(locale, 'docs/contributing/'),
+  ],
+  [
+    t('Architecture', 'Arquitectura'),
+    t(
+      'Understand the engine, clients and flow of data.',
+      'Conoce el motor, los clientes y el flujo de datos.',
+    ),
+    href(locale, 'docs/architecture/'),
+  ],
+  [
+    t('Releases', 'Versiones'),
+    t(
+      'Read release notes and download the published builds.',
+      'Lee las notas de publicación y descarga las versiones disponibles.',
+    ),
+    `${repoUrl}/releases`,
+  ],
+  [
+    t('Report a problem', 'Comunicar un problema'),
+    t(
+      'Search existing issues or share a reproducible bug report.',
+      'Busca incidencias existentes o comparte un error que pueda reproducirse.',
+    ),
+    `${repoUrl}/issues`,
+  ],
+  [
+    t('Source code', 'Código fuente'),
+    t(
+      'Explore the repository and follow development on GitHub.',
+      'Explora el repositorio y sigue el desarrollo en GitHub.',
+    ),
+    repoUrl,
+  ],
+];
+---
+
+<Layout
+  locale={locale}
+  page="project/"
+  title={t('The project — Soundsible', 'El proyecto — Soundsible')}
+  description={t(
+    'Soundsible is free, self-hosted music software. Explore its source, roadmap and contribution guides.',
+    'Soundsible es software musical gratuito y autoalojado. Explora su código, hoja de ruta y guías de contribución.',
+  )}
+  ><main id="main" class="container">
+    <header class="page-heading">
+      <p class="eyebrow">{t('THE PROJECT', 'EL PROYECTO')}</p><h1>
+        {t('Built in the open.', 'Desarrollado en abierto.')}
+      </h1><p>
+        {
+          t(
+            'Soundsible is a self-hosted music project by Arzuparreta, a musician and Linux sysadmin. Its source is available under the MIT license.',
+            'Soundsible es un proyecto musical autoalojado de Arzuparreta, músico y administrador de sistemas Linux. Su código está disponible bajo la licencia MIT.',
+          )
+        }
+      </p>
+    </header><p class="project-source">
+      {t('These guides describe', 'Estas guías describen')}
+      <a href={release.url}>{release.tag}</a>. {
+        t(
+          'For ongoing development, visit the repository.',
+          'Para seguir el desarrollo actual, visita el repositorio.',
+        )
+      }
+    </p><div class="project-grid">
+      {
+        links.map(([title, description, url]) => (
+          <a class="task-row" href={url}>
+            <>
+              <div>
+                <>
+                  <h2>{title}</h2>
+                  <p>{description}</p>
+                </>
+              </div>
+              <span class="row-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </main></Layout
+>
+<style>
+  .project-grid h2 {
+    font-size: 19px;
+  }
+</style>

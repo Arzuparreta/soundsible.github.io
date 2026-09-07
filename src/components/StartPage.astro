@@ -1,0 +1,257 @@
+---
+import { readFile } from 'node:fs/promises';
+import Layout from '../layouts/Layout.astro';
+import { href, pick, release, type Locale } from '../lib/site';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = (en: string, es: string) => pick(locale, en, es);
+const readme = await readFile('content/upstream/README.md', 'utf8');
+const native = readme.slice(
+  readme.indexOf('### Native installation'),
+  readme.indexOf('### Docker'),
+);
+const blocks = [...native.matchAll(/```(bash|powershell)\n([\s\S]*?)```/g)];
+if (blocks.length < 3) throw new Error('Review upstream installation blocks before publishing.');
+const systems = ['Linux', 'macOS', 'Windows'];
+const dockerCommand = `mkdir soundsible && cd soundsible &&
+curl --fail --location https://raw.githubusercontent.com/Arzuparreta/soundsible/${release.sha}/compose.yaml -o compose.yaml &&
+printf 'SOUNDSIBLE_TAG=${release.tag.replace(/^v/, '')}\\n' > .env &&
+docker compose up -d`;
+
+const commands = blocks.slice(0, 3).map(([, , code]) =>
+  code
+    .replace(
+      'git clone https://github.com/Arzuparreta/soundsible.git',
+      `git clone --branch ${release.tag} --single-branch https://github.com/Arzuparreta/soundsible.git`,
+    )
+    .replace(/^#.*\n/gm, '')
+    .trim(),
+);
+---
+
+<Layout
+  locale={locale}
+  page="start/"
+  title={t('Get started — Soundsible', 'Empezar — Soundsible')}
+  description={t(
+    'Install Soundsible on your computer or server, and connect your music clients.',
+    'Instala Soundsible en tu ordenador o servidor y conecta tus clientes musicales.',
+  )}
+>
+  <main id="main" class="container">
+    <header class="page-heading">
+      <p class="eyebrow">{t('GET STARTED', 'EMPEZAR')}</p><h1>
+        {t('Choose your setup.', 'Elige tu instalación.')}
+      </h1><p>
+        {
+          t(
+            'Run Soundsible on your computer or a server. Then connect the devices you listen on.',
+            'Ejecuta Soundsible en tu ordenador o en un servidor. Después, conecta los dispositivos donde escuchas música.',
+          )
+        }
+      </p>
+    </header>
+    <p class="release-line">
+      {t('Latest stable release', 'Última versión estable')}
+      <a href={release.url}>{release.tag} ↗</a><span>·</span>{
+        t('Guides match this release.', 'Las guías corresponden a esta versión.')
+      }
+    </p>
+    <div class="install-list">
+      <section class="install-option" aria-labelledby="native-title">
+        <div>
+          <h2 id="native-title">{t('Native installation', 'Instalación nativa')}</h2><p
+            class="platforms"
+          >
+            Linux · macOS · Windows
+          </p><span class="tag">{t('PRIMARY METHOD', 'MÉTODO PRINCIPAL')}</span>
+        </div><div>
+          <p>
+            {
+              t(
+                'Run directly on your machine with the launcher and full access to configuration. Requires Python 3.10+, Git, FFmpeg and Node.js 22+.',
+                'Ejecución directa en tu equipo, con el lanzador y acceso completo a la configuración. Requiere Python 3.10+, Git, FFmpeg y Node.js 22+.',
+              )
+            }
+          </p><div class="actions">
+            <a class="button primary" href={href(locale, 'docs/native-installation/')}
+              >{t('Installation guide', 'Guía de instalación')} →</a
+            ><a class="button" href={href(locale, 'docs/install/')}
+              >{t('Server deployment', 'Instalación en servidor')}</a
+            >
+          </div><details class="quick-commands">
+            <summary
+              >{
+                t('Quick commands by operating system', 'Comandos rápidos por sistema operativo')
+              }</summary
+            ><div
+              class="os-tabs"
+              role="tablist"
+              aria-label={t('Operating system', 'Sistema operativo')}
+            >
+              {
+                systems.map((os, i) => (
+                  <button
+                    id={`os-tab-${i}`}
+                    role="tab"
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                    aria-controls={`os-panel-${i}`}
+                    tabindex={i === 0 ? 0 : -1}
+                    data-os={i}
+                  >
+                    {os}
+                  </button>
+                ))
+              }
+            </div>{
+              commands.map((code, i) => (
+                <div
+                  id={`os-panel-${i}`}
+                  role="tabpanel"
+                  aria-labelledby={`os-tab-${i}`}
+                  tabindex="0"
+                  hidden={i !== 0}
+                >
+                  <div class="install-code">
+                    <pre>
+                      <code>{code}</code>
+                    </pre>
+                  </div>
+                </div>
+              ))
+            }<p class="command-note">
+              {
+                t(
+                  'Commands select the documented release. Linux commands use Debian/Ubuntu packages; verify Node.js is 22 or newer. macOS requires Homebrew. On Windows, reopen PowerShell after installing prerequisites.',
+                  'Los comandos seleccionan la versión documentada. En Linux usan paquetes de Debian/Ubuntu; comprueba que Node.js sea 22 o posterior. macOS requiere Homebrew. En Windows, vuelve a abrir PowerShell tras instalar los requisitos.',
+                )
+              }
+            </p><p class="command-note">
+              {
+                t(
+                  'First launch: complete setup at localhost:5099/setup, then launch the engine. Keep the terminal open while listening.',
+                  'Primer inicio: completa la configuración en localhost:5099/setup e inicia el motor. Mantén la terminal abierta mientras escuchas.',
+                )
+              }
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="install-option" aria-labelledby="desktop-title">
+        <div>
+          <h2 id="desktop-title">{t('Desktop app', 'Aplicación de escritorio')}</h2><p
+            class="platforms"
+          >
+            Linux · Windows
+          </p><span class="tag">BETA</span>
+        </div><div>
+          <p>
+            {
+              t(
+                'A packaged app for a single computer, with no terminal required. The web player is included. Check the release assets for the installer that matches your system.',
+                'Una aplicación empaquetada para un solo ordenador, sin necesidad de terminal. Incluye el reproductor web. Busca en los archivos de la versión el instalador correspondiente a tu sistema.',
+              )
+            }
+          </p><div class="actions">
+            <a class="button primary" href={release.url}
+              >{t('Download from GitHub', 'Descargar desde GitHub')} ↗</a
+            ><a class="button" href={href(locale, 'docs/desktop/')}
+              >{t('Read the beta guide', 'Consultar la guía de la beta')}</a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="install-option" aria-labelledby="docker-title">
+        <div><h2 id="docker-title">Docker</h2><p class="platforms">Linux amd64 · arm64</p></div><div
+        >
+          <p>
+            {
+              t(
+                'Run a containerized server on a NAS, Raspberry Pi or Linux host. The image includes the player and audio dependencies. Read the deployment guide for persistent storage, backups and upgrades.',
+                'Ejecuta un servidor en contenedores en un NAS, Raspberry Pi o equipo Linux. La imagen incluye el reproductor y las dependencias de audio. Consulta la guía para configurar almacenamiento persistente, copias y actualizaciones.',
+              )
+            }
+          </p><div class="actions">
+            <a class="button" href={href(locale, 'docs/docker/')}
+              >{t('Docker deployment guide', 'Guía de instalación con Docker')} →</a
+            >
+          </div>
+          <details id="docker-commands">
+            <summary>{t('Install the published release', 'Instalar la versión publicada')}</summary
+            ><p class="command-note">
+              {
+                t(
+                  'Requires Docker with Compose. Creates a new soundsible folder and stores the release tag in .env. If that folder already exists, the commands stop without replacing it.',
+                  'Requiere Docker con Compose. Crea una carpeta soundsible y guarda la versión en .env. Si la carpeta ya existe, los comandos se detienen sin sustituirla.',
+                )
+              }
+            </p><div class="install-code"><pre><code>{dockerCommand}</code></pre></div><p
+              class="command-note"
+            >
+              {
+                t(
+                  'Wait for the container to report healthy, then open http://localhost:5005/player/. Keep .env for later restarts and deliberate upgrades.',
+                  'Espera a que el contenedor indique healthy y abre http://localhost:5005/player/. Conserva .env para los siguientes inicios y para actualizar de forma deliberada.',
+                )
+              }
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="install-option" aria-labelledby="clients-title">
+        <div>
+          <h2 id="clients-title">{t('Phones and other clients', 'Móviles y otros clientes')}</h2><p
+            class="platforms"
+          >
+            Web · iOS · OpenSubsonic
+          </p>
+        </div><div>
+          <p>
+            {
+              t(
+                'Already have a Soundsible server? Open its player in your browser, install the native iOS app or connect a compatible OpenSubsonic client. These connect to your server; they do not replace it.',
+                '¿Ya tienes un servidor Soundsible? Abre su reproductor en el navegador, instala la aplicación nativa de iOS o conecta un cliente OpenSubsonic compatible. Estos clientes se conectan a tu servidor; no lo sustituyen.',
+              )
+            }
+          </p><div class="actions">
+            <a class="button" href={href(locale, 'docs/ios/')}>iPhone / iPad →</a><a
+              class="button"
+              href={href(locale, 'docs/opensubsonic/')}>{t('Other clients', 'Otros clientes')} →</a
+            >
+          </div><p class="command-note">
+            {
+              t(
+                'iOS installation is through sideloading, not the App Store. See the guide for requirements and availability.',
+                'La aplicación iOS se instala mediante sideloading, fuera de la App Store. Consulta los requisitos y la disponibilidad en la guía.',
+              )
+            }
+          </p>
+        </div>
+      </section>
+    </div>
+    <p class="install-note">
+      {
+        t(
+          'Need help connecting from another device or outside your home?',
+          '¿Necesitas conectarte desde otro dispositivo o desde fuera de casa?',
+        )
+      }
+      <a href={href(locale, 'docs/install/')}
+        >{
+          t(
+            'Read the server and remote access guide.',
+            'Consulta la guía de servidor y acceso remoto.',
+          )
+        }</a
+      >
+    </p>
+  </main>
+</Layout>
+<style>
+  .command-note {
+    margin-top: 14px;
+    font-size: 12px !important;
+  }
+</style>

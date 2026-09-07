@@ -1,6 +1,7 @@
-import { io, type Socket } from "socket.io-client";
-import { communityResourceLocation, discoverIceServers } from "../lib/whep";
-import { directoryLink, roomLink, sessionFromSearch } from "../lib/live-link";
+import { liveText, listeners, breakLabel } from '../lib/live-i18n';
+import { io, type Socket } from 'socket.io-client';
+import { communityResourceLocation, discoverIceServers } from '../lib/whep';
+import { directoryLink, roomLink, sessionFromSearch } from '../lib/live-link';
 
 interface LiveDeck {
   id: string;
@@ -15,7 +16,7 @@ interface LiveDeck {
 interface LiveProgram {
   seq: number;
   emitted_at: number;
-  transport: "playing" | "paused";
+  transport: 'playing' | 'paused';
   /** Host clock at the moment the music stopped. Null while it is playing. */
   paused_since: number | null;
   primary: LiveDeck | null;
@@ -28,7 +29,7 @@ interface LiveProgram {
 
 interface LiveSession {
   id: string;
-  status: "waiting" | "live" | "reconnecting";
+  status: 'waiting' | 'live' | 'reconnecting';
   title: string;
   host: {
     id: string;
@@ -45,23 +46,23 @@ interface PeerHandle {
   resourceUrl?: string;
 }
 
-const app = document.querySelector<HTMLElement>("#live-app");
-const apiUrl = app?.dataset.communityUrl?.replace(/\/$/, "") ?? "";
-const directory = document.querySelector<HTMLElement>("#directory-view")!;
-const room = document.querySelector<HTMLElement>("#room-view")!;
-const grid = document.querySelector<HTMLElement>("#session-grid")!;
-const empty = document.querySelector<HTMLElement>("#empty-sessions")!;
-const directoryError = document.querySelector<HTMLElement>("#directory-error")!;
-const audio = document.querySelector<HTMLAudioElement>("#live-audio")!;
-const listen = document.querySelector<HTMLButtonElement>("#listen-live")!;
-const share = document.querySelector<HTMLButtonElement>("#share-room");
-const listenError = document.querySelector<HTMLElement>("#listen-error")!;
-const chatMessages = document.querySelector<HTMLElement>("#chat-messages")!;
-const chatEmpty = document.querySelector<HTMLElement>("#chat-empty")!;
-const chatForm = document.querySelector<HTMLFormElement>("#chat-form")!;
-const chatInput = document.querySelector<HTMLInputElement>("#chat-input")!;
+const app = document.querySelector<HTMLElement>('#live-app');
+const apiUrl = app?.dataset.communityUrl?.replace(/\/$/, '') ?? '';
+const directory = document.querySelector<HTMLElement>('#directory-view')!;
+const room = document.querySelector<HTMLElement>('#room-view')!;
+const grid = document.querySelector<HTMLElement>('#session-grid')!;
+const empty = document.querySelector<HTMLElement>('#empty-sessions')!;
+const directoryError = document.querySelector<HTMLElement>('#directory-error')!;
+const audio = document.querySelector<HTMLAudioElement>('#live-audio')!;
+const listen = document.querySelector<HTMLButtonElement>('#listen-live')!;
+const share = document.querySelector<HTMLButtonElement>('#share-room');
+const listenError = document.querySelector<HTMLElement>('#listen-error')!;
+const chatMessages = document.querySelector<HTMLElement>('#chat-messages')!;
+const chatEmpty = document.querySelector<HTMLElement>('#chat-empty')!;
+const chatForm = document.querySelector<HTMLFormElement>('#chat-form')!;
+const chatInput = document.querySelector<HTMLInputElement>('#chat-input')!;
 
-type AudioState = "idle" | "connecting" | "connected" | "blocked" | "recovering" | "failed";
+type AudioState = 'idle' | 'connecting' | 'connected' | 'blocked' | 'recovering' | 'failed';
 
 const RETRY_DELAYS_MS = [1000, 2000, 4000, 8000];
 const RECOVERY_WINDOW_MS = 90_000;
@@ -74,7 +75,7 @@ let peer: PeerHandle | null = null;
 let statsTimer: number | undefined;
 let programTimer: number | undefined;
 let playoutDelayMs = 120;
-let audioState: AudioState = "idle";
+let audioState: AudioState = 'idle';
 let listening = false;
 let listenGeneration = 0;
 let retryAttempt = 0;
@@ -96,46 +97,51 @@ function node<K extends keyof HTMLElementTagNameMap>(
 }
 
 function artwork(deck: LiveDeck | null | undefined): HTMLElement {
-  const art = node("span", "live-cover");
+  const art = node('span', 'live-cover');
   if (deck?.artwork_url) {
-    const image = node("img");
+    const image = node('img');
     image.src = deck.artwork_url;
-    image.alt = "";
+    image.alt = '';
     art.append(image);
   } else {
-    art.textContent = "♪";
+    art.textContent = '♪';
   }
   return art;
 }
 
 function trackRow(deck: LiveDeck): HTMLElement {
-  const row = node("div", "live-track");
-  const copy = node("span", "live-track-copy");
-  copy.append(node("strong", undefined, deck.title), node("small", undefined, deck.artist));
+  const row = node('div', 'live-track');
+  const copy = node('span', 'live-track-copy');
+  copy.append(node('strong', undefined, deck.title), node('small', undefined, deck.artist));
   row.append(artwork(deck), copy);
   return row;
 }
 
 function card(session: LiveSession): HTMLButtonElement {
-  const button = node("button", "live-card");
-  button.type = "button";
-  const head = node("div", "live-card-head");
-  const avatar = node("span", "live-avatar", session.host.display_name.slice(0, 1).toUpperCase());
+  const button = node('button', 'live-card');
+  button.type = 'button';
+  const head = node('div', 'live-card-head');
+  const avatar = node('span', 'live-avatar', session.host.display_name.slice(0, 1).toUpperCase());
   if (session.host.avatar_color) avatar.style.background = session.host.avatar_color;
-  const copy = node("span", "live-card-copy");
-  copy.append(node("strong", undefined, session.title), node("small", undefined, session.host.display_name));
-  const resting = session.status === "live" && session.program?.transport === "paused";
-  const status = resting ? "paused" : session.status;
+  const copy = node('span', 'live-card-copy');
+  copy.append(
+    node('strong', undefined, session.title),
+    node('small', undefined, session.host.display_name),
+  );
+  const resting = session.status === 'live' && session.program?.transport === 'paused';
+  const status = resting ? 'paused' : session.status;
   const state = node(
-    "span",
-    "live-state",
-    status === "live"
-      ? "Live"
-      : status === "paused"
-        ? "On a break"
-        : status === "waiting"
-          ? "Waiting"
-          : "Reconnecting",
+    'span',
+    'live-state',
+    liveText(
+      status === 'live'
+        ? 'Live'
+        : status === 'paused'
+          ? 'On a break'
+          : status === 'waiting'
+            ? 'Waiting'
+            : 'Reconnecting',
+    ),
   );
   state.dataset.status = status;
   head.append(avatar, copy, state);
@@ -143,25 +149,25 @@ function card(session: LiveSession): HTMLButtonElement {
   if (session.program?.primary) {
     button.append(trackRow(session.program.primary));
     if (session.program.secondary) {
-      const progress = node("div", "live-progress");
-      const fill = node("span");
+      const progress = node('div', 'live-progress');
+      const fill = node('span');
       fill.style.width = `${Math.round((session.program.transition?.progress ?? 0) * 100)}%`;
       progress.append(fill);
       button.append(progress, trackRow(session.program.secondary));
     }
   } else {
-    button.append(node("p", "live-waiting", "About to start"));
+    button.append(node('p', 'live-waiting', liveText('About to start')));
   }
-  button.append(node("footer", undefined, `${session.listener_count} listeners`));
-  button.addEventListener("click", () => enter(session));
+  button.append(node('footer', undefined, listeners(session.listener_count)));
+  button.addEventListener('click', () => enter(session));
   return button;
 }
 
 function renderDirectory(): void {
   grid.replaceChildren(...sessions.map(card));
   empty.hidden = sessions.length > 0;
-  const heading = document.querySelector<HTMLElement>("#directory-heading");
-  if (heading) heading.textContent = sessions.length > 0 ? "Live now" : "(Or not)";
+  const heading = document.querySelector<HTMLElement>('#directory-heading');
+  if (heading) heading.textContent = liveText('Live now');
 }
 
 async function refresh(): Promise<void> {
@@ -177,17 +183,17 @@ async function refresh(): Promise<void> {
 }
 
 function guest(): { id: string; name: string } {
-  const key = "soundsible:live-guest:v1";
-  let id = "";
+  const key = 'soundsible:live-guest:v1';
+  let id = '';
   try {
-    id = localStorage.getItem(key) ?? "";
+    id = localStorage.getItem(key) ?? '';
   } catch {
     // Storage is optional.
   }
   if (!id) {
     const bytes = new Uint8Array(5);
     crypto.getRandomValues(bytes);
-    id = Array.from(bytes, (value) => value.toString(16).padStart(2, "0")).join("");
+    id = Array.from(bytes, (value) => value.toString(16).padStart(2, '0')).join('');
     try {
       localStorage.setItem(key, id);
     } catch {
@@ -204,7 +210,7 @@ function text(id: string, value: string): void {
 
 function clock(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
-  return `${minutes}:${String(seconds % 60).padStart(2, "0")}`;
+  return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
 /**
@@ -215,14 +221,14 @@ function clock(seconds: number): string {
  * the same break rather than an offset one.
  */
 function breakSeconds(): number | null {
-  if (program?.transport !== "paused" || program.paused_since == null) return null;
+  if (program?.transport !== 'paused' || program.paused_since == null) return null;
   return breakBase + Math.round((Date.now() - breakArrived) / 1000);
 }
 
 /** Adopt a program payload and keep the break counter in step with it. */
 function adoptProgram(next: LiveProgram | null): void {
   program = next;
-  const since = next?.transport === "paused" ? next.paused_since : null;
+  const since = next?.transport === 'paused' ? next.paused_since : null;
   if (next && since != null) {
     breakBase = Math.max(0, Math.round((next.emitted_at - since) / 1000));
     breakArrived = Date.now();
@@ -236,43 +242,50 @@ function adoptProgram(next: LiveProgram | null): void {
 function renderBreak(): void {
   const resting = breakSeconds();
   if (resting === null) return;
-  text("room-status", `Back in a moment · ${clock(resting)}`);
+  text('room-status', breakLabel(clock(resting)));
 }
 
 function renderProgram(): void {
   if (!active) return;
   const resting = breakSeconds();
   text(
-    "room-status",
-    resting !== null
-      ? `Back in a moment · ${clock(resting)}`
-      : active.status === "live"
-        ? "Live"
-        : active.status === "reconnecting"
-          ? "Reconnecting"
-          : "Waiting",
+    'room-status',
+    liveText(
+      resting !== null
+        ? breakLabel(clock(resting))
+        : active.status === 'live'
+          ? 'Live'
+          : active.status === 'reconnecting'
+            ? 'Reconnecting'
+            : 'Waiting',
+    ),
   );
-  text("room-title", program?.primary?.title ?? active.title);
+  text('room-title', program?.primary?.title ?? active.title);
   text(
-    "room-artist",
-    resting !== null ? "The DJ paused the music." : program?.primary?.artist ?? "About to start",
+    'room-artist',
+    resting !== null
+      ? liveText('The DJ paused the music.')
+      : (program?.primary?.artist ?? liveText('About to start')),
   );
-  const art = document.querySelector<HTMLElement>("#room-art")!;
+  const art = document.querySelector<HTMLElement>('#room-art')!;
   art.replaceChildren();
   if (program?.primary?.artwork_url) {
-    const image = node("img");
+    const image = node('img');
     image.src = program.primary.artwork_url;
-    image.alt = "";
+    image.alt = '';
     art.append(image);
   } else {
-    art.append(node("span", undefined, "♪"));
+    art.append(node('span', undefined, '♪'));
   }
-  const transition = document.querySelector<HTMLElement>("#transition")!;
+  const transition = document.querySelector<HTMLElement>('#transition')!;
   transition.hidden = !program?.secondary;
   if (program?.secondary) {
-    text("transition-technique", program.transition?.technique?.replaceAll("_", " ") ?? "blend");
-    text("secondary-title", program.secondary.title);
-    const progress = document.querySelector<HTMLElement>("#transition-progress")!;
+    text(
+      'transition-technique',
+      liveText(program.transition?.technique?.replaceAll('_', ' ') ?? 'blend'),
+    );
+    text('secondary-title', program.secondary.title);
+    const progress = document.querySelector<HTMLElement>('#transition-progress')!;
     progress.style.width = `${Math.round((program.transition?.progress ?? 0) * 100)}%`;
   }
   renderListen();
@@ -281,31 +294,33 @@ function renderProgram(): void {
 /** The button is the audio state: the room status above it belongs to the
  * session, and the two drift apart whenever a listener reconnects alone. */
 function renderListen(): void {
-  if (audioState === "idle") {
+  if (audioState === 'idle') {
     const ready = Boolean(program?.primary);
     listen.disabled = !ready;
-    listen.textContent = ready ? "Listen live" : "About to start";
+    listen.textContent = liveText(ready ? 'Listen live' : 'About to start');
     listenError.hidden = true;
     return;
   }
-  listen.disabled = audioState === "connecting" || audioState === "recovering";
-  listen.textContent =
-    audioState === "connected"
-      ? "Listening live"
-      : audioState === "connecting"
-        ? "Connecting…"
-        : audioState === "blocked"
-          ? "Tap to play"
-          : audioState === "recovering"
-            ? "Reconnecting…"
-            : "Try again";
-  listenError.hidden = audioState === "connecting" || audioState === "connected";
-  listenError.textContent =
-    audioState === "recovering"
-      ? "The live audio dropped. Reconnecting…"
-      : audioState === "blocked"
-        ? "Your browser blocked playback. Tap to start the audio."
-        : "The live audio could not be connected.";
+  listen.disabled = audioState === 'connecting' || audioState === 'recovering';
+  listen.textContent = liveText(
+    audioState === 'connected'
+      ? 'Listening live'
+      : audioState === 'connecting'
+        ? 'Connecting…'
+        : audioState === 'blocked'
+          ? 'Tap to play'
+          : audioState === 'recovering'
+            ? 'Reconnecting…'
+            : 'Try again',
+  );
+  listenError.hidden = audioState === 'connecting' || audioState === 'connected';
+  listenError.textContent = liveText(
+    audioState === 'recovering'
+      ? 'The live audio dropped. Reconnecting…'
+      : audioState === 'blocked'
+        ? 'Your browser blocked playback. Tap to start the audio.'
+        : 'The live audio could not be connected.',
+  );
 }
 
 function setAudioState(next: AudioState): void {
@@ -328,11 +343,11 @@ function receiveProgram(next: LiveProgram): void {
 }
 
 function updateSession(next: LiveSession): void {
-  sessions = sessions.map((session) => session.id === next.id ? next : session);
+  sessions = sessions.map((session) => (session.id === next.id ? next : session));
   if (active?.id === next.id) {
     active = next;
     if (next.program) adoptProgram(next.program);
-    text("listener-count", `${next.listener_count} listeners`);
+    text('listener-count', listeners(next.listener_count));
     renderProgram();
   }
 }
@@ -342,10 +357,10 @@ function addMessage(message: {
   text: string;
 }): void {
   chatEmpty.hidden = true;
-  const line = node("p", "chat-message");
-  const name = node("strong", undefined, message.sender.display_name);
+  const line = node('p', 'chat-message');
+  const name = node('strong', undefined, message.sender.display_name);
   if (message.sender.avatar_color) name.style.color = message.sender.avatar_color;
-  line.append(name, node("span", undefined, message.text));
+  line.append(name, node('span', undefined, message.text));
   chatMessages.append(line);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -354,25 +369,29 @@ function connect(session: LiveSession): void {
   socket?.disconnect();
   const identity = guest();
   socket = io(apiUrl, {
-    transports: ["websocket", "polling"],
+    transports: ['websocket', 'polling'],
     auth: {
       session_id: session.id,
       guest_id: identity.id,
       guest_name: identity.name,
     },
   });
-  socket.on("session_snapshot", ({ session: next }: { session: LiveSession }) => updateSession(next));
-  socket.on("session_updated", ({ session: next }: { session: LiveSession }) => updateSession(next));
-  socket.on("program_event", (next: LiveProgram) => {
+  socket.on('session_snapshot', ({ session: next }: { session: LiveSession }) =>
+    updateSession(next),
+  );
+  socket.on('session_updated', ({ session: next }: { session: LiveSession }) =>
+    updateSession(next),
+  );
+  socket.on('program_event', (next: LiveProgram) => {
     receiveProgram(next);
   });
-  socket.on("presence", ({ listener_count }: { listener_count: number }) => {
+  socket.on('presence', ({ listener_count }: { listener_count: number }) => {
     if (!active) return;
     active = { ...active, listener_count };
-    text("listener-count", `${listener_count} listeners`);
+    text('listener-count', listeners(listener_count));
   });
-  socket.on("chat_message", addMessage);
-  socket.on("session_ended", () => leave());
+  socket.on('chat_message', addMessage);
+  socket.on('session_ended', () => leave());
 }
 
 function clearRetry(): void {
@@ -383,7 +402,7 @@ function clearRetry(): void {
 function releasePeer(handle: PeerHandle | null): void {
   if (!handle) return;
   handle.pc.close();
-  if (handle.resourceUrl) void fetch(handle.resourceUrl, { method: "DELETE" }).catch(() => {});
+  if (handle.resourceUrl) void fetch(handle.resourceUrl, { method: 'DELETE' }).catch(() => {});
 }
 
 function closePeer(): void {
@@ -402,7 +421,7 @@ function requestedSessionId(): string | null {
 /** Keep the address bar on the room, so the link a DJ shares lands on it. */
 function pushRoomUrl(id: string | null): void {
   const href = id ? roomLink(window.location.href, id) : directoryLink(window.location.href);
-  if (href !== window.location.href) window.history.pushState({ session: id }, "", href);
+  if (href !== window.location.href) window.history.pushState({ session: id }, '', href);
 }
 
 async function openRequestedRoom(): Promise<void> {
@@ -428,15 +447,15 @@ function enter(session: LiveSession, push = true): void {
   listenGeneration += 1;
   listening = false;
   closePeer();
-  audioState = "idle";
+  audioState = 'idle';
   active = session;
   adoptProgram(session.program ?? null);
   directory.hidden = true;
   room.hidden = false;
-  text("room-host", session.host.display_name);
-  text("chat-title", session.title);
-  text("listener-count", `${session.listener_count} listeners`);
-  chatMessages.querySelectorAll(".chat-message").forEach((message) => message.remove());
+  text('room-host', session.host.display_name);
+  text('chat-title', session.title);
+  text('listener-count', listeners(session.listener_count));
+  chatMessages.querySelectorAll('.chat-message').forEach((message) => message.remove());
   chatEmpty.hidden = false;
   renderProgram();
   connect(session);
@@ -447,7 +466,7 @@ function leave(push = true): void {
   listenGeneration += 1;
   listening = false;
   closePeer();
-  audioState = "idle";
+  audioState = 'idle';
   socket?.disconnect();
   socket = null;
   active = null;
@@ -458,16 +477,16 @@ function leave(push = true): void {
 }
 
 function waitIce(pc: RTCPeerConnection): Promise<void> {
-  if (pc.iceGatheringState === "complete") return Promise.resolve();
+  if (pc.iceGatheringState === 'complete') return Promise.resolve();
   return new Promise((resolve) => {
     const changed = () => {
-      if (pc.iceGatheringState !== "complete") return;
-      pc.removeEventListener("icegatheringstatechange", changed);
+      if (pc.iceGatheringState !== 'complete') return;
+      pc.removeEventListener('icegatheringstatechange', changed);
       resolve();
     };
-    pc.addEventListener("icegatheringstatechange", changed);
+    pc.addEventListener('icegatheringstatechange', changed);
     window.setTimeout(() => {
-      pc.removeEventListener("icegatheringstatechange", changed);
+      pc.removeEventListener('icegatheringstatechange', changed);
       resolve();
     }, 2500);
   });
@@ -476,30 +495,37 @@ function waitIce(pc: RTCPeerConnection): Promise<void> {
 function startStats(pc: RTCPeerConnection): void {
   window.clearInterval(statsTimer);
   statsTimer = window.setInterval(() => {
-    void pc.getStats().then((report) => {
-      report.forEach((stat) => {
-        if (stat.type !== "inbound-rtp" || stat.kind !== "audio") return;
-        if (typeof stat.estimatedPlayoutTimestamp === "number" && typeof stat.timestamp === "number") {
-          const estimate = stat.estimatedPlayoutTimestamp - stat.timestamp;
-          if (estimate >= 0 && estimate < 2000) playoutDelayMs = estimate;
-        } else if (stat.jitterBufferEmittedCount > 0) {
-          const estimate = (stat.jitterBufferDelay / stat.jitterBufferEmittedCount) * 1000;
-          if (Number.isFinite(estimate)) playoutDelayMs = Math.min(1000, Math.max(20, estimate + 20));
-        }
-      });
-    }).catch(() => {});
+    void pc
+      .getStats()
+      .then((report) => {
+        report.forEach((stat) => {
+          if (stat.type !== 'inbound-rtp' || stat.kind !== 'audio') return;
+          if (
+            typeof stat.estimatedPlayoutTimestamp === 'number' &&
+            typeof stat.timestamp === 'number'
+          ) {
+            const estimate = stat.estimatedPlayoutTimestamp - stat.timestamp;
+            if (estimate >= 0 && estimate < 2000) playoutDelayMs = estimate;
+          } else if (stat.jitterBufferEmittedCount > 0) {
+            const estimate = (stat.jitterBufferDelay / stat.jitterBufferEmittedCount) * 1000;
+            if (Number.isFinite(estimate))
+              playoutDelayMs = Math.min(1000, Math.max(20, estimate + 20));
+          }
+        });
+      })
+      .catch(() => {});
   }, 1000);
 }
 
 async function establishPeer(generation: number): Promise<void> {
   const session = active;
   if (!session || generation !== listenGeneration) return;
-  setAudioState(retryAttempt > 0 ? "recovering" : "connecting");
+  setAudioState(retryAttempt > 0 ? 'recovering' : 'connecting');
   const iceServers = await discoverIceServers(session.whep_url);
   const pc = new RTCPeerConnection({ iceServers });
   const stream = new MediaStream();
-  pc.addTransceiver("audio", { direction: "recvonly" });
-  pc.addEventListener("track", (event) => {
+  pc.addTransceiver('audio', { direction: 'recvonly' });
+  pc.addEventListener('track', (event) => {
     for (const track of event.streams[0]?.getTracks() ?? [event.track]) stream.addTrack(track);
     audio.srcObject = stream;
   });
@@ -510,12 +536,12 @@ async function establishPeer(generation: number): Promise<void> {
     await pc.setLocalDescription(offer);
     await waitIce(pc);
     response = await fetch(session.whep_url, {
-      method: "POST",
-      headers: { "Content-Type": "application/sdp" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/sdp' },
       body: pc.localDescription?.sdp,
     });
     if (!response.ok) throw new Error(`whep_${response.status}`);
-    await pc.setRemoteDescription({ type: "answer", sdp: await response.text() });
+    await pc.setRemoteDescription({ type: 'answer', sdp: await response.text() });
   } catch (error) {
     pc.close();
     throw error;
@@ -526,20 +552,20 @@ async function establishPeer(generation: number): Promise<void> {
   }
 
   peer = { pc, resourceUrl: communityResourceLocation(session.whep_url, response) };
-  pc.addEventListener("connectionstatechange", () => {
+  pc.addEventListener('connectionstatechange', () => {
     if (generation !== listenGeneration || peer?.pc !== pc) return;
-    if (pc.connectionState === "connected") {
+    if (pc.connectionState === 'connected') {
       retryAttempt = 0;
-      if (audioState !== "blocked") setAudioState("connected");
+      if (audioState !== 'blocked') setAudioState('connected');
       return;
     }
     if (
-      pc.connectionState === "failed"
-      || pc.connectionState === "closed"
-      || pc.connectionState === "disconnected"
+      pc.connectionState === 'failed' ||
+      pc.connectionState === 'closed' ||
+      pc.connectionState === 'disconnected'
     ) {
       peer = null;
-      if (pc.connectionState !== "disconnected") pc.close();
+      if (pc.connectionState !== 'disconnected') pc.close();
       scheduleRecovery(generation);
     }
   });
@@ -548,12 +574,12 @@ async function establishPeer(generation: number): Promise<void> {
     await audio.play();
   } catch {
     // A connected peer that cannot sound is still a failure the page must own.
-    setAudioState("blocked");
+    setAudioState('blocked');
     return;
   }
-  if (pc.connectionState === "connected") {
+  if (pc.connectionState === 'connected') {
     retryAttempt = 0;
-    setAudioState("connected");
+    setAudioState('connected');
   }
 }
 
@@ -565,14 +591,14 @@ async function establishPeer(generation: number): Promise<void> {
  */
 function scheduleRecovery(generation: number): void {
   if (generation !== listenGeneration || retryTimer !== undefined || !listening || !active) return;
-  if (retryAttempt === 0 && audioState === "connected") {
+  if (retryAttempt === 0 && audioState === 'connected') {
     recoveryDeadline = Date.now() + RECOVERY_WINDOW_MS;
   }
   if (Date.now() >= recoveryDeadline) {
-    setAudioState("failed");
+    setAudioState('failed');
     return;
   }
-  setAudioState("recovering");
+  setAudioState('recovering');
   const delay = RETRY_DELAYS_MS[Math.min(retryAttempt, RETRY_DELAYS_MS.length - 1)];
   retryAttempt += 1;
   retryTimer = window.setTimeout(() => {
@@ -589,7 +615,7 @@ function scheduleRecovery(generation: number): void {
 
 async function startListening(): Promise<void> {
   if (!active) return;
-  if (peer && audioState !== "failed") return;
+  if (peer && audioState !== 'failed') return;
   listening = true;
   listenGeneration += 1;
   const generation = listenGeneration;
@@ -603,41 +629,47 @@ async function startListening(): Promise<void> {
   }
 }
 
-document.querySelector("#refresh-sessions")?.addEventListener("click", () => void refresh());
-document.querySelector("#leave-room")?.addEventListener("click", () => leave());
+document.querySelector('#refresh-sessions')?.addEventListener('click', () => void refresh());
+document.querySelector('#leave-room')?.addEventListener('click', () => leave());
 if (share) {
   const button = share;
-  button.addEventListener("click", () => {
+  button.addEventListener('click', () => {
     if (!active) return;
     const link = roomLink(window.location.href, active.id);
-    void navigator.clipboard?.writeText(link)
+    void navigator.clipboard
+      ?.writeText(link)
       .then(() => {
-        button.textContent = "Link copied";
-        window.setTimeout(() => { button.textContent = "Share"; }, 2000);
+        button.textContent = liveText('Link copied');
+        window.setTimeout(() => {
+          button.textContent = liveText('Share');
+        }, 2000);
       })
       .catch(() => {
         // Clipboard access is not granted everywhere; offer the link by hand.
-        window.prompt("Copy this link", link);
+        window.prompt(liveText('Copy this link'), link);
       });
   });
 }
-listen.addEventListener("click", () => {
-  if (audioState === "blocked") {
-    void audio.play().then(() => setAudioState("connected")).catch(() => {});
+listen.addEventListener('click', () => {
+  if (audioState === 'blocked') {
+    void audio
+      .play()
+      .then(() => setAudioState('connected'))
+      .catch(() => {});
     return;
   }
   void startListening();
 });
-chatForm.addEventListener("submit", (event) => {
+chatForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const value = chatInput.value.trim();
   if (!value || !socket?.connected) return;
-  socket.emit("chat_message", { text: value });
-  chatInput.value = "";
+  socket.emit('chat_message', { text: value });
+  chatInput.value = '';
 });
 
 void refresh().then(openRequestedRoom);
-window.addEventListener("popstate", () => {
+window.addEventListener('popstate', () => {
   if (!requestedSessionId()) {
     if (active) leave(false);
     return;
@@ -647,3 +679,11 @@ window.addEventListener("popstate", () => {
 window.setInterval(() => {
   if (!active) void refresh();
 }, 10_000);
+
+// Re-render labels in place; changing language must not replace audio or sockets.
+document.addEventListener('site:locale', () => {
+  renderDirectory();
+  renderProgram();
+  renderListen();
+  if (active) text('listener-count', listeners(active.listener_count));
+});

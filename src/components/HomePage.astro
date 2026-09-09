@@ -1,5 +1,5 @@
 ---
-import { readdirSync } from 'node:fs';
+import images from '../generated/images.json';
 import Layout from '../layouts/Layout.astro';
 import { href, pick, release, type Locale } from '../lib/site';
 import { publicAsset } from '../public-asset';
@@ -9,8 +9,8 @@ interface Props {
 const { locale } = Astro.props;
 const t = (en: string, es: string) => pick(locale, en, es);
 // Screenshots arrive with the release snapshot, so a slide only appears once
-// every image it needs is in content/upstream.
-const imported = new Set(readdirSync('content/upstream/docs/images'));
+// every image it needs has been imported and fingerprinted.
+const imported: Record<string, string> = images;
 const shots = [
   {
     caption: t(
@@ -80,8 +80,8 @@ const shots = [
       },
     ],
   },
-].filter((shot) => shot.images.every((image) => imported.has(image.file)));
-const asset = (file: string) => publicAsset(`source-assets/docs/images/${file}`);
+].filter((shot) => shot.images.every((image) => `docs/images/${image.file}` in imported));
+const asset = (file: string) => publicAsset(imported[`docs/images/${file}`]);
 const paths = [
   [
     '01',

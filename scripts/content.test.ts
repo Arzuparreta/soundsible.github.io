@@ -26,8 +26,13 @@ describe('release documentation pipeline', () => {
     expect(
       rewriteLink('LIVE.md#1-what-goes-on-air', item, 'es', '/soundsible.github.io', 'abc'),
     ).toBe('/soundsible.github.io/es/docs/live/#1-what-goes-on-air');
-    expect(rewriteLink('images/player.png', item, 'en', '', 'abc')).toBe(
-      '/source-assets/docs/images/player.png',
+    expect(
+      rewriteLink('images/player.png', item, 'en', '', 'abc', {
+        'docs/images/player.png': 'source-assets/docs/images/player.1a2b3c4d.png',
+      }),
+    ).toBe('/source-assets/docs/images/player.1a2b3c4d.png');
+    expect(() => rewriteLink('images/gone.png', item, 'en', '', 'abc')).toThrow(
+      /outside the release snapshot/,
     );
     expect(rewriteLink('../shared/main.py', item, 'en', '', 'abc')).toContain(
       '/blob/abc/shared/main.py',

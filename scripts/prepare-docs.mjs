@@ -1,4 +1,4 @@
-import { readFile, mkdir, rm, writeFile, cp } from 'node:fs/promises';
+import { readFile, readdir, mkdir, rm, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { catalog } from './catalog.mjs';
 import { sourceContent, anchorsFor, transform, translationStatus } from './content.mjs';
@@ -14,8 +14,20 @@ const base = name === `${owner}.github.io` ? '' : `/${name}`;
 await rm('src/content/docs', { recursive: true, force: true });
 await mkdir('src/content/docs', { recursive: true });
 await mkdir('src/generated', { recursive: true });
-await mkdir('public/source-assets', { recursive: true });
-await cp('content/upstream/docs/images', 'public/source-assets/docs/images', { recursive: true });
+// Imported images keep their release name in the repository but are published
+// under a content fingerprint, so a reader who cached an older capture at the
+// same path is never served it again.
+await rm('public/source-assets', { recursive: true, force: true });
+await mkdir('public/source-assets/docs/images', { recursive: true });
+const images = {};
+for (const name of (await readdir('content/upstream/docs/images')).sort()) {
+  const bytes = await readFile(`content/upstream/docs/images/${name}`);
+  const fingerprint = createHash('sha256').update(bytes).digest('hex').slice(0, 8);
+  const published = name.replace(/(\.[^.]+)$/, `.${fingerprint}$1`);
+  await writeFile(`public/source-assets/docs/images/${published}`, bytes);
+  images[`docs/images/${name}`] = `source-assets/docs/images/${published}`;
+}
+await writeFile('src/generated/images.json', JSON.stringify(images, null, 2) + '\n');
 const entries = [];
 const translationManifest = JSON.parse(await readFile('content/es/manifest.json', 'utf8'));
 for (const item of catalog) {
@@ -57,7 +69,7 @@ for (const item of catalog) {
       `src/content/docs/${locale}/${item.slug}.md`,
       `---\n${Object.entries(data)
         .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
-        .join('\n')}\n---\n\n${transform(body, item, locale, base, data.sha)}`,
+        .join('\n')}\n---\n\n${transform(body, item, locale, base, data.sha, images)}`,
     );
     entries.push({ ...data, id: `${locale}/${item.slug}` });
   }

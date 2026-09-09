@@ -135,12 +135,87 @@ for (const element of document.querySelectorAll<HTMLDialogElement>('dialog')) {
   });
 }
 const imageDialog = document.querySelector<HTMLDialogElement>('#image-dialog');
-document.querySelector('[data-image-preview]')?.addEventListener('click', (event) => {
-  if (imageDialog) {
+const dialogImage = imageDialog?.querySelector('img');
+for (const preview of document.querySelectorAll<HTMLAnchorElement>('[data-image-preview]')) {
+  preview.addEventListener('click', (event) => {
+    const source = preview.querySelector('img');
+    if (!imageDialog || !dialogImage || !source) return;
     event.preventDefault();
+    dialogImage.src = source.currentSrc || source.src;
+    dialogImage.alt = source.alt;
+    dialogImage.width = source.naturalWidth || source.width;
+    dialogImage.height = source.naturalHeight || source.height;
     imageDialog.showModal();
+  });
+}
+
+const carousel = document.querySelector<HTMLElement>('[data-carousel]');
+if (carousel) {
+  const slides = [...carousel.querySelectorAll<HTMLElement>('.shot')];
+  const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-shot-dot]')];
+  const label = carousel.querySelector<HTMLElement>('[data-shot-label]');
+  const toggle = carousel.querySelector<HTMLButtonElement>('[data-shot-toggle]');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const interval = 5500;
+  let current = 0;
+  let timer: number | undefined;
+  // Autoplay only resumes once nothing is holding it: the reader's pointer or
+  // keyboard focus, a hidden tab, the enlarged view, or the pause button.
+  let stopped = still.matches;
+
+  function show(next: number) {
+    if (next === current) return;
+    slides[current].classList.remove('is-current');
+    slides[current].classList.add('is-leaving');
+    const leaving = slides[current];
+    window.setTimeout(() => leaving.classList.remove('is-leaving'), 620);
+    current = next;
+    slides[current].classList.add('is-current');
+    for (const [index, dot] of dots.entries())
+      if (index === current) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    if (label) label.textContent = slides[current].dataset.shotCaption ?? label.textContent;
   }
-});
+
+  function play() {
+    window.clearInterval(timer);
+    if (stopped || carousel!.matches(':hover, :focus-within') || document.hidden) return;
+    if (imageDialog?.open) return;
+    timer = window.setInterval(() => show((current + 1) % slides.length), interval);
+  }
+
+  function markToggle() {
+    if (!toggle) return;
+    const paused = stopped;
+    toggle.toggleAttribute('data-paused', paused);
+    const text = paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause;
+    if (text) toggle.setAttribute('aria-label', text);
+  }
+
+  // Opening the enlarged view must not advance the slide behind it.
+  for (const slide of slides) slide.addEventListener('click', () => window.clearInterval(timer));
+  for (const [index, dot] of dots.entries())
+    dot.addEventListener('click', () => {
+      show(index);
+      play();
+    });
+  toggle?.addEventListener('click', () => {
+    stopped = !stopped;
+    markToggle();
+    play();
+  });
+  for (const event of ['pointerenter', 'pointerleave', 'focusin', 'focusout'])
+    carousel.addEventListener(event, play);
+  document.addEventListener('visibilitychange', play);
+  imageDialog?.addEventListener('close', play);
+  still.addEventListener('change', (event) => {
+    stopped = event.matches;
+    markToggle();
+    play();
+  });
+  markToggle();
+  play();
+}
 const searchDialog = document.querySelector<HTMLDialogElement>('#search-dialog');
 const search = document.querySelector<HTMLElement>('#search');
 let searchUI: { destroy(): void } | undefined;

@@ -271,3 +271,26 @@ test('Docker quick start persists the release pin and stops if the directory exi
   expect(code).not.toContain('/main/');
   expect(code).not.toContain(':edge');
 });
+test('the screenshot carousel keeps rotating after a slide is picked by hand', async ({ page }) => {
+  await page.goto(base);
+  const dots = page.locator('[data-shot-dot]');
+  await expect(dots).toHaveCount(4);
+  // Picking a slide with the mouse leaves focus on the dot; autoplay must not
+  // treat that as a reader holding the carousel.
+  await dots.nth(2).click();
+  await expect(dots.nth(2)).toHaveAttribute('aria-current', 'true');
+  await page.mouse.move(0, 0);
+  await expect(dots.nth(3)).toHaveAttribute('aria-current', 'true', { timeout: 9000 });
+  // The pointer resting on the carousel holds it, and moving away releases it.
+  await page.locator('.product-figure').hover();
+  const held = await dots.nth(3).getAttribute('aria-current');
+  await page.waitForTimeout(6500);
+  expect(await dots.nth(3).getAttribute('aria-current')).toBe(held);
+  await page.mouse.move(0, 0);
+  await expect(dots.nth(0)).toHaveAttribute('aria-current', 'true', { timeout: 9000 });
+  // The pause control stops it outright.
+  await page.locator('[data-shot-toggle]').click();
+  await page.mouse.move(0, 0);
+  await page.waitForTimeout(6500);
+  await expect(dots.nth(0)).toHaveAttribute('aria-current', 'true');
+});

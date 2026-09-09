@@ -156,12 +156,24 @@ if (carousel) {
   const label = carousel.querySelector<HTMLElement>('[data-shot-label]');
   const toggle = carousel.querySelector<HTMLButtonElement>('[data-shot-toggle]');
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const interval = 7000;
+  const interval = 5000;
   let current = 0;
   let timer: number | undefined;
   // Autoplay only resumes once nothing is holding it: the reader's pointer or
   // keyboard focus, a hidden tab, the enlarged view, or the pause button.
   let stopped = still.matches;
+
+  // Clicking a dot leaves focus on it, so :focus-within would hold autoplay for
+  // good once the reader picked a slide by hand. Only a keyboard focus pauses.
+  function focusedByKeyboard() {
+    const active = document.activeElement;
+    if (!active || !carousel!.contains(active)) return false;
+    try {
+      return active.matches(':focus-visible');
+    } catch {
+      return false;
+    }
+  }
 
   function show(next: number) {
     if (next === current) return;
@@ -179,8 +191,8 @@ if (carousel) {
 
   function play() {
     window.clearInterval(timer);
-    if (stopped || carousel!.matches(':hover, :focus-within') || document.hidden) return;
-    if (imageDialog?.open) return;
+    if (stopped || carousel!.matches(':hover') || focusedByKeyboard()) return;
+    if (document.hidden || imageDialog?.open) return;
     timer = window.setInterval(() => show((current + 1) % slides.length), interval);
   }
 
@@ -192,8 +204,10 @@ if (carousel) {
     if (text) toggle.setAttribute('aria-label', text);
   }
 
-  // Opening the enlarged view must not advance the slide behind it.
-  for (const slide of slides) slide.addEventListener('click', () => window.clearInterval(timer));
+  // Opening the enlarged view must not advance the slide behind it. The preview
+  // handler above has already opened the dialog by now, so play() parks the
+  // timer -- and restarts it if the dialog never opened.
+  for (const slide of slides) slide.addEventListener('click', play);
   for (const [index, dot] of dots.entries())
     dot.addEventListener('click', () => {
       show(index);

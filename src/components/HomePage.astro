@@ -1,4 +1,5 @@
 ---
+import { readdirSync } from 'node:fs';
 import Layout from '../layouts/Layout.astro';
 import { href, pick, release, type Locale } from '../lib/site';
 import { publicAsset } from '../public-asset';
@@ -7,6 +8,80 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = (en: string, es: string) => pick(locale, en, es);
+// Screenshots arrive with the release snapshot, so a slide only appears once
+// every image it needs is in content/upstream.
+const imported = new Set(readdirSync('content/upstream/docs/images'));
+const shots = [
+  {
+    caption: t(
+      'Library, artwork and queue in one player.',
+      'Biblioteca, portada y cola en un mismo reproductor.',
+    ),
+    images: [
+      {
+        file: 'desktop-now-playing.png',
+        width: 1912,
+        height: 963,
+        alt: t(
+          'Soundsible player with the library, the current artwork and the playback queue',
+          'Reproductor Soundsible con la biblioteca, la portada actual y la cola de reproducción',
+        ),
+      },
+    ],
+  },
+  {
+    caption: t('Every song you own, in one list.', 'Todas tus canciones, en una lista.'),
+    images: [
+      {
+        file: 'desktop-library.png',
+        width: 1911,
+        height: 966,
+        alt: t(
+          'Soundsible library listing songs, albums and artists',
+          'Biblioteca de Soundsible con canciones, álbumes y artistas',
+        ),
+      },
+    ],
+  },
+  {
+    caption: t('Search once, across every source.', 'Busca una vez, en todas las fuentes.'),
+    images: [
+      {
+        file: 'desktop-search.png',
+        width: 1913,
+        height: 962,
+        alt: t(
+          'Soundsible search results with a top artist, songs and albums',
+          'Resultados de búsqueda de Soundsible con artista destacado, canciones y álbumes',
+        ),
+      },
+    ],
+  },
+  {
+    caption: t('The same library in your pocket.', 'La misma biblioteca en tu bolsillo.'),
+    images: [
+      {
+        file: 'mobile-library.png',
+        width: 1170,
+        height: 2532,
+        alt: t(
+          'Soundsible on a phone, showing the song list and the mini player',
+          'Soundsible en un móvil, con la lista de canciones y el mini reproductor',
+        ),
+      },
+      {
+        file: 'mobile-now-playing.png',
+        width: 1170,
+        height: 2532,
+        alt: t(
+          'Soundsible on a phone, showing the player with synced lyrics',
+          'Soundsible en un móvil, con el reproductor y la letra sincronizada',
+        ),
+      },
+    ],
+  },
+].filter((shot) => shot.images.every((image) => imported.has(image.file)));
+const asset = (file: string) => publicAsset(`source-assets/docs/images/${file}`);
 const paths = [
   [
     '01',
@@ -89,40 +164,85 @@ const paths = [
           >
         </aside>
       </div>
-      <figure class="product-figure">
+      <figure
+        class="product-figure"
+        data-carousel={shots.length > 1 ? '' : undefined}
+        role={shots.length > 1 ? 'group' : undefined}
+        aria-roledescription={shots.length > 1 ? t('carousel', 'carrusel') : undefined}
+        aria-label={shots.length > 1
+          ? t('Soundsible screenshots', 'Capturas de Soundsible')
+          : undefined}
+      >
         <div class="figure-bar">
           <span>{t('THE PLAYER', 'EL REPRODUCTOR')}</span><span
             >{t('Web · Desktop · Mobile', 'Web · Escritorio · Móvil')}</span
           >
         </div>
-        <a
-          class="screenshot-link"
-          href={publicAsset('source-assets/docs/images/desktop-now-playing.png')}
-          data-image-preview
-          aria-label={t(
-            'Enlarge the Soundsible player screenshot',
-            'Ampliar la captura del reproductor Soundsible',
-          )}
-          ><img
-            src={publicAsset('source-assets/docs/images/desktop-now-playing.png')}
-            alt={t(
-              'Soundsible player with library, lyrics and playback queue',
-              'Reproductor Soundsible con biblioteca, letras y cola de reproducción',
-            )}
-            width="1906"
-            height="944"
-            fetchpriority="high"
-          /><span class="image-enlarge" aria-hidden="true">↗</span></a
-        >
+        <div class="shots">
+          {
+            shots.map((shot, index) => (
+              <a
+                class:list={['shot', index === 0 && 'is-current']}
+                href={asset(shot.images[0].file)}
+                data-shot-caption={shot.caption}
+                data-image-preview
+                aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
+              >
+                <>
+                  <span class:list={['shot-media', shot.images.length > 1 && 'is-pair']}>
+                    {shot.images.map((image) => (
+                      <img
+                        src={asset(image.file)}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        fetchpriority={index === 0 ? 'high' : 'auto'}
+                      />
+                    ))}
+                  </span>
+                  <span class="image-enlarge" aria-hidden="true">
+                    ↗
+                  </span>
+                </>
+              </a>
+            ))
+          }
+        </div>
         <figcaption>
-          <span
-            >{
-              t(
-                'Library, lyrics and queue in one player.',
-                'Biblioteca, letras y cola en un mismo reproductor.',
-              )
-            }</span
-          ><span>{t('Click to enlarge', 'Pulsa para ampliar')}</span>
+          <span data-shot-label>{shots[0].caption}</span><span class="figure-hint"
+            >{t('Click to enlarge', 'Pulsa para ampliar')}</span
+          >{
+            shots.length > 1 && (
+              <div class="shot-controls">
+                <>
+                  <div class="shot-dots">
+                    {shots.map((_, index) => (
+                      <button
+                        type="button"
+                        data-shot-dot={index}
+                        aria-current={index === 0 ? 'true' : undefined}
+                        aria-label={t(
+                          `Show screenshot ${index + 1} of ${shots.length}`,
+                          `Mostrar la captura ${index + 1} de ${shots.length}`,
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    class="shot-toggle"
+                    data-shot-toggle
+                    data-label-play={t('Play the screenshots', 'Reproducir las capturas')}
+                    data-label-pause={t('Pause the screenshots', 'Pausar las capturas')}
+                    aria-label={t('Pause the screenshots', 'Pausar las capturas')}
+                  >
+                    <span aria-hidden="true" />
+                  </button>
+                </>
+              </div>
+            )
+          }
         </figcaption>
       </figure>
     </section>
@@ -167,12 +287,12 @@ const paths = [
       >
     </section>
   </main>
-  <dialog id="image-dialog" aria-label={t('Player screenshot', 'Captura del reproductor')}>
+  <dialog id="image-dialog" aria-label={t('Screenshot', 'Captura')}>
     <button type="button" data-close-dialog>{t('Close', 'Cerrar')} ✕</button><img
-      src={publicAsset('source-assets/docs/images/desktop-now-playing.png')}
-      alt={t('Enlarged Soundsible player', 'Reproductor Soundsible ampliado')}
-      width="1906"
-      height="944"
+      src={asset(shots[0].images[0].file)}
+      alt={shots[0].images[0].alt}
+      width={shots[0].images[0].width}
+      height={shots[0].images[0].height}
     />
   </dialog>
 </Layout>

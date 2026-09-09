@@ -156,7 +156,7 @@ if (carousel) {
   const label = carousel.querySelector<HTMLElement>('[data-shot-label]');
   const toggle = carousel.querySelector<HTMLButtonElement>('[data-shot-toggle]');
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const interval = 5500;
+  const interval = 7000;
   let current = 0;
   let timer: number | undefined;
   // Autoplay only resumes once nothing is holding it: the reader's pointer or

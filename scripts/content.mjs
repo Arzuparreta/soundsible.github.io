@@ -38,7 +38,7 @@ export function anchorsFor(source) {
 export function translationStatus(sourceHash, translation) {
   return !translation ? 'missing' : translation.sourceHash === sourceHash ? 'current' : 'outdated';
 }
-export function rewriteLink(url, item, locale, base, sha) {
+export function rewriteLink(url, item, locale, base, sha, images = {}) {
   const publicSite = 'https://arzuparreta.github.io/soundsible.github.io/';
   if (url.startsWith(publicSite))
     return `${base}/${locale === 'es' ? 'es/' : ''}${url.slice(publicSite.length).replace(/^es\//, '')}`;
@@ -51,14 +51,18 @@ export function rewriteLink(url, item, locale, base, sha) {
   }
   if (target)
     return `${base}/${locale === 'es' ? 'es/' : ''}docs/${target.slug}/${hash ? '#' + hash : ''}`;
-  if (resolved.startsWith('docs/images/')) return `${base}/source-assets/${resolved}`;
+  if (resolved.startsWith('docs/images/')) {
+    const published = images[resolved];
+    if (!published) throw new Error(`Image outside the release snapshot: ${resolved}`);
+    return `${base}/${published}`;
+  }
   return `https://github.com/${repository}/blob/${sha}/${resolved}${hash ? '#' + hash : ''}`;
 }
-export function transform(source, item, locale, base, sha) {
+export function transform(source, item, locale, base, sha, images) {
   const tree = markdown.parse(source);
   visit(tree, (node) => {
     if (node.type === 'link' || node.type === 'image' || node.type === 'definition')
-      node.url = rewriteLink(node.url, item, locale, base, sha);
+      node.url = rewriteLink(node.url, item, locale, base, sha, images);
   });
   return markdown.stringify(tree);
 }

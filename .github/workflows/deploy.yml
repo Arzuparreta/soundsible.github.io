@@ -4,8 +4,14 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Hourly, because this is the only thing that notices a new release. The
+  # site reads `releases/latest` when it builds, so it reports whichever
+  # version was newest at that moment: v0.8.1 was published 68 minutes after
+  # the 12 Sep build and the site said 0.8.0 for the rest of the day. Once a
+  # day is a day of being wrong; once an hour bounds it to an hour. The repo
+  # is public, so the runner minutes are free, and a build is under two.
   schedule:
-    - cron: '17 6 * * *'
+    - cron: '17 * * * *'
   workflow_dispatch:
     inputs:
       source_tag:

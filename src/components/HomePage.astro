@@ -13,10 +13,6 @@ const t = (en: string, es: string) => pick(locale, en, es);
 const imported: Record<string, string> = images;
 const shots = [
   {
-    caption: t(
-      'Library, artwork and queue in one player.',
-      'Biblioteca, portada y cola en un mismo reproductor.',
-    ),
     images: [
       {
         file: 'desktop-now-playing.png',
@@ -30,7 +26,6 @@ const shots = [
     ],
   },
   {
-    caption: t('Every song you own, in one list.', 'Todas tus canciones, en una lista.'),
     images: [
       {
         file: 'desktop-library.png',
@@ -44,7 +39,6 @@ const shots = [
     ],
   },
   {
-    caption: t('Search once, across every source.', 'Busca una vez, en todas las fuentes.'),
     images: [
       {
         file: 'desktop-search.png',
@@ -58,7 +52,6 @@ const shots = [
     ],
   },
   {
-    caption: t('The same library in your pocket.', 'La misma biblioteca en tu bolsillo.'),
     images: [
       {
         file: 'mobile-library.png',
@@ -134,15 +127,20 @@ const paths = [
   <main id="main" class="container home">
     <section class="home-hero" aria-labelledby="home-title">
       <div class="hero-copy">
-        <p class="eyebrow">{t('YOUR MUSIC · YOUR SERVER', 'TU MÚSICA · TU SERVIDOR')}</p><h1
+        <p class="eyebrow">{t('FREE · OPEN SOURCE', 'GRATIS · CÓDIGO ABIERTO')}</p><h1
           id="home-title"
         >
-          {t('A home for your music.', 'Un hogar para tu música.')}
+          {
+            t(
+              'Host your free, personal music service',
+              'Aloja tu propio servicio de música gratuito',
+            )
+          }
         </h1><p class="lead">
           {
             t(
-              'Discover music, keep it in your library and play it anywhere. Soundsible runs on your own machine, with an automatic DJ built in.',
-              'Descubre música, guárdala en tu biblioteca y escúchala donde quieras. Soundsible funciona en tu propio equipo, con un DJ automático integrado.',
+              'Explore and save music, get endless recommendations and enjoy a full-featured music streaming service with everything you expect from paid services, and more. Access it from anywhere. Hosted by you, for you.',
+              'Explora, guarda música y disfruta de todo lo que esperas de un servicio de música convencional, y más. Hosteado por ti, para ti.',
             )
           }
         </p><div class="actions">
@@ -153,19 +151,16 @@ const paths = [
           >
         </div>
         <aside class="release-note">
-          <span class="status-dot" aria-hidden="true"></span><a href={release.url}
-            >{release.tag} <span aria-hidden="true">↗</span></a
-          ><p>
-            {t('Free and open source.', 'Gratuito y de código abierto.')}<br />{' '}{
-              t('Hosted by you.', 'Alojado por ti.')
-            }
-          </p><a class="subtle-link" href={href(locale, 'project/')}
+          <a href={release.url}
+            ><span class="status-dot" aria-hidden="true"></span>{release.tag}
+            <span aria-hidden="true">↗</span></a
+          ><a class="subtle-link" href={href(locale, 'project/')}
             >{t('About the project', 'Sobre el proyecto')} →</a
           >
         </aside>
       </div>
-      <figure
-        class="product-figure"
+      <div
+        class="shot-stage"
         data-carousel={shots.length > 1 ? '' : undefined}
         role={shots.length > 1 ? 'group' : undefined}
         aria-roledescription={shots.length > 1 ? t('carousel', 'carrusel') : undefined}
@@ -173,78 +168,64 @@ const paths = [
           ? t('Soundsible screenshots', 'Capturas de Soundsible')
           : undefined}
       >
-        <div class="figure-bar">
-          <span>{t('THE PLAYER', 'EL REPRODUCTOR')}</span><span
-            >{t('Web · Desktop · Mobile', 'Web · Escritorio · Móvil')}</span
-          >
-        </div>
-        <div class="shots">
-          {
-            shots.map((shot, index) => (
-              <a
-                class:list={['shot', index === 0 && 'is-current']}
-                href={asset(shot.images[0].file)}
-                data-shot-caption={shot.caption}
-                data-image-preview
-                aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
-              >
-                <>
-                  <span class:list={['shot-media', shot.images.length > 1 && 'is-pair']}>
-                    {shot.images.map((image) => (
-                      <img
-                        src={asset(image.file)}
-                        alt={image.alt}
-                        width={image.width}
-                        height={image.height}
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        fetchpriority={index === 0 ? 'high' : 'auto'}
-                      />
-                    ))}
-                  </span>
-                  <span class="image-enlarge" aria-hidden="true">
-                    ↗
-                  </span>
-                </>
-              </a>
-            ))
-          }
-        </div>
-        <figcaption>
-          <span data-shot-label>{shots[0].caption}</span><span class="figure-hint"
-            >{t('Click to enlarge', 'Pulsa para ampliar')}</span
-          >{
-            shots.length > 1 && (
-              <div class="shot-controls">
-                <>
-                  <div class="shot-dots">
-                    {shots.map((_, index) => (
-                      <button
-                        type="button"
-                        data-shot-dot={index}
-                        aria-current={index === 0 ? 'true' : undefined}
-                        aria-label={t(
-                          `Show screenshot ${index + 1} of ${shots.length}`,
-                          `Mostrar la captura ${index + 1} de ${shots.length}`,
-                        )}
-                      />
-                    ))}
-                  </div>
-                  <button
-                    type="button"
-                    class="shot-toggle"
-                    data-shot-toggle
-                    data-label-play={t('Play the screenshots', 'Reproducir las capturas')}
-                    data-label-pause={t('Pause the screenshots', 'Pausar las capturas')}
-                    aria-label={t('Pause the screenshots', 'Pausar las capturas')}
-                  >
-                    <span aria-hidden="true" />
-                  </button>
-                </>
-              </div>
-            )
-          }
-        </figcaption>
-      </figure>
+        {
+          shots.length > 1 && (
+            <button
+              type="button"
+              class="shot-arrow prev"
+              data-shot-step="-1"
+              aria-label={t('Previous screenshot', 'Captura anterior')}
+            >
+              <span aria-hidden="true" />
+            </button>
+          )
+        }
+        <figure class="product-figure">
+          <div class="shots">
+            {
+              shots.map((shot, index) => (
+                <a
+                  class:list={['shot', index === 0 && 'is-current']}
+                  href={asset(shot.images[0].file)}
+                  data-shot-index={index}
+                  data-image-preview
+                  aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
+                >
+                  <>
+                    <span class:list={['shot-media', shot.images.length > 1 && 'is-pair']}>
+                      {shot.images.map((image) => (
+                        <img
+                          src={asset(image.file)}
+                          alt={image.alt}
+                          width={image.width}
+                          height={image.height}
+                          loading={index === 0 ? 'eager' : 'lazy'}
+                          fetchpriority={index === 0 ? 'high' : 'auto'}
+                        />
+                      ))}
+                    </span>
+                    <span class="image-enlarge" aria-hidden="true">
+                      ↗
+                    </span>
+                  </>
+                </a>
+              ))
+            }
+          </div>
+        </figure>
+        {
+          shots.length > 1 && (
+            <button
+              type="button"
+              class="shot-arrow next"
+              data-shot-step="1"
+              aria-label={t('Next screenshot', 'Captura siguiente')}
+            >
+              <span aria-hidden="true" />
+            </button>
+          )
+        }
+      </div>
     </section>
     <section class="explore-section" aria-labelledby="explore-heading">
       <div class="section-heading">

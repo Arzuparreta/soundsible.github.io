@@ -152,19 +152,17 @@ for (const preview of document.querySelectorAll<HTMLAnchorElement>('[data-image-
 const carousel = document.querySelector<HTMLElement>('[data-carousel]');
 if (carousel) {
   const slides = [...carousel.querySelectorAll<HTMLElement>('.shot')];
-  const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-shot-dot]')];
-  const label = carousel.querySelector<HTMLElement>('[data-shot-label]');
-  const toggle = carousel.querySelector<HTMLButtonElement>('[data-shot-toggle]');
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
   const interval = 5000;
   let current = 0;
   let timer: number | undefined;
-  // Autoplay only resumes once nothing is holding it: the reader's pointer or
-  // keyboard focus, a hidden tab, the enlarged view, or the pause button.
+  // The pointer no longer holds the carousel -- it keeps turning under the
+  // reader's mouse. Autoplay only parks for a hidden tab, the enlarged view,
+  // reduced motion, or a keyboard reader holding a slide to read it.
   let stopped = still.matches;
 
-  // Clicking a dot leaves focus on it, so :focus-within would hold autoplay for
-  // good once the reader picked a slide by hand. Only a keyboard focus pauses.
+  // A mouse click leaves focus behind, so :focus-within would hold the
+  // carousel for good once an arrow was pressed. Only a keyboard focus counts.
   function focusedByKeyboard() {
     const active = document.activeElement;
     if (!active || !carousel!.contains(active)) return false;
@@ -183,51 +181,33 @@ if (carousel) {
     window.setTimeout(() => leaving.classList.remove('is-leaving'), 620);
     current = next;
     slides[current].classList.add('is-current');
-    for (const [index, dot] of dots.entries())
-      if (index === current) dot.setAttribute('aria-current', 'true');
-      else dot.removeAttribute('aria-current');
-    if (label) label.textContent = slides[current].dataset.shotCaption ?? label.textContent;
   }
 
   function play() {
     window.clearInterval(timer);
-    if (stopped || carousel!.matches(':hover') || focusedByKeyboard()) return;
+    if (stopped || focusedByKeyboard()) return;
     if (document.hidden || imageDialog?.open) return;
     timer = window.setInterval(() => show((current + 1) % slides.length), interval);
-  }
-
-  function markToggle() {
-    if (!toggle) return;
-    const paused = stopped;
-    toggle.toggleAttribute('data-paused', paused);
-    const text = paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause;
-    if (text) toggle.setAttribute('aria-label', text);
   }
 
   // Opening the enlarged view must not advance the slide behind it. The preview
   // handler above has already opened the dialog by now, so play() parks the
   // timer -- and restarts it if the dialog never opened.
   for (const slide of slides) slide.addEventListener('click', play);
-  for (const [index, dot] of dots.entries())
-    dot.addEventListener('click', () => {
-      show(index);
+  // Stepping by hand restarts the clock, so the chosen slide gets a full turn.
+  for (const arrow of carousel.querySelectorAll<HTMLButtonElement>('[data-shot-step]'))
+    arrow.addEventListener('click', () => {
+      const step = Number(arrow.dataset.shotStep);
+      show((current + step + slides.length) % slides.length);
       play();
     });
-  toggle?.addEventListener('click', () => {
-    stopped = !stopped;
-    markToggle();
-    play();
-  });
-  for (const event of ['pointerenter', 'pointerleave', 'focusin', 'focusout'])
-    carousel.addEventListener(event, play);
+  for (const event of ['focusin', 'focusout']) carousel.addEventListener(event, play);
   document.addEventListener('visibilitychange', play);
   imageDialog?.addEventListener('close', play);
   still.addEventListener('change', (event) => {
     stopped = event.matches;
-    markToggle();
     play();
   });
-  markToggle();
   play();
 }
 const searchDialog = document.querySelector<HTMLDialogElement>('#search-dialog');

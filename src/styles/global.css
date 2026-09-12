@@ -259,8 +259,9 @@ input {
   min-height: calc(100svh - var(--header-h));
   padding-block: 32px;
 }
-.home-hero .product-figure {
+.home-hero .shot-stage {
   width: 100%;
+  justify-content: center;
 }
 .eyebrow {
   font-size: 11px;
@@ -315,6 +316,10 @@ input {
   border-color: var(--text);
 }
 .release-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
   border-left: 1px solid var(--line);
   padding: 4px 0 4px 25px;
   margin-top: 30px;
@@ -322,12 +327,6 @@ input {
 }
 .release-note > a {
   font-weight: 600;
-}
-.release-note p {
-  color: var(--muted);
-  margin: 13px 0;
-  font-size: 12px;
-  line-height: 1.8;
 }
 .status-dot {
   width: 7px;
@@ -341,33 +340,16 @@ input {
   font-size: 12px;
   color: var(--muted);
 }
+/* Just enough radius to keep the corner from aliasing against the border. */
 .product-figure {
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 2px;
   overflow: hidden;
-  background: var(--surface);
-}
-.figure-bar {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 16px;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-}
-.figure-bar span:last-child {
-  letter-spacing: 0;
-  font-weight: 400;
+  background: #101010;
 }
 .shots {
   position: relative;
-  margin: 0 7px;
   aspect-ratio: 1912 / 963;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  overflow: hidden;
-  background: #101010;
 }
 .shot {
   position: absolute;
@@ -417,70 +399,52 @@ input {
 .shot-media:not(.is-pair) img {
   width: 100%;
 }
-.home-hero .shots {
-  --shot-height: calc(100vh - var(--header-h) - 190px);
-  --shot-height: calc(100svh - var(--header-h) - 190px);
+.home-hero .product-figure {
+  --shot-height: calc(100vh - var(--header-h) - 112px);
+  --shot-height: calc(100svh - var(--header-h) - 112px);
   max-width: calc(var(--shot-height) * 1912 / 963);
-  margin-inline: auto;
 }
-.shot-controls {
+.shot-stage {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
-.shot-dots {
-  display: flex;
-  align-items: center;
-  gap: 7px;
+.shot-stage .product-figure {
+  flex: 1;
+  min-width: 0;
 }
-.shot-dots button {
-  width: 7px;
-  height: 7px;
+.shot-arrow {
+  flex: none;
+  width: 34px;
+  height: 34px;
   padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--line);
-  cursor: pointer;
-  transition:
-    background 220ms ease,
-    width 220ms ease;
-}
-.shot-dots button:hover {
-  background: var(--muted);
-}
-.shot-dots button[aria-current='true'] {
-  width: 18px;
-  border-radius: 4px;
-  background: var(--accent);
-}
-.shot-toggle {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--muted);
-  cursor: pointer;
   display: grid;
   place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
 }
-.shot-toggle:hover {
+.shot-arrow:hover {
+  border-color: var(--accent);
   color: var(--text);
 }
-/* Two bars for pause, one triangle for play. */
-.shot-toggle span {
-  box-sizing: border-box;
-  width: 8px;
-  height: 9px;
-  border-inline: 3px solid currentColor;
+/* A chevron drawn from two borders, since the site ships no icon set. */
+.shot-arrow span {
+  width: 7px;
+  height: 7px;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
 }
-.shot-toggle[data-paused] span {
-  border: 0;
-  background: currentColor;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
+.shot-arrow.prev span {
+  transform: rotate(-135deg);
+  margin-left: 2px;
 }
-.figure-hint {
-  margin-left: auto;
+.shot-arrow.next span {
+  transform: rotate(45deg);
+  margin-right: 2px;
 }
 .image-enlarge {
   position: absolute;
@@ -494,16 +458,6 @@ input {
   color: #fff;
   border: 1px solid #555;
   border-radius: 4px;
-}
-figcaption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 12px 16px;
-  min-height: 42px;
-  font-size: 11px;
-  color: var(--muted);
 }
 .explore-section {
   margin-top: 52px;
@@ -1184,12 +1138,11 @@ dialog > button {
     min-height: 0;
     padding-block: 0 38px;
   }
-  .home-hero .product-figure {
+  .home-hero .shot-stage {
     margin-top: 34px;
   }
-  .home-hero .shots {
+  .home-hero .product-figure {
     max-width: none;
-    margin-inline: 7px;
   }
   .docs-shell {
     display: block;
@@ -1299,11 +1252,8 @@ dialog > button {
   .home-hero {
     padding-bottom: 30px;
   }
-  .home-hero .product-figure {
+  .home-hero .shot-stage {
     margin-top: 30px;
-  }
-  .home-hero .shots {
-    margin-inline: 4px;
   }
   .home h1 {
     font-size: 35px;
@@ -1317,24 +1267,11 @@ dialog > button {
     border: 0;
     padding: 0;
     margin-top: 24px;
-    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    gap: 5px;
+    gap: 4px 14px;
     font-size: 11px;
-  }
-  .release-note p {
-    margin: 0 0 0 8px;
-    font-size: 11px;
-  }
-  .release-note p br {
-    display: none;
-  }
-  .release-note p br:after {
-    content: ' ';
-  }
-  .release-note .subtle-link {
-    display: none;
   }
   .release-note .status-dot {
     width: 5px;
@@ -1352,19 +1289,26 @@ dialog > button {
     padding-inline: 13px;
     gap: 16px;
   }
-  .figure-bar {
-    font-size: 8px;
-    padding: 10px;
+  /* Too narrow to spend width on arrow gutters, so they ride over the shot. */
+  .shot-stage {
+    gap: 0;
   }
-  .shots {
-    margin-inline: 4px;
+  .shot-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: rgba(16, 16, 16, 0.72);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: #fff;
   }
-  .product-figure figcaption {
-    padding: 10px;
-    font-size: 10px;
+  .shot-arrow.prev {
+    left: 6px;
   }
-  .product-figure figcaption .figure-hint {
-    display: none;
+  .shot-arrow.next {
+    right: 6px;
   }
   .image-enlarge {
     width: 27px;
@@ -1517,12 +1461,9 @@ dialog > button {
   .home-hero .release-note {
     margin-top: 16px;
   }
-  .home-hero .release-note p {
-    margin: 8px 0;
-  }
-  .home-hero .shots {
-    --shot-height: calc(100vh - var(--header-h) - 140px);
-    --shot-height: calc(100svh - var(--header-h) - 140px);
+  .home-hero .product-figure {
+    --shot-height: calc(100vh - var(--header-h) - 62px);
+    --shot-height: calc(100svh - var(--header-h) - 62px);
   }
 }
 @media (prefers-reduced-motion: reduce) {

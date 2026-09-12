@@ -6,6 +6,12 @@ on:
   pull_request:
   schedule:
     - cron: '17 6 * * *'
+  # The engine repo pings us the moment a release is published. Without it the
+  # site only learns about a new version on the next scheduled build, and a
+  # release cut just after one runs sits unannounced for a day — v0.8.1 was
+  # published 68 minutes after the 12 Sep build and the site kept saying 0.8.0.
+  repository_dispatch:
+    types: [upstream-release]
   workflow_dispatch:
     inputs:
       source_tag:
@@ -34,7 +40,10 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          SOURCE_TAG: ${{ inputs.source_tag }}
+          # A ping names the release that caused it, so the build imports that
+          # one rather than re-asking for "latest" and risking a different
+          # answer. Empty for a push or a schedule, which do mean "latest".
+          SOURCE_TAG: ${{ inputs.source_tag || github.event.client_payload.tag }}
         run: npm run docs:sync
       - name: Verify source and translation integrity
         run: npm test

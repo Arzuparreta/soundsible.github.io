@@ -5,13 +5,13 @@ import { visit } from 'unist-util-visit';
 import { catalog } from './catalog.mjs';
 import { markdown, sourceContent, anchorsFor, rewriteLink, translationStatus } from './content.mjs';
 describe('release documentation pipeline', () => {
-  it('extracts native instructions and refuses an unknown README layout', () => {
-    const item = catalog[0];
-    const readme = readFileSync('content/upstream/README.md', 'utf8');
-    const content = sourceContent(item, readme);
+  it('extracts native instructions and refuses an unknown install layout', () => {
+    const item = catalog.find((d) => d.slug === 'native-installation')!;
+    const content = sourceContent(item, readFileSync(`content/upstream/${item.source}`, 'utf8'));
     expect(content).toMatch(/^# Native installation/);
-    expect(content).not.toContain('### Docker');
-    expect(() => sourceContent(item, '# Changed source')).toThrow('headings changed');
+    expect(content).toContain('## First run');
+    expect(content).not.toContain('Headless server');
+    expect(() => sourceContent(item, '# Changed source')).toThrow('review nativeInstall');
   });
   it('keeps stable, unique source heading anchors', () => {
     expect(anchorsFor('# Hello\n\n## A `code` heading\n\n## Hello\n\n## Hello\n')).toEqual([
@@ -38,6 +38,10 @@ describe('release documentation pipeline', () => {
       '/blob/abc/shared/main.py',
     );
     expect(rewriteLink('https://example.com', item, 'es', '', 'abc')).toBe('https://example.com');
+    // The native page is an excerpt of this file; a link to it wants the whole guide.
+    expect(rewriteLink('INSTALL.md#7-storage', item, 'en', '', 'abc')).toBe(
+      '/docs/install/#7-storage',
+    );
   });
   it('detects missing and stale translations without blocking the English release', () => {
     expect(translationStatus('new', undefined)).toBe('missing');

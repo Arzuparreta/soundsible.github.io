@@ -25,55 +25,93 @@
         "en": "Guide from the current Soundsible release.",
         "es": "Guía de la versión actual de Soundsible."
       }
+    },
+    {
+      "slug": "artwork",
+      "source": "docs/ARTWORK.md",
+      "group": "more",
+      "title": {
+        "en": "Artwork storage and delivery",
+        "es": "Artwork storage and delivery"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance",
+      "source": "docs/PERFORMANCE.md",
+      "group": "more",
+      "title": {
+        "en": "Resource usage and performance validation",
+        "es": "Resource usage and performance validation"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "readme",
+      "source": "docs/README.md",
+      "group": "more",
+      "title": {
+        "en": "Soundsible guides",
+        "es": "Soundsible guides"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.7.0",
-  "sha": "e5f5674ad991ccdad9bbf530ee1027e3f4c16843",
-  "publishedAt": "2026-09-09T14:51:16Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.7.0",
+  "tag": "v0.10.0",
+  "sha": "c53ccd53468957fe22a14b23c7638c5700a4551e",
+  "publishedAt": "2026-09-15T20:10:41Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.10.0",
   "assets": [
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/apps.json"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.7.0_amd64.deb",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/Soundsible_0.7.0_amd64.deb"
+      "name": "Soundsible_0.10.0_amd64.deb",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible_0.10.0_amd64.deb"
     },
     {
-      "name": "Soundsible_0.7.0_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/Soundsible_0.7.0_arm64-setup.exe"
+      "name": "Soundsible_0.10.0_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible_0.10.0_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.7.0_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.7.0/Soundsible_0.7.0_x64-setup.exe"
+      "name": "Soundsible_0.10.0_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible_0.10.0_x64-setup.exe"
     }
   ],
   "files": {
-    "README.md": "1aeefef5337908f65f85bf81d1c72a10da9d2bb523e8fdd956ae36b0a70cc949",
-    "docs/INSTALL.md": "45d428d9fddbed8185536b83147ba35797d6edcc319051032df588b7e829654d",
+    "docs/INSTALL.md": "111b0fe3538c58e4c7f4fb3e1843c3712b26e81d09e244c1b66c87507c3c346a",
     "docs/DOCKER.md": "075e3dad13c3c2d040d1252d49d69d2cdcd1acf8c6a11801c90cf950af8d0ae1",
     "docs/DESKTOP_BETA.md": "74ade6f27b2c839a7d351920ec4df5f0292c1715ac719899186b02ee0b0b1313",
-    "docs/IOS.md": "30a07995855e9b65b3413c9a0061fb155b1e470d87e011853fbdedee7770364d",
-    "docs/OPENSUBSONIC.md": "cf6b70a7e37530c85ceb09694f9e312125645a4410bc4e88ca7fe5fec3765fb7",
-    "docs/AUTO_MODE.md": "8406fd6c749f7d04a1ca9a4a5b61306af09fc5a486015270e002870210dbcb09",
+    "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
+    "docs/OPENSUBSONIC.md": "aabfea96f2e2f47234fff1892103c8ca4d99684bcdfe04ad482e226c6aa9cd87",
+    "docs/AUTO_MODE.md": "43270b549ae723d2a798be4b1283785772ce6cfe72fc46758a7160e146222348",
     "docs/LIVE.md": "cb4b58753ff2ee9cf6a481a22f75084e2f4a9fd15aceea68730da3210a4f96ce",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
-    "docs/CAR_INTEGRATION.md": "48bc04446b198a08aabf88a7cc698d44a62cb70d885ce5fbf2b772c504e90218",
-    "docs/CONFIGURATION.md": "49089dd89f7c4b5d9bc84428354f885becf909f7b514d3eb89e86086e3c978a3",
+    "docs/CAR_INTEGRATION.md": "e816a9dcfb451f63bdb39e8b5e8339700f444c525a525319a485f6a87eeaa28c",
+    "docs/CONFIGURATION.md": "ae73d1e8e1608b3622f5a1c9f2390ca2d8916336d1c433f5d4ea68c449f76eea",
     "docs/TELEMETRY_PRIVACY.md": "3b67ce1ab558d61658cffb0815620460adc7cdd99b1074d77052a9a4bcc1d673",
     "docs/troubleshooting-yt-dlp-formats.md": "414e13a169158132948f2b8e3aa920bc86bf74cee2330923f05795aa5b067cea",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
@@ -84,9 +122,12 @@
     "desktop-shell/README.md": "c8485094259d9da46fa51d97546f4db29967b1de7f4ed63ace659cab1298de13",
     "deploy/community/README.md": "dfaa385af3df0d37ac743956cf10956919ab882608c78e0d6532717b3088062e",
     "docs/RELEASING.md": "1e6063e655a2270b50b7dd187246a7b9ee73123ccb557f75b41bae09baca0430",
-    "docs/ROADMAP.md": "e5cc0d12b6dae2b69d7198f3c05e4197c84c6d1e4533222712d8299e1911c823",
+    "docs/ROADMAP.md": "aa4e95a688c5add59ce7ffb8de47ac9cd29cf66989f43b56fabed1fcfafec356",
     "docs/MOBILE_LISTS.md": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
-    "docs/PLAYBACK_DIAGNOSIS.md": "e9fa3cdb227c412f5523f8395aba40658494e7d37ff2c12ac9f8f80b23a40367",
+    "docs/PLAYBACK_DIAGNOSIS.md": "9654a99f7aa789f261f39d781d31bfdb16a0b8fafdcccad777a7a1485d48729e",
+    "docs/ARTWORK.md": "c40aa96cf98e87acfcb2cf97c7860e66af15e08b163c40928ac9601256e52e82",
+    "docs/PERFORMANCE.md": "5ac8e034d9f37671d4269371be4e04abbd3a3fa7fdc6586caa6ea9f9190d9a1a",
+    "docs/README.md": "8dc119a51264e4bd86957e95386ea407c0f57f1b2ff28a0f66fa3754fb71c597",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
     "docs/images/desktop-library.png": "98b84cefe9a8838b74fd74fa7fe491eed5873253e31e684dc3682ab7b1e94745",
     "docs/images/desktop-now-playing.png": "3e5b6efa8b31e8d136f93474c0a7081df405b3be067f090726dd81f28971cf99",

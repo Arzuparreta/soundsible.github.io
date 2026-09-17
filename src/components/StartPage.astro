@@ -2,15 +2,14 @@
 import { readFile } from 'node:fs/promises';
 import Layout from '../layouts/Layout.astro';
 import { href, pick, release, type Locale } from '../lib/site';
+import { nativeInstall, nativeInstallSection } from '../../scripts/content.mjs';
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = (en: string, es: string) => pick(locale, en, es);
-const readme = await readFile('content/upstream/README.md', 'utf8');
-const native = readme.slice(
-  readme.indexOf('### Native installation'),
-  readme.indexOf('### Docker'),
+const native = nativeInstallSection(
+  await readFile(`content/upstream/${nativeInstall.source}`, 'utf8'),
 );
 const blocks = [...native.matchAll(/```(bash|powershell)\n([\s\S]*?)```/g)];
 if (blocks.length < 3) throw new Error('Review upstream installation blocks before publishing.');

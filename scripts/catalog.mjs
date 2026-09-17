@@ -4,7 +4,7 @@ export const repository = 'Arzuparreta/soundsible';
 const curatedCatalog = [
   [
     'native-installation',
-    'README.md',
+    'docs/INSTALL.md',
     'install',
     'Native installation',
     'Instalación nativa',
@@ -219,6 +219,9 @@ export const catalog = [
   ...curatedCatalog,
   ...discovered.filter((doc) => !curatedCatalog.some((item) => item.source === doc.source)),
 ];
+// `native-installation` republishes one section of `docs/INSTALL.md`, so a
+// link to that file has to resolve to the complete guide, not to the excerpt.
+export const excerptSlugs = new Set(['native-installation']);
 export const excludedSources = new Set([
   'docs/appliance-rework-plan.md',
   'docs/UI_REBUILD_PLAN.md',

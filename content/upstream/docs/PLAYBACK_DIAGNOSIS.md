@@ -1,10 +1,99 @@
 # Automatic iPhone / car playback evidence
 
-Status: diagnostic implementation, **not a verified fix**. Collection is automatic and passive; transport behavior is unchanged. Neither a successful `play()` nor `playbackState=playing`
+Status: candidate iOS output and source-retirement correction, **not a device-verified fix**. Collection remains automatic. Neither a successful `play()` nor `playbackState=playing`
 proves what Now Playing, CarPlay or the head unit displays, or that sound reaches
 the speakers. Device acceptance is still required.
 
+## CarPlay cable disconnect/reconnect recovery
+
+Status: candidate correction; physical iPhone/PWA/CarPlay acceptance is pending.
+The listener reports Safari PWA on iOS 27 with wired CarPlay. The user-agent
+version in the traces is not an independently verified OS version.
+
+On September 13 (Europe/Madrid), the same capture paused at 14:54:24 and received
+Media Session Play at 14:59:22. The source advanced from 162.301 to 171.729 seconds,
+while the AudioContext clock remained exactly 191.147 seconds despite reporting
+`running`. In-page pause/play did not move the context clock. A new capture began
+at 15:00:53. This fits the reported stop-and-reconnect failure; the traces cannot
+identify the physical route or measure the speakers.
+
+At 15:32:01 a native pause and Media Session pause were followed by native
+play/playing without an intervening application play call. On September 15 at
+14:24:19 a separate sequence included Media Session pause followed by Play.
+Media Session does not identify whether Play came from a physical button or
+platform behavior. The correction continues to accept those commands; there is
+no arbitrary suppression window for car controls.
+
+Playback permission is now separate from native element state. A native programme
+pause stops all DJ participants and invalidates pending transport work. Native
+play without permission is stopped. Context state changes, page restoration and
+generic touch events cannot lift a pause. Existing playback permission still
+allows interrupted playback to continue, including with the screen locked.
+
+A supervisor compares source progress with the context clock. One second of
+continuous observations with a frozen context and an advancing source starts
+one in-place suspend/resume cycle. Observation gaps above one second, seeks,
+source changes and unavailable source data reset the measurement. Signal level
+is not used, so musical silence is not a failure. The cycle preserves the graph,
+Live tap and current programme owner; failed recovery leaves playback paused
+with the existing Play prompt. Async recovery is limited to five seconds when
+JavaScript can execute, and a new explicit Play permits another attempt.
+The `output.health` trace records recovering/healthy/needs_play; spontaneous
+source revivals are recorded as `transport.rejected_native_play`. Both use the
+existing trace envelope and field allowlist.
+
+The in-place cycle is a candidate informed by the measured frozen clock and
+[WebKit reports](https://bugs.webkit.org/show_bug.cgi?id=276016#c7), not proof of
+recovery on the affected iPhone. Acceptance requires both unplug/power-off orders,
+no sound when opening/unlocking outside the car, and reconnection without closing
+the PWA from both paused and playing states. Check car Play/Pause, locked-screen
+playback, DJ transitions, and that sound reaches the car without restarting.
+
 ## Evidence and hypothesis
+
+The September 9 trip confirmed by the listener (21:14–21:20 Europe/Madrid)
+has 548 received events, no internal sequence gaps and no reported loss. All
+recorded media rates are one. At 21:17:34, pausing the outgoing source changes
+the observed Media Session declaration from playing to paused; the incoming
+source and carrier keep playing. The application republishes playing about
+41 ms later. This measures browser observations, not the head unit's delay.
+
+During 33 stable foreground intervals, the context/wall clock median is
+0.996618, while source and carrier positions advance at approximately one
+second per second. Two other iPhone sessions and desktop sessions have medians
+near one. The listener reports normal sound outside the car; the browser does
+not identify the physical output route.
+
+WebKit's [AudioSampleDataConverter](https://github.com/WebKit/WebKit/blob/ca3a9f205bcecd15c9d2ed0680acc25b56785109/Source/WebCore/platform/audio/cocoa/AudioSampleDataConverter.mm)
+adapts a low buffer with 1.05 output resampling, entering at 20 ms and leaving
+above 60 ms. With the observed clock ratio, a simplified buffer model predicts
+11.8 seconds of normal playback and 0.86 seconds of correction. This closely
+matches the reported periodic slowdown/pitch drop, but does not establish the
+exact WebKit build or converter activity on the phone.
+
+The candidate removes the MediaStream carrier from iOS/iPadOS device output:
+the mixed monitor connects directly to the AudioContext destination. The
+reported mode is `direct`, distinct from a carrier failure's `direct_fallback`.
+Gestures cannot switch intentional direct output back to the carrier. The Live
+stream tap remains independent, upstream of local volume and mute. Other
+platforms retain their carrier path.
+
+Source eligibility is tracked independently of gain: empty, staged and retired
+decks stay muted; an incoming deck is unmuted before play, including zero-gain
+preroll. Both sources participate during a blend. Retirement mutes before
+pausing, while the canonical paused source remains eligible for resume. Volume
+changes and completion of an old unlock sample cannot unmute an idle source.
+Settled source operations and inactive native events trigger a coalesced
+microtask publication of canonical state, including in the background. This
+does not issue play commands or claim ownership of iOS's selected element.
+
+Physical acceptance requires matched songs on the same iPhone/car: at least
+five minutes of steady playback without periodic pitch dips, multiple automatic
+and manual transitions in foreground and with the screen locked, car pause/play,
+and correct title/state without unlocking. Compare the reference and candidate;
+do not equate an improved clock ratio or passing tests with audible acceptance.
+
+### Earlier evidence
 
 The September 8 trip window (21:30–23:00 Europe/Madrid) contains 325 server
 telemetry records, including 14 completed PWA handoffs. All handoff projections
@@ -14,8 +103,8 @@ resume at 22:30:48–49. These are server receipt times, not client execution ti
 The inactive-play event's `media_session` origin is inferred by the existing
 code, not proof of a remote command.
 
-The source deck being retired is paused but left unmuted; preload and volume
-operations also leave idle elements unmuted. WebKit can select one of these
+Before this correction the source being retired was paused but left unmuted;
+preload and volume operations also left idle elements unmuted. WebKit can select one of these
 elements for platform controls even though the mixed carrier stays playing.
 Its candidate comparator includes user-interaction recency; it does not always
 prefer the playing element. Metadata and the selected element's playing state
@@ -81,6 +170,11 @@ python scripts/playback_trace_report.py /path/to/user/telemetry/playback-traces.
 
 The report groups captures/device/revision, prints loss and sequence gaps, and
 extracts two seconds before / ten seconds after handoffs and transport commands.
+It also compares context and source clocks against client monotonic time in
+stable intervals, grouped by output mode and visibility. It excludes observed
+transport operations, pauses, seeks, rate changes, transitions and sequence
+gaps. At least three usable intervals are required; a clock ratio is not a
+measurement of audible pitch. This works with both direct and carrier output.
 It also identifies declared non-playing state while media position advances.
 That flag is an observation for investigation: seeking or an inactive source can
 also advance position. It is not proof of the car's state or audible output.

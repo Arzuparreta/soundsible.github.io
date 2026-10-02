@@ -138,7 +138,10 @@ const imageDialog = document.querySelector<HTMLDialogElement>('#image-dialog');
 const dialogImage = imageDialog?.querySelector('img');
 for (const preview of document.querySelectorAll<HTMLAnchorElement>('[data-image-preview]')) {
   preview.addEventListener('click', (event) => {
-    const source = preview.querySelector('img');
+    // The preview holds the screenshot in both themes; enlarge the one on show.
+    const source =
+      [...preview.querySelectorAll('img')].find((image) => image.checkVisibility()) ??
+      preview.querySelector('img');
     if (!imageDialog || !dialogImage || !source) return;
     event.preventDefault();
     dialogImage.src = source.currentSrc || source.src;

@@ -349,7 +349,7 @@ input {
 }
 .shots {
   position: relative;
-  aspect-ratio: 1912 / 963;
+  aspect-ratio: 1920 / 1080;
 }
 .shot {
   position: absolute;
@@ -399,10 +399,16 @@ input {
 .shot-media:not(.is-pair) img {
   width: 100%;
 }
+/* Every screenshot comes in the player's light and dark themes; show the one
+   that matches the page. */
+:root[data-theme='dark'] .shot-media .theme-light,
+:root:not([data-theme='dark']) .shot-media .theme-dark {
+  display: none;
+}
 .home-hero .product-figure {
   --shot-height: calc(100vh - var(--header-h) - 112px);
   --shot-height: calc(100svh - var(--header-h) - 112px);
-  max-width: calc(var(--shot-height) * 1912 / 963);
+  max-width: calc(var(--shot-height) * 1920 / 1080);
 }
 .shot-stage {
   position: relative;

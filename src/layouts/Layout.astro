@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/dm-sans/wght.css';
 import '../styles/global.css';
+import images from '../generated/images.json';
 import { publicAsset } from '../public-asset';
 import { href, pick, release, repoUrl, type Locale } from '../lib/site';
 import Words from '../components/Words.astro';
@@ -15,7 +16,11 @@ interface Props {
 const { title, description, locale = 'en', page = '', noindex = false } = Astro.props;
 const absolute = (path: string) => new URL(path, Astro.site).href;
 const canonical = absolute(href(locale, page));
-const ogImage = Astro.props.ogImage ?? absolute(publicAsset('og-image.png'));
+// The social card is generated with the screenshots and arrives with them in
+// the release snapshot. A release from before it falls back to the card kept
+// here.
+const card = (images as Record<string, string>)['docs/images/social-card.png'];
+const ogImage = Astro.props.ogImage ?? absolute(publicAsset(card ?? 'og-image.png'));
 const nav = [
   ['start/', 'Get started', 'Empezar'],
   ['docs/', 'Documentation', 'Documentación'],

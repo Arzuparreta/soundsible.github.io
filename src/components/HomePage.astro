@@ -9,72 +9,76 @@ interface Props {
 const { locale } = Astro.props;
 const t = (en: string, es: string) => pick(locale, en, es);
 // Screenshots arrive with the release snapshot, so a slide only appears once
-// every image it needs has been imported and fingerprinted.
+// every image it needs has been imported and fingerprinted. Each screen comes
+// once per player theme (`docs/images/screenshots/<theme>/<name>.webp`) and the
+// page shows the light or dark one to match its own appearance. A release from
+// before that layout has a single `docs/images/<name>.png`, shown in both.
 const imported: Record<string, string> = images;
+const screenshot = (name: string) => {
+  const light = imported[`docs/images/screenshots/light/${name}.webp`];
+  const dark = imported[`docs/images/screenshots/dark/${name}.webp`];
+  const single = imported[`docs/images/${name}.png`];
+  if (light && dark) return { light: publicAsset(light), dark: publicAsset(dark) };
+  return single ? { light: publicAsset(single), dark: publicAsset(single) } : null;
+};
+const desktop = { width: 1920, height: 1080 };
+const phone = { width: 1170, height: 2532 };
 const shots = [
-  {
-    images: [
-      {
-        file: 'desktop-now-playing.png',
-        width: 1912,
-        height: 963,
-        alt: t(
-          'Soundsible player with the library, the current artwork and the playback queue',
-          'Reproductor Soundsible con la biblioteca, la portada actual y la cola de reproducción',
-        ),
-      },
-    ],
-  },
-  {
-    images: [
-      {
-        file: 'desktop-library.png',
-        width: 1911,
-        height: 966,
-        alt: t(
-          'Soundsible library listing songs, albums and artists',
-          'Biblioteca de Soundsible con canciones, álbumes y artistas',
-        ),
-      },
-    ],
-  },
-  {
-    images: [
-      {
-        file: 'desktop-search.png',
-        width: 1913,
-        height: 962,
-        alt: t(
-          'Soundsible search results with a top artist, songs and albums',
-          'Resultados de búsqueda de Soundsible con artista destacado, canciones y álbumes',
-        ),
-      },
-    ],
-  },
-  {
-    images: [
-      {
-        file: 'mobile-library.png',
-        width: 1170,
-        height: 2532,
-        alt: t(
-          'Soundsible on a phone, showing the song list and the mini player',
-          'Soundsible en un móvil, con la lista de canciones y el mini reproductor',
-        ),
-      },
-      {
-        file: 'mobile-now-playing.png',
-        width: 1170,
-        height: 2532,
-        alt: t(
-          'Soundsible on a phone, showing the player with synced lyrics',
-          'Soundsible en un móvil, con el reproductor y la letra sincronizada',
-        ),
-      },
-    ],
-  },
-].filter((shot) => shot.images.every((image) => `docs/images/${image.file}` in imported));
-const asset = (file: string) => publicAsset(imported[`docs/images/${file}`]);
+  [
+    {
+      name: 'desktop-now-playing',
+      ...desktop,
+      alt: t(
+        'Soundsible player with the library, the current artwork and the playback queue',
+        'Reproductor Soundsible con la biblioteca, la portada actual y la cola de reproducción',
+      ),
+    },
+  ],
+  [
+    {
+      name: 'desktop-library',
+      ...desktop,
+      alt: t(
+        'Soundsible library listing songs, albums and artists',
+        'Biblioteca de Soundsible con canciones, álbumes y artistas',
+      ),
+    },
+  ],
+  [
+    {
+      name: 'desktop-search',
+      ...desktop,
+      alt: t(
+        'Soundsible search results with a top artist, songs and albums',
+        'Resultados de búsqueda de Soundsible con artista destacado, canciones y álbumes',
+      ),
+    },
+  ],
+  [
+    {
+      name: 'mobile-library',
+      ...phone,
+      alt: t(
+        'Soundsible on a phone, showing the song list and the mini player',
+        'Soundsible en un móvil, con la lista de canciones y el mini reproductor',
+      ),
+    },
+    {
+      name: 'mobile-now-playing',
+      ...phone,
+      alt: t(
+        'Soundsible on a phone, showing the player with synced lyrics',
+        'Soundsible en un móvil, con el reproductor y la letra sincronizada',
+      ),
+    },
+  ],
+].flatMap((screens) => {
+  const images = screens.flatMap((screen) => {
+    const src = screenshot(screen.name);
+    return src ? [{ ...screen, src }] : [];
+  });
+  return images.length === screens.length ? [{ images }] : [];
+});
 const paths = [
   [
     '01',
@@ -186,23 +190,26 @@ const paths = [
               shots.map((shot, index) => (
                 <a
                   class:list={['shot', index === 0 && 'is-current']}
-                  href={asset(shot.images[0].file)}
+                  href={shot.images[0].src.dark}
                   data-shot-index={index}
                   data-image-preview
                   aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
                 >
                   <>
                     <span class:list={['shot-media', shot.images.length > 1 && 'is-pair']}>
-                      {shot.images.map((image) => (
-                        <img
-                          src={asset(image.file)}
-                          alt={image.alt}
-                          width={image.width}
-                          height={image.height}
-                          loading={index === 0 ? 'eager' : 'lazy'}
-                          fetchpriority={index === 0 ? 'high' : 'auto'}
-                        />
-                      ))}
+                      {shot.images.map((image) =>
+                        (['light', 'dark'] as const).map((theme) => (
+                          <img
+                            class={`theme-${theme}`}
+                            src={image.src[theme]}
+                            alt={image.alt}
+                            width={image.width}
+                            height={image.height}
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            fetchpriority={index === 0 ? 'high' : 'auto'}
+                          />
+                        )),
+                      )}
                     </span>
                     <span class="image-enlarge" aria-hidden="true">
                       ↗
@@ -270,7 +277,7 @@ const paths = [
   </main>
   <dialog id="image-dialog" aria-label={t('Screenshot', 'Captura')}>
     <button type="button" data-close-dialog>{t('Close', 'Cerrar')} ✕</button><img
-      src={asset(shots[0].images[0].file)}
+      src={shots[0].images[0].src.dark}
       alt={shots[0].images[0].alt}
       width={shots[0].images[0].width}
       height={shots[0].images[0].height}

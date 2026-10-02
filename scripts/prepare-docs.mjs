@@ -1,5 +1,6 @@
 import { readFile, readdir, mkdir, rm, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { dirname, join, relative } from 'node:path';
 import { catalog } from './catalog.mjs';
 import { sourceContent, anchorsFor, transform, translationStatus } from './content.mjs';
 const release = JSON.parse(await readFile('content/upstream/release.json', 'utf8'));
@@ -20,10 +21,19 @@ await mkdir('src/generated', { recursive: true });
 await rm('public/source-assets', { recursive: true, force: true });
 await mkdir('public/source-assets/docs/images', { recursive: true });
 const images = {};
-for (const name of (await readdir('content/upstream/docs/images')).sort()) {
+// Screenshots sit one folder per player theme (`screenshots/<theme>/`), so
+// the folder is walked rather than listed.
+const imageFiles = (
+  await readdir('content/upstream/docs/images', { recursive: true, withFileTypes: true })
+)
+  .filter((entry) => entry.isFile())
+  .map((entry) => relative('content/upstream/docs/images', join(entry.parentPath, entry.name)))
+  .sort();
+for (const name of imageFiles) {
   const bytes = await readFile(`content/upstream/docs/images/${name}`);
   const fingerprint = createHash('sha256').update(bytes).digest('hex').slice(0, 8);
   const published = name.replace(/(\.[^.]+)$/, `.${fingerprint}$1`);
+  await mkdir(dirname(`public/source-assets/docs/images/${published}`), { recursive: true });
   await writeFile(`public/source-assets/docs/images/${published}`, bytes);
   images[`docs/images/${name}`] = `source-assets/docs/images/${published}`;
 }

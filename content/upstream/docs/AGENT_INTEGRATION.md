@@ -18,7 +18,7 @@ In desktop-engine mode, the base URL is not assumed to be `:5005`. Read the read
 2. Do not invent device IDs. Read `/api/devices` and target a real `device_id` or exact `device_name`.
 3. If a response includes `warning: "Device appears offline (no active socket)"`, the command was emitted but no browser player is currently connected to that device room.
 4. Deezer is metadata only. Soundsible never plays Deezer audio.
-5. For playable search results outside the library, use YouTube / YouTube Music search through the ODST / yt-dlp path.
+5. For playable search results outside the library, use YouTube / YouTube Music search through the downloader's yt-dlp path.
 6. The playback queue is not the same as the download queue.
 7. Prefer `/api/agent/play` for "play this now". Prefer `/api/playback/queue` for "add this to the player queue".
 
@@ -291,12 +291,46 @@ Useful library routes:
 | `GET` | `/api/library/years` | Release years present, with album and track counts |
 | `POST` | `/api/library/scan` | Start an asynchronous scan of configured music roots; optional body `{"path":"..."}` must stay inside one |
 | `GET` | `/api/library/scan` | Current or last scan state and counters |
+| `GET` | `/api/library/saved-entities` | This account's bookmarked albums and artists, newest first: `{"entities":[...]}` |
+| `PUT` | `/api/library/saved-entities` | Idempotent save/remove, body `{"saved":true,"entry":{"kind":"album","name":"Record","artist":"Band","destination":"/album/Record?artist=Band&deezer_id=123","cover":"https://..."}}`; requires `library:write` |
 | `GET` | `/api/library/favourites` | Favorite track IDs (only the ones you own a file for) |
 | `GET` | `/api/library/favourites/entries` | All saved songs, downloaded or not: `{"version":2,"favourites":[{"keys":[...],"title","artist",...}]}` |
 | `POST` | `/api/library/favourites/toggle` | Toggle favorite, body `{"track_id":"..."}` or `{"favourite":{"keys":["yt:<video_id>"],"title":"...","artist":"..."}}` |
+| `POST` | `/api/library/saved/set` | Save or remove many songs at once, body `{"saved":true,"entries":[{"keys":[...],"title":"...","artist":"..."}]}`, at most 500 entries. Never flips a song: saving skips songs already saved, and removing keeps favourites and songs held as files. Returns `{"changed":N}`; requires `library:write` |
+| `POST` | `/api/catalog/album/download` | Download every song on a Deezer album the library does not hold yet, body `{"deezer_id":"302127"}`. Returns `202` with the job. An open job for the album is returned as is, a stopped one is resumed, and a finished one gives way to a new pass; requires `library:write` |
+| `GET` | `/api/catalog/album/download?deezer_id=` | That album's latest download, song by song (`state`, `candidates`), or `null`. Doubtful matches wait in `needs_review`: decide them with `POST /api/migration/jobs/<id>/decision`, and resume with `POST /api/migration/jobs/<id>/control` `{"action":"resume"}` |
+| `GET` | `/api/catalog/artist/discography?deezer_id=` | An artist's albums, then singles and EPs, as one `tracklist` with each recording once (one ISRC); compilations are left out. Also `releases` (with their `track_ids`), `partial_failures` (releases that could not be read) and `truncated` (past 2000 songs) |
+| `POST` | `/api/catalog/artist/download` | Download that discography: every song the library lacks, each filed on its own release. Same job rules as the album route; requires `library:write` |
+| `GET` | `/api/catalog/artist/download?deezer_id=` | That artist's latest download, song by song, or `null` |
 | `POST` | `/api/library/playlists` | Create playlist, body `{"name":"..."}` |
 | `POST` | `/api/library/playlists/<name>/tracks` | Add track to playlist, body `{"track_id":"..."}` |
 | `DELETE` | `/api/library/playlists/<name>/tracks/<track_id>` | Remove track from playlist |
+
+Album and artist bookmarks are navigation references, independent of saved songs,
+favourites and downloads. `kind` is `album` or `artist`; `name` and an internal
+`destination` are required. Optional `artist` and `cover` preserve display metadata.
+The server derives identity keys from `album_id`/`artist_id` and `deezer_id` in the
+destination, and assigns `id` and `added_at`. References without ids remain
+unresolved; names alone never merge with identified editions or artists. Both
+methods return the full collection. Use `saved: false` with the same entry to
+remove it. The per-user `saved_entities_updated` event invalidates cached reads.
+The route and the web player's bookmark controls touch only the bookmark.
+Adding every song to Songs and downloading a collection are separate, explicit
+commands in the album or artist page's overflow menu. The same tray opens from
+the header photo or name with a left/right click, keyboard activation, or a
+mobile long press. Removing a bookmark never
+removes saved songs or downloads.
+Failed persistence returns an error without discarding the previous collection;
+instance backups include the account's `saved_entities.json` automatically.
+
+The web Library root (`#/`, also `#/library`) contains collection shortcuts and
+saved album/artist rows. Songs, albums and artists open at
+`#/library?view=songs|albums|artists`; saved collections open at
+`#/?saved=albums|artists`. All of these subentries are selectable in the bottom
+bar settings. Selecting Library itself always returns to its root. The NORMAL/DJ
+browser retains its existing sections, with an additional Saved section. On
+desktop, the sidebar subentries switch between songs, albums and artists; the
+library search sits below the title beside the sorting control.
 
 Mutation routes may require admin authorization or trusted LAN/Tailscale access.
 
@@ -682,6 +716,7 @@ Useful routes:
 | `GET` | `/api/podcasts/subscriptions` | Subscribed feeds |
 | `POST` | `/api/podcasts/subscribe` | Subscribe by feed data |
 | `GET` | `/api/podcasts/feeds/<feed_id>/episodes` | Episodes for a feed |
+| `GET` | `/api/podcasts/episodes-by-url?rss_url=...` | A feed's show (`title`, `author`, `image_url`) and episodes, without subscribing |
 | `POST` | `/api/podcasts/enclosure/peek` | Create a stream token for an enclosure |
 | `GET` | `/api/podcasts/stream/<token>` | Stream podcast audio |
 

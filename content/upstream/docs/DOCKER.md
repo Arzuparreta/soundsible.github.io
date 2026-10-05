@@ -1,7 +1,7 @@
 # Docker deployment
 
 Soundsible ships a multi-stage production image and a Compose stack. The image
-contains FFmpeg, Chromaprint, Python dependencies, and the compiled SolidJS
+contains FFmpeg, Python dependencies, and the compiled SolidJS
 player; Node.js and build tools do not remain in the runtime image.
 
 Images are published to the GitHub Container Registry for `linux/amd64` and
@@ -56,8 +56,8 @@ name, Docker stores them as `soundsible_soundsible-*`:
 
 | Volume | Container path | Contents |
 | --- | --- | --- |
-| `soundsible_soundsible-config` | `/config` | Instance configuration, accounts, and user libraries |
-| `soundsible_soundsible-data` | `/data` | Persistent queues, instance database, and telemetry |
+| `soundsible_soundsible-config` | `/config` | Instance configuration and database: accounts, and each person's library and playlists |
+| `soundsible_soundsible-data` | `/data` | Queues, import jobs, listening telemetry, and preserved artwork |
 | `soundsible_soundsible-cache` | `/cache` | Rebuildable covers, previews, and media cache |
 | `soundsible_soundsible-logs` | `/logs` | Runtime logs |
 | `soundsible_soundsible-music` | `/music` | Imported and downloaded audio |
@@ -181,6 +181,10 @@ docker run --rm \
   alpine tar czf /backup/soundsible-data-backup.tgz -C /source .
 docker compose start soundsible
 ```
+
+For checksummed copies, SQLite validation and restoration into a fresh directory,
+see [verified offline recovery](engineering/instance-recovery.md). That procedure
+also carries the key for encrypted storage credentials to a replacement container.
 
 Back up the music volume separately when it contains the only copy of your
 audio. The cache and logs volumes are optional in backups.

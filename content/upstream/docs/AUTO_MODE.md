@@ -19,8 +19,21 @@ planning and interface are still being refined.
   the route there.
 - With a track playing, open the player and switch from **NORMAL** to **DJ**.
   The current track becomes the first visible influence in **Session**.
+- From any song's menu, **Start DJ from this song** makes that song the
+  session's source. It is the next song the DJ mixes into, the way it mixes any
+  other, and the music comes from it after that.
 - In **Session**, use **Mix with…** to add an influence or **Change…** to
   choose a new direction using the same music browser.
+
+### A source is one piece of music
+
+A song, an album, an artist, a playlist or the favourites is **one source**.
+Choosing a collection while DJ is on — its primary button, on its page or in
+the music browser — moves the session onto it: the DJ draws the next songs from
+it. It never turns the collection into a list of requests. Asking for every song
+of a collection is still there, by name (**Add to session**) in the
+collection's menu, and those songs travel together: they belong to the session
+they were asked for in.
 
 The three parts of the workspace have separate jobs:
 
@@ -47,14 +60,27 @@ The engine limits tempo stretching and falls back safely instead of forcing two
 incompatible recordings together. Loudness levelling sits inside the same
 program path, so a transition does not need a sudden volume jump to feel alive.
 
+### Whole songs, without mixing
+
+**Settings → DJ → Mix between songs** is on by default. Switched off, the DJ
+keeps choosing the same music in the same route, but every song plays to the
+end of its file and the next starts from its beginning, with no fade, effect or
+tempo change between them. **Next** and **Play now** cut straight to their
+song, and **Fix mix** is hidden: there are no transitions to rebuild.
+
+The switch is an account preference. It applies from the next song the DJ has
+not prepared yet; a mix already prepared still plays.
+
 ## Make the set yours
 
 - **Add to session** requests specific songs without changing the musical direction.
 - **Mix into session** adds an influence alongside the existing ones.
-- **Change session** replaces the influences and automatic recommendations while
-  preserving your requested songs and their relative order. The current song
-  continues; an already audible blend finishes. Preparation failures leave the
-  previous session intact and offer **Retry** in the Session block.
+- **Change session** (and **Start DJ from…**) moves the session onto a new
+  source at once. The old sources, the DJ's own picks and bridges, and songs
+  that were requested as a whole collection go with the old session; songs you
+  requested one at a time stay. The current song continues and the DJ mixes out
+  of it when it judges best; an already audible blend finishes. The new route is
+  then planned like any refill, retrying on its own while the music plays on.
 - The Session block shows the active influences. Remove an influence while
   another remains, or use **Change…** to replace the last one.
 - **Place a must-play track.** Add a song to the Route or drop it into a
@@ -67,7 +93,13 @@ program path, so a transition does not need a sudden volume jump to feel alive.
   generated bridges around the tracks you placed while keeping those tracks in
   their chosen order and depth.
 - **Skip without leaving DJ.** Next asks the DJ for a short handoff to the next
-  route item instead of dropping back to ordinary playback.
+  route item instead of dropping back to ordinary playback. Next always does
+  something: a blend that is already audible finishes on the spot, and a next
+  song that cannot be blended in yet is started the ordinary way.
+- **Keep what the DJ finds.** Every Route row has a visible ⋯ menu (also
+  available by right-click or mobile long press). The menu saves the song to your
+  library, downloads it, marks it as a favourite or adds it to a playlist
+  without moving it in the route, including the song already cued.
 - **Choose music from anywhere.** Song and collection menus offer the same
   session actions. **Play now** remains an explicit immediate handoff.
   Choosing a musical influence does not also request that exact song.
@@ -96,12 +128,29 @@ DJ explores the active influences together with the last four automatic songs
 that actually started playing in the current direction. A pending recommendation
 is not a discovery root. Exact requests and bridges do not become roots just
 because they played. **Mix with…** retains this exploration; **Change…** clears
-it when the new direction is committed, without promoting the outgoing song.
-These discovery roots do not appear as additional influences in **Session**.
+it, without promoting the outgoing song. These discovery roots do not appear as
+additional influences in **Session**.
 
-Changing direction prepares a replacement while the existing session continues
-playing and refilling. The new influences, exploration revision and automatic
-route take effect together. Failed preparation retains the previous session.
+A change of direction takes effect at once: the new influences, a new
+exploration revision and the cleared route are committed together, and any
+answer still in flight for the old direction is discarded when it lands.
+
+### Every handoff ends somewhere
+
+A transition is prepared on the second deck, and nothing fades until that deck
+is actually sounding. When it is not — the stream is still buffering, stalled,
+or ended seconds in — the handoff still resolves:
+
+- if the outgoing song plays to its end first, the next song is handed over the
+  ordinary way, from the deck that was already holding it, with the same
+  start-up supervision and stall recovery as any other track change;
+- a next song that cannot play at all is dropped and the one after it follows;
+- a next song whose stream stops during an audible blend is given up and the
+  outgoing song keeps playing, or, if it already owned the music, is recovered
+  like any stalled song.
+
+Recordings longer than twenty minutes — DJ sets, live takes, whole albums in one
+file — are not chosen as songs of a route unless a source holds nothing else.
 
 If a provider request fails temporarily, DJ retries with increasing delays. If
 no new candidates remain, DJ stops repeating the same search and offers **Retry**.

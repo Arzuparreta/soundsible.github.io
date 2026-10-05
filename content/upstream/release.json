@@ -64,75 +64,418 @@
         "en": "Guide from the current Soundsible release.",
         "es": "Guía de la versión actual de Soundsible."
       }
+    },
+    {
+      "slug": "audits-2026-09-20-engineering",
+      "source": "docs/audits/2026-09-20-engineering.md",
+      "group": "more",
+      "title": {
+        "en": "Revisión de ingeniería y consumo de recursos",
+        "es": "Revisión de ingeniería y consumo de recursos"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-2026-09-25-ui-loading-feedback",
+      "source": "docs/audits/2026-09-25-ui-loading-feedback.md",
+      "group": "more",
+      "title": {
+        "en": "Navegación y feedback de carga",
+        "es": "Navegación y feedback de carga"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-2026-09-28-recovery-and-construction",
+      "source": "docs/audits/2026-09-28-recovery-and-construction.md",
+      "group": "more",
+      "title": {
+        "en": "Recovery, writer ownership and background-load quality",
+        "es": "Recovery, writer ownership and background-load quality"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-engineering-handoff",
+      "source": "docs/audits/ENGINEERING_HANDOFF.md",
+      "group": "more",
+      "title": {
+        "en": "Traspaso de la optimización de recursos de Soundsible",
+        "es": "Traspaso de la optimización de recursos de Soundsible"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "engineering-instance-recovery",
+      "source": "docs/engineering/instance-recovery.md",
+      "group": "more",
+      "title": {
+        "en": "Verified offline recovery",
+        "es": "Verified offline recovery"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "engineering-library-integrity",
+      "source": "docs/engineering/library-integrity.md",
+      "group": "more",
+      "title": {
+        "en": "Library integrity and recovery",
+        "es": "Library integrity and recovery"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-artwork-variant-quota",
+      "source": "docs/performance/artwork-variant-quota.md",
+      "group": "more",
+      "title": {
+        "en": "Artwork variant disk quota",
+        "es": "Artwork variant disk quota"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-catalog-sync",
+      "source": "docs/performance/catalog-sync.md",
+      "group": "more",
+      "title": {
+        "en": "Catalog synchronization: share work and acknowledge the latest revision",
+        "es": "Catalog synchronization: share work and acknowledge the latest revision"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-dj-queue-priority-gate",
+      "source": "docs/performance/dj-queue-priority-gate.md",
+      "group": "more",
+      "title": {
+        "en": "DJ analysis queue: priority decision gate",
+        "es": "DJ analysis queue: priority decision gate"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-incremental-library-writes",
+      "source": "docs/performance/incremental-library-writes.md",
+      "group": "more",
+      "title": {
+        "en": "Incremental canonical library writes",
+        "es": "Incremental canonical library writes"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-journal-library-deltas",
+      "source": "docs/performance/journal-library-deltas.md",
+      "group": "more",
+      "title": {
+        "en": "Journal-driven public library deltas",
+        "es": "Journal-driven public library deltas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-library-delta-serialization",
+      "source": "docs/performance/library-delta-serialization.md",
+      "group": "more",
+      "title": {
+        "en": "Bounded JSON serialization for library deltas",
+        "es": "Bounded JSON serialization for library deltas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-library-deltas",
+      "source": "docs/performance/library-deltas.md",
+      "group": "more",
+      "title": {
+        "en": "Disk-backed library deltas",
+        "es": "Disk-backed library deltas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-library-export-streaming",
+      "source": "docs/performance/library-export-streaming.md",
+      "group": "more",
+      "title": {
+        "en": "Streamed library.json exports",
+        "es": "Streamed library.json exports"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-library-revisions",
+      "source": "docs/performance/library-revisions.md",
+      "group": "more",
+      "title": {
+        "en": "Conditional library snapshots",
+        "es": "Conditional library snapshots"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-local-catalog-selection",
+      "source": "docs/performance/local-catalog-selection.md",
+      "group": "more",
+      "title": {
+        "en": "Local catalog selection",
+        "es": "Local catalog selection"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-local-search-index",
+      "source": "docs/performance/local-search-index.md",
+      "group": "more",
+      "title": {
+        "en": "Local search index",
+        "es": "Local search index"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-memo-coordination",
+      "source": "docs/performance/memo-coordination.md",
+      "group": "more",
+      "title": {
+        "en": "Atomic cache lookup and single-flight admission",
+        "es": "Atomic cache lookup and single-flight admission"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-odst-podcast-read",
+      "source": "docs/performance/odst-podcast-read.md",
+      "group": "more",
+      "title": {
+        "en": "ODST podcast preservation without reconstructing disk tracks",
+        "es": "ODST podcast preservation without reconstructing disk tracks"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-odst-save-streaming",
+      "source": "docs/performance/odst-save-streaming.md",
+      "group": "more",
+      "title": {
+        "en": "ODST library saves without a whole JSON output string",
+        "es": "ODST library saves without a whole JSON output string"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-playback-load",
+      "source": "docs/performance/playback-load.md",
+      "group": "more",
+      "title": {
+        "en": "Playback transport under background load",
+        "es": "Playback transport under background load"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-track-metadata-patch",
+      "source": "docs/performance/track-metadata-patch.md",
+      "group": "more",
+      "title": {
+        "en": "Explicit track metadata edits",
+        "es": "Explicit track metadata edits"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-web-payload",
+      "source": "docs/performance/web-payload.md",
+      "group": "more",
+      "title": {
+        "en": "Web payload and authenticated runtime",
+        "es": "Web payload and authenticated runtime"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.10.0",
-  "sha": "c53ccd53468957fe22a14b23c7638c5700a4551e",
-  "publishedAt": "2026-09-15T20:10:41Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.10.0",
+  "tag": "v0.19.1",
+  "sha": "e984a1c09f5dd76b253fb2d6dbbbd836ff6ca18b",
+  "publishedAt": "2026-10-02T14:33:36Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.19.1",
   "assets": [
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/apps.json"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.10.0_amd64.deb",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible_0.10.0_amd64.deb"
+      "name": "Soundsible_0.19.1_amd64.deb",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible_0.19.1_amd64.deb"
     },
     {
-      "name": "Soundsible_0.10.0_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible_0.10.0_arm64-setup.exe"
+      "name": "Soundsible_0.19.1_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible_0.19.1_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.10.0_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.10.0/Soundsible_0.10.0_x64-setup.exe"
+      "name": "Soundsible_0.19.1_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible_0.19.1_x64-setup.exe"
     }
   ],
   "files": {
-    "docs/INSTALL.md": "111b0fe3538c58e4c7f4fb3e1843c3712b26e81d09e244c1b66c87507c3c346a",
-    "docs/DOCKER.md": "075e3dad13c3c2d040d1252d49d69d2cdcd1acf8c6a11801c90cf950af8d0ae1",
-    "docs/DESKTOP_BETA.md": "74ade6f27b2c839a7d351920ec4df5f0292c1715ac719899186b02ee0b0b1313",
+    "docs/INSTALL.md": "b768626bfd40e66d4bf618f9497c89b3a1890519e391385a3f8c45172d0edcf7",
+    "docs/DOCKER.md": "881f0905544e3f3ffa0f2c02ca7d810d186628c72c2442d24ade72d26cfa239a",
+    "docs/DESKTOP_BETA.md": "d5d4c6a81e12dea9b86c723538519877c06ca12f990618c8b867a3d694bdb849",
     "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "docs/OPENSUBSONIC.md": "aabfea96f2e2f47234fff1892103c8ca4d99684bcdfe04ad482e226c6aa9cd87",
-    "docs/AUTO_MODE.md": "43270b549ae723d2a798be4b1283785772ce6cfe72fc46758a7160e146222348",
-    "docs/LIVE.md": "cb4b58753ff2ee9cf6a481a22f75084e2f4a9fd15aceea68730da3210a4f96ce",
+    "docs/AUTO_MODE.md": "ef8550e948c3824fb92bcf2ec19df62aff12c2638a81bb2321e68e72e06b66a4",
+    "docs/LIVE.md": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
     "docs/CAR_INTEGRATION.md": "e816a9dcfb451f63bdb39e8b5e8339700f444c525a525319a485f6a87eeaa28c",
-    "docs/CONFIGURATION.md": "ae73d1e8e1608b3622f5a1c9f2390ca2d8916336d1c433f5d4ea68c449f76eea",
+    "docs/CONFIGURATION.md": "246212ea1ba33e03e9522afed635fe22ba921d1603ef8cf4c4ece6b86de71d22",
     "docs/TELEMETRY_PRIVACY.md": "3b67ce1ab558d61658cffb0815620460adc7cdd99b1074d77052a9a4bcc1d673",
-    "docs/troubleshooting-yt-dlp-formats.md": "414e13a169158132948f2b8e3aa920bc86bf74cee2330923f05795aa5b067cea",
+    "docs/troubleshooting-yt-dlp-formats.md": "0626447d20950e792b59a27b07b45cdbabbd67df9bfe9d2f8a5f6121e40d7c5c",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
-    "docs/ARCHITECTURE.md": "f0e5b33c894c8a9e830b9b6202fa3451e185d1276eaac169038c7e6eb256ac42",
-    "docs/AGENT_INTEGRATION.md": "2489ddb288dd17211d5fb61e4e079ba10cacd91f5b933a0eb6d59ebf84888a53",
-    "docs/VPS_RELAY.md": "4fb0cd01573c45cf3583d574163e7983a6136ae4a1676732fc1632d4afa1d93f",
-    "CONTRIBUTING.md": "a62f8dedc83457964c7cdba697deebe8a14057a1fd91ce99ac8a129c9f13dbc0",
+    "docs/ARCHITECTURE.md": "5af74994d7b586d8186523db67775751e2f0d3a3cd4b9c174f3e1f6b77b559ae",
+    "docs/AGENT_INTEGRATION.md": "fe2dc18873a16930f4711a1b1bd3e8c195ba1d4ad5010f66cec4926421a716c8",
+    "docs/VPS_RELAY.md": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
+    "CONTRIBUTING.md": "d29b063d3c630423b498455e4d3280513b79776fc5bb92ed6f1023e82b6b5042",
     "desktop-shell/README.md": "c8485094259d9da46fa51d97546f4db29967b1de7f4ed63ace659cab1298de13",
     "deploy/community/README.md": "dfaa385af3df0d37ac743956cf10956919ab882608c78e0d6532717b3088062e",
     "docs/RELEASING.md": "1e6063e655a2270b50b7dd187246a7b9ee73123ccb557f75b41bae09baca0430",
-    "docs/ROADMAP.md": "aa4e95a688c5add59ce7ffb8de47ac9cd29cf66989f43b56fabed1fcfafec356",
+    "docs/ROADMAP.md": "6e5f8dcfd36ffd2ea0215f4b9f8f5d27adf821c0ffbfe580803543a9b8177ba9",
     "docs/MOBILE_LISTS.md": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
-    "docs/PLAYBACK_DIAGNOSIS.md": "9654a99f7aa789f261f39d781d31bfdb16a0b8fafdcccad777a7a1485d48729e",
+    "docs/PLAYBACK_DIAGNOSIS.md": "e4ea00fcaac0d0afcb4649b59b28d4ab4d987fa182c01530fc08a62b0c4bcc38",
     "docs/ARTWORK.md": "c40aa96cf98e87acfcb2cf97c7860e66af15e08b163c40928ac9601256e52e82",
     "docs/PERFORMANCE.md": "5ac8e034d9f37671d4269371be4e04abbd3a3fa7fdc6586caa6ea9f9190d9a1a",
-    "docs/README.md": "8dc119a51264e4bd86957e95386ea407c0f57f1b2ff28a0f66fa3754fb71c597",
+    "docs/README.md": "386f70980621c43abeb1e98caf9577c7c94669c74bd2eadbbd198c3075e7bf12",
+    "docs/audits/2026-09-20-engineering.md": "6da3127682f09e68b0753667d565d6ed0a0f0e805a403ac8e6e5217410b1c8fc",
+    "docs/audits/2026-09-25-ui-loading-feedback.md": "646c70b3b36f7f5725a08d41e2bf65bad7281e88cc3e3bc9055acbb968aa704d",
+    "docs/audits/2026-09-28-recovery-and-construction.md": "5c68bc4bbf3f612fe1cf1ce6e3d372467c72762d87f95b9612dfedb6331838dc",
+    "docs/audits/ENGINEERING_HANDOFF.md": "f9d8156c98318749e0d465581b3d6b2082af947c2607733e7eeaddc5b21de31b",
+    "docs/engineering/instance-recovery.md": "bfbc9806ba1664b3d40d9dd7cd613cc04c77cfd8a29cc7adb248a1286d23f7ca",
+    "docs/engineering/library-integrity.md": "820a9a21362e058aeb4c1a7feb6f1b63c76df2c810ef506780531fafe265b35d",
+    "docs/performance/artwork-variant-quota.md": "02b7666e1a1e234a252922e3693d20d6dfdce066feadaf713414782eed1c25e2",
+    "docs/performance/catalog-sync.md": "bb0fba3dd4ecca585ab8e7440baf7ceb87e5089afb06996b05e5caf46ecadb3b",
+    "docs/performance/dj-queue-priority-gate.md": "1cb688bb1bbdd57a992b57701ecd9607b6d79b4bc6f8de378cae34cd542950c0",
+    "docs/performance/incremental-library-writes.md": "c19e176ef2fd925ba4ebe08153bc9c3b227d950e2f4493a5c48fc80e69589f61",
+    "docs/performance/journal-library-deltas.md": "3715621d80ae83ee4d05b229e3f6265f31727551f6be1e573410fe7cd4424065",
+    "docs/performance/library-delta-serialization.md": "3f449f259addbb41b75e8954331dd1bbc10bc55e14647ee3f1196ca25ac1a377",
+    "docs/performance/library-deltas.md": "0c96d7324754b12ecd131a22851fd59031476654ca6789040af72c541da4ee2f",
+    "docs/performance/library-export-streaming.md": "fe8c237a7f701d474ed2dc82f3a7fbd67d3dd24d8ea9c8fc3f4b8f0e128e9123",
+    "docs/performance/library-revisions.md": "8097f5c05edbdef3e1c999812c58fd829a4832328739cf33bdefe406ef4c9b4b",
+    "docs/performance/local-catalog-selection.md": "1ef25eb3a859e04a29e65df77dda7124277a0d59b9bac34e20302609260ca310",
+    "docs/performance/local-search-index.md": "7d5a889f1fbdde6d7840a55cb7c1b82e3f88eb5d4943c08de1f4fb752bc55d77",
+    "docs/performance/memo-coordination.md": "f24bd5c140af5db105e71b1cc3e047240d354eca6534af4deed97bc55ac3f073",
+    "docs/performance/odst-podcast-read.md": "ea09fcf3127fe0aec2d69328fb1502192968b6f78458d98bffdcec2eb5386ddb",
+    "docs/performance/odst-save-streaming.md": "16acdcb923fa3541b36cfd3e3ec501b35bf8992869a2680a64c2b82165a3eaa2",
+    "docs/performance/playback-load.md": "c9f541c85acfa0cde2f30b9a8a1e17343a3d9bf6deb3bca4f4667fe40141b7d0",
+    "docs/performance/track-metadata-patch.md": "eb8a14d6862fa37f3534d84e141c5e2e988a5e5f143a16b51ccc9a5ee057f428",
+    "docs/performance/web-payload.md": "04d94d439deae2c2d358cb3e696e5621059020664ed3ed1a7f5d1dbe1341ab87",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
-    "docs/images/desktop-library.png": "98b84cefe9a8838b74fd74fa7fe491eed5873253e31e684dc3682ab7b1e94745",
-    "docs/images/desktop-now-playing.png": "3e5b6efa8b31e8d136f93474c0a7081df405b3be067f090726dd81f28971cf99",
-    "docs/images/desktop-search.png": "0ef12f8033b5e04b221681ecfbf64775e52fac8a13f49bc63beb4ea981ac1f2e",
-    "docs/images/mobile-library.png": "15aacb2962f37d3ed5dd7e71034b87a566e56266ce7d0747b906257b3ac3b85b",
-    "docs/images/mobile-now-playing.png": "27b553b9e0983c474cc68f5f6a1f17a4d460995e408d4b8205e737a4a88ab9fb"
+    "docs/images/screenshots/dark/desktop-library.webp": "d1b4a4d39836da24e25834d6e425276b578d96cc3904af81fada5cecccef49bd",
+    "docs/images/screenshots/dark/desktop-now-playing.webp": "9493a2e65ae50a601f91db2bd08c702eb8c8298fccf4ccfda516d8dade4d6769",
+    "docs/images/screenshots/dark/desktop-search.webp": "395fb0d8cb4ec70a2d20ccacc61b3a8fb563c85b8471cad92883f9bfe076084e",
+    "docs/images/screenshots/dark/mobile-library.webp": "cf52dc9de67e32784b591eec57656fe25b59953063e0a77f78bb54e78e8815e4",
+    "docs/images/screenshots/dark/mobile-now-playing.webp": "02202a7eb2b08ee68e9729277bc6949661dbbc90159b92b4bea06f567fd2f18c",
+    "docs/images/screenshots/forest-green/desktop-library.webp": "57e2797b6fbe67c7a7203115ba57164c165fc530b5299295dc3e3b33e7cae45e",
+    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "0004f15510c07fc2965e66211873846a22622e94e393ca3287ef8470ad3e6af5",
+    "docs/images/screenshots/forest-green/desktop-search.webp": "faed7cfed8c78f256c10d994ccdc2c4f3d55aad521b6988613ab810298e6dd2f",
+    "docs/images/screenshots/forest-green/mobile-library.webp": "acf7a53654c47b41455209da01731473151950ae8bc5c1789b76ae7e22e61eb4",
+    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "eb0d6b5aba1bddf6df79a99cfb0bf9a50fed3e389bc4a28ccfe538efc3cabe5b",
+    "docs/images/screenshots/light/desktop-library.webp": "42b33d951d317d14e4bba54682ee74c5648bf5abce8470bd2372dd3827ad1d48",
+    "docs/images/screenshots/light/desktop-now-playing.webp": "0190070f101baafce96f9457636655114616d3972ee57f7909f0819c18c50559",
+    "docs/images/screenshots/light/desktop-search.webp": "d21874be950d66fab86297e79c34b2fe46f52c2204facc38fdb82b12b588fdc8",
+    "docs/images/screenshots/light/mobile-library.webp": "753ca83df90c7f3f02c7936a815be726fee0119fb361bc5dddce474aefc945c8",
+    "docs/images/screenshots/light/mobile-now-playing.webp": "b537161110b9054ab1ccf337b2031259fe3d034a15ed114788b295b5f2654c1a",
+    "docs/images/screenshots/pure-black/desktop-library.webp": "295d31caf986e7f68827a15a6f5ea766a8ffd854bbc6caf8cca40c9938201519",
+    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "d7e567164c9d388c10dc00c40103f039a7512f21fba6fb328d1a1d99e421b1fd",
+    "docs/images/screenshots/pure-black/desktop-search.webp": "c06c947fbeff2f581c640968b3361cbf748693b7b172693d1351dd50a0cb6ae3",
+    "docs/images/screenshots/pure-black/mobile-library.webp": "de678c1d01677ddcf15f90609569cd957fb6630081d45bdb499139d22db564c6",
+    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "a5a1f2107dea164cea3801914f5c8fa48158e461fdd221a5fec2432fa20da1b1",
+    "docs/images/screenshots/slate/desktop-library.webp": "bc6b476a318f4d665d3e6ef57e3003b23f1eda337e1bd4fce8ca92a62f911292",
+    "docs/images/screenshots/slate/desktop-now-playing.webp": "b64c01b43bb200de33e554340f99b15447d98624ff870b1699e909d117aa2f29",
+    "docs/images/screenshots/slate/desktop-search.webp": "7d6051e6d8b1282ec184108e253e1d38b847d38b248b7ebd2a5c5458a7e9757f",
+    "docs/images/screenshots/slate/mobile-library.webp": "cf648242d1bfdc66078316935e30660ae885e4228cb49ce88713307600fbaca0",
+    "docs/images/screenshots/slate/mobile-now-playing.webp": "784ae18d1987729c7e0445f79c3703c3503ff462701bfd087410294640cb7f49",
+    "docs/images/social-card.png": "5cc6779e862ae13e4b67646259896a760f2fcc176df6b0537355dc2e1f1bcdf8"
   }
 }

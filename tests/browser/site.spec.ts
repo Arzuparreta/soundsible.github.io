@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { themes } from '../../src/lib/themes';
 const [owner, repository] = (
   process.env.GITHUB_REPOSITORY ?? 'Arzuparreta/soundsible.github.io'
 ).split('/');
@@ -14,7 +15,7 @@ const capsule = Buffer.from(
   }),
 ).toString('base64url');
 for (const locale of ['en', 'es'])
-  for (const theme of ['light', 'dark']) {
+  for (const { id: theme } of themes) {
     test(`${locale} ${theme}: navigation, layout and accessibility`, async ({ page }) => {
       await page.addInitScript(
         (value) => localStorage.setItem('soundsible:site-theme', value),
@@ -305,4 +306,34 @@ test('the arrows step through the screenshots and wrap around', async ({ page })
   // Nothing is moving on its own.
   await page.waitForTimeout(6500);
   await expect(current).toHaveAttribute('data-shot-index', '0');
+});
+test('the screenshots are the ones taken in the theme the page wears', async ({ page }) => {
+  // Reduced motion parks autoplay, so the first slide stays on show.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const requested = new Set<string>();
+  page.on('request', (request) => {
+    const theme = request.url().match(/\/screenshots\/([^/]+)\//)?.[1];
+    if (theme) requested.add(theme);
+  });
+  await page.addInitScript(() => localStorage.setItem('soundsible:site-theme', 'slate'));
+  await page.goto(base);
+  await page.waitForLoadState('networkidle');
+  // Each slide holds its screen in every theme; only the page's own is fetched.
+  expect([...requested]).toEqual(['slate']);
+  const shown = () =>
+    page
+      .locator('.shot.is-current img')
+      .evaluateAll((images) =>
+        images.filter((image) => image.checkVisibility()).map((image) => image.className),
+      );
+  for (const { id } of themes) {
+    await page.selectOption('#theme-select', id);
+    await expect.poll(shown).toEqual([`theme-${id}`]);
+    await page.locator('.shot.is-current').click();
+    await expect(page.locator('#image-dialog img')).toHaveAttribute(
+      'src',
+      new RegExp(`/screenshots/${id}/`),
+    );
+    await page.locator('#image-dialog [data-close-dialog]').click();
+  }
 });

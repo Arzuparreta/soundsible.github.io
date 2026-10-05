@@ -4,6 +4,7 @@ import '../styles/global.css';
 import images from '../generated/images.json';
 import { publicAsset } from '../public-asset';
 import { href, pick, release, repoUrl, type Locale } from '../lib/site';
+import { themes } from '../lib/themes';
 import Words from '../components/Words.astro';
 interface Props {
   title: string;
@@ -55,20 +56,16 @@ const nav = [
       content={ogImage}
     />
     <title>{title}</title>
-    <script is:inline>
+    <script is:inline define:vars={{ palettes: themes.map((theme) => theme.id) }}>
+      let choice = 'system';
       try {
-        const choice = localStorage.getItem('soundsible:site-theme') || 'system';
-        document.documentElement.dataset.theme =
-          choice === 'system'
-            ? matchMedia('(prefers-color-scheme: dark)').matches
-              ? 'dark'
-              : 'light'
-            : choice;
-      } catch {
-        document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches
+        choice = localStorage.getItem('soundsible:site-theme') || 'system';
+      } catch {}
+      document.documentElement.dataset.theme = palettes.includes(choice)
+        ? choice
+        : matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark'
           : 'light';
-      }
     </script>
   </head>
   <body data-base={publicAsset('')} data-page={page}>
@@ -131,11 +128,13 @@ const nav = [
             ><select id="theme-select" aria-label={pick(locale, 'Appearance', 'Apariencia')}
               ><option value="system" data-en="System" data-es="Sistema"
                 >{pick(locale, 'System', 'Sistema')}</option
-              ><option value="light" data-en="Light" data-es="Claro"
-                >{pick(locale, 'Light', 'Claro')}</option
-              ><option value="dark" data-en="Dark" data-es="Oscuro"
-                >{pick(locale, 'Dark', 'Oscuro')}</option
-              ></select
+              >{
+                themes.map(({ id, en, es }) => (
+                  <option value={id} data-en={en} data-es={es}>
+                    {pick(locale, en, es)}
+                  </option>
+                ))
+              }</select
             ></label
           >
           <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav"

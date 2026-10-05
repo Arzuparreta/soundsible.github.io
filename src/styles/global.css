@@ -39,6 +39,53 @@
   --code: #20251e;
   --focus: #f5a66e;
 }
+/* The player's other palettes (ui_web/src/styles/tokens.css), read onto the
+   page's roles: --bg-base, --bg-raised and --bg-elevated for the surfaces,
+   --bg-inset for code, --ink-secondary for muted text, --hairline for lines and
+   --accent-ink for the accent. --accent-bg is the player's 14% accent wash laid
+   over the background. */
+:root[data-theme='slate'] {
+  color-scheme: dark;
+  --bg: #252d38;
+  --surface: #2d3744;
+  --surface-muted: #354150;
+  --text: #f4f6fa;
+  --muted: #d3dbe5;
+  --line: #64778d;
+  --accent: #ffad69;
+  --accent-bg: #433833;
+  --on-accent: #1a0e02;
+  --code: #202731;
+  --focus: #ffad69;
+}
+:root[data-theme='pure-black'] {
+  color-scheme: dark;
+  --bg: #000;
+  --surface: #0a0a0a;
+  --surface-muted: #171717;
+  --text: #fff;
+  --muted: #d6d6d6;
+  --line: #666;
+  --accent: #f97a12;
+  --accent-bg: #231103;
+  --on-accent: #1a0e02;
+  --code: #0a0a0a;
+  --focus: #f97a12;
+}
+:root[data-theme='forest-green'] {
+  color-scheme: dark;
+  --bg: #0b110d;
+  --surface: #111a14;
+  --surface-muted: #17241b;
+  --text: #f2f5f3;
+  --muted: #a3b0a7;
+  --line: #27342b;
+  --accent: #f2a43a;
+  --accent-bg: #2b2613;
+  --on-accent: #1a1004;
+  --code: #070c09;
+  --focus: #f2a43a;
+}
 * {
   box-sizing: border-box;
 }
@@ -226,7 +273,8 @@ input {
   border: 0;
   background: transparent;
   color: var(--muted);
-  width: 79px;
+  /* As wide as its longest palette name, in either language. */
+  width: auto;
   min-height: 40px;
   padding: 0 2px;
   font-size: 12px;
@@ -399,10 +447,14 @@ input {
 .shot-media:not(.is-pair) img {
   width: 100%;
 }
-/* Every screenshot comes in the player's light and dark themes; show the one
-   that matches the page. */
-:root[data-theme='dark'] .shot-media .theme-light,
-:root:not([data-theme='dark']) .shot-media .theme-dark {
+/* Every screenshot comes in each of the player's themes; show the one the page
+   is wearing. Without a theme the page is light. */
+:root:not([data-theme]) .shot-media img:not(.theme-light),
+:root[data-theme='light'] .shot-media img:not(.theme-light),
+:root[data-theme='dark'] .shot-media img:not(.theme-dark),
+:root[data-theme='slate'] .shot-media img:not(.theme-slate),
+:root[data-theme='pure-black'] .shot-media img:not(.theme-pure-black),
+:root[data-theme='forest-green'] .shot-media img:not(.theme-forest-green) {
   display: none;
 }
 .home-hero .product-figure {
@@ -1232,7 +1284,6 @@ dialog > button {
     gap: 3px;
   }
   .theme-control select {
-    width: 63px;
     font-size: 11px;
   }
   .search-label {
@@ -1491,11 +1542,12 @@ dialog > button {
 .astro-code span {
   color: var(--shiki-light) !important;
 }
-:root[data-theme='dark'] .astro-code {
+/* Every palette but light is a dark one. */
+:root[data-theme]:not([data-theme='light']) .astro-code {
   background: var(--shiki-dark-bg) !important;
   color: var(--shiki-dark) !important;
 }
-:root[data-theme='dark'] .astro-code span {
+:root[data-theme]:not([data-theme='light']) .astro-code span {
   color: var(--shiki-dark) !important;
 }
 @media (max-width: 360px) {

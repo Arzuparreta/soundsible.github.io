@@ -2,6 +2,7 @@
 import images from '../generated/images.json';
 import Layout from '../layouts/Layout.astro';
 import { href, pick, release, type Locale } from '../lib/site';
+import { themes, type Theme } from '../lib/themes';
 import { publicAsset } from '../public-asset';
 interface Props {
   locale: Locale;
@@ -11,15 +12,21 @@ const t = (en: string, es: string) => pick(locale, en, es);
 // Screenshots arrive with the release snapshot, so a slide only appears once
 // every image it needs has been imported and fingerprinted. Each screen comes
 // once per player theme (`docs/images/screenshots/<theme>/<name>.webp`) and the
-// page shows the light or dark one to match its own appearance. A release from
-// before that layout has a single `docs/images/<name>.png`, shown in both.
+// page shows the one taken in the theme it is wearing. A release from before
+// that layout has a single `docs/images/<name>.png`, shown in every theme.
+// Every capture is lazy, the first slide's too: a lazy image the page hides is
+// never fetched, so only the theme on show is downloaded.
 const imported: Record<string, string> = images;
 const screenshot = (name: string) => {
-  const light = imported[`docs/images/screenshots/light/${name}.webp`];
-  const dark = imported[`docs/images/screenshots/dark/${name}.webp`];
   const single = imported[`docs/images/${name}.png`];
-  if (light && dark) return { light: publicAsset(light), dark: publicAsset(dark) };
-  return single ? { light: publicAsset(single), dark: publicAsset(single) } : null;
+  const sources = themes.map(
+    ({ id }) => [id, imported[`docs/images/screenshots/${id}/${name}.webp`] ?? single] as const,
+  );
+  if (!sources.every(([, source]) => source)) return null;
+  return Object.fromEntries(sources.map(([id, source]) => [id, publicAsset(source)])) as Record<
+    Theme,
+    string
+  >;
 };
 const desktop = { width: 1920, height: 1080 };
 const phone = { width: 1170, height: 2532 };
@@ -198,14 +205,14 @@ const paths = [
                   <>
                     <span class:list={['shot-media', shot.images.length > 1 && 'is-pair']}>
                       {shot.images.map((image) =>
-                        (['light', 'dark'] as const).map((theme) => (
+                        themes.map(({ id }) => (
                           <img
-                            class={`theme-${theme}`}
-                            src={image.src[theme]}
+                            class={`theme-${id}`}
+                            src={image.src[id]}
                             alt={image.alt}
                             width={image.width}
                             height={image.height}
-                            loading={index === 0 ? 'eager' : 'lazy'}
+                            loading="lazy"
                             fetchpriority={index === 0 ? 'high' : 'auto'}
                           />
                         )),
@@ -281,6 +288,7 @@ const paths = [
       alt={shots[0].images[0].alt}
       width={shots[0].images[0].width}
       height={shots[0].images[0].height}
+      loading="lazy"
     />
   </dialog>
 </Layout>

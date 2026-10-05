@@ -6,10 +6,10 @@
 
 | Guide | Use it to… |
 | --- | --- |
-| [Install & deployment](INSTALL.md) | Install on your computer or server; set up remote access, storage and a reverse proxy. |
+| [Install & deployment](INSTALL.md) | Install on your computer or server, choose between the menu, `--daemon` and a systemd service, set up remote access, storage and a reverse proxy, and update. |
 | [Docker](DOCKER.md) | Run with Compose, mount an existing library, back up and upgrade. |
-| [Desktop beta](DESKTOP_BETA.md) | Check platform status and use the bundled desktop app. |
-| [Settings & sources](CONFIGURATION.md) | Configure accounts, search, downloads and YouTube cookies. |
+| [Desktop beta](DESKTOP_BETA.md) | Download the Windows or Debian/Ubuntu app and check what has been verified. |
+| [Settings & sources](CONFIGURATION.md) | Settings, environment variables, accounts, downloads, YouTube cookies and where files live. |
 | [Bring your music](MUSIC_MIGRATION.md) | Import Spotify and Apple Music exports. |
 
 ## Feature guides
@@ -27,7 +27,7 @@
 
 ## Troubleshooting and development
 
-- [YouTube download troubleshooting](troubleshooting-yt-dlp-formats.md) · [Playback diagnosis](PLAYBACK_DIAGNOSIS.md)
+- [Download troubleshooting](troubleshooting-yt-dlp-formats.md) · [Playback diagnosis](PLAYBACK_DIAGNOSIS.md)
 - [VPS YouTube relay](VPS_RELAY.md) · [Performance](PERFORMANCE.md)
 - [Contributing](../CONTRIBUTING.md) · [Web player development](../ui_web/README.md)
 - [Architecture](ARCHITECTURE.md) · [Design](../DESIGN.md) · [Artwork](ARTWORK.md)
@@ -52,4 +52,3 @@ player is built with `npm` in `ui_web/`.
 | [Deezer public API](https://developers.deezer.com/) | Public API | Discovery metadata only — no audio comes from Deezer |
 | [MusicBrainz](https://musicbrainz.org/) | Public API | Recording and release identification |
 | [FFmpeg](https://ffmpeg.org/) | LGPL / GPL | Audio conversion and extraction |
-| [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) | Apache 2.0 | Python bindings for FFmpeg |

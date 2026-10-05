@@ -1,23 +1,20 @@
 import { type Locale } from '../lib/site';
+import { themes } from '../lib/themes';
 const language = (): Locale => (document.documentElement.lang === 'es' ? 'es' : 'en');
 const choose = (en: string, es: string) => (language() === 'es' ? es : en);
 const base = (document.body.dataset.base ?? '/').replace(/\/?$/, '/');
 const theme = document.querySelector<HTMLSelectElement>('#theme-select');
 const media = matchMedia('(prefers-color-scheme: dark)');
+const chrome = new Map<string, string>(themes.map(({ id, color }) => [id, color]));
 let themeChoice = 'system';
 try {
   themeChoice = localStorage.getItem('soundsible:site-theme') ?? 'system';
 } catch {}
-if (!['system', 'light', 'dark'].includes(themeChoice)) themeChoice = 'system';
+if (!chrome.has(themeChoice)) themeChoice = 'system';
 function applyTheme() {
-  document.documentElement.dataset.theme =
-    themeChoice === 'system' ? (media.matches ? 'dark' : 'light') : themeChoice;
-  document
-    .querySelector('meta[name="theme-color"]')
-    ?.setAttribute(
-      'content',
-      document.documentElement.dataset.theme === 'dark' ? '#151715' : '#f8f8f5',
-    );
+  const applied = themeChoice === 'system' ? (media.matches ? 'dark' : 'light') : themeChoice;
+  document.documentElement.dataset.theme = applied;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', chrome.get(applied)!);
   if (theme) theme.value = themeChoice;
 }
 applyTheme();

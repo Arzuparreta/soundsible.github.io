@@ -42,6 +42,10 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           SOURCE_TAG: ${{ inputs.source_tag }}
         run: npm run docs:sync
+      - name: Refresh independent Android alpha channel
+        run: node scripts/sync-android.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Verify source and translation integrity
         run: npm test
       - name: Build, index and check links

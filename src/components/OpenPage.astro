@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { pick, href, type Locale } from '../lib/site';
+import { androidRelease as android } from '../lib/android-channel';
 interface Props {
   locale: Locale;
 }
@@ -27,7 +28,20 @@ const t = (en: string, es: string) => pick(locale, en, es);
       </div>
       <div id="track" hidden>
         <p class="eyebrow">{t('SHARED WITH YOU', 'COMPARTIDO CONTIGO')}</p><h1 id="track-title">
-        </h1><p id="track-artist" class="artist"></p><form id="instance-form">
+        </h1><p id="track-artist" class="artist"></p>
+        {
+          android && (
+            <div class="actions" id="android-actions" hidden>
+              <a id="open-android" class="button primary" href="#">
+                {t('Open in Android', 'Abrir en Android')}
+              </a>
+              <a class="text-action" href={href(locale, 'start/#android-title')}>
+                {t('Install the Android alpha', 'Instalar la alpha Android')}
+              </a>
+            </div>
+          )
+        }
+        <form id="instance-form">
           <label for="instance-url"
             >{t('Open it on your Soundsible', 'Ábrela en tu Soundsible')}</label
           ><div class="url-row">
@@ -65,7 +79,8 @@ const t = (en: string, es: string) => pick(locale, en, es);
           </p>
         </form><div class="divider"><span>{t('or', 'o')}</span></div><div class="actions">
           <a id="open-youtube" class="button" href="#" target="_blank" rel="noreferrer"
-            >{t('Open on YouTube', 'Abrir en YouTube')} ↗</a>
+            >{t('Open on YouTube', 'Abrir en YouTube')} ↗</a
+          >
         </div>
       </div>
       <div id="register" hidden>

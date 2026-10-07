@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import Layout from '../layouts/Layout.astro';
 import { href, pick, release, type Locale } from '../lib/site';
 import { nativeInstall, nativeInstallSection } from '../../scripts/content.mjs';
+import { androidRelease as android } from '../lib/android-channel';
 interface Props {
   locale: Locale;
 }
@@ -162,6 +163,43 @@ const commands = blocks.slice(0, 3).map(([, , code]) =>
           </div>
         </div>
       </section>
+      {
+        android && (
+          <section class="install-option" aria-labelledby="android-title">
+            <div>
+              <>
+                <h2 id="android-title">Android</h2>
+                <span class="tag">ALPHA</span>
+              </>
+            </div>
+            <div>
+              <p>
+                {t(
+                  'Connect to your Soundsible server with native audio, DJ, Live, Android Auto and explicit offline copies.',
+                  'Conecta a tu servidor Soundsible con audio nativo, DJ, Live, Android Auto y copias explícitas sin conexión.',
+                )}
+              </p>
+              <div class="actions">
+                <a class="button primary" href={android.apk}>
+                  {t('Download Android APK', 'Descargar APK Android')} ↗
+                </a>
+                <a class="button" href={android.url}>
+                  {t('Installation and release notes', 'Instalación y notas de la alpha')} ↗
+                </a>
+                <a class="text-action" href={android.checksum}>
+                  SHA256SUMS ↗
+                </a>
+              </div>
+              <p class="command-note">
+                {t(
+                  'Allow installation from your browser, then install over an earlier alpha to keep your data. Updates are manual. Technical minimum: API 24 / WebView 120; automated evidence: API 36. Physical Bluetooth and car acceptance is pending for beta.',
+                  'Autoriza la instalación desde tu navegador e instala sobre una alpha anterior para conservar tus datos. Actualizaciones manuales. Mínimo técnico: API 24 / WebView 120; evidencia automatizada: API 36. La aceptación física de Bluetooth y coche queda pendiente para beta.',
+                )}
+              </p>
+            </div>
+          </section>
+        )
+      }
       <section class="install-option" aria-labelledby="docker-title">
         <div><h2 id="docker-title">Docker</h2><p class="platforms">Linux amd64 · arm64</p></div><div
         >

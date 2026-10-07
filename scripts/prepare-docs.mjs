@@ -15,6 +15,12 @@ const base = name === `${owner}.github.io` ? '' : `/${name}`;
 await rm('src/content/docs', { recursive: true, force: true });
 await mkdir('src/content/docs', { recursive: true });
 await mkdir('src/generated', { recursive: true });
+// Local previews start with no public Android download; CI refreshes this independently.
+try { await readFile('src/generated/android-release.json'); }
+catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+  await writeFile('src/generated/android-release.json', 'null\n');
+}
 // Imported images keep their release name in the repository but are published
 // under a content fingerprint, so a reader who cached an older capture at the
 // same path is never served it again.

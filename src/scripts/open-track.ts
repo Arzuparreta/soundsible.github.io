@@ -71,7 +71,12 @@ function trackMode(encoded: string): void {
   }
 
   const player = storedPlayer();
-  if (player && saveAndOpen(player, encoded)) return;
+  const android = document.getElementById('open-android') as HTMLAnchorElement | null;
+  const onAndroid = /Android/i.test(navigator.userAgent);
+  if (android && onAndroid) {
+    android.href = `soundsible://open?shared=${encodeURIComponent(encoded)}`;
+    show('android-actions');
+  } else if (player && saveAndOpen(player, encoded)) return;
 
   hide('loading');
   show('track');

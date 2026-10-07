@@ -83,7 +83,7 @@ function trackMode(encoded: string): void {
   view('track-title').textContent = capsule.title;
   view('track-artist').textContent = capsule.artist;
 
-  // No `soundsible://` button here. A custom scheme with nothing registered
+  // No desktop `soundsible://` button here. A custom scheme with nothing registered
   // behind it fails silently — no error, no navigation, nothing — and on every
   // machine without the desktop app that is what the primary action did. The
   // web player is the one destination that always exists; add the desktop link
@@ -93,6 +93,7 @@ function trackMode(encoded: string): void {
 
   const form = view('instance-form') as HTMLFormElement;
   const input = view('instance-url') as HTMLInputElement;
+  if (player) input.value = player;
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     if (saveAndOpen(input.value, encoded)) return;

@@ -43,6 +43,12 @@ describe('published Android bridge', () => {
   it('offers an explicit native action on Android without losing the capsule', async () => {
     const { document, replace, capsule } = await bridge(true, 'Android');
     expect(replace).not.toHaveBeenCalled();
+    expect((document.getElementById('instance-url') as HTMLInputElement).value).toBe(
+      'https://music.example/player/',
+    );
+    const event = new document.defaultView!.Event('submit', { cancelable: true });
+    document.getElementById('instance-form')!.dispatchEvent(event);
+    expect(replace).toHaveBeenCalledWith(expect.stringContaining('https://music.example/player/'));
     expect(document.getElementById('android-actions')?.hasAttribute('hidden')).toBe(false);
     expect(document.getElementById('open-android')?.getAttribute('href')).toBe(
       `soundsible://open?shared=${capsule}`,

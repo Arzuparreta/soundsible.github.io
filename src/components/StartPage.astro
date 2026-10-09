@@ -144,14 +144,14 @@ const commands = blocks.slice(0, 3).map(([, , code]) =>
           <h2 id="desktop-title">{t('Desktop app', 'Aplicación de escritorio')}</h2><p
             class="platforms"
           >
-            Linux · Windows
+            Windows
           </p><span class="tag">BETA</span>
         </div><div>
           <p>
             {
               t(
-                'A packaged app for a single computer, with no terminal required. The web player is included. Check the release assets for the installer that matches your system.',
-                'Una aplicación empaquetada para un solo ordenador, sin necesidad de terminal. Incluye el reproductor web. Busca en los archivos de la versión el instalador correspondiente a tu sistema.',
+                'One Windows installer runs a server on this PC and its player, with no terminal required. Check the release assets for the installer that matches your processor. On Linux, run the server natively or with Docker and open the player in your browser.',
+                'Un instalador para Windows ejecuta un servidor en este PC y su reproductor, sin necesidad de terminal. Busca en los archivos de la versión el instalador de tu procesador. En Linux, ejecuta el servidor de forma nativa o con Docker y abre el reproductor en tu navegador.',
               )
             }
           </p><div class="actions">

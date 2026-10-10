@@ -8,7 +8,7 @@
 | --- | --- |
 | [Install & deployment](INSTALL.md) | Install on your computer or server, choose between the menu, `--daemon` and a systemd service, set up remote access, storage and a reverse proxy, and update. |
 | [Docker](DOCKER.md) | Run with Compose, mount an existing library, back up and upgrade. |
-| [Desktop beta](DESKTOP_BETA.md) | Download the Windows or Debian/Ubuntu app and check what has been verified. |
+| [Desktop beta](DESKTOP_BETA.md) | Download the Windows app and check what has been verified, and why there is no Linux app. |
 | [Settings & sources](CONFIGURATION.md) | Settings, environment variables, accounts, downloads, YouTube cookies and where files live. |
 | [Bring your music](MUSIC_MIGRATION.md) | Import Spotify and Apple Music exports. |
 
@@ -19,6 +19,7 @@
 | [DJ](AUTO_MODE.md) | Start a set, choose influences, request songs and edit transitions. |
 | [Live](LIVE.md) | Broadcast, share a room and understand the relay and browser requirements. |
 | [OpenSubsonic](OPENSUBSONIC.md) | Connect other apps to your saved music library. |
+| [Android port](ANDROID.md) | Development client, account/browse integration and full-port acceptance gates. |
 | [iOS status](IOS.md) | Build and installation instructions, with device behaviour still unverified. |
 | [Car integration](CAR_INTEGRATION.md) | Web media controls and the unverified native car path. |
 | [Roadmap](ROADMAP.md) | Current capabilities, priorities and planned device support. |

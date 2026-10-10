@@ -5,7 +5,18 @@ import remarkStringify from 'remark-stringify';
 import { visit } from 'unist-util-visit';
 import GithubSlugger from 'github-slugger';
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { catalog, excerptSlugs, repository } from './catalog.mjs';
+// A Spanish article keeps the anchors of the English release it translated.
+// When an English guide gains a section, an older translation of its target
+// has no element for it, so a Spanish link to that section goes to the English
+// article, which does. Read on first use, from the root like every other
+// `content/` path: Astro also bundles this module, and only links need it.
+let translations;
+function spanishAnchors(slug) {
+  translations ??= JSON.parse(readFileSync('content/es/manifest.json', 'utf8'));
+  return translations[slug]?.anchors;
+}
 export const markdown = unified()
   .use(remarkParse)
   .use(remarkGfm)
@@ -68,8 +79,11 @@ export function rewriteLink(url, item, locale, base, sha, images = {}) {
   if (resolved === 'README.md') {
     return `${base}/${locale === 'es' ? 'es/' : ''}${hash && /install|native|linux|macos|windows|first-native/.test(hash) ? `docs/native-installation/${hash ? '#' + (hash === 'install' ? 'native-installation' : hash) : ''}` : 'docs/'}`;
   }
-  if (target)
-    return `${base}/${locale === 'es' ? 'es/' : ''}docs/${target.slug}/${hash ? '#' + hash : ''}`;
+  if (target) {
+    const anchors = locale === 'es' && hash ? spanishAnchors(target.slug) : undefined;
+    const spanish = locale === 'es' && !(anchors && !anchors.includes(hash));
+    return `${base}/${spanish ? 'es/' : ''}docs/${target.slug}/${hash ? '#' + hash : ''}`;
+  }
   if (resolved.startsWith('docs/images/')) {
     const published = images[resolved];
     if (!published) throw new Error(`Image outside the release snapshot: ${resolved}`);

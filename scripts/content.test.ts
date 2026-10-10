@@ -38,6 +38,14 @@ describe('release documentation pipeline', () => {
       '/blob/abc/shared/main.py',
     );
     expect(rewriteLink('https://example.com', item, 'es', '', 'abc')).toBe('https://example.com');
+    // A section an older Spanish translation does not have is read in English.
+    expect(rewriteLink('INSTALL.md#run-it-as-a-systemd-service', item, 'es', '', 'abc')).toBe(
+      '/docs/install/#run-it-as-a-systemd-service',
+    );
+    expect(rewriteLink('INSTALL.md#6-storage', item, 'es', '', 'abc')).toBe(
+      '/es/docs/install/#6-storage',
+    );
+    expect(rewriteLink('INSTALL.md', item, 'es', '', 'abc')).toBe('/es/docs/install/');
     // The native page is an excerpt of this file; a link to it wants the whole guide.
     expect(rewriteLink('INSTALL.md#7-storage', item, 'en', '', 'abc')).toBe(
       '/docs/install/#7-storage',

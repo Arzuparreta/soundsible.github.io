@@ -42,16 +42,19 @@
     ]
   },
   "desktop": {
-    "tag": "v0.5.0",
-    "sha": "4b66bfb54ee0b879c7c82d5576fe32b9510186b1",
-    "sourceHash": "74ade6f27b2c839a7d351920ec4df5f0292c1715ac719899186b02ee0b0b1313",
+    "tag": "v0.23.0",
+    "sha": "6bc86a03bb29d151ceb719501726337914aeb4dd",
+    "sourceHash": "1b3b1e91e4562c35f50a67df2cc0b16cf592ed501eecc7b88122cb383f5b06ad",
     "anchors": [
-      "soundsible-desktop--windows-10-rc",
-      "current-release-candidate-contract",
+      "desktop-app-beta",
+      "downloads",
+      "no-linux-app",
+      "using-it",
       "what-ci-proves",
       "what-ci-cannot-prove",
       "build-and-release",
-      "stable-release-blockers"
+      "stable-release-blockers",
+      "same-engine-and-player"
     ]
   },
   "ios": {

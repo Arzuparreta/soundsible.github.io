@@ -363,70 +363,1061 @@
         "en": "Guide from the current Soundsible release.",
         "es": "Guía de la versión actual de Soundsible."
       }
+    },
+    {
+      "slug": "android",
+      "source": "docs/ANDROID.md",
+      "group": "more",
+      "title": {
+        "en": "Soundsible para Android: desarrollo del port",
+        "es": "Soundsible para Android: desarrollo del port"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "desktop-client",
+      "source": "docs/DESKTOP_CLIENT.md",
+      "group": "more",
+      "title": {
+        "en": "Desktop client connections",
+        "es": "Desktop client connections"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-alpha",
+      "source": "docs/android/ALPHA.md",
+      "group": "more",
+      "title": {
+        "en": "Soundsible Android alpha",
+        "es": "Soundsible Android alpha"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-architecture",
+      "source": "docs/android/ARCHITECTURE.md",
+      "group": "more",
+      "title": {
+        "en": "Arquitectura y contratos del port Android",
+        "es": "Arquitectura y contratos del port Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-auth-fixture-isolation",
+      "source": "docs/android/AUTH_FIXTURE_ISOLATION.md",
+      "group": "more",
+      "title": {
+        "en": "Aislar presupuesto de login entre tests APK",
+        "es": "Aislar presupuesto de login entre tests APK"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-evidence",
+      "source": "docs/android/EVIDENCE.md",
+      "group": "more",
+      "title": {
+        "en": "Evidencia del port Android",
+        "es": "Evidencia del port Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-handoff",
+      "source": "docs/android/HANDOFF.md",
+      "group": "more",
+      "title": {
+        "en": "Traspaso del port Android",
+        "es": "Traspaso del port Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-handoff-history",
+      "source": "docs/android/HANDOFF_HISTORY.md",
+      "group": "more",
+      "title": {
+        "en": "Historial del port Android",
+        "es": "Historial del port Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-offline-decision",
+      "source": "docs/android/OFFLINE_DECISION.md",
+      "group": "more",
+      "title": {
+        "en": "Offline: decisión aprobada",
+        "es": "Offline: decisión aprobada"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-port-plan",
+      "source": "docs/android/PORT_PLAN.md",
+      "group": "more",
+      "title": {
+        "en": "Slices y matriz de paridad",
+        "es": "Slices y matriz de paridad"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-refresh-confirmation",
+      "source": "docs/android/REFRESH_CONFIRMATION.md",
+      "group": "more",
+      "title": {
+        "en": "Confirmación de refresh Android tras escrituras",
+        "es": "Confirmación de refresh Android tras escrituras"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-release-gates",
+      "source": "docs/android/RELEASE_GATES.md",
+      "group": "more",
+      "title": {
+        "en": "Distribución Android y requisitos de publicación",
+        "es": "Distribución Android y requisitos de publicación"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-1",
+      "source": "docs/android/SLICE_1.md",
+      "group": "more",
+      "title": {
+        "en": "Primer slice funcional: conexión, cuenta y biblioteca real",
+        "es": "Primer slice funcional: conexión, cuenta y biblioteca real"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2",
+      "source": "docs/android/SLICE_2.md",
+      "group": "more",
+      "title": {
+        "en": "S2: primer programa de audio nativo",
+        "es": "S2: primer programa de audio nativo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2aa",
+      "source": "docs/android/SLICE_2AA.md",
+      "group": "more",
+      "title": {
+        "en": "S2aa: eliminar un archivo adquirido desde Android",
+        "es": "S2aa: eliminar un archivo adquirido desde Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ab",
+      "source": "docs/android/SLICE_2AB.md",
+      "group": "more",
+      "title": {
+        "en": "S2ab: retirada durante una respuesta pendiente de Radio/autoplay",
+        "es": "S2ab: retirada durante una respuesta pendiente de Radio/autoplay"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ac",
+      "source": "docs/android/SLICE_2AC.md",
+      "group": "more",
+      "title": {
+        "en": "S2ac: Settings de cuenta compartido con Android",
+        "es": "S2ac: Settings de cuenta compartido con Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ad",
+      "source": "docs/android/SLICE_2AD.md",
+      "group": "more",
+      "title": {
+        "en": "S2ad: Appearance y preferencias visuales compartidas",
+        "es": "S2ad: Appearance y preferencias visuales compartidas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ae",
+      "source": "docs/android/SLICE_2AE.md",
+      "group": "more",
+      "title": {
+        "en": "S2ae: Discover y entidades externas",
+        "es": "S2ae: Discover y entidades externas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2af",
+      "source": "docs/android/SLICE_2AF.md",
+      "group": "more",
+      "title": {
+        "en": "S2af: Settings restantes y efectos reales",
+        "es": "S2af: Settings restantes y efectos reales"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ag",
+      "source": "docs/android/SLICE_2AG.md",
+      "group": "more",
+      "title": {
+        "en": "S2ag: acceso Subsonic desde Ajustes Android",
+        "es": "S2ag: acceso Subsonic desde Ajustes Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ah",
+      "source": "docs/android/SLICE_2AH.md",
+      "group": "more",
+      "title": {
+        "en": "S2ah: compartir canciones desde Android",
+        "es": "S2ah: compartir canciones desde Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ai",
+      "source": "docs/android/SLICE_2AI.md",
+      "group": "more",
+      "title": {
+        "en": "S2ai: recibir canciones compartidas",
+        "es": "S2ai: recibir canciones compartidas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2aj",
+      "source": "docs/android/SLICE_2AJ.md",
+      "group": "more",
+      "title": {
+        "en": "S2aj — Registro nativo mediante invitación",
+        "es": "S2aj — Registro nativo mediante invitación"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ak",
+      "source": "docs/android/SLICE_2AK.md",
+      "group": "more",
+      "title": {
+        "en": "S2ak — Personas y permisos administrativos nativos",
+        "es": "S2ak — Personas y permisos administrativos nativos"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2al",
+      "source": "docs/android/SLICE_2AL.md",
+      "group": "more",
+      "title": {
+        "en": "S2al — Dispositivo nativo y traspaso NORMAL",
+        "es": "S2al — Dispositivo nativo y traspaso NORMAL"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2am",
+      "source": "docs/android/SLICE_2AM.md",
+      "group": "more",
+      "title": {
+        "en": "S2am — Controles de dispositivos desde Android",
+        "es": "S2am — Controles de dispositivos desde Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2an",
+      "source": "docs/android/SLICE_2AN.md",
+      "group": "more",
+      "title": {
+        "en": "S2an — Traspaso de salida NORMAL",
+        "es": "S2an — Traspaso de salida NORMAL"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ao",
+      "source": "docs/android/SLICE_2AO.md",
+      "group": "more",
+      "title": {
+        "en": "S2ao — Workspace DJ multidispositivo",
+        "es": "S2ao — Workspace DJ multidispositivo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ap",
+      "source": "docs/android/SLICE_2AP.md",
+      "group": "more",
+      "title": {
+        "en": "S2ap — Radio y runway de Autoplay en traspasos",
+        "es": "S2ap — Radio y runway de Autoplay en traspasos"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2aq",
+      "source": "docs/android/SLICE_2AQ.md",
+      "group": "more",
+      "title": {
+        "en": "S2aq — Reconexión de dispositivo tras agotar Socket.IO",
+        "es": "S2aq — Reconexión de dispositivo tras agotar Socket.IO"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2ar",
+      "source": "docs/android/SLICE_2AR.md",
+      "group": "more",
+      "title": {
+        "en": "S2ar — Catálogo diferido en el programa nativo",
+        "es": "S2ar — Catálogo diferido en el programa nativo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2as",
+      "source": "docs/android/SLICE_2AS.md",
+      "group": "more",
+      "title": {
+        "en": "S2as — Continuación y retry del catálogo diferido",
+        "es": "S2as — Continuación y retry del catálogo diferido"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2at",
+      "source": "docs/android/SLICE_2AT.md",
+      "group": "more",
+      "title": {
+        "en": "S2at — Invitaciones recibidas del sistema y menú de ocurrencia pendiente",
+        "es": "S2at — Invitaciones recibidas del sistema y menú de ocurrencia pendiente"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2au",
+      "source": "docs/android/SLICE_2AU.md",
+      "group": "more",
+      "title": {
+        "en": "S2au — Ajustes de servidor y de este dispositivo",
+        "es": "S2au — Ajustes de servidor y de este dispositivo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2av",
+      "source": "docs/android/SLICE_2AV.md",
+      "group": "more",
+      "title": {
+        "en": "S2av — Iniciar sesión escaneando un código de emparejamiento",
+        "es": "S2av — Iniciar sesión escaneando un código de emparejamiento"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2k",
+      "source": "docs/android/SLICE_2K.md",
+      "group": "more",
+      "title": {
+        "en": "S2k: primer vertical de podcasts",
+        "es": "S2k: primer vertical de podcasts"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2l",
+      "source": "docs/android/SLICE_2L.md",
+      "group": "more",
+      "title": {
+        "en": "S2l: directorio, seguimiento y adquisición podcast",
+        "es": "S2l: directorio, seguimiento y adquisición podcast"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2m",
+      "source": "docs/android/SLICE_2M.md",
+      "group": "more",
+      "title": {
+        "en": "S2m: Radio NORMAL propiedad del servicio",
+        "es": "S2m: Radio NORMAL propiedad del servicio"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2n",
+      "source": "docs/android/SLICE_2N.md",
+      "group": "more",
+      "title": {
+        "en": "S2n: favoritos y pertenencia a playlists",
+        "es": "S2n: favoritos y pertenencia a playlists"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2o",
+      "source": "docs/android/SLICE_2O.md",
+      "group": "more",
+      "title": {
+        "en": "S2o: gestión de playlists con condiciones de escritura",
+        "es": "S2o: gestión de playlists con condiciones de escritura"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2p",
+      "source": "docs/android/SLICE_2P.md",
+      "group": "more",
+      "title": {
+        "en": "S2p: perfiles y refill Radio NORMAL",
+        "es": "S2p: perfiles y refill Radio NORMAL"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2q",
+      "source": "docs/android/SLICE_2Q.md",
+      "group": "more",
+      "title": {
+        "en": "S2q: autoplay NORMAL propiedad del servicio",
+        "es": "S2q: autoplay NORMAL propiedad del servicio"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2r",
+      "source": "docs/android/SLICE_2R.md",
+      "group": "more",
+      "title": {
+        "en": "S2r: primer vertical de metadatos y carátulas",
+        "es": "S2r: primer vertical de metadatos y carátulas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2s",
+      "source": "docs/android/SLICE_2S.md",
+      "group": "more",
+      "title": {
+        "en": "S2s: edición de biblioteca conservando audio e identidad",
+        "es": "S2s: edición de biblioteca conservando audio e identidad"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2t",
+      "source": "docs/android/SLICE_2T.md",
+      "group": "more",
+      "title": {
+        "en": "S2t: bookmarks de álbum/artist y refresh confirmado",
+        "es": "S2t: bookmarks de álbum/artist y refresh confirmado"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2u",
+      "source": "docs/android/SLICE_2U.md",
+      "group": "more",
+      "title": {
+        "en": "S2u: selector de carátula del sistema",
+        "es": "S2u: selector de carátula del sistema"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2v",
+      "source": "docs/android/SLICE_2V.md",
+      "group": "more",
+      "title": {
+        "en": "S2v: carátula editada frente a artwork embebido",
+        "es": "S2v: carátula editada frente a artwork embebido"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2w",
+      "source": "docs/android/SLICE_2W.md",
+      "group": "more",
+      "title": {
+        "en": "S2w: letras temporizadas con programa nativo",
+        "es": "S2w: letras temporizadas con programa nativo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2x",
+      "source": "docs/android/SLICE_2X.md",
+      "group": "more",
+      "title": {
+        "en": "S2x: adquisición de música y promoción de identidad",
+        "es": "S2x: adquisición de música y promoción de identidad"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2y",
+      "source": "docs/android/SLICE_2Y.md",
+      "group": "more",
+      "title": {
+        "en": "S2y: importación desde export del usuario",
+        "es": "S2y: importación desde export del usuario"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-2z",
+      "source": "docs/android/SLICE_2Z.md",
+      "group": "more",
+      "title": {
+        "en": "S2z: Atrás del sistema en la navegación nativa",
+        "es": "S2z: Atrás del sistema en la navegación nativa"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-3a",
+      "source": "docs/android/SLICE_3A.md",
+      "group": "more",
+      "title": {
+        "en": "S3a: nivelación y salida PCM antes de DJ/Live",
+        "es": "S3a: nivelación y salida PCM antes de DJ/Live"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-3b",
+      "source": "docs/android/SLICE_3B.md",
+      "group": "more",
+      "title": {
+        "en": "S3b: ejecución DJ nativa",
+        "es": "S3b: ejecución DJ nativa"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4a",
+      "source": "docs/android/SLICE_4A.md",
+      "group": "more",
+      "title": {
+        "en": "S4a: entrada del programa nativo a WebRTC",
+        "es": "S4a: entrada del programa nativo a WebRTC"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4b",
+      "source": "docs/android/SLICE_4B.md",
+      "group": "more",
+      "title": {
+        "en": "S4b — relay nativo WHIP/WHEP",
+        "es": "S4b — relay nativo WHIP/WHEP"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4c",
+      "source": "docs/android/SLICE_4C.md",
+      "group": "more",
+      "title": {
+        "en": "S4c — host Live propiedad del servicio",
+        "es": "S4c — host Live propiedad del servicio"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4d",
+      "source": "docs/android/SLICE_4D.md",
+      "group": "more",
+      "title": {
+        "en": "S4d — escucha Live en MediaSession",
+        "es": "S4d — escucha Live en MediaSession"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4e",
+      "source": "docs/android/SLICE_4E.md",
+      "group": "more",
+      "title": {
+        "en": "S4e — Live visible y guest nativo",
+        "es": "S4e — Live visible y guest nativo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4f",
+      "source": "docs/android/SLICE_4F.md",
+      "group": "more",
+      "title": {
+        "en": "S4f — Programa DJ y carátulas de Live",
+        "es": "S4f — Programa DJ y carátulas de Live"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4g",
+      "source": "docs/android/SLICE_4G.md",
+      "group": "more",
+      "title": {
+        "en": "S4g — Cancelación y recuperación de media Live",
+        "es": "S4g — Cancelación y recuperación de media Live"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4h",
+      "source": "docs/android/SLICE_4H.md",
+      "group": "more",
+      "title": {
+        "en": "S4h — Autorización y lease de sala Live",
+        "es": "S4h — Autorización y lease de sala Live"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4i",
+      "source": "docs/android/SLICE_4I.md",
+      "group": "more",
+      "title": {
+        "en": "S4i — Reanudar sala y programa después de otro publisher/proceso",
+        "es": "S4i — Reanudar sala y programa después de otro publisher/proceso"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4j",
+      "source": "docs/android/SLICE_4J.md",
+      "group": "more",
+      "title": {
+        "en": "S4j — Recovery del receptor, reset y foco del sistema",
+        "es": "S4j — Recovery del receptor, reset y foco del sistema"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4k",
+      "source": "docs/android/SLICE_4K.md",
+      "group": "more",
+      "title": {
+        "en": "S4k — Agotamiento y cancelación del emisor en background",
+        "es": "S4k — Agotamiento y cancelación del emisor en background"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-4l",
+      "source": "docs/android/SLICE_4L.md",
+      "group": "more",
+      "title": {
+        "en": "S4l — Programa visible y enlace público de Live",
+        "es": "S4l — Programa visible y enlace público de Live"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5a",
+      "source": "docs/android/SLICE_5A.md",
+      "group": "more",
+      "title": {
+        "en": "S5a: Android Auto, biblioteca y selección del programa",
+        "es": "S5a: Android Auto, biblioteca y selección del programa"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5b",
+      "source": "docs/android/SLICE_5B.md",
+      "group": "more",
+      "title": {
+        "en": "S5b: suscripciones Android Auto en segundo plano",
+        "es": "S5b: suscripciones Android Auto en segundo plano"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5c",
+      "source": "docs/android/SLICE_5C.md",
+      "group": "more",
+      "title": {
+        "en": "S5c: copias Auto después de expirar la cookie",
+        "es": "S5c: copias Auto después de expirar la cookie"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5d",
+      "source": "docs/android/SLICE_5D.md",
+      "group": "more",
+      "title": {
+        "en": "S5d: cambios de copias locales en Auto",
+        "es": "S5d: cambios de copias locales en Auto"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5e",
+      "source": "docs/android/SLICE_5E.md",
+      "group": "more",
+      "title": {
+        "en": "S5e: controles del coche durante DJ",
+        "es": "S5e: controles del coche durante DJ"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5f",
+      "source": "docs/android/SLICE_5F.md",
+      "group": "more",
+      "title": {
+        "en": "S5f: reconexión nativa de suscripciones",
+        "es": "S5f: reconexión nativa de suscripciones"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5g",
+      "source": "docs/android/SLICE_5G.md",
+      "group": "more",
+      "title": {
+        "en": "S5g: confianza y artwork entre UIDs",
+        "es": "S5g: confianza y artwork entre UIDs"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-5h",
+      "source": "docs/android/SLICE_5H.md",
+      "group": "more",
+      "title": {
+        "en": "S5h: reproducción y revocación desde otro UID",
+        "es": "S5h: reproducción y revocación desde otro UID"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-slice-6",
+      "source": "docs/android/SLICE_6.md",
+      "group": "more",
+      "title": {
+        "en": "S6: offline y distribución",
+        "es": "S6: offline y distribución"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.19.1",
-  "sha": "e984a1c09f5dd76b253fb2d6dbbbd836ff6ca18b",
-  "publishedAt": "2026-10-02T14:33:36Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.19.1",
+  "tag": "v0.23.0",
+  "sha": "6bc86a03bb29d151ceb719501726337914aeb4dd",
+  "publishedAt": "2026-10-10T09:11:01Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.23.0",
   "assets": [
     {
+      "name": "android-release.json",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/android-release.json"
+    },
+    {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/apps.json"
+    },
+    {
+      "name": "release-acceptance.json",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/release-acceptance.json"
+    },
+    {
+      "name": "SHA256SUMS-android.txt",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/SHA256SUMS-android.txt"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/SHA256SUMS-x64.txt"
+    },
+    {
+      "name": "Soundsible-Android-alpha.apk",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible-Android-alpha.apk"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.19.1_amd64.deb",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible_0.19.1_amd64.deb"
+      "name": "Soundsible_0.23.0_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible_0.23.0_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.19.1_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible_0.19.1_arm64-setup.exe"
+      "name": "Soundsible_0.23.0_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible_0.23.0_x64-setup.exe"
     },
     {
-      "name": "Soundsible_0.19.1_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.19.1/Soundsible_0.19.1_x64-setup.exe"
+      "name": "upgrade-seed-androidTest.apk",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/upgrade-seed-androidTest.apk"
     }
   ],
   "files": {
     "docs/INSTALL.md": "b768626bfd40e66d4bf618f9497c89b3a1890519e391385a3f8c45172d0edcf7",
     "docs/DOCKER.md": "881f0905544e3f3ffa0f2c02ca7d810d186628c72c2442d24ade72d26cfa239a",
-    "docs/DESKTOP_BETA.md": "d5d4c6a81e12dea9b86c723538519877c06ca12f990618c8b867a3d694bdb849",
+    "docs/DESKTOP_BETA.md": "1b3b1e91e4562c35f50a67df2cc0b16cf592ed501eecc7b88122cb383f5b06ad",
     "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "docs/OPENSUBSONIC.md": "aabfea96f2e2f47234fff1892103c8ca4d99684bcdfe04ad482e226c6aa9cd87",
     "docs/AUTO_MODE.md": "ef8550e948c3824fb92bcf2ec19df62aff12c2638a81bb2321e68e72e06b66a4",
     "docs/LIVE.md": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
-    "docs/CAR_INTEGRATION.md": "e816a9dcfb451f63bdb39e8b5e8339700f444c525a525319a485f6a87eeaa28c",
-    "docs/CONFIGURATION.md": "246212ea1ba33e03e9522afed635fe22ba921d1603ef8cf4c4ece6b86de71d22",
+    "docs/CAR_INTEGRATION.md": "6c9696c052f4f0d23a0d6b404d8491de253f2c5541106febbcc607807d5ed698",
+    "docs/CONFIGURATION.md": "494a071f0ed78a49b873a1e7c703d1ae4e2f053effc832e5ac2455d953b3c8e6",
     "docs/TELEMETRY_PRIVACY.md": "3b67ce1ab558d61658cffb0815620460adc7cdd99b1074d77052a9a4bcc1d673",
     "docs/troubleshooting-yt-dlp-formats.md": "0626447d20950e792b59a27b07b45cdbabbd67df9bfe9d2f8a5f6121e40d7c5c",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
-    "docs/ARCHITECTURE.md": "5af74994d7b586d8186523db67775751e2f0d3a3cd4b9c174f3e1f6b77b559ae",
+    "docs/ARCHITECTURE.md": "c9a0be55d99385fea3ec6310ef6c5895ba1841fd39c23153c3e9551f1118423b",
     "docs/AGENT_INTEGRATION.md": "fe2dc18873a16930f4711a1b1bd3e8c195ba1d4ad5010f66cec4926421a716c8",
     "docs/VPS_RELAY.md": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
-    "CONTRIBUTING.md": "d29b063d3c630423b498455e4d3280513b79776fc5bb92ed6f1023e82b6b5042",
-    "desktop-shell/README.md": "c8485094259d9da46fa51d97546f4db29967b1de7f4ed63ace659cab1298de13",
+    "CONTRIBUTING.md": "4e00593df491011f72dab4de0dfcd19f1a1d93db2ca2d5e448f19d1ba9e200ac",
+    "desktop-shell/README.md": "4e414b6b9ea7095f46bbc06bcfb553676221a976742f8005078e2cfd4ecfb5ca",
     "deploy/community/README.md": "dfaa385af3df0d37ac743956cf10956919ab882608c78e0d6532717b3088062e",
-    "docs/RELEASING.md": "1e6063e655a2270b50b7dd187246a7b9ee73123ccb557f75b41bae09baca0430",
-    "docs/ROADMAP.md": "6e5f8dcfd36ffd2ea0215f4b9f8f5d27adf821c0ffbfe580803543a9b8177ba9",
+    "docs/RELEASING.md": "7f28c2dad057f26780cfaa0d77f59888534d59ca40f8d0e873d5fe940ef54791",
+    "docs/ROADMAP.md": "02c4375690303788638c7f1ec674b017f0c54ea40481f1280ab73aef34bfb906",
     "docs/MOBILE_LISTS.md": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
     "docs/PLAYBACK_DIAGNOSIS.md": "e4ea00fcaac0d0afcb4649b59b28d4ab4d987fa182c01530fc08a62b0c4bcc38",
     "docs/ARTWORK.md": "c40aa96cf98e87acfcb2cf97c7860e66af15e08b163c40928ac9601256e52e82",
     "docs/PERFORMANCE.md": "5ac8e034d9f37671d4269371be4e04abbd3a3fa7fdc6586caa6ea9f9190d9a1a",
-    "docs/README.md": "386f70980621c43abeb1e98caf9577c7c94669c74bd2eadbbd198c3075e7bf12",
+    "docs/README.md": "e166732e93c0a2cc7022d7e3cd36a9834d75e127f7c5a99b34c111b6618eefe3",
     "docs/audits/2026-09-20-engineering.md": "6da3127682f09e68b0753667d565d6ed0a0f0e805a403ac8e6e5217410b1c8fc",
     "docs/audits/2026-09-25-ui-loading-feedback.md": "646c70b3b36f7f5725a08d41e2bf65bad7281e88cc3e3bc9055acbb968aa704d",
     "docs/audits/2026-09-28-recovery-and-construction.md": "5c68bc4bbf3f612fe1cf1ce6e3d372467c72762d87f95b9612dfedb6331838dc",
@@ -450,32 +1441,107 @@
     "docs/performance/playback-load.md": "c9f541c85acfa0cde2f30b9a8a1e17343a3d9bf6deb3bca4f4667fe40141b7d0",
     "docs/performance/track-metadata-patch.md": "eb8a14d6862fa37f3534d84e141c5e2e988a5e5f143a16b51ccc9a5ee057f428",
     "docs/performance/web-payload.md": "04d94d439deae2c2d358cb3e696e5621059020664ed3ed1a7f5d1dbe1341ab87",
+    "docs/ANDROID.md": "37c46741ad435b8df8d58f7f79bde7c650f18551d3845bf3e796b60310b6eeac",
+    "docs/DESKTOP_CLIENT.md": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
+    "docs/android/ALPHA.md": "8cba7847babddfb3d0cc9e4a52b72edf56f236327734c78323f043d924f2192c",
+    "docs/android/ARCHITECTURE.md": "cc7c4c0f640f465404abc44127178b7246d76be96eb7d2ce60db66a2cc75ca65",
+    "docs/android/AUTH_FIXTURE_ISOLATION.md": "794402e18c6eb11f64655d43ff3e61adc5b00cba4eac00e5fa46a763aef35c76",
+    "docs/android/EVIDENCE.md": "6c39bbea0f5f4fdc6c59bb0d44350605ed8fac3136839a48b08f75680059a91b",
+    "docs/android/HANDOFF.md": "292df538e786fd03c49c9c2c08f6758d7f0d8e94e6f671ad156f6c7522e3e38e",
+    "docs/android/HANDOFF_HISTORY.md": "341a975d26f770f42ea4d8e6cea2da48a446742e7b327358ca7aa3414957903b",
+    "docs/android/OFFLINE_DECISION.md": "6fe358a69d4368960dcb687faa30d75bcc5ff0cb65a13878c3110a966fddae91",
+    "docs/android/PORT_PLAN.md": "e05ba4c091e235794d8aeca59858726d5927c1d70c4745e71d28dcbc3c55991f",
+    "docs/android/REFRESH_CONFIRMATION.md": "274921f5c84b44bd0ae00fca7d379592f92e07f8d6953a9d022e9bbc9d93a31d",
+    "docs/android/RELEASE_GATES.md": "8850ddedfaf5146752c53f9b639b2f603edf8607f89da79606765abc8a475d03",
+    "docs/android/SLICE_1.md": "5f05c5402ec6e8c9a54c710c8d416bfd7ff2c3eb2a1208e230668bfc3f25e2e1",
+    "docs/android/SLICE_2.md": "2217542bf9930292e4b5fc651044539607efc353cba5d41e059b86f4ed35748a",
+    "docs/android/SLICE_2AA.md": "54099ef92583c13b3dd6881555f9d1364bccf4cf41f0b0673a4fe0410eab4989",
+    "docs/android/SLICE_2AB.md": "d877071b1a21cadef614c1b27d5e3fc47f7f4135ce70315095f9168088a077b9",
+    "docs/android/SLICE_2AC.md": "ad4d66d26d4989a249ebf2ac99d7e37fd32f23a1d9f78c8247aee070ef9af869",
+    "docs/android/SLICE_2AD.md": "b3093869dcd9480481fe6dd5e5619bbdf4c00174d958b3349bb86bf3f9777f15",
+    "docs/android/SLICE_2AE.md": "a63d7641a82ea9a60d9dad2dccc8b5a83a2b1619f218f781c9e1e30f451d36f3",
+    "docs/android/SLICE_2AF.md": "36ab8378349c7a653a9bdf87af0fefb8b672ee5aa99c846025019e64c31be299",
+    "docs/android/SLICE_2AG.md": "985d92fb1264cbc7d225fa8690759435ba487bd08d98b48dd696a3083f82cc53",
+    "docs/android/SLICE_2AH.md": "a475ce2a463a8b5ad8a8679e23519ce0e1feedd38ecede3fdf734a6988af571f",
+    "docs/android/SLICE_2AI.md": "366dee14afbcc7fff97688b822d08e4038ac97f364eaee9584a3aaec9f15b627",
+    "docs/android/SLICE_2AJ.md": "79ab7dd4bc10b04d24fa6d59ff431cb3e064d296347823efe5d3d3ef21d82f0e",
+    "docs/android/SLICE_2AK.md": "a442a376d99f6a61d870e770ea59d7c56ccf4d6b4596712e6dbd7389abece8da",
+    "docs/android/SLICE_2AL.md": "cbe9147d722a5ee92ab65e2aa8267bd17cfc1e5d26cdd0784cafba5ff51364ed",
+    "docs/android/SLICE_2AM.md": "25e58a816a3281a43b3874c9be4e8d02c5107b02b8ac016d4761c1d537313251",
+    "docs/android/SLICE_2AN.md": "3acb35c5370acf1b35e3b5bb5fab268544db97df91454c5cf04cd90750f57b58",
+    "docs/android/SLICE_2AO.md": "b271cabe70db1bce90479ea3be14905b129c34112e2c65b97ff1afed3d59a759",
+    "docs/android/SLICE_2AP.md": "a5f721f9c30b4c48b6a708b2e05e1eeca014c5782629adb1a67f63a5def71217",
+    "docs/android/SLICE_2AQ.md": "cfdc4e9d5868569e5e6c1fee2c759102e6cf609150e36f2635914b03874c7b62",
+    "docs/android/SLICE_2AR.md": "798d9e04609d4cf39576daece5a2004f6fe680171fd64d1941e1cf2dba88919f",
+    "docs/android/SLICE_2AS.md": "8afc35abbd8963118429db3dba38b6b5eece2b882dbc9616b6b425d936612c51",
+    "docs/android/SLICE_2AT.md": "2bb1da5ed35b110e59899836250ce83db4e39ab554808c53a07b94f6b16c00fc",
+    "docs/android/SLICE_2AU.md": "6421cae0fbaf5ff84c5b64d445d2fcf579dcd421994d6c9e361ac88fb96d0cf9",
+    "docs/android/SLICE_2AV.md": "aba9885a58763e932e082593ca550eeb18eb1799782e9fa9de82479d5051ea1d",
+    "docs/android/SLICE_2K.md": "768f527d81d8c2c420b290e3c029dafe7c2b185e32b0e46c3df1784be689eeb1",
+    "docs/android/SLICE_2L.md": "97ccc264e44bcc20bf0577325c213a2af80924a3a0431cd0660173456bbed272",
+    "docs/android/SLICE_2M.md": "e7f9bec241080d72505d100655158a5bcaf461fb24f100508b668950c65a8cda",
+    "docs/android/SLICE_2N.md": "9a0eca198642a18392bb6c3f1e920badd030107d998d17dfa0a2819d23c6e3a4",
+    "docs/android/SLICE_2O.md": "3252fa38e80e77e74d1681e8b4ad60ca839ec3bd9f21940688c110e4fb667dc8",
+    "docs/android/SLICE_2P.md": "0d8db01b5ca05300856b1534933a31e6dea445d2912c5663135b2190be816f15",
+    "docs/android/SLICE_2Q.md": "08671cc1a380cccc94f76b2a6910d94d81617bd3ee60618954cf9be1fae44e4d",
+    "docs/android/SLICE_2R.md": "d7289ac81f165bd4b0d197891d0dc7f8cd9870bc3a9dd7543870ef7f19f7b44d",
+    "docs/android/SLICE_2S.md": "421c49e5b1c3a9b4f0cca9a5eafdac953b30bd4f536e1d69ffc349ac979635d7",
+    "docs/android/SLICE_2T.md": "0bef2deafc89aea59760e493733d6a805dda6467376719bdf5a0360e59794ff3",
+    "docs/android/SLICE_2U.md": "ca6343f79d51fa86d43d8bccf7ce0557a37b6494df7d6793a92ee544cd649447",
+    "docs/android/SLICE_2V.md": "af351cfae4ac77db6caedf355245f7e7ce3a15413b5e76215a6c304f7347f798",
+    "docs/android/SLICE_2W.md": "d4fffd9ad3e508f7dbef77772b59ccef0025156dfb1eb9f6fa125471113f7fbb",
+    "docs/android/SLICE_2X.md": "52442b2449317f935cb6d527f6d9451c9eee548fb3840b3f108450a1f883bc08",
+    "docs/android/SLICE_2Y.md": "9de9b1772348744dca63efdda87daf4824e3a915b63ec90dd7eca9a9a214df62",
+    "docs/android/SLICE_2Z.md": "7046cb0f9adb0c5c3b3ce0ba7ebe0ae551959bc0c5d018c1af3e83a34f413dd3",
+    "docs/android/SLICE_3A.md": "7e879a3b8e95f308f092ee16cc3ee9a989077551374af669b1ef228630c5791a",
+    "docs/android/SLICE_3B.md": "039bb520abd6fa0a08267ab1c164414608a1269bd32121b57d546c3588deda9e",
+    "docs/android/SLICE_4A.md": "116efa6728274daebebfa6061c4748891fced45b0bee170777e16fbbae33912b",
+    "docs/android/SLICE_4B.md": "d3ac9f613b9ddcca10959cd180f289d9f22811d7425c3dbc5b6f9bda98aa62d1",
+    "docs/android/SLICE_4C.md": "c6e2a3fc36d65640fa53f6d1d8e9c75e4d6d3cd31f5170276659e49d00c8005f",
+    "docs/android/SLICE_4D.md": "e3927e224308ca6d14dc92be0846192caf7908b57164182dbc66e982d2ae51fe",
+    "docs/android/SLICE_4E.md": "eafda1709a4de1438af7bb590c287fe5fa1f8bdcc984edbb7205879019d013b9",
+    "docs/android/SLICE_4F.md": "9175bdbb4ec2b608b24d589b67c83a55132b6ca5ef472461d8fcbec0a38c034a",
+    "docs/android/SLICE_4G.md": "6d94afeba33746e1f2ba46806700e23764329477e68d51749da222de3f576a5e",
+    "docs/android/SLICE_4H.md": "3ac651028a1e5a879d345694180ab29b9ed4412628cdc078f9cd4519aa2e0886",
+    "docs/android/SLICE_4I.md": "1b9b5f860f66fabaff537fb8652798bde6959dfc53586845779514c888f76b5a",
+    "docs/android/SLICE_4J.md": "c445dcb11fa2c50801f502b635298d08f6726a716647e9503afc05d820cfbb6c",
+    "docs/android/SLICE_4K.md": "f2de2eddb56da76a495289ff0cd614a7fa76ca6ea69ae7b8339c7c2e00a31e54",
+    "docs/android/SLICE_4L.md": "716c458a51bba96a5a14628b26b46a3550af6dfacada3af3f4a76dc6120240de",
+    "docs/android/SLICE_5A.md": "b6da960ed88e96b60245c5752cc68f4fffc3af8d0078e69107777d53beb0ebad",
+    "docs/android/SLICE_5B.md": "7621ea856c2decec4dacb333aa3c66a08b1a2e04be7636ca06b7c927d1286919",
+    "docs/android/SLICE_5C.md": "8e955a77a04fd073ba3b69bb40a8db5d56f9f242115a7a44c95d80f7ade8623c",
+    "docs/android/SLICE_5D.md": "c2618792a5e2eb55c53c1293079a3647d5cf1b884b4464fe42d07c274ade8ffe",
+    "docs/android/SLICE_5E.md": "944ae3e141fab11bd5dbcbdf51ad4c5de273a1dcce0c77d9b28a382fab143669",
+    "docs/android/SLICE_5F.md": "0f9b8a7617529b05d4b84d1ad854057cccdc422d97d38dc898829e74130b97cb",
+    "docs/android/SLICE_5G.md": "790493e67708028d1e8957aa3280c692e2635b87ce35dc4f23f64c05082e2abf",
+    "docs/android/SLICE_5H.md": "0610535f9cab44519b0706cf0a2d6a5a7ecd8e532f72f7ef56a044c576c18eec",
+    "docs/android/SLICE_6.md": "204be8ff4d1db8972ab20415d41561f5b2a50a8788e128174d362a0446981b64",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
-    "docs/images/screenshots/dark/desktop-library.webp": "d1b4a4d39836da24e25834d6e425276b578d96cc3904af81fada5cecccef49bd",
-    "docs/images/screenshots/dark/desktop-now-playing.webp": "9493a2e65ae50a601f91db2bd08c702eb8c8298fccf4ccfda516d8dade4d6769",
-    "docs/images/screenshots/dark/desktop-search.webp": "395fb0d8cb4ec70a2d20ccacc61b3a8fb563c85b8471cad92883f9bfe076084e",
-    "docs/images/screenshots/dark/mobile-library.webp": "cf52dc9de67e32784b591eec57656fe25b59953063e0a77f78bb54e78e8815e4",
-    "docs/images/screenshots/dark/mobile-now-playing.webp": "02202a7eb2b08ee68e9729277bc6949661dbbc90159b92b4bea06f567fd2f18c",
-    "docs/images/screenshots/forest-green/desktop-library.webp": "57e2797b6fbe67c7a7203115ba57164c165fc530b5299295dc3e3b33e7cae45e",
-    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "0004f15510c07fc2965e66211873846a22622e94e393ca3287ef8470ad3e6af5",
-    "docs/images/screenshots/forest-green/desktop-search.webp": "faed7cfed8c78f256c10d994ccdc2c4f3d55aad521b6988613ab810298e6dd2f",
-    "docs/images/screenshots/forest-green/mobile-library.webp": "acf7a53654c47b41455209da01731473151950ae8bc5c1789b76ae7e22e61eb4",
-    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "eb0d6b5aba1bddf6df79a99cfb0bf9a50fed3e389bc4a28ccfe538efc3cabe5b",
-    "docs/images/screenshots/light/desktop-library.webp": "42b33d951d317d14e4bba54682ee74c5648bf5abce8470bd2372dd3827ad1d48",
-    "docs/images/screenshots/light/desktop-now-playing.webp": "0190070f101baafce96f9457636655114616d3972ee57f7909f0819c18c50559",
-    "docs/images/screenshots/light/desktop-search.webp": "d21874be950d66fab86297e79c34b2fe46f52c2204facc38fdb82b12b588fdc8",
-    "docs/images/screenshots/light/mobile-library.webp": "753ca83df90c7f3f02c7936a815be726fee0119fb361bc5dddce474aefc945c8",
-    "docs/images/screenshots/light/mobile-now-playing.webp": "b537161110b9054ab1ccf337b2031259fe3d034a15ed114788b295b5f2654c1a",
-    "docs/images/screenshots/pure-black/desktop-library.webp": "295d31caf986e7f68827a15a6f5ea766a8ffd854bbc6caf8cca40c9938201519",
-    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "d7e567164c9d388c10dc00c40103f039a7512f21fba6fb328d1a1d99e421b1fd",
-    "docs/images/screenshots/pure-black/desktop-search.webp": "c06c947fbeff2f581c640968b3361cbf748693b7b172693d1351dd50a0cb6ae3",
-    "docs/images/screenshots/pure-black/mobile-library.webp": "de678c1d01677ddcf15f90609569cd957fb6630081d45bdb499139d22db564c6",
-    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "a5a1f2107dea164cea3801914f5c8fa48158e461fdd221a5fec2432fa20da1b1",
-    "docs/images/screenshots/slate/desktop-library.webp": "bc6b476a318f4d665d3e6ef57e3003b23f1eda337e1bd4fce8ca92a62f911292",
-    "docs/images/screenshots/slate/desktop-now-playing.webp": "b64c01b43bb200de33e554340f99b15447d98624ff870b1699e909d117aa2f29",
-    "docs/images/screenshots/slate/desktop-search.webp": "7d6051e6d8b1282ec184108e253e1d38b847d38b248b7ebd2a5c5458a7e9757f",
-    "docs/images/screenshots/slate/mobile-library.webp": "cf648242d1bfdc66078316935e30660ae885e4228cb49ce88713307600fbaca0",
-    "docs/images/screenshots/slate/mobile-now-playing.webp": "784ae18d1987729c7e0445f79c3703c3503ff462701bfd087410294640cb7f49",
-    "docs/images/social-card.png": "5cc6779e862ae13e4b67646259896a760f2fcc176df6b0537355dc2e1f1bcdf8"
+    "docs/images/screenshots/dark/desktop-library.webp": "d8afff6ba504afd654ebc8a85128b12cf2c88e92dbbf21dbd556d0905407f985",
+    "docs/images/screenshots/dark/desktop-now-playing.webp": "92fd1a4342e933baaedfd407a0e1ed5b5b43d84f9beeb739710d6f3cb09bc4a7",
+    "docs/images/screenshots/dark/desktop-search.webp": "275e327b90776459b81fff86e4fc01833addd7f5a7a4e053fa02147e895c5672",
+    "docs/images/screenshots/dark/mobile-library.webp": "2a4652200d352d0218c099b6ec099de93fbaecfe4eaaca916f36b5eea2e216e6",
+    "docs/images/screenshots/dark/mobile-now-playing.webp": "6e9c5147efb387aa32f7bbd1fa63ccaa3f02f01b63e4f16639caaf8b49d36f04",
+    "docs/images/screenshots/forest-green/desktop-library.webp": "9031546a4cdd1f9b0a7a10f28f9c86b5c027c5f6d19b4ca467ed990efb2afb5d",
+    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "0c6cfe9c05b5d9e24bf77d8cceac42345332988ddddc084041b004db34db5e5c",
+    "docs/images/screenshots/forest-green/desktop-search.webp": "281db99decfa628c9606a1c7703497f735f6de587ae4c406b28b59ee1d2d1706",
+    "docs/images/screenshots/forest-green/mobile-library.webp": "9223ebe11ecdd8c7b863ea4f0788dddcf178fc6988c285e1dc1edbdb3d365dca",
+    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "4c8ffc04e57d4bfcfc2fe0a7b71c0310e7a4ecb0a288edbbe3956ed3b54ff440",
+    "docs/images/screenshots/light/desktop-library.webp": "e65e4e2f31db06c4fc4014d6b5d4db4eb039ce7b0d8f492a01ebc9d879b038a6",
+    "docs/images/screenshots/light/desktop-now-playing.webp": "23ff9fd01968b058c46060bb546b2ad0105b8f7c94aa67f3978606da1c5f3296",
+    "docs/images/screenshots/light/desktop-search.webp": "59edd4ba4ac1931f8dbd43150725a682bf242b891a26a08327eec7dcaa9207f9",
+    "docs/images/screenshots/light/mobile-library.webp": "4f2236794f6614143dd37e7fae70b663015a057071bb14f0b82cb32b570d7c68",
+    "docs/images/screenshots/light/mobile-now-playing.webp": "67676fa1bc87ff0b8c1856190403ef6212b23fee44ba28f47a6289617a5641be",
+    "docs/images/screenshots/pure-black/desktop-library.webp": "c19e659720423c507f6bd69d55c546c1dad0bebf858e0eae3c569813a10e6ad1",
+    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "37381b9ef2a8ee424be2f6885bc7ff2fcfe159a0de52dcf1797eac9eee664643",
+    "docs/images/screenshots/pure-black/desktop-search.webp": "cc732529e5c2116bdfe102406b802fc2198dd578a1431ce070c4a33e44cf59d8",
+    "docs/images/screenshots/pure-black/mobile-library.webp": "fd03277fcc121054194fd00a8223bb2421cf74267035642c0f6281a6706024e7",
+    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "8218ec0f1b43a6c2e7b79ae1a5e5ba4fd38666964d539ca152d30ba7ed55c368",
+    "docs/images/screenshots/slate/desktop-library.webp": "321d16b98f3f03081c9cad542e328d49f676db666de44acf4e8cb4bf327030c1",
+    "docs/images/screenshots/slate/desktop-now-playing.webp": "80294719d2e572f1b44c691fa7656c2f9b2b1af1420de613ecf44a0e943baa43",
+    "docs/images/screenshots/slate/desktop-search.webp": "0b13d900c37f21e7aa9d73e066d5c63aa26950ff1df5525db931969c4320db45",
+    "docs/images/screenshots/slate/mobile-library.webp": "5a4e15d3705472663d11788546702a14fbe2b704f5da595ed969660a8ede361a",
+    "docs/images/screenshots/slate/mobile-now-playing.webp": "799b11c0ef9877b9d91f1a8785e2c9b14240e71177cda806309244e3ff4a0d2d",
+    "docs/images/social-card.png": "f64710ea6ead13525b90e777a93598e66ea6db7c1652889e9e6ccb9f79fe72fa"
   }
 }

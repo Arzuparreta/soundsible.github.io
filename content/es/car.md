@@ -1,6 +1,11 @@
 # Integración del coche
 
-Soundsible tiene tres capas orientadas al automóvil:
+Soundsible tiene tres capas orientadas al uso en el coche entre su implementación y sus planes:
+
+> La aplicación nativa de iOS nunca se ha instalado ni ejecutado en un dispositivo. Su comportamiento
+> en el coche es teórico. Las compilaciones IPA y las pruebas de código no validan la
+> reproducción nativa ni los controles del coche; la implementación de Media Session para la web es una vía
+> independiente.
 
 1. **Superficies del reproductor nativo del teléfono**: Bluetooth, USB, pantalla de bloqueo y pantallas multimedia del automóvil que reflejan el estado En reproducción del teléfono.
 2. **Aplicaciones complementarias nativas**: iOS primero, Android después.
@@ -51,6 +56,11 @@ Cada artículo devuelto utiliza esta forma estable:
 }
 ```
 
+Los elementos de pódcast adquiridos también incluyen `podcast_feed_id` y
+`podcast_episode_guid` cuando están presentes en los metadatos de la biblioteca. Los clientes nativos usan
+esa identidad para el progreso del episodio; `stream_url` sigue apuntando al archivo
+adquirido. Las rutas del sistema de archivos local nunca forman parte de la respuesta para el coche.
+
 Colecciones raíz:
 
 - `recently-played`
@@ -62,9 +72,11 @@ Colecciones raíz:
 
 Los ID de las listas de reproducción están codificados como `playlist:<url-encoded-name>`.
 
-## Compañero iOS: construido
+## Aplicación complementaria de iOS: solo código, nunca ejecutada en un dispositivo
 
-El cliente iOS nativo vive en [`ios/`](../ios) y está documentado en [IOS.md](IOS.md). Hace lo que especifica este documento:
+El cliente nativo de iOS está en [`ios/`](../ios) y se documenta en
+[IOS.md](IOS.md). Su código pretende implementar lo siguiente; nada de ello se ha
+validado en un dispositivo:
 
 - Se empareja a través del flujo existente y mantiene el token del dispositivo emparejado en el llavero.
 - Explora `/api/car/home` y `/api/car/items/<item_id>`.
@@ -82,7 +94,12 @@ Dos cosas que el boceto original no decía, y ambas importan:
 
 **Bloqueado, y no por nosotros.** El derecho `com.apple.developer.carplay-audio` se otorga solo a aplicaciones publicadas en la App Store, y Soundsible no irá allí: la directriz 5.2.3 prohíbe descargar medios desde YouTube, que es lo que hace Soundsible. En su lugar, la aplicación se distribuye mediante descarga (consulte [IOS.md](IOS.md)).
 
-Esto cuesta menos de lo que parece. Una aplicación CarPlay agregaría **buscar en tu biblioteca en la pantalla del auto**. Todo lo demás que muestra un automóvil (título, artista, carátula, una barra de progreso que rastrea, botones de transporte en el volante y la pantalla Now Playing de Soundsible dentro del propio CarPlay) proviene de `MPNowPlayingInfoCenter` y `MPRemoteCommandCenter`, no necesita ningún derecho y ya funciona.
+Esto supone menos de lo que parece. Una aplicación de CarPlay añadiría **la posibilidad de explorar tu biblioteca
+en la pantalla del coche**. Todo lo demás que muestra un coche —título, artista, carátula, una
+barra que sigue el progreso, botones de reproducción en el volante y la pantalla En
+reproducción de Soundsible dentro del propio CarPlay— procede de `MPNowPlayingInfoCenter` y
+`MPRemoteCommandCenter`, está implementado sin ese permiso, pero nunca se ha probado en la
+aplicación nativa de Soundsible en un dispositivo.
 
 Si Soundsible alguna vez se envía a través de **AltStore PAL** (mercados de la UE, 99 €/año, la certificación notarial verifica la seguridad en lugar del contenido) todavía no es la App Store, por lo que el derecho permanece fuera de su alcance. El siguiente árbol es lo que representaría un objetivo CarPlay si eso alguna vez cambia:
 
@@ -96,5 +113,8 @@ Si Soundsible alguna vez se envía a través de **AltStore PAL** (mercados de la
 Evite la interfaz de usuario enriquecida o de formato libre en la pantalla del automóvil. La búsqueda y el descubrimiento complejo deben permanecer en el teléfono o en el escritorio a menos que las plantillas oficiales CarPlay permitan la interacción de forma segura.
 
 ## Objetivo Android
+
+La [adaptación a Android](ANDROID.md) solo tiene actualmente una estructura básica de desarrollo. Android
+Auto es un requisito del plan de adaptación, pero no está implementado ni validado.
 
 La aplicación Android posterior debería exponer el mismo árbol `/api/car/*` a través de Media3 `MediaLibraryService` y `MediaSession`. Los sistemas operativos Android Auto y Android Automotive pueden luego representar la interfaz de usuario de navegación/reproducción desde la sesión multimedia nativa Android.

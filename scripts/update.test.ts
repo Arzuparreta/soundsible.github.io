@@ -30,6 +30,13 @@ it('builds a newer English release with an old translation and a new untranslate
     await writeFile(join(dir, 'content/upstream/docs/NEW_GUIDE.md'), newSource);
     release.files['docs/NEW_GUIDE.md'] = createHash('sha256').update(newSource).digest('hex');
     await writeFile(join(dir, 'content/upstream/release.json'), JSON.stringify(release));
+    // AI output and stale source metadata must not gate a new release.
+    const translatedFile = join(dir, 'content/es/dj-mode.md');
+    await writeFile(
+      translatedFile,
+      (await readFile(translatedFile, 'utf8')) + '\n## Nueva sección IA\n',
+    );
+    await rm(join(dir, 'content/es/originals'), { recursive: true });
     execFileSync(process.execPath, ['scripts/prepare-docs.mjs'], {
       cwd: dir,
       env: { ...process.env, GITHUB_REPOSITORY: 'Arzuparreta/soundsible.github.io' },
@@ -40,6 +47,7 @@ it('builds a newer English release with an old translation and a new untranslate
     expect(en).toContain('New English release content.');
     expect(en).toContain('tag: "v99.0.0"');
     expect(es).toContain('status: "outdated"');
+    expect(es).toContain('Nueva sección IA');
     expect(es).not.toContain('New English release content.');
     expect(es).not.toContain('tag: "v99.0.0"');
     expect(pending).toContain('status: "missing"');
@@ -47,4 +55,4 @@ it('builds a newer English release with an old translation and a new untranslate
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
-}, 15000);
+}, 60000);

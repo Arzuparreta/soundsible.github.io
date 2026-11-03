@@ -6,11 +6,15 @@ Live convierte tu Soundsible en una emisora de radio. Cualquier persona con un n
 
 Tu estación no sirve el audio directamente a los oyentes. Publica una única emisión Opus en el relay comunitario, que se encarga de distribuirla.
 
-***
+---
 
 ## 1. Qué se emite
 
-**Todo lo que escuchas.** El audio se toma del bus de programa, después de ambos decks, la ecualización, los filtros, el fundido cruzado, el envío de eco y el limitador. Las transiciones de Auto Mode, la reproducción actual, la reproducción normal, las escuchas previas, los pódcast y la radio pasan por los mismos dos elementos de audio. Todo se emite tal como lo oyes.
+**Todo lo que oyes.** La emisión se toma del bus de programa, después de
+ambos platos, la ecualización y los filtros, el fundido cruzado y el envío de eco, y después del
+limitador. Las transiciones de DJ, la reproducción NORMAL, las muestras,
+los pódcast y la radio pasan por los mismos dos elementos de audio, así que todo se
+emite exactamente como lo oyes.
 
 El único audio que *no* se emite es el de la sala de otro DJ cuando estás escuchándola.
 
@@ -43,13 +47,20 @@ Límites: 5 sesiones simultáneas, 100 oyentes por sala y 250 oyentes en total. 
 
 Los navegadores ocultan los candidatos ICE que necesita WebRTC cuando el origen no es de confianza. Por eso, `http://192.168.x.x:5005` no puede emitir. Puedes usar cualquiera de estas opciones:
 
-| Opción                 | Cómo hacerlo                                                                                |
-| ---------------------- | ------------------------------------------------------------------------------------------- |
-| En el mismo equipo     | Abre `http://localhost:5005`; localhost es un origen de confianza                           |
-| Acceso remoto sencillo | Ejecuta `tailscale serve --bg --yes 5005` y abre la dirección `https://…ts.net` que aparece |
-| Con tu propio dominio  | Configura Soundsible detrás de HTTPS y establece `SOUNDSIBLE_HTTPS_URL=https://your.domain` |
+| Vía | Cómo |
+|---|---|
+| Mismo equipo | Abre `http://localhost:5005`: localhost se considera de confianza |
+| Acceso remoto, la opción más sencilla | `tailscale serve --bg --yes --https=443 5005`; después, abre la dirección `https://…ts.net` que muestra ([detalles](INSTALL.md#4-remote-access-over-tailscale)) |
+| Tu propio dominio | Pon Soundsible detrás de HTTPS y establece `SOUNDSIBLE_HTTPS_URL=https://your.domain` |
 
-Si el origen no es de confianza, la página Live lo indica y ofrece un enlace a la dirección segura cuando puede encontrarla. Ese enlace transfiere la sesión: la página insegura publica su estado al salir y la segura abre la sala al llegar. La sesión que estabas escuchando —cola, modo y espacio de trabajo completo de Auto Mode, si estaba activo— se ofrece mediante el aviso para reanudar. Para el navegador, un origen distinto equivale a otro dispositivo; por eso se ofrece recuperar la sesión en lugar de continuar sin preguntar.
+Cuando el origen no es de confianza, la página de Live lo indica y ofrece un enlace a la
+dirección segura si puede encontrarla. Seguir ese enlace supone transferir la sesión, no solo
+cambiar de dirección: la página insegura publica su sesión al salir, la
+segura abre la sala automáticamente al llegar, y la sesión que estabas
+escuchando —la cola, el modo y todo el espacio de trabajo de DJ si DJ
+controlaba la reproducción— se ofrece para recuperarla mediante el aviso de reanudación. Para el navegador, un origen distinto es un
+dispositivo distinto, por eso la sesión se ofrece para recuperarla en lugar de
+continuar directamente.
 
 **Escuchar no tiene este requisito adicional**: la web pública ya utiliza HTTPS.
 

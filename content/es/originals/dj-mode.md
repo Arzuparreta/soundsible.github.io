@@ -1,40 +1,62 @@
-# DJ Mode
+# DJ mode
 
-DJ Mode (called Auto Mode in the internal APIs) is Soundsible's built-in
-automatic DJ. It does not put a crossfade on
+The player has two modes: **NORMAL** for ordinary playback and **DJ** for
+automatically mixed sets.
+
+**DJ** is Soundsible's built-in automatic DJ. It does not put a crossfade on
 a shuffled queue. It builds an editable musical route, analyses how each pair
 can meet, prepares the incoming track on a second deck, and performs the handoff
 at a chosen cue point.
 
-DJ Mode is currently labelled **beta** in the player. Its core mixing and
+DJ mode is currently labelled **beta** in the player. Its core mixing and
 route workflow is available now; the label sets the expectation that its
 planning and interface are still being refined.
 
 ## Start a set
 
 - With nothing playing, press **Start a DJ session** in the bottom player, then
-  choose a source. The DJ chooses an opening from that collection and starts
+  choose music. The DJ chooses an opening from that selection and starts
   the route there.
 - With a track playing, open the player and switch from **NORMAL** to **DJ**.
-  The current track becomes the start of the set.
-- Use **Sources** to steer the session with a track, artist, album, playlist,
-  favourites, or another selection. Sources influence what Auto generates;
-  adding one does not abruptly replace what is playing.
+  The current track becomes the first visible influence in **Session**.
+- From a song's menu in NORMAL or inside the shell, **Start DJ from this song** makes that song the
+  session's source. It is the next song the DJ mixes into, the way it mixes any
+  other, and the music comes from it after that.
+- While DJ is active, playing a song anywhere outside the player shell starts
+  a fresh DJ session immediately from that song at 0:00. Its source and route
+  replace the previous session, including all previous requests and influences.
+  Playing a collection starts from its first song and uses the collection as
+  the source. Session controls are inside the shell.
+- In **Session**, use **Mix with…** to add an influence or **Change…** to
+  choose a new direction using the same music browser.
+
+### A source is one piece of music
+
+A song, an album, an artist, a playlist or the favourites is **one source**.
+Choosing a collection outside the shell starts a new DJ session from it.
+Inside the shell, its primary button moves the current session onto it while
+the playing song continues: the DJ draws the next songs from it. It never turns the collection into a list of requests. Asking for every song
+of a collection is still there, by name (**Add to session**) in the
+collection's menu inside the shell, and those songs travel together: they belong to the session
+they were asked for in.
 
 The three parts of the workspace have separate jobs:
 
 | Part | What it controls |
 | --- | --- |
-| **Sources** | The musical material and direction Auto should draw from |
-| **Stage / Booth** | What is on air, what comes next, energy, depth, and DJ style |
-| **Route** | The actual upcoming order, including your fixed tracks and Auto's generated bridges |
+| **Session** | The musical material and direction DJ should draw from |
+| **Stage / Booth** | What is on air and what comes next |
+| **Route** | The actual upcoming order, including your fixed tracks and DJ's generated bridges |
 
 ## What the DJ listens for
 
 When a track can be analysed, Soundsible measures its tempo and beat grid, key,
-energy, musical sections, intro, and outro. It uses those features both to order
-candidates and to choose a transition. Depending on the material and DJ style,
-the two-deck engine can perform:
+musical sections, intro and outro, and three magnitudes that can be compared
+between songs: notes per second, integrated loudness (EBU R128, in LUFS) and
+spectral flatness, which tells a pure tone (0) from noise (about 0.56). The DJ
+does not steer the session by any of them: the sources and the recommender
+choose the music, and the DJ mixes it. Depending on the material, the two-deck
+engine can perform:
 
 - beatmatched long blends;
 - bass swaps and filter blends;
@@ -42,15 +64,109 @@ the two-deck engine can perform:
 - conservative fades when the analysis is missing or a more elaborate mix
   would sound worse.
 
+The server chooses the technique automatically for each pair, with the same
+plan for web and Android. A beatmatched blend must fit the local tempo within
+the players' speed limit and keep a steady shared pulse throughout the overlap.
+Whether a pair can be beatmatched is all that decides it: any two keys can be
+mixed. Key and tempo closeness choose which song comes next and which blend
+is used, never an echo cut or fade instead of a blend.
+The incoming song may be stretched up to 8 % (a turntable's pitch range) and
+returns to its own tempo after the blend. Two songs share a pulse when whole
+numbers of their beats last the same: one
+to one, two to one, three to two (116 and 174 BPM) or four to three (90 and
+120 BPM). Reading a song in two or in three is a choice of level — a 12/8 is a
+4/4 with ternary beats — so the mix does not depend on it.
+The plan states which alignment it promises: the beats, or also the bars when
+both songs' first beats are confirmed and their bars last the same. Even when
+only the beats are promised, the mix starts on each song's estimated first
+beat. A recording without a steady pulse uses an echo cut or fade. A longer
+blend also needs compatible keys and enough measured quiet opening and tail in
+both songs, with a straight beat grid throughout; it never crosses an
+unmeasured gap to extend the mix.
+
+When reliable pulses cannot be blended at the permitted speed, DJ can choose
+an echo cut. Its delay is one measured outgoing beat near the exit, corrected
+for the deck's playback speed. An unreliable pulse uses a structural fade;
+missing analysis keeps a conservative fade.
+
+For each refill, DJ chooses up to eight songs before looking at their analysis,
+then orders the measured songs for transition quality and continuity in notes
+per second, loudness, timbre and tempo. The scales come from that refill's own
+measurements, with equal influence after scaling. Songs without analysis keep
+their shuffled positions, so already downloaded music cannot crowd them out.
+An empty session still opens inside the most recently added source.
+
+The server prepares up to sixteen candidates per refill in the background,
+including previews that have not been downloaded yet. The choice follows the
+session shuffle, so a downloaded song gets no advantage in joining the route.
+Once the entire chosen pool is measured, DJ can insert a compatible bridge
+between two songs that would otherwise mix poorly, while keeping every original
+song. It also analyses the whole local music library in the background.
+
+A newly acquired preview is analysed as soon as its complete audio is ready.
+Web and Android retry pending transition measurements before loading the next
+deck; an unavailable measurement keeps its conservative fade.
+
 The engine limits tempo stretching and falls back safely instead of forcing two
 incompatible recordings together. Loudness levelling sits inside the same
 program path, so a transition does not need a sudden volume jump to feel alive.
 
+Measured sections help place the mix: it can start during an outro or finish
+before a breakdown. A phrase starts on a bar where the arrangement measurably
+changes, a sound entering or leaving; between changes, phrases are counted in
+whole bars at the length the changes repeat, or in eight-bar steps that are
+marked as an assumption. A breakdown is where the kick and bass fall to less
+than half as loud, and a drop is where they come back after one; a passage that
+is only louder is neither. When the pulse is reliable and a measured phrase
+fits, the incoming song enters so its drop lands on a phrase start of the
+outgoing song at the end of the blend; an assumed phrase is used only when no
+measured one fits. Otherwise it keeps the ordinary intro. Both web and Android
+follow the same server plan.
+
+The pulse and the first beat of each bar come from Beat This!, an open
+neural beat tracker (MIT licence) that runs locally with ONNX Runtime; its
+decisions are then placed on the attacks precisely enough to keep blended kicks
+together. The network can misplace a first beat by a whole beat or two, and
+its confidence does not show when, so a bar alignment is only promised where an
+independent measurement of harmony changes and accents agrees. Phrases and
+sections are counted on those bars, so a misplaced first beat moves them too;
+where the levels do not show a role clearly, the DJ claims none.
+
+The model adds about 4 seconds of processor time per minute of audio, on one
+core, and up to about 0.5 GB of memory while a song is analysed. A first
+analysis of a large library therefore takes hours in the background; songs
+play with conservative fades until they are measured. Docker images and the
+desktop app include the model. An installation from source downloads it once
+(84 MB) the first time it analyses a song, and verifies its checksum.
+A recording whose tempo drifts,
+such as a live band, gets a grid that follows the performance and a fade at
+normal speed instead of a fixed-rate beatmatch. After an update that changes
+the analysis, the library and selected previews are measured again in the
+background; until those measurements land, their transitions are plain fades.
+
+### Whole songs, without mixing
+
+**Settings → DJ → Mix between songs** is on by default. Switched off, the DJ
+keeps choosing the same music in the same route, but every song plays to the
+end of its file and the next starts from its beginning, with no fade, effect or
+tempo change between them. **Next** and **Play now** cut straight to their
+song, and **Fix mix** is hidden: there are no transitions to rebuild.
+
+The switch is an account preference. It applies from the next song the DJ has
+not prepared yet; a mix already prepared still plays.
+
 ## Make the set yours
 
-- **Steer, do not restart.** Add or remove Sources at any time. The handoff
-  already loaded on the second deck stays intact; Auto redraws the runway after
-  it.
+- **Add to session** requests specific songs without changing the musical direction.
+- **Mix into session** adds an influence alongside the existing ones.
+- Inside the shell, **Change session** (and **Start DJ from…**) moves the session onto a new
+  source at once. The old sources, the DJ's own picks and bridges, and songs
+  that were requested as a whole collection go with the old session; songs you
+  requested one at a time stay. The current song continues and the DJ mixes out
+  of it when it judges best; an already audible blend finishes. The new route is
+  then planned like any refill, retrying on its own while the music plays on.
+- The Session block shows the active influences. Remove an influence while
+  another remains, or use **Change…** to replace the last one.
 - **Place a must-play track.** Add a song to the Route or drop it into a
   particular gap. Soundsible may insert a bridge when that produces a safer
   path to the request.
@@ -60,40 +176,91 @@ program path, so a transition does not need a sudden volume jump to feel alive.
 - **Repair without losing your choices.** **Fix mix** rebuilds transitions and
   generated bridges around the tracks you placed while keeping those tracks in
   their chosen order and depth.
-- **Skip without leaving Auto.** Next asks the DJ for a short handoff to the next
-  route item instead of dropping back to ordinary playback.
-- **Choose music from anywhere.** While the **DJ** badge is active, playing an
-  individual song means **Mix now** and uses a short musical handoff. Choosing
-  an album, artist, playlist, favourites, or another collection means **Use as
-  source**. These actions never switch the mode back to Normal.
+- **Skip without leaving DJ.** Next asks the DJ for a short handoff to the next
+  route item instead of dropping back to ordinary playback. Next always does
+  something: a blend that is already audible finishes on the spot, and a next
+  song that cannot be blended in yet is started the ordinary way.
+- **Keep what the DJ finds.** Every Route row has a visible ⋯ menu (also
+  available by right-click or mobile long press). The menu saves the song to your
+  library, downloads it, marks it as a favourite or adds it to a playlist
+  without moving it in the route, including the song already cued.
+- **Choose music from anywhere.** Song and collection menus offer the same
+  session actions. **Play now** remains an explicit immediate handoff.
+  Choosing a musical influence does not also request that exact song.
 
-Auto keeps explicit requests ahead of generated music. Leaving Auto removes its
+
+DJ keeps explicit requests ahead of generated music. Leaving DJ removes its
 generated branches and bridges, but tracks you explicitly placed survive as a
 normal manual queue.
 
 The **NORMAL / DJ** badge in the mini-player always shows who owns playback. The
 choice is sticky for the current listening session and is included in session
 handoff state. Only selecting **NORMAL** explicitly, or accepting the prompt
-shown before starting incompatible Podcast or Radio playback, leaves DJ Mode.
+shown before starting incompatible Podcast or Radio playback, leaves DJ mode.
 If another song is selected while a blend is already audible, that blend
 finishes and the most recent selection is mixed next.
 
-## Auto, Radio, and Autoplay are different
+## DJ, Radio, and Autoplay are different
 
 | Mode | Best for | What you control |
 | --- | --- | --- |
 | **Autoplay** | A small, invisible continuation after an album or playlist ends | An account preference; no separate workspace |
 | **Radio** | Endless music related to one seed | Start or stop the generated stream |
-| **Auto Mode** | A continuous set with deliberate transitions | Sources, route, exact requests, energy, depth, DJ style, and repairs |
+| **DJ** | A continuous set with deliberate transitions | Session influences, route, exact requests, and transitions |
 
-All three use Soundsible's local listening signals. Auto additionally considers
-whether tracks can form a credible transition and performs that transition in
-the browser's two-deck audio engine.
+DJ explores the active influences together with the last four automatic songs
+that actually started playing in the current direction. A pending recommendation
+is not a discovery root. Exact requests and bridges do not become roots just
+because they played. **Mix with…** retains this exploration; **Change…** clears
+it, without promoting the outgoing song. These discovery roots do not appear as
+additional influences in **Session**.
+
+A change of direction takes effect at once: the new influences, a new
+exploration revision and the cleared route are committed together, and any
+answer still in flight for the old direction is discarded when it lands.
+
+### Every handoff ends somewhere
+
+A transition is prepared on the second deck, and nothing fades until that deck
+is actually sounding. When it is not — the stream is still buffering, stalled,
+or ended seconds in — the handoff still resolves:
+
+- if the outgoing song plays to its end first, the next song is handed over the
+  ordinary way, from the deck that was already holding it, with the same
+  start-up supervision and stall recovery as any other track change;
+- a next song that cannot play at all is dropped and the one after it follows;
+- a next song whose stream stops during an audible blend is given up and the
+  outgoing song keeps playing, or, if it already owned the music, is recovered
+  like any stalled song.
+
+Recordings longer than twenty minutes — DJ sets, live takes, whole albums in one
+file — are not chosen as songs of a route unless a source holds nothing else.
+
+If a provider request fails temporarily, DJ retries with increasing delays. If
+no new candidates remain, DJ stops repeating the same search and offers **Retry**.
+New influences, exploration roots or exclusions make planning eligible again.
+Existing playable route entries continue normally in either case.
+
+Session snapshots preserve exploration separately from repeat history. Older
+snapshots keep their queue and requests, but history without reliable direction
+provenance is not promoted to exploration.
+
+### Continuity validation
+
+A deterministic regression exercises thirty successive routes with overlapping
+recommendation neighbourhoods, plus independent tests for direction changes,
+request isolation, interrupted preparation and exhausted-input retry behaviour.
+A read-only local replay across 204 library tracks and cached related results
+produced 1,090 route extensions with both the repaired selector and the baseline
+at `2b5a365`, compared with 972 at `34d95f1`. Four tracks had no initial route in
+all three runs. Missing cache entries were treated as empty; no live provider
+requests or audio playback were performed. This checks selection continuity,
+not audible transition quality or physical-device playback.
 
 ## Broadcast the result
 
 Live captures the program bus after both decks, loudness levelling, EQ, filters,
-crossfade, and echo. Listeners therefore hear the same Auto Mode set that the DJ
+crossfade, and echo. Listeners therefore hear the same DJ set that the DJ
 hears, not a separate approximation. See [Live](LIVE.md) for HTTPS and room
 setup.
 

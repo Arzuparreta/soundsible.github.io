@@ -258,6 +258,11 @@ document.addEventListener('keydown', (event) => {
     void openSearch();
   }
 });
+// Documentation tables scroll horizontally on narrow screens.
+for (const table of document.querySelectorAll<HTMLElement>('.prose table')) {
+  table.tabIndex = 0;
+}
+
 for (const pre of document.querySelectorAll<HTMLElement>('.prose pre,.install-code pre')) {
   const button = document.createElement('button');
   button.type = 'button';

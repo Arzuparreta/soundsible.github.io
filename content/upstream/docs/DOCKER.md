@@ -1,8 +1,9 @@
 # Docker deployment
 
 Soundsible ships a multi-stage production image and a Compose stack. The image
-contains FFmpeg, Python dependencies, and the compiled SolidJS
-player; Node.js and build tools do not remain in the runtime image.
+contains FFmpeg, Python dependencies, the compiled SolidJS player and the Auto
+DJ beat model (84 MB, verified against its SHA-256 at build time); Node.js and
+build tools do not remain in the runtime image.
 
 Images are published to the GitHub Container Registry for `linux/amd64` and
 `linux/arm64`, so a NAS, a Raspberry Pi, or an Apple Silicon Mac runs the same
@@ -96,7 +97,7 @@ Compose reads optional values from a `.env` file beside `compose.yaml`:
 SOUNDSIBLE_TAG=edge
 SOUNDSIBLE_PORT=5005
 SOUNDSIBLE_ADMIN_TOKEN=replace-with-a-long-random-value
-SOUNDSIBLE_YT_SEARCH_SOURCE=ytmusic
+SOUNDSIBLE_YT_SEARCH_SOURCE=youtube
 SOUNDSIBLE_PREVIEW_CACHE_MB=2048
 SOUNDSIBLE_COMMUNITY_DISABLED=false
 ```

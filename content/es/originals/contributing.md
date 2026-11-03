@@ -5,7 +5,7 @@ Thanks for your interest in contributing – every bug report, idea, and pull re
 ### Prerequisites
 
 - **Python 3.10+**, **git**, **FFmpeg**
-- **Node.js 20+** and **npm** — required to build or develop the SolidJS player in `ui_web/` (the production bundle in `ui_web/dist/` is not committed)
+- **Node.js 22+** and **npm** — required to build or develop the SolidJS player in `ui_web/` (the production bundle in `ui_web/dist/` is not committed)
 
 ### How to get started
 
@@ -46,25 +46,32 @@ Thanks for your interest in contributing – every bug report, idea, and pull re
 
 5. **Run the app in development**
 
-   **Launcher (browser control panel):**
+   Configure it once with `python3 run.py --setup`
+   (`http://localhost:5099/setup`), then run the engine in the foreground so
+   its log stays in front of you:
 
    ```bash
-   ./venv/bin/python start_launcher.py
+   python3 run.py --daemon    # Ctrl+C stops it
    ```
 
-   Open `http://localhost:5099` and click **Launch**. First-time setup only: `python3 run.py --setup`.
-
-   **Terminal menu:**
-
-   ```bash
-   python3 run.py          # choose "Start Station Engine & Open Station"
-   ```
+   The terminal menu (`python3 run.py`) and the browser launcher
+   (`./venv/bin/python start_launcher.py`, then **Launch** on
+   `http://localhost:5099`) start the same engine. Every way of running it is
+   listed in [Install → Ways to run it](docs/INSTALL.md#ways-to-run-it).
 
    Player URLs: `http://localhost:5005/player/` (default) and `http://localhost:5005/player/desktop/` (desktop shell bootstrap).
 
+   If your own instance already listens on port 5005, run the development
+   engine on another port with separate directories: pass `--port 5006` and
+   `--config-dir`, `--data-dir` and `--cache-dir` to both `--setup` and
+   `--daemon`. Create those directories first: one that does not exist yet
+   is filled with a copy of your own `~/.config/soundsible`,
+   `~/.local/share/soundsible` or `~/.cache/soundsible`. The Vite dev server
+   below always proxies to port 5005.
+
 ### Frontend development
 
-With the Station Engine running on port 5005:
+With the Station Engine running on port 5005 (`python3 run.py --daemon`):
 
 ```bash
 cd ui_web
@@ -73,6 +80,12 @@ npm run dev
 ```
 
 Open `http://localhost:5173/player/` — Vite proxies `/api` and `/socket.io` to the engine. See [ui_web/README.md](ui_web/README.md) for build and verification details.
+
+### Android development
+
+See [the Android guide](docs/ANDROID.md) for the local APK build/emulator commands
+and [the handoff](docs/android/HANDOFF.md) before continuing the port. The APK is
+a development client with read-only browsing; no alpha will ship before parity and the offline decision.
 
 ### Reporting bugs & requesting features
 
@@ -92,6 +105,7 @@ Open `http://localhost:5173/player/` — Vite proxies `/api` and `/socket.io` to
    - Frontend: `cd ui_web && npm test`
 4. Run the app locally to verify core flows (launch, play music, basic navigation).
 5. Open a PR against **`main`**, with a clear description of what you changed and why. CI runs on the pull request, so let the checks finish before asking for a review.
+6. Every pull request carries exactly one impact label, which decides the next version number: `impact:major` (upgrading needs manual action), `impact:minor` (new capability), `impact:patch` (a fix) or `impact:none` (nothing a user could observe). CI fails without one. If you cannot set labels on the repository, say in the description which one fits. See [Releasing](docs/RELEASING.md).
 
 ### Code style
 

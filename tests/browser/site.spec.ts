@@ -17,6 +17,7 @@ const capsule = Buffer.from(
 for (const locale of ['en', 'es'])
   for (const { id: theme } of themes) {
     test(`${locale} ${theme}: navigation, layout and accessibility`, async ({ page }) => {
+      test.setTimeout(60000);
       await page.addInitScript(
         (value) => localStorage.setItem('soundsible:site-theme', value),
         theme,

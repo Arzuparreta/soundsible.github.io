@@ -6,6 +6,13 @@ commit son la referencia. «Normal» = APK normal + APK de test + JVM + lint del
 
 | Fecha | Bloque | Commit | Nativo | Otras | Log |
 | --- | --- | --- | --- | --- | --- |
+| 2026-10-28 | DJ P14: demanda de sesión, cancelación del Core y refinado desde el inicio, incluida reserva armada silenciosa | Esta PR | AVD API 36: `DjRefinementTest`, `ProgramDjBlocksTest`, `PlannerRetirementTest`, 7/0; `ProgramDjRecoveryTest`, 14/0 por HTTP/TLS, incluida adopción silenciosa sin reiniciar reloj ni pausa, rechazo durante mezcla audible y conservación del plato preparado con mezcla desactivada; APK y APK de test reales | `:app:compileDebugKotlin`, `:app:testDebugUnitTest`, `:app:lintDebug` aprobados; protocolo y cancelación real del hijo/petición HTTP en Python, stores/HTTP web. Sin aceptación física de escucha nueva | `/tmp/soundsible-dj-android-prepare.log`, `/tmp/soundsible-dj-android-gradle.log`, `/tmp/soundsible-dj-android-integration.log`, `/tmp/soundsible-dj-android-recovery-final.log`; checks de esta PR |
+| 2026-10-25 | DJ P12: compás local explícito, cobertura al recolocar cues y degradación de planes métricos incompletos; conservación del contrato en la sesión | 2ca8ccf2 | JVM local `ProgramDjPlanTest`, `ProgramMixCurveTest` y `ProgramDeckEffectsTest`: 23/0, compilador Kotlin de la caché Gradle y JDK 21 en Docker. Ocho vectores métricos comunes, incluidos 3/4, 6/8, medio/doble pulso con el mismo compás, recolocación y reserva fuera de cobertura. Build/lint/emuladores en checks de la PR; sin SDK ni escucha física local | UI 1772/0; Chromium completo 353/0 + 71 skips y WebKit completo 344/0 + 80 skips. AAC → SQLite → HTTP frío/caliente en todos los endpoints, incluidas peticiones de canción/artista; caché anterior invalidada y resumen compacto. Límites reales del detector y referencias en `docs/dj/P12.md`; las señales sintéticas no acreditan precisión general | `/tmp/dj-p12-jvm-latest.log`, `/tmp/dj-p12-final-focused3.log`, `/tmp/dj-p12-ui-final3.log`, `/tmp/dj-p12-chromium-serial.log`, `/tmp/dj-p12-webkit.log`; checks de la PR |
+| 2026-10-25 | DJ P7: selección automática por par, eco y mezcla larga sin perfiles; retirada de `automation` (P10) | d678f625 | JVM local `ProgramDjPlanTest`, `ProgramMixCurveTest` y `ProgramDeckEffectsTest`: 21/0, compilador Kotlin de la caché Gradle y JDK 21 en Docker. Vectores largos y de eco conservan puntos, duración y efectos; `ProgramDjRecoveryTest` pide refinado sin perfil. Build/lint/emuladores en checks de la PR. Sin SDK ni escucha física local | AAC → SQLite → HTTP en fuentes explícitas, legacy, colocación, reparación y refinado; perfiles antiguos ignorados. UI 1762/0 + tipos; suites completas Chromium y WebKit, resultados en checks y logs | `/tmp/dj-p7-jvm.log`, `/tmp/dj-p7-http-paths.log`, `/tmp/dj-p7-echo-http.log`, `/tmp/dj-p7-ui.log`, `/tmp/dj-p7-chromium.log`, `/tmp/dj-p7-webkit.log`, `/tmp/dj-p7-core-final.log` |
+| 2026-10-24 | DJ P9: eco a un golpe saliente medido, contrato compartido y exportación de sesión; sin activar eco automático (P7) | a8a22618 | JVM local `ProgramDjPlanTest` + `ProgramMixCurveTest` + `ProgramDeckEffectsTest`: 21/0, compilador Kotlin de la caché Gradle y JDK local. `ProgramMixOutputTest` HTTP/TLS conserva eco con periodo explícito; build/lint/emuladores en CI de esta PR. Sin SDK ni escucha física local | AAC → SQLite → HTTP a 90/137 BPM; cinco vectores de eco en PCM nativo y Web Audio real (44,1/48 kHz, velocidades 1/1,04, estéreo opuesto). UI 1761/0 + tipos; Chromium 353/0 y 71 omitidos; WebKit 344/0 y 80 omitidos. Primera pasada Chromium invalidada por URLs HMR duplicadas: repetida completa con Vite nuevo. Checks en esta PR | `/tmp/soundsible-p9-aac.log`, `/tmp/soundsible-p9-ui.log`, `/tmp/soundsible-p9-chromium-final.log`, `/tmp/soundsible-p9-webkit.log`; resultados nativos en checks de la PR |
+| 2026-10-24 | DJ P8: secciones medidas y pulso fiable; vectores compartidos de salida, drop, outro corto y límite del 25 % | 90b6c7e9 | JVM local `ProgramDjPlanTest` + `ProgramMixCurveTest` 14/0, compilador Kotlin de la caché Gradle y JDK local; build/lint/emuladores en CI de esta PR. Sin SDK ni escucha física local | AAC → SQLite → `dj-plan` y `dj-transition`; UI 1747/0 + tipos; Chromium 351/0 y 71 omitidos; WebKit 340 aprobados/80 omitidos/2 timeouts, ambos repetidos tres veces sin fallo (6/0), sin cambios de fuentes web | `/tmp/dj-p8-audio-http.log`, `/tmp/dj-p8-npm.log`, `/tmp/dj-p8-chromium.log`, `/tmp/dj-p8-webkit.log`, `/tmp/dj-p8-webkit-recheck.log` |
+| 2026-10-24 | Selección externa con DJ activo: sesión nueva inmediata, válida tras recargas automáticas de la ruta; fuentes y colocación sólo en el shell | Esta PR | DjContextTest y CarDjTest comprueban edición del shell y reemplazo por clic/menú externo y selección del coche; build, JVM y emuladores en los checks de esta PR (sin SDK local; corregida la suposición del test de colocación: compara la canción elegida en la ruta, cuyo primer título puede variar) | UI 1741; browser4 en esta PR | /tmp/soundsible-dj-unit.log, /tmp/soundsible-dj-chromium.log, /tmp/soundsible-dj-webkit.log |
+| 2026-10-23 | DJ P5: refinado pendiente con reintentos antes de comprometer el segundo plato | 31f696bc | JVM 2/0 local con JDK 21; `DjRefinementTest` HTTP nuevo (dos pendientes → medida, sin repetir después), incluido en la suite nativa completa de CI de la PR. Sin escucha física | Core completo 2212 aprobados/1 omitido y regresión final DJ/fixture 84/0; UI 1736/0; browser4: Chromium 349 aprobados/71 omitidos, WebKit 340/80 | `/tmp/soundsible-p5-core.log`, `/tmp/soundsible-p5-pool-final.log`, `/tmp/soundsible-p5-ui2.log`, `/tmp/soundsible-p5-chromium-final.log`, `/tmp/soundsible-p5-webkit.log`; resultados nativos completos en checks de la PR |
 | 2026-10-06 | S2at invitaciones SEND + menú de pendiente | bf9fac69 | 8/0 HTTP/TLS 66.4s + normal | UI 211/1620 | /tmp/soundsible-incoming-invite-native.log |
 | 2026-10-06 | S2au Ajustes de servidor y dispositivo | 90e9d1ef | 22/0 HTTP/TLS 280.5s + normal | UI 213/1631 | /tmp/soundsible-settings-block-native.log |
 | 2026-10-06 | S2av sesión por QR/código | 118b2389 | 20/0 HTTP/TLS 235.8s + normal (JVM 59) | Core 78, UI 215/1637 | /tmp/soundsible-pairing-block-native.log |
@@ -110,3 +117,188 @@ Los resultados locales anteriores no sustituyen esos checks del head vigente.
   /tmp/soundsible-alpha-android-sharing.png.
 - Sin teléfono físico: escucha, Bluetooth, coche y proveedores reales siguen
   pendientes para beta; esta evidencia automatizada no los sustituye.
+
+## 2026-10-10 — País y rankings de podcasts (PR #342)
+
+- Directorio nativo: selector de globo, rankings de programas y episodios por
+  país, categorías y resolución del episodio exacto hacia el controlador nativo
+  existente; conserva recomendaciones personalizadas y copias adquiridas por RSS.
+  Ajustes de reproducción y su buscador incluyen el país. Estado aislado por
+  generación, con resultados tardíos descartados al cambiar cuenta/conexión.
+- Validación: 1705 pruebas UI y typecheck; fixture podcast Python; inventario de
+  paridad sin los nuevos textos de país/rankings entre los huecos web exclusivos.
+  Ejecución HTTP en AVD API 36: PodcastCountryTest, PodcastTopTest y
+  PodcastDirectoryTest, 4 casos aprobados, más JVM/lint/APK de desarrollo.
+  Logs: /tmp/podcast-native-{all-final,fixture,integration}.log.
+  No publicación; no se modifica el transporte nativo.
+
+- Corrección del fixture de rankings: sus registros incluyen los encabezados
+  observados para que la comprobación de aislamiento de cookies también cubra
+  charts y lookup. Regresión Python aprobada; ejecución conjunta HTTP/TLS de
+  PodcastTest, PodcastCountryTest, PodcastTopTest y PodcastDirectoryTest en
+  AVD API 36: 7 casos aprobados, más JVM/lint/APK de desarrollo.
+  Logs: /tmp/podcast-cookie-{fixture,integration}.log.
+
+## 2026-10-11 · Reproducir elementos en otro dispositivo
+
+- Rama `codex/remote-play-any-track`, commit que incluye esta entrada: los menús
+  de canción, catálogo sin resolver y episodio envían una descripción portable
+  por el transporte de dispositivos de la cuenta. Una petición individual no
+  necesita archivo en biblioteca ni sesión de traspaso. Se conservan las guardas
+  de cuenta y las restricciones de ocurrencias en la ruta DJ.
+- `DeviceCatalogSessionTest` verifica recepción de stream, referencia de catálogo
+  y episodio, sustitución del programa y PCM nativo por HTTP y TLS. Regresión
+  conjunta con `DeviceSessionTest` y `DevicesUiTest`: 6 casos aprobados en AVD
+  API 36; JVM, lint y APK de desarrollo aprobados. Log:
+  `/tmp/soundsible-remote-android-integration.log`.
+- Lógica y envío del adaptador cubiertos por Vitest; el servidor valida las
+  descripciones y mantiene el aislamiento de dispositivos por cuenta. No se
+  modifica el transporte nativo ni se publica una release.
+- Seguimiento de PR #344: los cuatro shards de CI detectaron expectativas
+  obsoletas en `SongMenuTest` y `PendingQueueMenuTest` (mensaje de petición
+  enviada y acción remota para referencias pendientes). Ambas clases corregidas
+  y ejecutadas conjuntamente por HTTP/TLS: 4 casos aprobados en AVD API 36,
+  más JVM/lint/APK de desarrollo. Log:
+  `/tmp/soundsible-pr344-android-integration.log`. La entrega requiere además
+  todos los checks de GitHub aprobados sobre el último commit de la PR.
+
+## 2026-10-11 · Seguridad de dependencias y diagnóstico Live en CI
+
+- Rama `codex/dependency-security-block-1`, commit que incluye esta entrada.
+  El run de main 38135594239 falló en `LiveListenerTest.httpCoreRelay`, en la
+  comprobación de PCM después del cierre de Activity. La prueba ahora verifica
+  primero PCM nuevo tras recuperar WHEP y cuenta buffers audibles dentro del
+  callback, sin depender de muestrear la última RMS cada 50 ms. Exige 50 buffers
+  no silenciosos después del cierre; conserva timeout y no añade retries.
+- Tres ejecuciones completas HTTP/TLS de la clase final: 6 casos aprobados en
+  AVD API 36, más JVM/lint/APK de desarrollo en cada ejecución. Logs:
+  `/tmp/soundsible-android-live-repeat-{1,2,3}.log`. En caso de fallo se imprimen
+  estado/volumen del controlador, buffers decodificados/audibles y del publicador,
+  y última RMS para distinguir fuente, transporte y lifecycle.
+- Los artefactos del run fallido no demuestran que el cierre parase el receptor;
+  se mantuvo activo hasta el cleanup de la aserción. Las repeticiones aprobadas
+  tampoco prueban ausencia de toda carrera. Los cuatro shards de la PR son el
+  gate final; no se ocultan nuevos fallos mediante reruns sin diagnóstico.
+- Revisión de los últimos 25 runs Android: 18 aprobados, 4 fallidos, 3 cancelados.
+  Los otros fallos fueron el registro incompleto de cookies de los fixtures de
+  podcasts y expectativas antiguas de menús, ya corregidos en main. No hubo
+  una causa común demostrada. No se modifica audio/transportes de producción
+  ni se publica una release. Plan y avisos de dependencias pendientes en
+  `docs/audits/DEPENDENCY_UPDATE_PLAN.md`.
+
+## 2026-10-11 · Bloque 2 de mantenimiento compatible
+
+- Rama `codex/dependency-maintenance-block-2`: Node 24.21.0, Vite 8.3.4 y
+  Capacitor 8.5.3 coordinado. Se conserva JDK 21 y los mínimos Android. Los
+  globs de recuperación salen de TSX para evitar el fallo del scan Vite; la
+  carga diferida y la recuperación con URL alternativo mantienen sus contratos.
+- AVD API 36: StartupTest, PlaybackTest y LiveListenerTest, 5 casos aprobados
+  (Live HTTP/TLS), más JVM/lint/APK de desarrollo. Log:
+  `/tmp/soundsible-block2-android.log`. No incluye OfflineRestartTest local;
+  los cuatro shards del último head en GitHub siguen siendo obligatorios.
+- Node/JDK se seleccionan sólo en los comandos de validación; no se modifican
+  los runtimes globales. No se publica una alpha ni se abren los gates de parity
+  u offline. Plan en `docs/audits/DEPENDENCY_UPDATE_PLAN.md`.
+
+## 2026-10-12 · Bloque 3: transporte OkHttp 5
+
+- Rama `codex/dependency-major-transports`: OkHttp 5.4.0 en el artefacto Android,
+  también seleccionado para Media3 y Socket.IO. SDKs y política TLS sin cambios.
+  5.5.0 rechazado por el gate AAR: exige compileSdk 37; se conserva compileSdk 36.
+- AVD API 36: StartupTest, PlaybackTest y LiveListenerTest, 5 casos aprobados
+  (reproducción y Live HTTP/TLS), 0 fallos/skips; 64 pruebas JVM, lint y APK de
+  desarrollo aprobados. Logs: `/tmp/soundsible-okhttp-integration.log` y
+  `/tmp/soundsible-okhttp-gradle.log`. Entorno Python con el lock del bloque 2.
+  El primer intento con `.venv` terminó antes de las pruebas por timeout de
+  arranque del fixture comunitario; no se modificaron timeouts ni aserciones.
+- Inicializador AndroidX de OkHttp presente en el manifest combinado. Los
+  cuatro shards completos del último head y el empaquetado Windows siguen
+  siendo el gate remoto; esto no acredita escucha física ni publica una alpha.
+
+- Corrección tras CI: shards 0/3 reprodujeron `StackOverflowError` de Engine.IO
+  al cerrar polling con el executor OkHttp detenido. Los cinco call factories
+  Socket.IO usan `SocketIoCallFactory`: el callback de error se encola en
+  EventThread antes de cerrar de nuevo, evitando la reentrada. La prueba JVM
+  reproduce el error sin el adaptador y pasa con él.
+  EntityBookmarksTest, LiveRecoveryTest, LivePollingTest y TransportResetTest:
+  11 casos nativos HTTP/TLS aprobados, sin fallos/skips; 65 pruebas JVM.
+  Log `/tmp/soundsible-socketio-integration.log`, baseline con desbordamiento:
+  `/tmp/soundsible-socketio-baseline.xml`. CI debe repetirse en el nuevo head.
+
+## 2026-10-12 · Bloque 3: AGP 9, Gradle 9 y compileSdk 37
+
+- Rama `codex/dependency-android-agp9`: AGP 9.3.3 con Kotlin integrado, Gradle
+  9.8.1, compileSdk 37 (`android-37.0`), minSdk 24/targetSdk 36 sin cambios,
+  OkHttp 5.5.0, CameraX 1.6.2 y AndroidX actualizados. JDK 21 de la toolchain.
+- 65 pruebas JVM, lint sin errores, APK debug/test y release firmada con un
+  keystore temporal (`apksigner verify`). Logs `/tmp/soundsible-agp93-build.log`.
+- AGP 9.4.1 descartado: su `android-test-engine` 1.0.1 trunca argumentos con
+  comas (`notClass`, `class`); log `/tmp/soundsible-agp94-args.log`. Con 9.3.3
+  los valores llegan completos (`/tmp/soundsible-agp93-args.log`).
+- AVD API 36, suite completa sin shards: 215 casos, 210 aprobados; fallos sólo
+  TLS (`/tmp/soundsible-agp93-integration.log`). Baseline `main` con el mismo
+  filtro: OfflineTest/ProgramPcmTest TLS también fallan
+  (`/tmp/soundsible-main-tls-baseline.log`). Causa local: conexión keep-alive
+  TLS cerrada por el fixture y descarga offline sin reintento. CarLibrary,
+  CatalogSearch y Podcast aislados: 7/7 (`/tmp/soundsible-branch-car-podcast.log`).
+  Los cuatro shards del último head en GitHub siguen siendo el gate.
+
+## 2026-10-13 · Descarga offline: socket inactivo cerrado por el servidor
+
+- `OfflineStore` descargaba con `retryOnConnectionFailure(false)` y sin
+  reparación: si el servidor había cerrado el socket keep-alive reutilizado, la
+  copia acababa en `network` (`unexpected end of stream`/`EOFException` antes de
+  las cabeceras). Ahora usa la regla del reproductor (`AudioConnectionRepair`):
+  sólo ese fallo, sin conexión nueva en la llamada y sin cancelar, vacía los
+  sockets inactivos del pool y repite el GET una vez. Nunca se repite un cuerpo.
+- Sin vaciar el pool, el reintento tomaba otro socket inactivo que el fixture
+  TLS también cortaba (a mitad de cuerpo): OfflineTest/ProgramPcmTest TLS
+  fallaron en 3 de 4 rondas (`/tmp/soundsible-offline-repair-without-evict.log`).
+  Con el vaciado, 3 de 3 rondas y después Offline, ProgramPcm, OfflineRestart,
+  OfflineRemoval, CarOfflineExpiry y OfflinePluginLifecycle HTTP/TLS 9/0 dos
+  veces (`/tmp/soundsible-offline-repair-1.log`, `-2.log`); 65 JVM y lint.
+
+## 2026-10-13 · Reproductor: reintento en socket nuevo
+
+- `PlaybackService` ya repetía una vez el GET de audio cuando un socket del pool
+  moría antes de las cabeceras (`AudioConnectionRepair`), pero el reintento
+  podía tomar otro socket inactivo igual de viejo. Ahora vacía antes los
+  sockets inactivos de su propio pool, como la descarga offline.
+- Playback, TransportReset, Closure, Radio, Autoplay, ProgramPcm, Offline,
+  CarLibrary y CarEvents HTTP/TLS, 5 rondas de 18 casos: la reparación saltó
+  sin cancelar (`Headers failed; connected=false cancelled=false`) y la
+  reproducción siguió. 17 casos aprueban en las 5 rondas; CarLibrary TLS falló
+  en 3 por su copia offline: socket del pool cortado por el fixture TLS a mitad
+  de cuerpo (~2,8 MB), sin relación con el reproductor; se trata aparte. 65 JVM
+  y lint. Logs `/tmp/soundsible-player-evict-{1..5}.log`.
+
+## 2026-10-13 · Descarga offline: un socket propio por copia
+
+- Con el reintento de #353, CarLibrary TLS seguía fallando (3 de 5 rondas): la
+  copia tomaba un socket del pool y el fixture TLS lo cortaba a mitad de cuerpo
+  (~2,8 MB), un fallo que no se puede reintentar sin repetir el cuerpo. Cada
+  copia usa ahora un pool sin conexiones inactivas: abre su propio socket y lo
+  cierra al terminar. Un handshake TLS por canción es despreciable frente a la
+  descarga. El reintento de #353 ya no tiene caso y se retira.
+- Playback, TransportReset, Closure, Radio, Autoplay, ProgramPcm, Offline,
+  CarLibrary, CarEvents, OfflineRestart, OfflineRemoval, CarOfflineExpiry y
+  OfflinePluginLifecycle HTTP/TLS: 23/0 en 3 rondas
+  (`/tmp/soundsible-offline-fresh-{1..3}.log`); 65 JVM y lint.
+
+## 2026-11-03 · Diagnóstico de silencio Live en CI
+
+- Main `9986f87b`, run `41548539741`, shard 6: falla únicamente
+  `LiveListenerTest.tlsCoreRelay` al esperar PCM audible después de recuperar
+  WHEP y cerrar Activity. Estado READY/reproduciendo, callbacks PCM activos,
+  fuente sintética activa y RMS cero; publisher/reader siguen conectados.
+  Los artefactos originales no contienen métricas suficientes para atribuir
+  la causa. Reintento del mismo head solicitado, sin cambiar aserciones.
+- Rama `fix/android-live-ci-diagnostics`: cronología de fases, PCM, foco,
+  ganancia, estados de peers y estadísticas WebRTC/relay; logcat continuo
+  con limpieza por trap y código de error conservado. Guía:
+  [CI_DIAGNOSTICS](CI_DIAGNOSTICS.md).
+- Compilación de instrumentación, 80 pruebas JVM y lint aprobados; ocho
+  pruebas Python de redacción de métricas, dependencia WebRTC y conservación
+  de evidencias/código de salida aprobadas; Ruff y `git diff --check` aprobados.
+  Log local `/tmp/soundsible-android-ci-final-validation.log`. Aceptación nativa
+  de las nuevas trazas y checks de la PR pendientes de GitHub.

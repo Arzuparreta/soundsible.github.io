@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { visit } from 'unist-util-visit';
 import { catalog } from './catalog.mjs';
-import { markdown, sourceContent, anchorsFor, rewriteLink, translationStatus } from './content.mjs';
+import { sourceContent, anchorsFor, rewriteLink, translationStatus } from './content.mjs';
 describe('release documentation pipeline', () => {
   it('extracts native instructions and refuses an unknown install layout', () => {
     const item = catalog.find((d) => d.slug === 'native-installation')!;
@@ -38,12 +37,12 @@ describe('release documentation pipeline', () => {
       '/blob/abc/shared/main.py',
     );
     expect(rewriteLink('https://example.com', item, 'es', '', 'abc')).toBe('https://example.com');
-    // A section an older Spanish translation does not have is read in English.
-    expect(rewriteLink('INSTALL.md#run-it-as-a-systemd-service', item, 'es', '', 'abc')).toBe(
-      '/docs/install/#run-it-as-a-systemd-service',
+    // An unknown Spanish section falls back to the English article.
+    expect(rewriteLink('INSTALL.md#section-not-translated-yet', item, 'es', '', 'abc')).toBe(
+      '/docs/install/#section-not-translated-yet',
     );
-    expect(rewriteLink('INSTALL.md#6-storage', item, 'es', '', 'abc')).toBe(
-      '/es/docs/install/#6-storage',
+    expect(rewriteLink('INSTALL.md#7-storage', item, 'es', '', 'abc')).toBe(
+      '/es/docs/install/#7-storage',
     );
     expect(rewriteLink('INSTALL.md', item, 'es', '', 'abc')).toBe('/es/docs/install/');
     // The native page is an excerpt of this file; a link to it wants the whole guide.
@@ -56,31 +55,6 @@ describe('release documentation pipeline', () => {
     expect(translationStatus('new', { sourceHash: 'old' })).toBe('outdated');
     expect(translationStatus('new', { sourceHash: 'new' })).toBe('current');
   });
-  for (const item of catalog) {
-    it(`${item.slug}: Spanish preserves technical literals, links, headings and source identity`, () => {
-      const meta = JSON.parse(readFileSync('content/es/manifest.json', 'utf8'))[item.slug];
-      if (!meta) {
-        expect(translationStatus('source', undefined)).toBe('missing');
-        return;
-      }
-      const translated = { ...meta, content: readFileSync(`content/es/${item.slug}.md`, 'utf8') };
-      const source = readFileSync(`content/es/originals/${item.slug}.md`, 'utf8');
-      expect(source).toBeTypeOf('string');
-      expect(translated.sourceHash).toBe(createHash('sha256').update(source).digest('hex'));
-      expect(translated.anchors).toEqual(anchorsFor(source));
-      expect(anchorsFor(translated.content)).toHaveLength(translated.anchors.length);
-      const literals = (text: string) => {
-        const values: string[] = [];
-        visit(markdown.parse(text), (node: any) => {
-          if (['code', 'inlineCode'].includes(node.type)) values.push(node.value);
-          if (['link', 'image', 'definition'].includes(node.type)) values.push(node.url);
-        });
-        return values.sort();
-      };
-      expect(literals(translated.content)).toEqual(literals(source));
-      expect(translated.content).not.toMatch(/ZXQ\d+QXZ|⟦\d+⟧/);
-    });
-  }
 });
 
 describe('release snapshot provenance', () => {

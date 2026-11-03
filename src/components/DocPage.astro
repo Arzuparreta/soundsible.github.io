@@ -65,18 +65,6 @@ const group = groups.find((x) => x.id === entry.data.group);
         >
       </div>
       {
-        locale === 'es' && status !== 'current' && (
-          <aside class="translation-notice">
-            {status === 'outdated'
-              ? `Esta traducción corresponde a ${tag}. El original en inglés se ha actualizado para ${release.tag}.`
-              : 'La traducción de este artículo está pendiente. A continuación se muestra el original en inglés.'}{' '}
-            <a href={href('en', `docs/${slug}/`)} lang="en">
-              Read the current English version →
-            </a>
-          </aside>
-        )
-      }
-      {
         (slug === 'native-installation' || slug === 'docker') && (
           <aside class="translation-notice">
             {t(

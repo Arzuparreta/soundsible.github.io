@@ -1,11 +1,16 @@
 # Carcasa de escritorio Soundsible
 
-Envoltorio de consumo Tauri para Soundsible. Utiliza el cuadro de diálogo oficial de la carpeta nativa, supervisa el motor incluido, expone los controles de la bandeja y entrega la vista web a `/player/desktop/`.
+Contenedor cliente de Tauri para Soundsible en Windows. Usa el diálogo nativo oficial
+de selección de carpetas, supervisa el motor incluido, ofrece controles en la bandeja del sistema y dirige
+la vista web a `/player/desktop/`. También se conecta a una estación existente en
+`/player/` sin iniciar un motor local; consulta [Cliente de escritorio](../docs/DESKTOP_CLIENT.md).
 
 ## Flujo de trabajo de desarrollo
 
-**Departamentos Linux (una vez):** `webkit2gtk-4.1`, `gtk3`, `libappindicator-gtk3`, `librsvg`, `base-devel`\
-Arch: `sudo pacman -S webkit2gtk-4.1 gtk3 libappindicator-gtk3 librsvg base-devel`
+El contenedor se compila solo para Windows; no hay cliente para Linux
+([por qué](../docs/DESKTOP_BETA.md#no-linux-app)), así que ejecuta `npm run dev` en Windows.
+Las pruebas unitarias y de navegador de la pantalla de configuración (`npm test`,
+`npm run test:ui`) se pueden ejecutar en cualquier plataforma.
 
 Desde la raíz del repositorio, asegúrese de que los departamentos Python estén instalados (`venv/` existe).
 
@@ -42,7 +47,8 @@ Tray: Open | Pair phone… | Restart engine | Stop engine | Quit
 
 El icono de la bandeja al hacer clic con el botón izquierdo también enfoca la ventana. Al hacer clic derecho, se abre el menú de la bandeja (convención de plataforma).
 
-Al cerrar la ventana, se oculta Soundsible en la bandeja y se mantiene la reproducción. Utilice **Salir** o `Ctrl+Alt+Q` para detener el motor y salir.
+Cerrar la ventana oculta Soundsible cuando hay una bandeja del sistema utilizable y mantiene la reproducción; en caso contrario, cierra la aplicación.
+Usa **Salir** o `Ctrl+Alt+Q` para cerrar la aplicación y detener únicamente el motor que le pertenece. Las estaciones externas siguen funcionando.
 
 ## Accesibilidad
 
@@ -109,10 +115,9 @@ Comprobación sin cabeza del estado del motor + ruta del reproductor de escritor
 ```bash
 ./desktop-shell/scripts/smoke-test.sh              # Python engine
 ./desktop-shell/scripts/smoke-test.sh --with-sidecar
-./desktop-shell/scripts/smoke-test.sh --with-sidecar --with-tauri
 ```
 
-CI ejecuta las mismas comprobaciones en `.github/workflows/desktop-shell.yml` (trabajos Linux + Windows sidecar/Tauri).
+CI ejecuta la comprobación del motor de Python en `.github/workflows/desktop-shell.yml`; las compilaciones del sidecar y de Tauri, y las pruebas básicas de la aplicación instalada en Windows x64 y ARM64, se ejecutan en `.github/workflows/desktop-build.yml`.
 
 **Sidecars Windows:** los corredores nativos producen `soundsible-engine-x86_64-pc-windows-msvc.exe` y `soundsible-engine-aarch64-pc-windows-msvc.exe`. CI verifica que el shell, el motor y FFmpeg coincidan con la arquitectura anunciada.
 
@@ -135,6 +140,4 @@ Requiere `rsvg-convert` (librsvg) y `@tauri-apps/cli`.
 
 **Notas de plataforma:**
 
-- **Linux:** Glifo estático coloreado en la bandeja AppIndicator (animación del vúmetro aplazada).
-- **Windows:** `.ico` de varios tamaños del conjunto.
-- **macOS:** Glifo coloreado para v1; Icono de plantilla (barra de menú monocromática) diferido hasta que funcione la bandeja del medidor VU.
+- **Windows:** `.ico` de varios tamaños procedente del conjunto de recursos del paquete.

@@ -1,6 +1,9 @@
 # Despliegue con Docker
 
-Soundsible incluye una imagen de producción construida en varias etapas y una configuración de Compose. La imagen contiene FFmpeg, Chromaprint, las dependencias de Python y el reproductor SolidJS compilado; Node.js y las herramientas de compilación no forman parte de la imagen final.
+Soundsible incluye una imagen de producción creada en varias etapas y una pila de Compose. La imagen
+contiene FFmpeg, las dependencias de Python, el reproductor SolidJS compilado y el modelo de
+pulsos de Auto DJ (84 MB, verificado mediante su SHA-256 durante la compilación); Node.js y
+las herramientas de compilación no permanecen en la imagen de ejecución.
 
 Las imágenes se publican en GitHub Container Registry para `linux/amd64` y `linux/arm64`, por lo que un NAS, un Raspberry Pi o un Apple Silicon Mac ejecuta la misma imagen que un servidor x86 sin compilar nada.
 
@@ -45,13 +48,13 @@ Cuando el servicio informe `healthy`, abra <http://localhost:5005/player/>. El p
 
 La pila predeterminada utiliza cinco volúmenes con nombre. Con el nombre de proyecto de Compose predeterminado, Docker los almacena como `soundsible_soundsible-*`:
 
-| Volumen                        | Ruta del contenedor | Contenidos                                                     |
-| ------------------------------ | ------------------- | -------------------------------------------------------------- |
-| `soundsible_soundsible-config` | `/config`           | Configuración de instancias, cuentas y bibliotecas de usuario. |
-| `soundsible_soundsible-data`   | `/data`             | Colas persistentes, base de datos de instancias y telemetría   |
-| `soundsible_soundsible-cache`  | `/cache`            | Portadas reconstruibles, vistas previas y caché multimedia     |
-| `soundsible_soundsible-logs`   | `/logs`             | Registros de tiempo de ejecución                               |
-| `soundsible_soundsible-music`  | `/music`            | Audio importado y descargado                                   |
+| Volumen | Ruta en el contenedor | Contenido |
+| --- | --- | --- |
+| `soundsible_soundsible-config` | `/config` | Configuración y base de datos de la instancia: cuentas, biblioteca y listas de reproducción de cada persona |
+| `soundsible_soundsible-data` | `/data` | Colas, tareas de importación, telemetría de escucha e imágenes conservadas |
+| `soundsible_soundsible-cache` | `/cache` | Carátulas, muestras y caché multimedia que se pueden regenerar |
+| `soundsible_soundsible-logs` | `/logs` | Registros de ejecución |
+| `soundsible_soundsible-music` | `/music` | Audio importado y descargado |
 
 `docker compose down` conserva los cinco volúmenes. No utilice `down --volumes` a menos que desee eliminar intencionalmente la instancia completa administrada por Docker.
 
@@ -82,7 +85,7 @@ Compose lee valores opcionales de un archivo `.env` al lado de `compose.yaml`:
 SOUNDSIBLE_TAG=edge
 SOUNDSIBLE_PORT=5005
 SOUNDSIBLE_ADMIN_TOKEN=replace-with-a-long-random-value
-SOUNDSIBLE_YT_SEARCH_SOURCE=ytmusic
+SOUNDSIBLE_YT_SEARCH_SOURCE=youtube
 SOUNDSIBLE_PREVIEW_CACHE_MB=2048
 SOUNDSIBLE_COMMUNITY_DISABLED=false
 ```
@@ -145,6 +148,10 @@ docker run --rm \
   alpine tar czf /backup/soundsible-data-backup.tgz -C /source .
 docker compose start soundsible
 ```
+
+Para hacer copias con sumas de comprobación, validar SQLite y restaurar en un directorio nuevo,
+consulta la [recuperación verificada sin conexión](engineering/instance-recovery.md). Ese procedimiento
+también transfiere a un contenedor de sustitución la clave de las credenciales de almacenamiento cifradas.
 
 Haga una copia de seguridad del volumen de la música por separado cuando contenga la única copia de su audio. Los volúmenes de caché y registros son opcionales en las copias de seguridad.
 

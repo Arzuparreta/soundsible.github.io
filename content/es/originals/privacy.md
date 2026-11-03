@@ -91,6 +91,33 @@ opaque `attempt_id`. They may include:
   booleans recording whether carrier/source state agreed. Track titles, artist,
   artwork URLs and other metadata are never written to telemetry.
 
+Playback diagnostics start automatically with the authenticated player. They
+record browser media state, timing, source/carrier identifiers, device ID, source
+fingerprint, reported platform and transport operations. They do not include
+track titles, media URLs, artwork, audio, credentials, or the car's display.
+
+Unacknowledged batches are held in account-partitioned IndexedDB for retry after
+an offline trip or reload (pruned each delivery cycle to 16 MiB / 8,192 batches / seven days). If browser
+storage fails, bounded memory is used instead. The instance stores validated,
+deduplicated batches in each user's `telemetry/playback-traces.sqlite3`, capped at
+64 MiB of payload / 32,768 batches / seven days. SQLite indexes and reusable pages
+add some filesystem overhead. This data only goes to the user's Soundsible
+instance, with its existing authentication; it is not sent to a third party.
+
+The existing `SOUNDSIBLE_TELEMETRY_ENABLED=0` switch disables server persistence;
+the response stops automatic collection and clears the page's pending account
+outbox. See [PLAYBACK_DIAGNOSIS.md](PLAYBACK_DIAGNOSIS.md) for limits and the
+operator's report command. The listener need not activate or export anything.
+
+**Change note, 2026-10-30:** the browser recorder additionally retains linked
+DJ observations (`dj.*`) and opaque edge/arm-attempt IDs on mixer events. Fields
+cover observed analysis readiness, existing numerical audio features, selected
+and executed techniques/cues/rates, candidate counts, and manual actions or
+interruptions. No song identity, title, media URL or audio is added. Existing
+account partitioning, retention, offline delivery and opt-out apply unchanged.
+Native Android is outside this browser recorder's coverage. The local report
+is `scripts/dj_session_report.py`; see [the field contract](dj/SESSION_CAPTURE.md).
+
 Buffering before the first sound and buffering after it are recorded as separate
 fields. They used to be one counter emitted at the moment of first sound, where
 the second kind cannot have happened yet — so it reported the opening wait that

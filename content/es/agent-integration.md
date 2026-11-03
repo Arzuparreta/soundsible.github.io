@@ -14,13 +14,13 @@ En el modo de motor de escritorio, no se supone que la URL base sea `:5005`. Lea
 
 ## Reglas del agente
 
-1. Utilice la API del agente para el control de reproducción: `/api/agent/*`.
-2. No inventes identificaciones de dispositivos. Lea `/api/devices` y apunte a un `device_id` real o un `device_name` exacto.
-3. Si una respuesta incluye `warning: "Device appears offline (no active socket)"`, el comando se emitió pero actualmente no hay ningún reproductor de navegador conectado a esa sala de dispositivos.
-4. Deezer son solo metadatos. Soundsible nunca reproduce audio Deezer.
-5. Para obtener resultados de búsqueda reproducibles fuera de la biblioteca, utilice la búsqueda YouTube / YouTube Music a través de la ruta ODST / yt-dlp.
-6. La cola de reproducción no es la misma que la cola de descarga.
-7. Prefiera `/api/agent/play` para "reproducir esto ahora". Prefiera `/api/playback/queue` para "agregar esto a la cola de reproductores".
+1. Usa la API de agentes para controlar la reproducción: `/api/agent/*`.
+2. No inventes identificadores de dispositivo. Consulta `/api/devices` y elige un `device_id` real o un `device_name` exacto.
+3. Si una respuesta incluye `warning: "Device appears offline (no active socket)"`, el comando se ha emitido, pero no hay ningún reproductor del navegador conectado actualmente a la sala de ese dispositivo.
+4. Deezer solo aporta metadatos. Soundsible nunca reproduce audio de Deezer.
+5. Para obtener resultados de búsqueda reproducibles fuera de la biblioteca, usa la búsqueda de YouTube / YouTube Music mediante la ruta de yt-dlp del descargador.
+6. La cola de reproducción no es la misma que la cola de descargas.
+7. Usa preferentemente `/api/agent/play` para «reproducir esto ahora». Usa preferentemente `/api/playback/queue` para «añadir esto a la cola del reproductor».
 
 ## Autenticación
 
@@ -279,24 +279,58 @@ La respuesta de la biblioteca incluye pistas persistentes. Una pista normal tien
 
 Rutas útiles de la biblioteca:
 
-| Método   | Camino                                            | Propósito                                                                                                                                                                                            |
-| -------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `GET`    | `/api/library`                                    | Metadatos completos de la biblioteca                                                                                                                                                                 |
-| `GET`    | `/api/library/search?q=...`                       | Buscar biblioteca local                                                                                                                                                                              |
-| `GET`    | `/api/library/albums?sort=&genre=&year=`          | Álbumes del catálogo normalizado. `sort` es uno de `newest`, `alphabeticalByName`, `alphabeticalByArtist`, `byYear`, `byGenre`, `random`, `frequent`, `recent`, `highest`; uno desconocido es un 400 |
-| `GET`    | `/api/library/albums/<album_id>`                  | Un registro y sus identificadores de pista, en orden de disco y pista                                                                                                                                |
-| `GET`    | `/api/library/artists`                            | Artistas con un tema a su nombre, de `track_artists`                                                                                                                                                 |
-| `GET`    | `/api/library/artists/<artist_id>`                | Un artista: las pistas en las que actúa y los discos que se le atribuyen                                                                                                                             |
-| `GET`    | `/api/library/genres`                             | Géneros presentes, con recuento de canciones y álbumes.                                                                                                                                              |
-| `GET`    | `/api/library/years`                              | Años de lanzamiento presentes, con recuento de álbumes y pistas.                                                                                                                                     |
-| `POST`   | `/api/library/scan`                               | Inicie una exploración asincrónica de las raíces musicales configuradas; cuerpo opcional `{"path":"..."}` debe permanecer dentro de uno                                                              |
-| `GET`    | `/api/library/scan`                               | Contadores y estado de escaneo actual o último                                                                                                                                                       |
-| `GET`    | `/api/library/favourites`                         | ID de pistas favoritas (solo aquellas para las que posee un archivo)                                                                                                                                 |
-| `GET`    | `/api/library/favourites/entries`                 | Todas las canciones guardadas, descargadas o no: `{"version":2,"favourites":[{"keys":[...],"title","artist",...}]}`                                                                                  |
-| `POST`   | `/api/library/favourites/toggle`                  | Alternar favorito, cuerpo `{"track_id":"..."}` o `{"favourite":{"keys":["yt:<video_id>"],"title":"...","artist":"..."}}`                                                                             |
-| `POST`   | `/api/library/playlists`                          | Crear lista de reproducción, cuerpo `{"name":"..."}`                                                                                                                                                 |
-| `POST`   | `/api/library/playlists/<name>/tracks`            | Agregar pista a la lista de reproducción, cuerpo `{"track_id":"..."}`                                                                                                                                |
-| `DELETE` | `/api/library/playlists/<name>/tracks/<track_id>` | Eliminar pista de la lista de reproducción                                                                                                                                                           |
+| Método | Ruta | Finalidad |
+|---|---|---|
+| `GET` | `/api/library` | Metadatos completos de la biblioteca |
+| `GET` | `/api/library/search?q=...` | Buscar en la biblioteca local |
+| `GET` | `/api/library/albums?sort=&genre=&year=` | Álbumes del catálogo normalizado. `sort` es uno de `newest`, `alphabeticalByName`, `alphabeticalByArtist`, `byYear`, `byGenre`, `random`, `frequent`, `recent`, `highest`; un valor desconocido devuelve un 400 |
+| `GET` | `/api/library/albums/<album_id>` | Un disco y sus identificadores de pista, ordenados por disco y pista |
+| `GET` | `/api/library/artists` | Artistas con alguna pista a su nombre, obtenidos de `track_artists` |
+| `GET` | `/api/library/artists/<artist_id>` | Un artista: las pistas en las que participa y los discos en cuyos créditos figura |
+| `GET` | `/api/library/genres` | Géneros presentes, con el número de canciones y álbumes |
+| `GET` | `/api/library/years` | Años de publicación presentes, con el número de álbumes y pistas |
+| `POST` | `/api/library/scan` | Iniciar un análisis asíncrono de los directorios raíz de música configurados; el cuerpo opcional `{"path":"..."}` debe quedar dentro de uno de ellos |
+| `GET` | `/api/library/scan` | Estado y contadores del análisis actual o del último |
+| `GET` | `/api/library/saved-entities` | Álbumes y artistas marcados de esta cuenta, con los más recientes primero: `{"entities":[...]}` |
+| `PUT` | `/api/library/saved-entities` | Guardar o quitar de forma idempotente, con el cuerpo `{"saved":true,"entry":{"kind":"album","name":"Record","artist":"Band","destination":"/album/Record?artist=Band&deezer_id=123","cover":"https://..."}}`; requiere `library:write` |
+| `GET` | `/api/library/favourites` | Identificadores de pistas favoritas (solo aquellas de las que tienes un archivo) |
+| `GET` | `/api/library/favourites/entries` | Todas las canciones guardadas, descargadas o no: `{"version":2,"favourites":[{"keys":[...],"title","artist",...}]}` |
+| `POST` | `/api/library/favourites/toggle` | Marcar o desmarcar como favorita, con el cuerpo `{"track_id":"..."}` o `{"favourite":{"keys":["yt:<video_id>"],"title":"...","artist":"..."}}` |
+| `POST` | `/api/library/saved/set` | Guardar o quitar varias canciones a la vez, con el cuerpo `{"saved":true,"entries":[{"keys":[...],"title":"...","artist":"..."}]}`, hasta un máximo de 500 entradas. Nunca invierte el estado de una canción: al guardar, omite las que ya están guardadas; al quitar, conserva los favoritos y las canciones que tienen archivo. Devuelve `{"changed":N}`; requiere `library:write` |
+| `POST` | `/api/catalog/album/download` | Descargar todas las canciones de un álbum de Deezer que aún no estén en la biblioteca, con el cuerpo `{"deezer_id":"302127"}`. Devuelve `202` con el trabajo. Si hay un trabajo abierto para el álbum, lo devuelve tal cual; si está detenido, lo reanuda; si ha terminado, crea una nueva pasada; requiere `library:write` |
+| `GET` | `/api/catalog/album/download?deezer_id=` | La última descarga de ese álbum, canción por canción (`state`, `candidates`), o `null`. Las coincidencias dudosas esperan en `needs_review`: resuélvelas con `POST /api/migration/jobs/<id>/decision` y reanuda con `POST /api/migration/jobs/<id>/control` `{"action":"resume"}` |
+| `GET` | `/api/catalog/artist/discography?deezer_id=` | Los álbumes de un artista, seguidos de sus sencillos y EP, en una única `tracklist` con cada grabación una sola vez (un ISRC); se excluyen los recopilatorios. También incluye `releases` (con sus `track_ids`), `partial_failures` (lanzamientos que no se han podido leer) y `truncated` (si se superan las 2000 canciones) |
+| `POST` | `/api/catalog/artist/download` | Descargar esa discografía: todas las canciones que falten en la biblioteca, cada una archivada en su propio lanzamiento. Se aplican las mismas reglas de trabajo que en la ruta de álbumes; requiere `library:write` |
+| `GET` | `/api/catalog/artist/download?deezer_id=` | La última descarga de ese artista, canción por canción, o `null` |
+| `POST` | `/api/library/playlists` | Crear una lista de reproducción, con el cuerpo `{"name":"..."}` |
+| `POST` | `/api/library/playlists/<name>/tracks` | Añadir una pista a una lista de reproducción, con el cuerpo `{"track_id":"..."}` |
+| `DELETE` | `/api/library/playlists/<name>/tracks/<track_id>` | Quitar una pista de una lista de reproducción |
+
+Los marcadores de álbumes y artistas son referencias de navegación, independientes de las canciones guardadas,
+los favoritos y las descargas. `kind` es `album` o `artist`; `name` y un
+`destination` interno son obligatorios. Los campos opcionales `artist` y `cover` conservan los metadatos de presentación.
+El servidor deriva las claves de identidad de `album_id`/`artist_id` y `deezer_id` en el
+destino, y asigna `id` y `added_at`. Las referencias sin identificadores quedan
+sin resolver; los nombres por sí solos nunca se fusionan con ediciones o artistas identificados. Ambos
+métodos devuelven la colección completa. Usa `saved: false` con la misma entrada para
+quitarla. El evento por usuario `saved_entities_updated` invalida las lecturas en caché.
+La ruta y los controles de marcadores del reproductor web solo modifican el marcador.
+Añadir todas las canciones a Canciones y descargar una colección son comandos separados y explícitos
+del menú de opciones de la página del álbum o del artista. El mismo panel se abre desde
+la foto o el nombre de la cabecera con un clic izquierdo o derecho, mediante el teclado o con una
+pulsación prolongada en el móvil. Quitar un marcador nunca
+elimina canciones guardadas ni descargas.
+Si falla el guardado persistente, se devuelve un error sin descartar la colección anterior;
+las copias de seguridad de la instancia incluyen automáticamente el archivo `saved_entities.json` de la cuenta.
+
+La raíz de Biblioteca en la web (`#/`, también `#/library`) contiene accesos directos a las colecciones y
+filas de álbumes y artistas guardados. Las canciones, los álbumes y los artistas se abren en
+`#/library?view=songs|albums|artists`; las colecciones guardadas se abren en
+`#/?saved=albums|artists`. Todas estas subentradas se pueden seleccionar en los ajustes de la barra
+inferior. Seleccionar Biblioteca siempre devuelve a su raíz. El explorador de NORMAL/DJ
+conserva sus secciones actuales, con una sección adicional de Guardados. En
+escritorio, las subentradas de la barra lateral permiten cambiar entre canciones, álbumes y artistas;
+el buscador de la biblioteca aparece debajo del título, junto al control de ordenación.
 
 Las rutas de mutación pueden requerir autorización de administrador o acceso LAN/Tailscale confiable.
 
@@ -619,7 +653,13 @@ El estado incluye:
 }
 ```
 
-Los reproductores también pueden publicar un objeto `session` junto a él (la cola, las preferencias de transporte y el espacio de trabajo Auto Mode detrás de la canción), que es lo que permite que otro dispositivo retome la sesión en lugar de solo la pista. Es un delta: omite la clave y lo que esté almacenado para ese dispositivo se conserva, envía `null` para finalizarlo. Los agentes no tienen ningún motivo para escribir una, y un agente que inicia una canción no relacionada en un dispositivo debe enviar `"session": null` para que el dispositivo no restaure una cola en la que esa pista no está. Las sesiones de más de 256 KB se descartan.
+Los reproductores también pueden publicar junto a él un objeto `session`: la cola, las
+preferencias de reproducción y el espacio de trabajo de DJ de la canción. Esto
+permite que otro dispositivo retome la sesión en lugar de solo la pista. Es una
+actualización parcial: si se omite la clave, se conserva lo que haya almacenado para ese dispositivo; si se envía `null`,
+se finaliza. Los agentes no tienen motivos para escribir este objeto, y un agente que inicie una
+canción ajena a la sesión en un dispositivo debe enviar `"session": null` para que el dispositivo no
+restaure una cola que no contenga esa pista. Se descartan las sesiones de más de 256 KB.
 
 Estado de lectura:
 
@@ -665,15 +705,16 @@ El descubrimiento y la reproducción de podcasts son independientes de la búsqu
 
 Rutas útiles:
 
-| Método | Camino                                            | Propósito                                     |
-| ------ | ------------------------------------------------- | --------------------------------------------- |
-| `GET`  | `/api/discovery/podcasts/search?q=...`            | Buscar directorio de podcasts                 |
-| `GET`  | `/api/discovery/podcasts/top?country=US&limit=25` | Mejores podcasts                              |
-| `GET`  | `/api/podcasts/subscriptions`                     | Feeds suscritos                               |
-| `POST` | `/api/podcasts/subscribe`                         | Suscríbete por datos de feed                  |
-| `GET`  | `/api/podcasts/feeds/<feed_id>/episodes`          | Episodios para un feed                        |
-| `POST` | `/api/podcasts/enclosure/peek`                    | Crear un token de transmisión para un recinto |
-| `GET`  | `/api/podcasts/stream/<token>`                    | Transmitir audio de podcasts                  |
+| Método | Ruta | Finalidad |
+|---|---|---|
+| `GET` | `/api/discovery/podcasts/search?q=...` | Buscar en el directorio de pódcasts |
+| `GET` | `/api/discovery/podcasts/top?country=US&limit=25` | Pódcasts más populares |
+| `GET` | `/api/podcasts/subscriptions` | Canales suscritos |
+| `POST` | `/api/podcasts/subscribe` | Suscribirse con los datos del canal |
+| `GET` | `/api/podcasts/feeds/<feed_id>/episodes` | Episodios de un canal |
+| `GET` | `/api/podcasts/episodes-by-url?rss_url=...` | Programa de un canal (`title`, `author`, `image_url`) y episodios, sin suscribirse |
+| `POST` | `/api/podcasts/enclosure/peek` | Crear un token de transmisión para un archivo adjunto |
+| `GET` | `/api/podcasts/stream/<token>` | Transmitir audio del pódcast |
 
 Los elementos de la cola de vista previa de podcasts usan `enclosure_url`, no `video_id`.
 

@@ -1,0 +1,13 @@
+# Consulta atómica de la caché y admisión single-flight
+
+Antes, `Memo.resolve()` consultaba su caché y elegía un líder de cómputo en secciones críticas separadas. Un llamador podía observar un fallo de caché, pausarse y reanudarse después de que otro llamador hubiera calculado el resultado, lo hubiera guardado en caché y hubiera eliminado su vuelo. El llamador retrasado no veía entonces ningún vuelo y repetía el trabajo innecesariamente. Esto afecta a consumidores compartidos como la resolución del catálogo, la búsqueda del downloader, las búsquedas de relacionados y las consultas al directorio de podcasts.
+
+La consulta/caducidad de la caché y la búsqueda/creación del vuelo se ejecutan ahora en una sola sección crítica. Un llamador que obtiene la coordinación después de la publicación ve el resultado en caché; un llamador que llega antes de la publicación se une al vuelo actual. El cómputo y la espera siguen ocurriendo fuera del bloqueo, así que las claves independientes pueden ejecutarse en paralelo. El tamaño de la caché, la política de TTL, la propagación de excepciones y el tiempo máximo de espera no cambian. No se añaden entradas, metadatos retenidos, trabajo en segundo plano ni archivos en disco. La semántica de invalidación para líderes que ya están en ejecución no cambia.
+
+## Evidencia
+
+La prueba de regresión determinista pausa una petición en el antiguo límite entre el fallo de caché y la admisión, y deja que una segunda petición termine primero. Usa eventos en lugar de sleeps del planificador para forzar ese entrelazado. La implementación anterior falla las cuatro variantes (una cadena con éxito y los valores falsy en caché `''`, `False`, `0`) porque inicia un cómputo duplicado. La nueva implementación supera las cuatro: la petición retrasada reutiliza el valor publicado y no inicia ningún trabajo adicional.
+
+Otras pruebas verifican el progreso de claves independientes, la caducidad/invalidación/vaciado y el contrato del consumidor del catálogo de aislamiento por cuenta y copia en lectura. Las pruebas existentes cubren seguidores simultáneos, la propagación de errores a todos los que esperan y el reintento, los límites de la caché, los TTL negativos y el tiempo máximo de espera de quienes esperan. La suite centrada en Memo/catálogo supera 80 tests; la suite completa de Python supera 1.407 tests. Ruff y `git diff --check` también pasan.
+
+Esto demuestra la eliminación de una carrera concreta de trabajo duplicado. No establece su frecuencia en producción ni un porcentaje de mejora de CPU/RAM durante la reproducción. Este corte no incluye cambios en el frontend ni en la ruta de audio.

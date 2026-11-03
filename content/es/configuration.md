@@ -1,157 +1,189 @@
-## Configuración: opciones y entorno
+# Configuración
 
-Este documento resume las principales opciones de configuración para Soundsible.
+La mayor parte de Soundsible se configura en el reproductor: abre **Ajustes** o busca
+un ajuste desde el cuadro de la parte superior. Lo que el reproductor no puede cambiar —dónde
+escucha el motor, dónde guarda sus archivos o cómo accede a YouTube— se configura
+mediante variables de entorno. Esta página explica ambas cosas.
 
-Los nombres exactos de las opciones pueden evolucionar. En caso de duda, prefiera el asistente de configuración de la aplicación y la interfaz de usuario de configuración.
+## 1. Configuración inicial y Ajustes
 
-### 1. Asistente de configuración (recomendado)
+### Página de configuración
 
-La forma principal de configurar Soundsible es mediante la configuración guiada en la interfaz de usuario de la estación.
+Una instalación desde el código fuente hace unas pocas preguntas una sola vez en la página de configuración de
+`http://localhost:5099/setup` (consulta [Primera ejecución](INSTALL.md#first-run)):
 
-Opciones clave:
+- **Dónde está tu música** — una carpeta de este ordenador, que puede ser un NAS o
+  un recurso compartido de Samba montado en el equipo, o un bucket de Cloudflare R2 o Backblaze B2.
+- **La carpeta o la cuenta** que se va a usar y, para el almacenamiento en la nube, el bucket.
+- **Ajustes opcionales** — calidad de descarga y ubicación de la caché de
+  copias temporales.
 
-- Ruta de la biblioteca: donde se encuentran tus archivos de música.
-- Backend de almacenamiento: disco local, NAS o almacenamiento de objetos.
-- Backends en la nube: Cloudflare R2, Backblaze B2, S3 genérico (opcional).
-- Valores predeterminados del descargador: preferencias de calidad y fuente de búsqueda.
+La configuración inicial escribe `config.json` en el
+[directorio de configuración](#7-where-soundsible-keeps-its-files). Vuelve a abrirla con
+`python3 run.py --setup`. Docker y la aplicación de escritorio omiten esta página: el
+contenedor configura `/music` en su primer arranque y la aplicación de escritorio pide una
+carpeta de música en su propia pantalla de primera ejecución.
 
-Los cambios realizados aquí persisten para que las sesiones futuras los recojan automáticamente.
+### Ajustes
 
-### 2. Variables de entorno
+Todo lo demás está en **Ajustes**, dentro del reproductor: tema, idioma, reproducción,
+descargas, nuevos escaneos de la biblioteca, cuentas, dispositivos vinculados e
+importación de música. Algunos ajustes son personales y otros están reservados a un administrador;
+[Cuentas](#6-accounts-multi-user) indica cuáles.
 
-Dependiendo de cómo implemente Soundsible, puede exponer ciertos valores a través de variables de entorno.
+### Preferencias de navegación
 
-Categorías típicas:
+La barra inferior del móvil incluye inicialmente **Biblioteca, Favoritos, Buscar y Ajustes**.
+Abre **Ajustes → Apariencia → Barra inferior** para elegir entre tres y cinco
+secciones y establecer su orden. Si eliges una sección ya asignada a otra
+posición, ambas se intercambian. Los cambios se aplican de inmediato y se guardan en este navegador
+o instalación; **Restaurar valores predeterminados** recupera los cuatro botones originales.
 
-- Rutas: rutas base para almacenamiento o directorios de trabajo temporales.
-- Indicadores y ajustes de funciones: indicadores opcionales para límites de simultaneidad o comportamiento de depuración.
-- Depuración del reproductor web: agregue `?debug=1` a la Dirección del reproductor, o configure `localStorage.soundsible_debug` en `1`, para habilitar registros detallados de conexión/reproducción del cliente (desactivado de forma predeterminada).
+El menú de la cabecera abre la navegación completa, incluidas Listas de reproducción, Pódcast,
+Live, Descargas y las vistas Canciones, Álbumes y Artistas de la biblioteca. Ajustes sigue
+estando accesible ahí aunque lo quites de la barra inferior. En escritorio, la barra lateral permanente
+usa esa misma navegación completa; personalizar la barra inferior no
+reordena esa barra lateral.
 
-Consulte el código y cualquier archivo `.env` de muestra en el repositorio para obtener la lista actual de variables admitidas.
 
-### 2A. Variables de tiempo de ejecución y ruta
+## 2. Variables de entorno
 
-La capa de tiempo de ejecución actual admite estas variables de entorno de nivel superior:
+Defínelas donde se inicia el motor y después reinícialo: se leen al arrancar.
 
-- `SOUNDSIBLE_HOST`
-- `SOUNDSIBLE_PORT`
-- `SOUNDSIBLE_CONFIG_DIR`
-- `SOUNDSIBLE_DATA_DIR`
-- `SOUNDSIBLE_CACHE_DIR`: aquí todo es reconstruible. Cuando Soundsible pasa del `~/.cache/soundsible` heredado a un directorio de caché de la plataforma, migra las carátulas y los análisis de DJ, pero **no** `previews/` o `media/`: son audio masivo que se vuelve a descargar cuando se necesita y copiarlos duplica el uso del disco en el primer lanzamiento.
-- `SOUNDSIBLE_LOG_DIR`
-- `SOUNDSIBLE_MUSIC_DIR`
-- `SOUNDSIBLE_UI_DIST`
-- `SOUNDSIBLE_OWNER_TOKEN_FILE`
-- `SOUNDSIBLE_LAN_ENABLED`
-- `SOUNDSIBLE_ADVANCED_MODE`
-- `SOUNDSIBLE_YT_SEARCH_SOURCE` — `ytmusic` (predeterminado) o `youtube`. YouTube Music proporciona metadatos más limpios, pero no siempre es accesible desde la IP de un centro de datos; configúrelo en `youtube` en un VPS cuyas búsquedas resulten vacías.
-- `SOUNDSIBLE_YT_PROXY`: retransmisión HTTP privada utilizada tanto para la resolución YouTube como para la transferencia de Googlevideo resultante. Para la topología VPS compatible, utilice el relé exclusivo Tailscale de Soundsible; consulte [VPS\_RELAY.md](VPS_RELAY.md).
-- `SOUNDSIBLE_PREVIEW_CACHE_MB`: caché de disco de audio de vista previa de LRU, `2048` de forma predeterminada. Este límite corresponde al disco, no a memoria RAM reservada; `0` desactiva el almacenamiento en caché de audio mientras el calentamiento de URL permanece disponible.
-- La comunidad funciona sin configuración a través del servicio oficial de Soundsible. Configure `SOUNDSIBLE_COMMUNITY_DISABLED=true` para deshabilitar Live, o configure `SOUNDSIBLE_COMMUNITY_URL` en el origen HTTPS simple de su propia retransmisión. Los orígenes personalizados no pueden contener credenciales, una ruta, una consulta o un fragmento. La pila autoalojada admitida y su contrato de privacidad/capacidad están documentados en [deploy/community/README.md](../deploy/community/README.md).
+| Ejecutas Soundsible con | Dónde poner las variables |
+| --- | --- |
+| `python3 run.py` o `python3 run.py --daemon` | En la shell que lo inicia: primero `export NAME=value`, o bien `NAME=value python3 run.py --daemon`. |
+| systemd | En un archivo de configuración complementaria: `sudo systemctl edit soundsible` y después `Environment=NAME=value` dentro de `[Service]`. Consulta [la guía del servicio](INSTALL.md#run-it-as-a-systemd-service). |
+| Docker Compose | En el archivo `.env` junto a `compose.yaml` o en la sección `environment:`. Consulta [Docker](DOCKER.md#configuration-and-security). |
 
-Notas:
+### Red y acceso
 
-- `python3 run.py --daemon` todavía tiene de forma predeterminada la ruta de estilo de servidor heredado (`0.0.0.0:5005` a menos que se anule).
-- `python3 run.py --desktop-engine` tiene como valor predeterminado `127.0.0.1` y un puerto libre aleatorio.
-- Los directorios de aplicaciones de la plataforma se resuelven a través de `platformdirs`, y los `~/.config/soundsible`, `~/.cache/soundsible` y `~/.local/share/soundsible` heredados se migran o leen automáticamente.
+| Variable | Valor predeterminado | Efecto |
+| --- | --- | --- |
+| `SOUNDSIBLE_HOST` | `0.0.0.0` | Dirección en la que escucha el motor; equivale a `--host`. La aplicación de escritorio usa `127.0.0.1`. |
+| `SOUNDSIBLE_PORT` | `5005` | Puerto en el que escucha el motor; equivale a `--port`. El menú del terminal siempre usa 5005. |
+| `SOUNDSIBLE_ADMIN_TOKEN` | sin definir | Cuando está definido, las rutas de administración lo exigen como `Authorization: Bearer <token>` o `X-Soundsible-Admin-Token: <token>`. Consulta las [medidas básicas de seguridad](INSTALL.md#8-security-baseline). |
+| `SOUNDSIBLE_ALLOWED_ORIGINS` | localhost, direcciones de la LAN privada y de Tailscale | Orígenes de navegador autorizados para llamar a la API, separados por comas. |
+| `SOUNDSIBLE_SOCKET_CORS_ORIGINS` | cualquiera | Orígenes autorizados para abrir la conexión en tiempo real, separados por comas. |
+| `SOUNDSIBLE_HTTPS_URL` | sin definir | Tu propia dirección HTTPS, para que [Live](LIVE.md#5-broadcasting-needs-https) pueda dirigir allí un navegador para emitir. |
+| `SOUNDSIBLE_LAUNCHER_BIND_ALL` | `false` | `true` hace que la página de configuración y el lanzador respondan en la red, no solo en `localhost`. |
+| `LAUNCHER_PORT` | `5099` | Puerto de la página de configuración y del lanzador. |
+| `SOUNDSIBLE_LAN_ENABLED` | activado, salvo que la dirección de escucha sea de bucle local | Indica si se esperan navegadores de otros equipos; equivale a `--lan-enabled` / `--no-lan`. |
+| `SOUNDSIBLE_ADVANCED_MODE` | activado para `--daemon`, desactivado para la aplicación de escritorio | Mientras la instancia tenga una sola cuenta y ninguna contraseña, confía en los navegadores de la LAN y de la tailnet como si fueran su propietario. No tiene efecto una vez que se exige iniciar sesión. |
 
-### 2B. Archivos de token de tiempo de ejecución de escritorio
+### Rutas
 
-El modo de motor de escritorio crea y utiliza:
+Cada una tiene una opción equivalente en `run.py` (`--config-dir`, `--data-dir`, …). Los
+valores predeterminados se indican en la [sección 7](#7-where-soundsible-keeps-its-files).
 
-- `desktop-owner-token` en el directorio de configuración Soundsible de forma predeterminada
-- `desktop-engine-state.json` en el directorio de configuración Soundsible
+| Variable | Contiene |
+| --- | --- |
+| `SOUNDSIBLE_CONFIG_DIR` | `config.json`, la base de datos de la instancia con sus cuentas y la biblioteca, las listas de reproducción y los favoritos de cada persona. Haz una copia de seguridad. |
+| `SOUNDSIBLE_DATA_DIR` | Colas, trabajos de importación, telemetría de escucha e imágenes conservadas. |
+| `SOUNDSIBLE_CACHE_DIR` | Portadas, audio de previsualización y análisis de DJ. Todo lo que hay aquí se puede regenerar. Cuando Soundsible pasa de la ubicación antigua `~/.cache/soundsible` a un directorio de caché propio de la plataforma, traslada las portadas y los análisis de DJ, pero **no** `previews/` ni `media/`: son archivos de audio voluminosos que se vuelven a descargar cuando se necesitan. |
+| `SOUNDSIBLE_LOG_LEVEL` | Nivel de registro en consola para los motores nativos y en contenedores; el valor predeterminado es `INFO`. La planificación del DJ informa aquí de los aciertos de caché, las obtenciones pendientes y los resultados de las rutas. |
+| `SOUNDSIBLE_LOG_DIR` | El directorio de registros que el motor indica en `/api/health`. El propio motor escribe los registros en su terminal: el diario de systemd o `docker compose logs` en Docker. |
+| `SOUNDSIBLE_MUSIC_DIR` | La carpeta de música, cuando no es la elegida durante la configuración inicial. |
+| `SOUNDSIBLE_UI_DIST` | Un reproductor web ya compilado que se sirve en lugar de `ui_web/dist`. Lo establecen el contenedor y la aplicación de escritorio; una instalación desde el código fuente no lo necesita. |
+| `SOUNDSIBLE_OWNER_TOKEN_FILE` | Dónde se escribe el token de propietario de la aplicación de escritorio. |
 
-`desktop-owner-token` es la credencial de propietario actual para la interfaz de usuario del escritorio local y el trabajo del shell del dispositivo. `desktop-engine-state.json` registra los detalles del proceso/tiempo de ejecución de su propiedad para que un shell futuro pueda detener el PID correcto sin localizarlo únicamente por el puerto.
+### YouTube y descargas
 
-### 3. Configuración del descargador/ODST
+| Variable | Valor predeterminado | Efecto |
+| --- | --- | --- |
+| `SOUNDSIBLE_YT_SEARCH_SOURCE` | `youtube` | `youtube` o `ytmusic`. La búsqueda normal de YouTube devuelve el título, el creador y la duración en una sola petición; YouTube Music solo devuelve identificadores y títulos, y no siempre es accesible desde una IP de un centro de datos. |
+| `SOUNDSIBLE_YT_PROXY` | sin establecer | Repetidor HTTP privado que se usa tanto para resolver las URL de YouTube como para transferir el contenido multimedia resultante. Para la topología de VPS compatible, usa el repetidor de Soundsible accesible solo por Tailscale; consulta [VPS_RELAY.md](VPS_RELAY.md). |
+| `SOUNDSIBLE_YTDLP_COOKIE_FILE` | `cookies.txt` en el directorio de configuración | Archivo de cookies de YouTube; consulta [Cookies de YouTube](#youtube-cookies). |
+| `SOUNDSIBLE_YTDLP_FORCE_IPV4` | `true` | Fuerza el uso de IPv4 en yt-dlp, porque algunas rutas IPv6 de VPS se bloquean durante la extracción de YouTube. |
+| `SOUNDSIBLE_YTDLP_SOCKET_TIMEOUT` | `30` | Tiempo de espera del socket de yt-dlp, en segundos. |
+| `SOUNDSIBLE_YTDLP_HTTP_CHUNK_SIZE` | `10M` | Tamaño de los fragmentos HTTP de yt-dlp. |
+| `SOUNDSIBLE_YTDLP_RETRY_SLEEP` | exponencial, de 1 a 20 s | Expresión de `--retry-sleep` de yt-dlp, por ejemplo, `linear=2:10`. |
+| `SOUNDSIBLE_PREVIEW_CACHE_MB` | `2048` | Espacio en disco (no en RAM) para la caché LRU del audio de previsualización. `0` desactiva la caché de audio, pero permite seguir preparando las URL de antemano. |
+| `SOUNDSIBLE_ARTWORK_CACHE_MB` | `512` | MiB de portadas JPEG redimensionadas o recortadas que se conservan por directorio de caché. Se excluyen los originales; `0` sirve variantes temporales desde el disco sin conservarlas. Reinicia después de cambiarlo. Consulta los [detalles de la cuota](performance/artwork-variant-quota.md). |
+| `SOUNDSIBLE_FFMPEG` | FFmpeg en `PATH` | Ruta explícita al binario de FFmpeg. |
 
-El descargador ODST se puede ajustar desde la configuración y la interfaz de usuario.
+### Funciones
 
-Controles principales:
+| Variable | Valor predeterminado | Efecto |
+| --- | --- | --- |
+| `SOUNDSIBLE_COMMUNITY_DISABLED` | `false` | `true` desactiva Live. |
+| `SOUNDSIBLE_COMMUNITY_URL` | Servicio oficial de Soundsible | Origen HTTPS de tu propio repetidor de Live, sin credenciales, ruta, parámetros de consulta ni fragmento. El conjunto de servicios autoalojados se documenta en [deploy/community/README.md](../deploy/community/README.md). |
+| `SOUNDSIBLE_TELEMETRY_ENABLED` | activado | `0`, `false` u `off` detiene el registro de la telemetría de escucha local. Consulta [Privacidad](TELEMETRY_PRIVACY.md). |
+| `SOUNDSIBLE_LOUDNESS_ANALYSIS` | activado | `false` deja de medir las pistas nuevas para nivelar la sonoridad; las pistas ya medidas conservan sus niveles. |
+| `SOUNDSIBLE_SUBSONIC_MAX_TRANSCODES` | `2` | Transcodificaciones simultáneas de [OpenSubsonic](OPENSUBSONIC.md). |
+| `SOUNDSIBLE_SKIP_UI_BUILD` | sin establecer | `1` impide que el motor vuelva a compilar el reproductor web al iniciarse; sirve lo que contenga `ui_web/dist`. |
 
-- Seleccionando la fuente de búsqueda y descarga (YouTube vs YouTube Music).
-- Elegir ajustes preestablecidos de calidad (sin pérdidas de forma predeterminada cuando esté disponible, con selección manual).
+Para activar los registros detallados de conexión y reproducción en un navegador, añade
+`?debug=1` a la URL del reproductor o establece `localStorage.soundsible_debug` en `1`.
 
-### Fuentes opcionales sin pérdidas
+Una instalación desde el código fuente nunca necesita compilar manualmente el reproductor web: el motor
+lo vuelve a compilar desde `ui_web/` cada vez que cambia el código fuente. Para desarrollar la interfaz,
+consulta [ui_web/README.md](../ui_web/README.md).
 
-El actualizador sin pérdidas funciona sin credenciales a través de Wikimedia Commons e Internet Archive. La cobertura de Jamendo se habilita con el `client_id` de solo lectura asignado a una aplicación registrada en [`devportal.jamendo.com`](https://devportal.jamendo.com/).
+## 3. Descargas
 
-Un administrador de instancia puede ingresar ese valor en **Configuración → Descargas → Actualizaciones sin pérdida → Jamendo Client ID**. Soundsible lo valida con Jamendo antes de almacenarlo en el archivo `odst_tool/.env` ignorado, nunca devuelve el valor a través de la API de estado y recarga el proveedor sin reiniciar el demonio. OAuth `client_secret` y tokens de acceso no son necesarios y no se deben ingresar.
+Elige la calidad de descarga en **Configuración → Descargas**; se aplica a las descargas
+nuevas. La fuente de búsqueda se define con la [variable](#youtube-and-downloads)
+`SOUNDSIBLE_YT_SEARCH_SOURCE`.
 
-- Controlar el paralelismo y la concurrencia para descargas más rápidas (sujeto a su ancho de banda y hardware).
+Lo que guarda Configuración → Descargas —carpeta de destino, calidad, credenciales
+del bucket en la nube y actualizaciones automáticas de yt-dlp / curl-cffi— se conserva en
+`downloader.env`, en el
+[directorio de configuración](#7-where-soundsible-keeps-its-files). Una variable de entorno
+real con el mismo nombre tiene prioridad. Las instalaciones anteriores a este
+archivo guardaban la misma configuración en `odst_tool/.env`, dentro de la copia del repositorio; el
+motor copia ese archivo a la nueva ubicación la primera vez que se inicia y deja el antiguo
+en su sitio.
 
-Consulte `odst_tool/README.md` para obtener más detalles sobre el uso de ODST independiente.
+### Cookies de YouTube
 
-Si las descargas fallan con yt‑dlp "El formato solicitado no está disponible" cuando se utilizan cookies, consulte [troubleshooting-yt-dlp-formats.md](troubleshooting-yt-dlp-formats.md).
-
-Para implementaciones de VPS o centros de datos, YouTube puede requerir cookies autenticadas. Coloque un archivo de cookies YouTube exportado en:
-
-```bash
-~/.config/soundsible/cookies.txt
-```
-
-O apúntelo explícitamente con Soundsible:
+En despliegues en VPS o centros de datos, YouTube puede exigir cookies de autenticación.
+Exporta un archivo de cookies de YouTube y colócalo como `cookies.txt` en el
+[directorio de configuración](#7-where-soundsible-keeps-its-files) —en Linux,
+`~/.config/soundsible/cookies.txt`— o indica su ubicación a Soundsible explícitamente:
 
 ```bash
 export SOUNDSIBLE_YTDLP_COOKIE_FILE=/path/to/cookies.txt
 ```
 
-Soundsible fuerza yt-dlp a través de IPv4 de forma predeterminada porque algunas rutas IPv6 de VPS se bloquean durante la extracción de YouTube. Para desactivar eso:
+Primero se intenta la extracción pública porque normalmente ofrece formatos
+solo de audio más limpios. Se vuelve a intentar automáticamente con las cookies configuradas cuando YouTube
+exige autenticación, confirmación de edad o un formato que solo está disponible con cookies. Consulta
+[Solución de problemas de descarga](troubleshooting-yt-dlp-formats.md) si las descargas siguen
+fallando.
 
-```bash
-export SOUNDSIBLE_YTDLP_FORCE_IPV4=false
-```
+### Comportamiento de red
 
-Las descargas de YouTube de larga duración utilizan un perfil de red sólido de forma predeterminada:
+Las descargas prolongadas de YouTube usan de forma predeterminada un perfil de red robusto: el
+tiempo de espera del socket, el tamaño de los fragmentos y la espera entre reintentos de la
+[tabla anterior](#youtube-and-downloads). Estos ajustes afectan a la transferencia saliente
+de YouTube del Station Engine; la conexión del navegador por LAN, Tailscale, Funnel o
+proxy inverso solo transporta el control de la cola y el progreso.
 
-- tiempo de espera del socket: `30` segundos
-- Tamaño del fragmento HTTP: `10M`
-- espera entre reintentos: incremento exponencial de 1 a 20 segundos
+Cuando hay un repetidor configurado, cada flujo resuelto registra si se obtuvo
+mediante una salida directa o a través del repetidor. La reproducción en streaming de previsualizaciones y la precarga reutilizan exactamente esa ruta;
+nunca la deducen del entorno actual una vez resuelta la URL.
 
-Anule estos valores cuando lo requiera una red específica:
 
-```bash
-export SOUNDSIBLE_YTDLP_SOCKET_TIMEOUT=45
-export SOUNDSIBLE_YTDLP_HTTP_CHUNK_SIZE=4M
-export SOUNDSIBLE_YTDLP_RETRY_SLEEP=linear=2:10
-```
+## 4. Descubrir (metadatos de Deezer)
 
-La expresión de reintento utiliza la sintaxis `--retry-sleep` de yt-dlp. Estas configuraciones afectan la transferencia saliente YouTube de Station Engine; la conexión LAN, Tailscale, Funnel o proxy inverso del navegador solo transporta el control y el progreso de la cola. Primero se intenta la extracción pública porque normalmente expone formatos de solo audio más limpios. Las cookies configuradas se reintentan automáticamente cuando YouTube requiere autenticación, confirmación de edad o un formato de solo cookies.
+- **No hace falta una clave de API de Deezer** para la función Descubrir integrada. Station actúa como proxy de los endpoints GET **públicos** de Deezer (consulta [ARCHITECTURE.md](ARCHITECTURE.md)).
+- El motor debe poder establecer conexiones salientes con **`https://api.deezer.com`**. Si no puede, las listas y la búsqueda de Descubrir estarán vacías o mostrarán un error.
+- La reproducción sigue dependiendo de la **búsqueda de YouTube / YouTube Music** y de tu configuración actual de descargas; Descubrir no añade un motor de audio independiente.
 
-Cuando se configura una retransmisión, cada flujo resuelto registra si proviene de una salida directa o de retransmisión. Obtenga una vista previa de la transmisión y reutilice esa ruta exacta; nunca adivinan del entorno actual una vez resuelta la URL.
+## 5. Almacenamiento
 
-### 3A. Nota sobre el origen y la compilación de la interfaz de usuario web
+El almacenamiento se elige durante la [configuración inicial](#setup-page):
 
-El reproductor SolidJS debe construirse antes de que Flask lo entregue (`cd ui_web && npm run build`). Para el desarrollo interactivo, utilice el servidor de desarrollo Vite (`npm run dev`), que representa la API del motor y la conexión Socket.IO.
+- **Disco local**: la opción predeterminada; los archivos se guardan en el equipo que ejecuta
+  Soundsible.
+- **NAS o almacenamiento compartido**: una ruta de red que monta el equipo y se usa como
+  carpeta de la biblioteca. Con systemd, haz que el servicio
+  [espere al montaje](INSTALL.md#7-storage).
+- **Almacenamiento de objetos**: Cloudflare R2 o Backblaze B2. No se han implementado
+  otros servicios compatibles con S3.
 
-Eso incluye actualmente:
-
-- `socket.io-client.esm.min.js`
-- `qrcode.esm.js`
-
-`npm install` y `npm run build` actualizan esos archivos de proveedores automáticamente a través de:
-
-- `ui_web/scripts/sync-vendor-socket.mjs`
-- `ui_web/scripts/sync-vendor-qrcode.mjs`
-
-### 4. Descubrir (metadatos Deezer)
-
-- **No se requiere ninguna clave API Deezer** para la experiencia Discover integrada. La estación representa puntos finales **públicos** Deezer GET (consulte [ARCHITECTURE.md](ARCHITECTURE.md)).
-- El motor debe poder alcanzar **`https://api.deezer.com`** de salida. Si eso falla, las listas de Discover y la búsqueda estarán vacías o se producirá un error.
-- La reproducción aún depende de la **búsqueda YouTube / YouTube Music** (ODST) y de la configuración de descarga existente; Discover no agrega un backend de audio separado.
-
-### 5. Descripción general de la configuración de almacenamiento
-
-En un nivel alto, el almacenamiento se puede configurar de tres maneras:
-
-- Disco local: modo predeterminado; archivos almacenados en la misma máquina que ejecuta Soundsible.
-- NAS o almacenamiento compartido: una ruta de red montada que se utiliza como ubicación de la biblioteca.
-- Almacenamiento de objetos: proveedores compatibles, como Cloudflare R2, Backblaze B2 o S3 genérico.
-
-El asistente de configuración y la interfaz de usuario de configuración manejan los casos comunes. Si necesita un backend personalizado, busque la capa de abstracción de almacenamiento en el código e implemente la misma interfaz que utilizan los backends existentes.
-
-### 6. Cuentas (multiusuario)
+## 6. Cuentas (varios usuarios)
 
 Una instancia de Soundsible sirve a varias personas. Cada cuenta tiene su propia biblioteca, listas de reproducción, favoritos, cola, suscripciones a podcasts, historial de escucha y preferencias. Los **archivos de audio se comparten**: los identificadores de pista son hashes de contenido, por lo que una canción que alguien ya descargó se agrega a su biblioteca instantáneamente, sin una segunda descarga o una segunda copia en el disco.
 
@@ -159,10 +191,10 @@ Una instancia de Soundsible sirve a varias personas. Cada cuenta tiene su propia
 
 **Agregar a la segunda persona activa la autenticación.** Configuración → Cuenta → Personas → *Agregar a alguien*. Primero se le pedirá que establezca una contraseña en su propia cuenta; de lo contrario, agregar una segunda biblioteca dejaría la instancia abierta a cualquier persona en la red. A partir de ese momento todos inician sesión.
 
-| Configuración                                                                                                                                                                | quien lo controla          |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| Biblioteca, listas de reproducción, favoritos, cola, podcasts, historial, tema, idioma                                                                                       | Cada persona, por sí misma |
-| Carpeta de música, backend de almacenamiento, calidad de descarga, cookies yt-dlp y actualización automática, optimización de biblioteca, sincronización en la nube, cuentas | Sólo administrador         |
+| Ajuste | Quién lo controla |
+|---------|-----------------|
+| Biblioteca, listas de reproducción, favoritos, cola, pódcasts, historial, tema, idioma | Cada persona, para sí misma. En la aplicación de escritorio, el tema también se aplica a sus propias pantallas de primer inicio, carga y error, para que toda la ventana tenga un aspecto uniforme |
+| Carpeta de música, sistema de almacenamiento, calidad de descarga, cookies y actualización automática de yt-dlp, sincronización en la nube, cuentas | Solo los administradores |
 
 **Agregar personas de forma remota.** Configuración → Cuenta → Personas → *Crear enlace de invitación* crea un enlace de un solo uso válido por 7 días. Envíalo como quieras; quien lo abre elige su propio nombre de usuario y contraseña y llega directamente a su reproductor (vacío). No se les muestra nada sobre el servidor ni sobre las otras cuentas. De un caparazón hay `python run.py --users invite --display-name "…" --base-url http://…`.
 
@@ -179,7 +211,7 @@ Puntos finales:
 
 Las sesiones son cookies HttpOnly de 90 días (`sb_session`), almacenadas en el lado del servidor solo como hashes y revocables por cuenta desde la pantalla Personas. Al eliminar una cuenta, se eliminan los directorios de esa persona; Los archivos de música compartidos nunca se tocan.
 
-### 6A. Emparejamiento y autenticación de administrador
+### Vinculación y autenticación de administradores
 
 Superficies de autenticación de tiempo de ejecución/emparejamiento actual:
 
@@ -198,4 +230,32 @@ Puntos finales de emparejamiento actuales:
 - `GET /api/paired-devices`
 - `POST /api/paired-devices/<token_id>/revoke`
 
-El modo de emparejamiento del reproductor de escritorio ahora consume este flujo directamente y genera un código QR desde la carga útil `qr_text` del backend.
+Configuración → Dispositivos muestra el QR con el formato `qr_text` del servidor, pero con la dirección desde la que se ha abierto el panel (si es una dirección de bucle local, se recurre a la sugerencia de LAN del motor). Una solicitud de vinculación con `"credential": "session"` inicia sesión en el teléfono con esa cuenta mientras el panel está visible; consulta ARCHITECTURE.
+
+## 7. Dónde guarda Soundsible sus archivos
+
+Una instalación desde el código fuente y la aplicación de escritorio determinan sus directorios según la plataforma.
+El contenedor usa `/config`, `/data`, `/cache`, `/logs` y `/music` en su lugar.
+
+| | Linux | macOS | Windows |
+| --- | --- | --- | --- |
+| Configuración | `~/.config/soundsible` | `~/Library/Application Support/soundsible` | `%LOCALAPPDATA%\soundsible` |
+| Datos | `~/.local/share/soundsible` | `~/Library/Application Support/soundsible` | `%LOCALAPPDATA%\soundsible` |
+| Caché | `~/.cache/soundsible` | `~/Library/Caches/soundsible` | `%LOCALAPPDATA%\soundsible\Cache` |
+| Música (predeterminado) | `~/Music/Soundsible` | `~/Music/Soundsible` | `%USERPROFILE%\Music\Soundsible` |
+
+Pertenecen al usuario que ejecuta el motor, por lo que un
+[servicio de systemd](INSTALL.md#run-it-as-a-systemd-service) debe ejecutarse con el
+usuario que completó la configuración inicial. Las instalaciones antiguas usaban `~/.config/soundsible`,
+`~/.cache/soundsible` y `~/.local/share/soundsible` en todas las plataformas; su contenido
+se copia a las nuevas ubicaciones en el primer inicio. Las opciones de `run.py` y las
+[variables de rutas](#paths) permiten sustituir cualquiera de estas ubicaciones.
+
+El directorio de configuración también contiene `downloader.env`, con los
+[ajustes guardados del descargador](#3-downloads).
+
+La aplicación de escritorio también guarda dos archivos en el directorio de configuración:
+
+- `desktop-owner-token`: la credencial de propietario para la interfaz local de escritorio.
+- `desktop-engine-state.json`: el proceso y la dirección del motor en ejecución, para que
+  la aplicación detenga el proceso correcto en lugar de matar un proceso por su puerto.

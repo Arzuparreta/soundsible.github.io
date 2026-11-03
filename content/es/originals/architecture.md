@@ -4,11 +4,11 @@ This document describes how the Soundsible repository is structured, which proce
 
 ### 1. Mental model
 
-Soundsible is a **self-hosted music environment**: a Python **Station Engine** exposes an HTTP API and real-time events, serves the **Station** web UI, and coordinates library management, playback state, and downloads. A separate optional **web launcher** helps start the legacy daemon from a browser. Optional **CLI** flows use the same engine entry points.
+Soundsible is a **self-hosted music environment**: a Python **Station Engine** exposes an HTTP API and real-time events, serves the **Station** web UI, and coordinates library management, playback state, and downloads. A separate optional **web launcher** helps start the server daemon from a browser. Optional **CLI** flows use the same engine entry points.
 
 At runtime you typically have one of these engine modes:
 
-- **Legacy daemon** — one process listening on **port 5005** by default (`STATION_PORT` in `shared/constants.py`). It runs Flask, Socket.IO (async mode **gevent**), and background work (download queue, file watchers, optional library sync).
+- **Server daemon** (`run.py --daemon`) — one process listening on **port 5005** by default (`STATION_PORT` in `shared/constants.py`). It runs Flask, Socket.IO (async mode **gevent**), and background work (download queue, file watchers, optional library sync).
 - **Desktop engine** — one process started with `run.py --desktop-engine` or `soundsible_engine.py`. It binds to **`127.0.0.1` on a random free port by default**, writes runtime state under the app config dir, and emits a single JSON readiness line on stdout before normal startup logs.
 - **Web launcher** — optional Flask app on **port 5099** (`start_launcher.py` / `launcher_web/`). It does **not** serve the player; it only helps start or stop the engine and run first-time setup UI.
 
@@ -18,14 +18,13 @@ The **Station** UI is a responsive SolidJS application under `ui_web/`, served b
 
 | Area | Role |
 |------|------|
-| `run.py` | Universal entry: venv bootstrap, optional **TUI** menu, legacy **`--daemon`**, or desktop **`--desktop-engine`**. |
+| `run.py` | Universal entry: venv bootstrap, then the **TUI** menu, the server **`--daemon`** (also what systemd runs), or desktop **`--desktop-engine`**. |
 | `soundsible_engine.py` | Standalone desktop engine entrypoint that wraps `run.py --desktop-engine`. |
-| `shared/` | Cross-cutting code: Flask API app (`shared/api/`), models, config paths, security helpers, SQLite access, job orchestration. |
+| `shared/` | Cross-cutting code: Flask API app (`shared/api/`), models, config paths, security helpers, SQLite access, job orchestration, audio files (`shared/audio_files.py`) and the download pipeline (`shared/downloader/`: yt-dlp, FFmpeg, the download pool and cloud sync). |
 | `player/` | Library manager, queue, favourites, cache — **core playback and library** logic used by the API. |
 | `ui_web/` | SolidJS + TypeScript Station frontend and Vite build; includes **Discover** (Deezer metadata + YouTube resolution). |
 | `launcher_web/` | Small Flask app for the launcher pages and “launch/stop ecosystem” API. |
-| `odst_tool/` | Download pipeline (yt-dlp, FFmpeg), ODST library format, cloud sync helpers; embedded in the API for downloads. |
-| `setup_tool/` | Storage providers (local, S3-compatible), scanning, uploads, audio/cover helpers used by library and sync paths. |
+| `setup_tool/` | Storage providers (local folder, Cloudflare R2, Backblaze B2), scanning and uploads used by library and sync paths. |
 
 ### 3. Process and network view
 
@@ -53,7 +52,7 @@ flowchart LR
   API --> BG
 ```
 
-- **Starting the legacy daemon**: `shared/daemon_launcher.py` spawns `venv` Python with `run.py --daemon`, which calls `shared.api.start_api()` and binds **0.0.0.0:5005**.
+- **Starting the server daemon**: `shared/daemon_launcher.py` (terminal menu and web launcher) spawns `venv` Python with `run.py --daemon`, which calls `shared.api.start_api()` and binds **0.0.0.0:5005**.
 - **Starting the desktop engine**: `soundsible_engine.py` or `run.py --desktop-engine` builds a `RuntimeConfig`, creates a short owner token file plus matching scoped auth token, writes `desktop-engine-state.json` under the config dir, and then starts `shared.api.start_api()` on loopback.
 - **CORS**: REST CORS defaults allow localhost, private LAN, and Tailscale-style ranges unless overridden by `SOUNDSIBLE_ALLOWED_ORIGINS`. Socket.IO CORS can be tightened with `SOUNDSIBLE_SOCKET_CORS_ORIGINS`.
 
@@ -81,8 +80,8 @@ The Flask application lives in `shared/api/__init__.py`. It:
 - Owners complete or cancel the flow through **`POST /api/pairing/sessions/<id>/confirm`** and **`POST /api/pairing/sessions/<id>/cancel`**.
 - The shell can explicitly mark the QR sheet open or closed through **`POST /api/pairing/sessions/<id>/display-open`** and **`POST /api/pairing/sessions/<id>/display-close`**. If `auto_confirm` is enabled while display is open, a claim can complete immediately without a second owner round-trip.
 - Successful confirmation creates a scoped `paired_device` bearer token in `auth_tokens`; owners can list and revoke those tokens with **`GET /api/paired-devices`** and **`POST /api/paired-devices/<token_id>/revoke`**.
-- The engine exposes this flow, but wiring it into the SolidJS Settings view remains a
-  `new-ui` parity task before cutover.
+- A claim may instead ask for `"credential": "session"` (the Android app does): only while the owner's sheet is open with auto-confirm, it signs the phone in as the account showing the code with an ordinary session cookie — full account scopes, not the reduced paired-device set. That session is linked to the pairing record, so it is listed and revocable under the same paired-devices routes. A hidden code is refused with `pairing_display_required` and stays unused.
+- Settings → Devices draws the QR. The sheet points it at the address it is being viewed at (the Android app: its connected server), falling back to the engine's LAN suggestion only from loopback, since the engine cannot know an HTTPS or Tailscale address.
 
 **Job orchestration** (`shared/api/orchestrator.py`): a small **JobOrchestrator** serializes metadata writes and runs bounded concurrent work (e.g. downloads) so heavy tasks do not stampede the library.
 
@@ -96,11 +95,11 @@ The Flask application lives in `shared/api/__init__.py`. It:
 
 Catalog resolve queues the winner's stream-URL resolution on the **preview prefetch worker** rather than blocking the response on it: the click that follows either finds the URL warm or joins the extraction already running.
 
-**Download path**: queued items are processed in the background; completed tracks are merged into the main library metadata (`_sync_odst_to_main_core` and related helpers). A catalog Recording MBID crosses the queue as acquisition evidence, is stored on the track and is embedded using MusicBrainz Picard's standard MP3/FLAC tag mapping; folder scans recover the same identifier from supported tagged files. FFmpeg and yt-dlp are used via `odst_tool/`.
+**Download path**: queued items are processed in the background; completed tracks are merged into the main library metadata (`add_tracks_to_user_library`; `_sync_pool_to_main_core` for whole-pool admin operations). A catalog Recording MBID crosses the queue as acquisition evidence, is stored on the track and is embedded using MusicBrainz Picard's standard tag mapping (MP3, FLAC, MP4/M4A, Ogg Vorbis and Opus; WebM files are left untagged); folder scans recover the same identifier from supported tagged files. FFmpeg and yt-dlp are used via `shared/downloader/`.
 
 **Library path**: `player/library.py` loads each account's canonical **`library.db`** and **`~/.config/soundsible/config.json`** for `PlayerConfig`; it can also use storage providers from `setup_tool/` for cloud-backed exports. One SQLite transaction stores the complete library snapshot: ordered tracks and playlists, settings, podcast state, normalized `artists`/`albums`/`track_artists`, and `track_user_state`. Entity IDs are deterministic and albums include their album artist, so unrelated records with the same title do not collapse. After that transaction commits, Soundsible atomically refreshes `library.json` as a portable export; an export failure does not roll back the library.
 
-Each track carries **`added_at`**, the day the song joined *this* library — set by every acquisition path, carried across a re-keyed id, and never rewritten once stored. It is what "recently added" means in the player, in `getAlbumList2`'s `newest`, and in a Subsonic album's `created`. A library from before the column existed is dated once, on open, from each file's own mtime, falling back to its position in the manifest for a file that cannot be reached; `last_updated` is deliberately not used, because every row carries the instant of the last rewrite. The player merges files with saved-but-not-downloaded songs on this one field, which is the only way a library that holds both can be ordered by anything but which list a song happens to be in.
+Each track carries **`added_at`**, the moment *this account* first took hold of the song. One rule, owned by `shared/library_dates.py`, decides it: the date is written once, when a song enters the library, and every other form the same song later takes adopts it. A download of a song you had saved keeps the day you saved it; hearting a downloaded song dates its entry from the file; a folder scan that finds the file of a saved song keeps the save. `Holdings.claim` is the single decision point — an identity the account already holds (as a file or as a saved entry, matched on the same identity keys the player uses) answers with the date it has been held since, and only an identity held nowhere gets a new one. The shared pool's own date is never an account's: it says when *the pool* got the file. Once stored, a track's date is carried across a re-keyed id and never rewritten. Nothing retro-dates a library whose dates were written before this rule; that would be a guess. It is what "recently added" means in the player, in `getAlbumList2`'s `newest`, and in a Subsonic album's `created`. A library from before the column existed is dated once, on open, from each file's own mtime, falling back to its position in the manifest for a file that cannot be reached; `last_updated` is deliberately not used, because every row carries the instant of the last rewrite. The player merges files with saved-but-not-downloaded songs on this one field, and because both forms of one song carry the same date, a download or a heart never moves a song in that order.
 
 `POST /api/library/scan` queues an account-scoped scan on the orchestrator's
 disk-limited background lane. It reads the configured music roots in place and
@@ -156,25 +155,37 @@ An account without a canonical marker is migrated once using the previous manife
 - Playback discovery pools can consume that contract without changing the
   existing **Search** presentation. **Library** remains the root route.
 - **`POST /api/discovery/music/plan`** is the generated-listening contract for
-  Autoplay, Radio, and Auto Mode. The Station assembles playable local,
+  Autoplay, Radio, and DJ. The Station assembles playable local,
   seed-related, cached graph, and artist candidates, applies the account
   profile, diversity, exclusions, and intent/profile policy, then returns the
   final ordered segment. A single browser coordinator owns cancellation,
   retries, and refill; it never re-ranks the server response.
 - Radio remains the explicit “more of this now” mode and continuously refills.
-  Auto Mode uses the v6 compositional contract: route occurrences determine
+  DJ uses the v6 compositional contract: route occurrences determine
   what will sound, while visible ephemeral sources independently steer the
-  generated runway. Sources accumulate with recency decay; heard tracks provide
-  rolling one-hop context only after they actually sound. Exact placement and
-  exclusions remain session-local, with no waypoint state or hard musical
-  boundary. The director builds an energy arc from signal analysis and
-  stochastic graph walks; it does not use an LLM or silently apply the
-  account's global taste profile.
+  generated runway. Sources accumulate, and the most recent one opens a
+  session; heard tracks provide rolling one-hop context only after they
+  actually sound. Exact placement and exclusions remain session-local, with no
+  waypoint state or hard musical boundary. The route comes from stochastic
+  graph walks over the sources. A deterministic sample is chosen before reading
+  analysis; measured songs are then ordered by transition quality and continuity
+  in notes/s, LUFS, spectral flatness and tempo, scaled by the sample's own
+  dispersion. Unmeasured songs retain their sampled slots. Signal analysis
+  also shapes each transition: measured outros/breakdowns place the exit, and
+  an incoming drop can land on an outgoing phrase at the executed playback
+  rate. Tempo reliability gates beatmatch independently of tonal confidence.
+  Section interpretation stays in the server; web and Android execute the
+  same bounded cues. It does not use an LLM or silently apply the account's
+  global taste profile.
+  El mapa de responsabilidades del DJ, sus contratos y las diferencias entre
+  políticas de ruta están en [DJ architecture](dj/ARCHITECTURE.md). La fachada
+  `shared/dj_engine.py` conserva los imports públicos; `shared/dj/store.py`
+  posee la única caché y los trabajos, y los módulos musicales son puros.
   Autoplay remains an invisible finite-context continuation. Search does not
   use the queue planner and its UI is unchanged.
-- **Playback and downloads** for those rows do **not** use Deezer audio. The UI runs **YouTube / YouTube Music text search** (same ODST `/api/downloader/youtube/search` path as the downloader) using Deezer title + artist, picks a matching video id, then:
+- **Playback and downloads** for those rows do **not** use Deezer audio. The UI runs **YouTube / YouTube Music text search** (the same `/api/downloader/youtube/search` path as the downloader) using Deezer title + artist, picks a matching video id, then:
   - **In-app preview** streams via **`GET /api/preview/stream/<video_id>`** (playback blueprint).
-  - **Download queue** uses the resolved item like any other ODST search result.
+  - **Download queue** uses the resolved item like any other search result.
 - Resolution can take a few seconds; the download-queue popover may show a short **“Finding YouTube match…”** state while that search runs.
 
 **Universal search** (`shared/api/routes/catalog.py`):
@@ -186,6 +197,11 @@ An account without a canonical marker is migrated once using the previous manife
 - Ranking is query-only. It never reads recommendation signals, favourites, or
   account preferences, including for tie-breaking. Ownership is an action-state
   badge, not a rank boost.
+- The library provider takes its candidates from a folded on-disk index in
+  `library.db` (`shared/library_search.py`) only when a fingerprint proves the
+  index describes the in-memory library; otherwise (unsaved edits, an outdated
+  index) it scans every track. Either way the same ranker orders the same rows —
+  see [local search index](performance/local-search-index.md).
 - **The server owns the layout.** The response carries `top_result` (an item id
   or `null`) and an ordered `sections` list of
   `{id, layout, item_ids, total}` — `layout` is one of
@@ -193,7 +209,7 @@ An account without a canonical marker is migrated once using the previous manife
   can offer "see all N" without asking again. Section order is part of the
   answer: an artist-name query leads with artists, an album name with albums.
   Every search surface renders that one order (`ui_web/src/lib/searchSections.ts`);
-  the Search route and the Now Playing panel used to hardcode two different ones.
+  the Search route and the NORMAL panel used to hardcode two different ones.
   Clients send `type=all` and filter tabs locally — a `type=artist` request costs
   a full provider fan-out for a strictly smaller answer.
 - **`top_result` is gated, not just "the first row".** It is emitted only above a
@@ -233,7 +249,7 @@ An account without a canonical marker is migrated once using the previous manife
 - Each account has transactional `discovery_events` and
   `discovery_signals` tables in its own `library.db`, plus an inspectable local
   `listening-events.jsonl`.
-- Discovery, Radio, Auto Mode, Autoplay, and podcast recommendations use the same exact
+- Discovery, Radio, DJ, Autoplay, and podcast recommendations use the same exact
   identity multiplier. `not_interested` is soft, monotonic, undoable, and
   bounded above zero; it never becomes a blacklist. Search and manual queues do
   not call this ranker.
@@ -244,7 +260,7 @@ The engine cannot make a cold preview instant — there is a yt-dlp extraction b
 
 - **Idempotent.** `loadIndex` treats a request for the entry that is already active as a no-op (or a resume, if paused). Repeated taps on a row cost nothing; only `{ restart: true }` replays from 0:00. `playCatalogItem` (`lib/catalogItem.ts`) does the same for rows that still need resolving.
 - **Last click wins.** Assigning `src` aborts the previous fetch, and `audio.ts` tags each attempt with a sequence number so the superseded `play()` rejection — an `AbortError` — is swallowed instead of being reported as the new track failing. `audioService.stop()` (teardown, not pause) clears `src` so the engine stops streaming bytes nobody is listening to.
-- **Visible.** `playback.isLoading` / `playback.loadError` drive a spinner and an indeterminate progress sweep in the OmniBar and the Now Playing transport, a retry affordance on failure, and a spinner on the specific row that was tapped. A failed track auto-advances, bounded to 3 consecutive skips.
+- **Visible.** `playback.isLoading` / `playback.loadError` drive a spinner and an indeterminate progress sweep in the OmniBar and the NORMAL transport, a retry affordance on failure, and a spinner on the specific row that was tapped. A failed track auto-advances, bounded to 3 consecutive skips.
 
 A failed load surfaces on two channels (`play()` rejects **and** the element fires `error`), so failure reporting is keyed by a load generation — the first report retires the attempt and the duplicate is ignored.
 
@@ -252,7 +268,7 @@ A failed load surfaces on two channels (`play()` rejects **and** the element fir
 
 The Solid player uses occurrence-based manual, context, and generated lanes.
 Its single generated-session coordinator and the ordering, replacement,
-shuffle, Radio, Auto Mode, and Autoplay semantics are normative in
+shuffle, Radio, DJ, and Autoplay semantics are normative in
 [`PLAYBACK_QUEUE_CONTRACT.md`](PLAYBACK_QUEUE_CONTRACT.md).
 
 ### 5. Data and configuration (conceptual)
@@ -270,7 +286,7 @@ machine, and what belongs to a person.
 | `<config>/cookies.txt` | yt-dlp cookies. |
 | `<config>/download_queue.json` | One queue; each row carries `user_id`. |
 | `<music>/tracks/<hash>.<ext>` | **Shared audio pool.** The track id *is* the content hash, so two people who own the same song point at the same file — nothing is downloaded or stored twice. |
-| `<music>/library.json` | Instance catalog of what is physically on disk (written by ODST). |
+| `<music>/library.json` | Instance catalog of what is physically on disk (written by the download pool, `shared/downloader/`). |
 | `<cache>/previews/`, `<cache>/covers/` | Shared, content-addressed. |
 | `<data>/telemetry/` | `setup-events`, `migration-events`. |
 
@@ -278,7 +294,7 @@ machine, and what belongs to a person.
 
 | File | Purpose |
 |------|---------|
-| `library.db` | Canonical library: ordered tracks and playlists, settings, podcast state, normalized artist/album catalog, per-track state, and machine-local scan paths/fingerprints. |
+| `library.db` | Canonical library: ordered tracks and playlists, settings, podcast state, normalized artist/album catalog, per-track state, and machine-local scan paths/fingerprints. Also a derived local search index, rebuilt from those rows when needed. |
 | `library.json` | Portable export of your canonical library for recovery and cloud interoperability. The first migration also keeps `library.json.pre-sqlite.bak`. |
 | `favourites.json`, `playback_state.json`, `discovery_settings.json` | Saved songs, cross-device resume, discovery opt-in. |
 | `queue_state.json` *(data dir)* | Playback queue. |
@@ -288,13 +304,14 @@ Editing a track's tags re-encodes the file and therefore changes its hash, which
 mints a new track id. That is what keeps metadata edits private: your manifest
 follows the new id while everyone else keeps the original.
 
-**Favourites are identity-keyed, not id-keyed.** `favourites.json` (v2) holds
+**Favourites are identity-keyed, not id-keyed.** `favourites.json` (v3) holds
 ordered entries, newest first:
 
 ```json
-{"version": "2.0", "favourites": [
+{"version": "3.0", "saved": [
   {"keys": ["lib:9f2a…", "yt:dQw4w9WgXcQ"], "title": "…", "artist": "…",
-   "duration": 355, "thumbnail": null, "added_at": "…"}
+   "duration": 355, "thumbnail": null, "favourite": true,
+   "added_at": "…", "favourited_at": "…"}
 ]}
 ```
 
@@ -307,6 +324,9 @@ and the entry is resolved against the library *at read time*, so downloading it
 later promotes the same entry to the owned track with nothing rewritten. v1
 files (a flat array of track ids) migrate on load. Key derivation lives in the
 client; `player/favourites_manager.py` only stores, orders and intersects.
+`added_at` is the song's library date (the same one its file carries, see
+above); `favourited_at` is when the heart went on, present only while it is on —
+marking a song is not acquiring it, so it never touches the library date.
 
 Exact filenames and fields may evolve; treat the code under `shared/` and `player/` as the source of truth.
 
@@ -332,7 +352,7 @@ Exact filenames and fields may evolve; treat the code under `shared/` and `playe
 - **Scopes**: members hold `library:read`, `library:write`, `playback:control`,
   `download:add`, `admin:config` (their own preferences). Admins additionally hold
   **`admin:instance`** — music folder, storage backend, downloader tuning,
-  optimization, cloud sync, and account management — plus `admin:dangerous`.
+  cloud sync, and account management — plus `admin:dangerous`.
 - **Real-time isolation**: each socket joins a `user:{user_id}` room;
   `library_updated` and `downloader_*` are emitted there, never broadcast.
   Playback rooms stay `playback:{scope}:{device_id}` where the scope is the user id.

@@ -25,7 +25,7 @@ move to the service later. Whichever you use first needs the
 
 ## 1. Requirements
 
-- **Python 3.10+**, **git**, and **Node.js 22+** with **npm**
+- **Python 3.10+**, **git**, and **Node.js 24 LTS** with **npm** (Node 22.22.2+ and 26 are also supported)
   (the web player is built from source during engine startup).
 - **FFmpeg** — not bundled; install via your OS package manager:
   - Debian/Ubuntu: `sudo apt install ffmpeg`
@@ -60,8 +60,9 @@ cd ui_web && npm ci && cd ..
 python3 run.py
 ```
 
-Check `node --version`: you need Node.js 22 or newer. If your distribution
-ships an older version, install a current Node.js release before `npm ci`.
+Check `node --version`: Node.js 24 LTS is recommended (the project version
+is recorded in `.nvmrc`). Node 22.22.2+ and 26 are also supported. If your distribution
+ships an older patch, update Node.js before `npm ci`.
 
 **Other distros** — swap step 1:
 
@@ -277,7 +278,7 @@ Environment=SOUNDSIBLE_ADMIN_TOKEN=your-long-random-token
 
 Save, then `sudo systemctl restart soundsible`.
 
-Two things to know once systemd owns the engine:
+Three things to know once systemd owns the engine:
 
 - **Manage it with `systemctl`, not the menu.** The menu only stops an engine
   it started itself: quitting it leaves the service running, and option `4`
@@ -286,6 +287,11 @@ Two things to know once systemd owns the engine:
   web player with `npm` after an update. If Node.js came from `nvm`, `fnm` or
   another per-user installer, add its directory to the drop-in, for example
   `Environment=PATH=/home/you/.nvm/versions/node/<version>/bin:/usr/local/bin:/usr/bin:/bin`.
+- **An engine that stops answering restarts itself.** If its request loop
+  does not run for 60 seconds, the engine writes the stack of every thread to
+  the journal, under a line `Timeout (0:01:00)!`, and exits with status 1;
+  `Restart=on-failure` starts a fresh one five seconds later. That journal
+  entry is what to attach to a bug report.
 
 systemd is Linux only. On other systems, [Docker](DOCKER.md) with its
 `restart: unless-stopped` policy is the way to keep Soundsible running across

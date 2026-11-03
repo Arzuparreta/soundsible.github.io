@@ -1,6 +1,11 @@
 # Car Integration
 
-Soundsible has three car-facing layers:
+Soundsible has three car-facing layers in its implementation and plans:
+
+> The native iOS app has never been installed or run on a device. Its car
+> behaviour is theoretical. IPA builds and code tests do not validate native
+> playback or car controls; the web Media Session implementation is a separate
+> path.
 
 1. **Phone native player surfaces**: Bluetooth, USB, lock screen, and car media screens that mirror the phone's Now Playing state.
 2. **Native companion apps**: iOS first, Android later.
@@ -51,6 +56,11 @@ Every returned item uses this stable shape:
 }
 ```
 
+Acquired podcast items also include `podcast_feed_id` and
+`podcast_episode_guid` when present in library metadata. Native clients use
+that identity for episode progress; `stream_url` still addresses the acquired
+file. Local filesystem paths are never part of the car response.
+
 Root collections:
 
 - `recently-played`
@@ -62,10 +72,11 @@ Root collections:
 
 Playlist IDs are encoded as `playlist:<url-encoded-name>`.
 
-## iOS Companion — built
+## iOS Companion — code only, never run on a device
 
 The native iOS client lives in [`ios/`](../ios) and is documented in
-[IOS.md](IOS.md). It does what this document specified:
+[IOS.md](IOS.md). Its code is intended to implement the following; none has
+been validated on a device:
 
 - Pairs through the existing flow and keeps the paired-device token in the Keychain.
 - Browses `/api/car/home` and `/api/car/items/<item_id>`.
@@ -98,7 +109,8 @@ This costs less than it sounds. A CarPlay app would add **browsing your library
 on the car screen**. Everything else a car shows — title, artist, artwork, a
 progress bar that tracks, transport buttons on the wheel, and Soundsible's Now
 Playing screen inside CarPlay itself — comes from `MPNowPlayingInfoCenter` and
-`MPRemoteCommandCenter`, needs no entitlement, and already works.
+`MPRemoteCommandCenter`, is implemented without that entitlement, but has never been tested in the
+native Soundsible app on a device.
 
 If Soundsible ever ships through **AltStore PAL** (EU marketplaces, 99 €/year,
 Notarization checks security rather than content) that is still not the App
@@ -115,5 +127,8 @@ target would render if that ever changes:
 Avoid rich/free-form UI on the car display. Search and complex discovery should remain on the phone or desktop unless the official CarPlay templates allow the interaction safely.
 
 ## Android Target
+
+The [Android port](ANDROID.md) currently has only a development shell. Android
+Auto is required by the port plan but is not implemented or validated.
 
 The later Android app should expose the same `/api/car/*` tree through Media3 `MediaLibraryService` and `MediaSession`. Android Auto and Android Automotive OS can then render the browse/playback UI from the native Android media session.

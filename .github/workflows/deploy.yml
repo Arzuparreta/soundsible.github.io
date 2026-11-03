@@ -46,7 +46,7 @@ jobs:
         run: node scripts/sync-android.mjs
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Verify source and translation integrity
+      - name: Verify site behavior and source integrity
         run: npm test
       - name: Build, index and check links
         run: npm run build

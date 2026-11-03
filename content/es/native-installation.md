@@ -1,9 +1,5 @@
 # Instalación nativa
 
-Las instalaciones nativas requieren **Python 3.10+**, **git**, **FFmpeg** y **Node.js 22+**. Node se utiliza para la compilación inicial del reproductor SolidJS; el paquete de producción no se incluye en el repositorio. Los instaladores **beta de escritorio** incluyen el reproductor, por lo que se saltan el paso de compilación de Node.js.
-
-## Elige tu sistema operativo
-
 <details>
 <summary><b>🐧 &nbsp; Linux</b></summary>
 <br>
@@ -18,11 +14,14 @@ cd soundsible
 
 # 3. Install web player deps (one-time; dist builds on engine start)
 cd ui_web && npm ci && cd ..
-# or force a rebuild anytime: python3 scripts/ensure_ui_dist.py --force
 
 # 4. Run it
 python3 run.py
 ```
+
+Comprueba `node --version`: se recomienda Node.js 24 LTS (la versión del proyecto
+está registrada en `.nvmrc`). También se admiten Node 22.22.2+ y 26. Si tu distribución
+incluye una revisión anterior, actualiza Node.js antes de ejecutar `npm ci`.
 
 **Otras distribuciones** — cambia el paso 1:
 
@@ -47,7 +46,6 @@ cd soundsible
 
 # 3. Install web player deps (one-time; dist builds on engine start)
 cd ui_web && npm ci && cd ..
-# or force a rebuild anytime: python3 scripts/ensure_ui_dist.py --force
 
 # 4. Run it
 python3 run.py
@@ -78,16 +76,47 @@ python run.py
 
 ¿No tienes `winget`? Instala [Git](https://git-scm.com/download/win), [Python](https://www.python.org/downloads/) (marca *"Add to PATH"*), [Node.js](https://nodejs.org/) (LTS) y [FFmpeg](https://ffmpeg.org/download.html) manualmente.
 
+En Windows, escribe `python` donde esta guía indique `python3`.
+
 </details>
 
-## Primera ejecución nativa
+## Primera ejecución
 
-Al ejecutar `python3 run.py` por primera vez, se crea el entorno virtual del proyecto y se instalan las dependencias de Python. Si aún no has configurado el almacenamiento, se abre el **asistente de configuración** en **<http://localhost:5099/setup>**; el menú de terminal todavía no aparece. Completa la configuración en el navegador y pulsa **Iniciar** en el lanzador para arrancar el motor.
+La primera vez que ejecutas `python3 run.py`, se crea el entorno virtual del proyecto, se instalan las
+dependencias de Python y, como aún no hay nada configurado, se abre la **página de configuración**
+en lugar del menú. Abre **<http://localhost:5099/setup>**, elige dónde tienes
+la música y guarda los cambios. Vuelve a la página del lanzador y pulsa **Iniciar** para
+arrancar el motor; después, abre **<http://localhost:5005/player/>**. Mantén el
+terminal abierto mientras escuchas música.
 
-En los siguientes inicios aparecerá un menú de terminal. Para empezar a escuchar:
+Para volver a abrir la configuración más adelante, ejecuta `python3 run.py --setup`.
+
+## Ejecuciones posteriores
+
+`python3 run.py` abre el menú del terminal:
+
+| Tecla | Acción |
+| --- | --- |
+| `1` | Inicia el motor y abre el reproductor en tu navegador |
+| `2` | Inicia el motor sin abrir el navegador |
+| `3` | Abre el reproductor (el motor debe estar en marcha) |
+| `4` | Detiene el motor |
+| `5` | Busca en tu biblioteca desde el terminal |
+| `6` | Vuelve a abrir la página de configuración |
+| `q` | Sale del menú y también detiene el motor que este haya iniciado |
+
+El menú está pensado para usarlo mientras estás delante del ordenador: mantén el terminal abierto mientras
+escuchas música.
+
+No necesitas usar el menú. Para ejecutar el motor sin él —en un servidor, en
+`tmux` o con systemd—, usa `--daemon`:
 
 ```bash
-python3 run.py          # choose "Start Station Engine & Open Station"
+python3 run.py --daemon   # Ctrl+C stops it
 ```
 
-Eso arranca el motor y abre **<http://localhost:5005/player/>**. Mantén la terminal abierta mientras escuchas; al cerrarla se detiene el motor.
+[Ejecución en un servidor](INSTALL.md#3-headless-server-ssh) explica ese modo y
+el servicio de systemd. ¿Prefieres un panel en el navegador al terminal? Ejecuta
+`./venv/bin/python start_launcher.py` (en Windows,
+`.\venv\Scripts\python start_launcher.py`), abre **<http://localhost:5099>**
+y pulsa **Iniciar**.

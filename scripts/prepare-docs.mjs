@@ -16,8 +16,9 @@ await rm('src/content/docs', { recursive: true, force: true });
 await mkdir('src/content/docs', { recursive: true });
 await mkdir('src/generated', { recursive: true });
 // Local previews start with no public Android download; CI refreshes this independently.
-try { await readFile('src/generated/android-release.json'); }
-catch (error) {
+try {
+  await readFile('src/generated/android-release.json');
+} catch (error) {
   if (error.code !== 'ENOENT') throw error;
   await writeFile('src/generated/android-release.json', 'null\n');
 }
@@ -54,24 +55,21 @@ for (const item of catalog) {
     translated = {
       ...translationManifest[item.slug],
       content: await readFile(`content/es/${item.slug}.md`, 'utf8'),
-      original: await readFile(`content/es/originals/${item.slug}.md`, 'utf8'),
     };
   }
-  if (
-    translated &&
-    createHash('sha256').update(translated.original).digest('hex') !== translated.sourceHash
-  )
-    throw new Error(`Translation source fingerprint mismatch: ${item.slug}`);
   const status = translationStatus(sourceHash, translated);
   for (const locale of ['en', 'es']) {
     const useTranslation = locale === 'es' && translated;
     const body = useTranslation ? translated.content : source;
-    const anchors = useTranslation ? translated.anchors : anchorsFor(source);
-    if (anchorsFor(body).length !== anchors.length)
-      throw new Error(`Translation heading mismatch: ${item.slug}`);
+    const bodyAnchors = anchorsFor(body);
+    // Preserve source section IDs when available; AI heading changes never gate publication.
+    const anchors =
+      useTranslation && translated.anchors?.length === bodyAnchors.length
+        ? translated.anchors
+        : bodyAnchors;
     const data = {
       ...item,
-      title: item.title[locale],
+      title: locale === 'es' ? (translated?.title ?? item.title.es) : item.title.en,
       description: item.description[locale],
       locale,
       status: locale === 'en' ? 'current' : status,

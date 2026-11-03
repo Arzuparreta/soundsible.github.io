@@ -67,24 +67,74 @@ scene and server conditions. These results establish lower Soundsible resource
 usage; they do **not** establish a particular FPS recovery or allocate a
 percentage of game stutters to either client or server.
 
+### Chromium: the open stage on a modest GPU
+
+Measurements on 2026-10-14 targeted dual-core laptops with integrated graphics
+running the Chrome PWA. Playwright's Chromium ran on the same Ryzen 5800X at a
+1366 × 768 viewport, once on the RTX 3060 (ANGLE over Vulkan) and once on
+SwiftShader as the stand-in for a browser without GPU acceleration. CPU is the
+whole browser process tree from `/proc`, as a share of one logical CPU; frame
+rate counts viz `DrawFrame` events. The two builds were served side by side and
+alternated in the same session; figures are medians of four alternating
+samples per build on each.
+
+| State | GPU before | GPU after | Frames/s | SwiftShader before | SwiftShader after |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Library, playing | 5.2% | 3.2% | 60 → 11 | 4.8% | 3.5% |
+| Full player, playing | 29.1% | 13.4% | 60 → 20 | 103% | 99% |
+| Full player, paused | 10.2% | 5.2% | 10 → 2 | 64% | 15% |
+
+Every frame in which anything on the stage changes makes the compositor redo
+each backdrop-filtered surface above the wallpaper, so the cost followed the
+frame rate of the smallest moving things. Largest first, while playing: the
+queue's three-bar equaliser repainting the queue tile at 60 fps, a second blur
+on every stage panel over a wallpaper already blurred by 62px, the 10 Hz
+wallpaper steps, and the mini-player's progress rail, whose transition
+repainted the page under it eight times a second. The equaliser now steps at
+about 17 fps with all bars changing on the same frame, the glass only
+saturates, the wallpaper steps twice a second, and the rail stays on its own
+layer and moves in two steps per update.
+
+Screenshots of both builds with the same frozen frame differ by a CIE76 ΔE
+under 2.3 (the usual just-noticeable difference) on at least 99.9% of the pixels
+in the dark, light, slate and forest-green themes, with a maximum of 3.3;
+pure black, which has no glass, is identical.
+
+The blurs nested inside the panels (the browser's top bar, the queue's section
+heads) stay. Dropping them saved about one more point in Chromium, but on the
+mobile layout Playwright's WebKit, which composites in software, then never
+settled: elements in the panels stayed "not stable" for 30 seconds and scroll
+restoration was lost, on CI and locally on two CPUs. WebKit is the iPhone's
+engine, so they stay until that is understood.
+
+With SwiftShader, the playing player stays bound by the wallpaper's own 62px
+blur, which is recomputed on every frame anything changes above it: removing
+that filter alone took the GPU process from 92% to 17% at the same frame rate.
+On a hardware GPU the same filter made no measurable difference. A pre-blurred
+wallpaper image is therefore the next step only for browsers that composite in
+software; check `chrome://gpu` before pursuing it.
+
 ## Work by subsystem
 
 | Subsystem | Work and policy |
 | --- | --- |
-| Player wallpaper and translucent panels | The slow full-viewport background causes repeated composition. Retain the artwork, blur, scale and crossfade; quantize only its 38-second pan into 380 steps. |
+| Player wallpaper and translucent panels | The slow full-viewport background causes repeated composition. Retain the artwork, blur, scale and crossfade; quantize only its 38-second pan into 76 steps. The panels' glass over the wallpaper saturates but does not blur it again. |
+| Small animations on the stage | Anything that moves inside or under the glass costs a composite of the whole stage per frame. Budget such animations in frames: the queue equaliser steps every 60 ms, with delays that are multiples of the step so all bars change on the same frame. |
+| Mini-player progress rail | Composited transform on a layer of its own (`will-change`), two steps per timeupdate. |
 | Hidden-page presentation | Pause decorative CSS animation and unsubscribe progress/lyric presentation from the clock. Catch up immediately on visibility restoration. |
 | Audio and DJ transport | Keep media clocks, hidden-page handoffs, recovery, Media Session and device synchronization independent of presentation visibility. |
 | Playback diagnostics | Track pending serialized size incrementally rather than serializing the accumulated batch on every event. Preserve ordering, bounded storage, retries and account isolation. |
-| DJ analysis | Calculate spectral features in batches of at most 256 frames. Carry adjacent-frame flux across batch boundaries and retain the mean spectrum. Avoid BLAS worker teams for small reductions. |
+| DJ analysis | Calculate spectral features in batches of at most 256 frames. Carry adjacent-frame flux across batch boundaries and retain the mean spectrum. Avoid BLAS worker teams for small reductions. The rhythm pass is one more bounded float32 STFT; its bands and pitch classes are summed with `np.add.reduceat`, not a matrix product, and attacks are measured per beat window without a full-length copy of the signal. |
 | Cooperative server scheduling | The daemon patches threading with gevent. Offload pure numerical composition to its native thread pool; keep subprocess and SQLite ownership unchanged and retain two concurrent analysis jobs. Plain unpatched processes run directly. |
 | Preview streaming and prefetch | Existing shared transfers, bounded queues, cancellation and foreground priority already prevent redundant competing downloads. Preserve them. |
 | Artwork, loudness and background jobs | Existing bounded artwork generation, cached measurements and disk-aware worker limits remain in place. No blanket resource caps or quality reductions are introduced. |
 
 Rasterizing the wallpaper into a canvas did not reduce sustained cost in repeated
-native-browser comparisons and was discarded. Pausing small equalizer bars or
-forcing their composition produced little benefit. Explicitly hiding the
-already-covered mini-player did not reduce cost either. These experiments do not
-justify additional product complexity.
+native-browser comparisons and was discarded. In Firefox, pausing small
+equalizer bars or forcing their composition produced little benefit; in
+Chromium the same bars were the largest cost of the open player (see above).
+Explicitly hiding the already-covered mini-player did not reduce cost either.
+These experiments do not justify additional product complexity.
 
 ## Server benchmarks
 
@@ -127,6 +177,64 @@ it does not benchmark the production daemon, cold provider downloads, or TLS.
 The durable HTTP benchmark repeated the result with 398–402 ms reference maxima
 and 2.6–5.4 ms updated maxima. The personal running daemon was not restarted to
 obtain these server results.
+
+### Beat grid analyser (analysis version 4)
+
+Measured against `origin/main` at `0ee18af0` with `--allow-changes`, because the
+output changes on purpose. Three-run medians on this Linux workstation:
+
+| Synthetic audio | Features, reference → current | Full pipeline with FFmpeg | Peak RSS |
+| --- | ---: | ---: | ---: |
+| 18 seconds | 13 → 21 ms | 43 → 54 ms | 55.2 → 57.3 MiB |
+| 120 seconds | 35 → 89 ms | 69 → 152 ms | 65.3 → 66.3 MiB |
+| 480 seconds | 84 → 292 ms | 131 → 337 ms | 127.3 → 127.3 MiB |
+| 900 seconds (head and tail windows) | — | 110 → 203 ms | 199.5 → 199.6 MiB |
+
+CPU time equals wall time: the pass stays on one thread. Two concurrent
+480-second analyses under the gevent HTTP benchmark left the largest response
+delay at 1.4–3.1 ms (reference 3.8–6.9 ms). The 53 cached previews on the
+workstation took 18.2 s in total, against 11.5 s before, FFmpeg included.
+
+### Measured magnitudes (analysis version 6)
+
+Measured against `origin/main` at `f0135129` with `--allow-changes`, because the
+output changes on purpose: notes per second (`_note_onsets`, its own 46 ms
+STFT in blocks of 256 frames), spectral flatness from the spectra
+`_spectral_features` already takes, and EBU R128 loudness from FFmpeg's meter
+on a branch of the same decode. Three-run medians on this Linux workstation:
+
+| Synthetic audio | Features, reference → current | Full pipeline with FFmpeg | Peak RSS |
+| --- | ---: | ---: | ---: |
+| 18 seconds | 20 → 31 ms | 51 → 71 ms | 65.8 → 68.5 MiB |
+| 120 seconds | 85 → 138 ms | 120 → 190 ms | 75.4 → 78.9 MiB |
+| 480 seconds | 289 → 495 ms | 337 → 607 ms | 137.6 → 137.4 MiB |
+| 900 seconds (head and tail windows) | — | 199 → 330 ms | 210.0 → 209.7 MiB |
+
+The note counter alone takes 0.19 s of an eight-minute song. Two concurrent
+480-second analyses under the gevent HTTP benchmark left the largest response
+delay at 2.8–2.9 ms (reference 2.3–3.7 ms). The 224 library songs under eight
+minutes took 42.7 s with eight processes, FFmpeg included.
+
+### Tonality analyser (analysis version 7)
+
+Measured against `956e5344` with `--allow-changes`. The additional Hann FFT
+uses 16384 samples to resolve bass semitones, half-window hops and blocks of at
+most 32 frames. Key estimation uses Pearson correlation with the existing
+Krumhansl profiles. Three-run medians, synthetic PCM, feature extraction only:
+
+| Synthetic audio | Wall time, reference → current | Python CPU, reference → current | Peak RSS, reference → current |
+| --- | ---: | ---: | ---: |
+| 18 seconds | 33.8 → 32.1 ms | 33.6 → 32.0 ms | 55.7 → 56.8 MiB |
+| 120 seconds | 145.5 → 150.9 ms | 145.1 → 150.4 ms | 63.9 → 65.3 MiB |
+| 480 seconds | 506.6 → 528.5 ms | 505.4 → 527.3 ms | 123.4 → 123.3 MiB |
+
+Reproduce with `OPENBLAS_NUM_THREADS=1 python scripts/benchmark_dj_analysis.py
+--reference 956e5344 --seconds 18 120 480 --repeats 3 --allow-changes`.
+This excludes FFmpeg and provider/network traffic; small differences at 18 s
+are measurement variation. Analysis output changes intentionally and invalidates
+the prior cache. Known-key measurements and remaining detector limitations are
+in `docs/dj/HANDOFF.md`, P6; `docs/dj/key_probe.py` reproduces them without
+writing to the station cache.
 
 ## Reproduce safely
 

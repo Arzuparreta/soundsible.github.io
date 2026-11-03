@@ -1338,90 +1338,389 @@
         "en": "Guide from the current Soundsible release.",
         "es": "Guía de la versión actual de Soundsible."
       }
+    },
+    {
+      "slug": "lyrics-recovery",
+      "source": "docs/LYRICS_RECOVERY.md",
+      "group": "more",
+      "title": {
+        "en": "Lyrics recovery",
+        "es": "Lyrics recovery"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "podcasts",
+      "source": "docs/PODCASTS.md",
+      "group": "more",
+      "title": {
+        "en": "Podcast discovery by country",
+        "es": "Podcast discovery by country"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "android-ci-diagnostics",
+      "source": "docs/android/CI_DIAGNOSTICS.md",
+      "group": "more",
+      "title": {
+        "en": "Diagnóstico del shard Android",
+        "es": "Diagnóstico del shard Android"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-2026-10-13-ci-runtime",
+      "source": "docs/audits/2026-10-13-ci-runtime.md",
+      "group": "more",
+      "title": {
+        "en": "Cloud CI runtime",
+        "es": "Cloud CI runtime"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-2026-11-03-unused-code",
+      "source": "docs/audits/2026-11-03-unused-code.md",
+      "group": "more",
+      "title": {
+        "en": "Limpieza de código heredado sin consumidores",
+        "es": "Limpieza de código heredado sin consumidores"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-dependency-infrastructure",
+      "source": "docs/audits/DEPENDENCY_INFRASTRUCTURE.md",
+      "group": "more",
+      "title": {
+        "en": "Bloque 2 · Infraestructura de dependencias",
+        "es": "Bloque 2 · Infraestructura de dependencias"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-dependency-update-plan",
+      "source": "docs/audits/DEPENDENCY_UPDATE_PLAN.md",
+      "group": "more",
+      "title": {
+        "en": "Actualización de dependencias en tres bloques",
+        "es": "Actualización de dependencias en tres bloques"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-architecture",
+      "source": "docs/dj/ARCHITECTURE.md",
+      "group": "more",
+      "title": {
+        "en": "Responsabilidades del DJ tras la infraestructura de P12",
+        "es": "Responsabilidades del DJ tras la infraestructura de P12"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-detector-comparison",
+      "source": "docs/dj/DETECTOR_COMPARISON.md",
+      "group": "more",
+      "title": {
+        "en": "P12-a: comparar detección conjunta y alternativas abiertas",
+        "es": "P12-a: comparar detección conjunta y alternativas abiertas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-handoff",
+      "source": "docs/dj/HANDOFF.md",
+      "group": "more",
+      "title": {
+        "en": "Traspaso: revisión del modo DJ",
+        "es": "Traspaso: revisión del modo DJ"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-p12",
+      "source": "docs/dj/P12.md",
+      "group": "more",
+      "title": {
+        "en": "P12: métrica local y garantías de mezcla",
+        "es": "P12: métrica local y garantías de mezcla"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-p13",
+      "source": "docs/dj/P13.md",
+      "group": "more",
+      "title": {
+        "en": "P13: frases y secciones sobre los compases medidos",
+        "es": "P13: frases y secciones sobre los compases medidos"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-p14",
+      "source": "docs/dj/P14.md",
+      "group": "more",
+      "title": {
+        "en": "P14. Primera mezcla y duración del trabajo",
+        "es": "P14. Primera mezcla y duración del trabajo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-p15",
+      "source": "docs/dj/P15.md",
+      "group": "more",
+      "title": {
+        "en": "P15. Continuidad de reproducción en las sesiones del 2026-10-29",
+        "es": "P15. Continuidad de reproducción en las sesiones del 2026-10-29"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-p16",
+      "source": "docs/dj/P16.md",
+      "group": "more",
+      "title": {
+        "en": "P16. Continuidad por plato y recuperación de conexión",
+        "es": "P16. Continuidad por plato y recuperación de conexión"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-session-capture",
+      "source": "docs/dj/SESSION_CAPTURE.md",
+      "group": "more",
+      "title": {
+        "en": "Automatic linked DJ session evidence",
+        "es": "Automatic linked DJ session evidence"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-session-progress",
+      "source": "docs/dj/SESSION_PROGRESS.md",
+      "group": "more",
+      "title": {
+        "en": "DJ session progress: first measurements",
+        "es": "DJ session progress: first measurements"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-detector-comparison-final-results",
+      "source": "docs/dj/detector_comparison/FINAL_RESULTS.md",
+      "group": "more",
+      "title": {
+        "en": "P12: revalidación del analizador final",
+        "es": "P12: revalidación del analizador final"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-detector-comparison-readme",
+      "source": "docs/dj/detector_comparison/README.md",
+      "group": "more",
+      "title": {
+        "en": "Banco experimental de compás y primer tiempo",
+        "es": "Banco experimental de compás y primer tiempo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-detector-comparison-results",
+      "source": "docs/dj/detector_comparison/RESULTS.md",
+      "group": "more",
+      "title": {
+        "en": "P12-a: evidencia para elegir el detector",
+        "es": "P12-a: evidencia para elegir el detector"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-detector-comparison-results-tables",
+      "source": "docs/dj/detector_comparison/results/TABLES.md",
+      "group": "more",
+      "title": {
+        "en": "Tablas medidas",
+        "es": "Tablas medidas"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "engineering-catalog-reconciliation",
+      "source": "docs/engineering/catalog-reconciliation.md",
+      "group": "more",
+      "title": {
+        "en": "Album recordings and owned audio",
+        "es": "Album recordings and owned audio"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-player-song-scroll",
+      "source": "docs/performance/player-song-scroll.md",
+      "group": "more",
+      "title": {
+        "en": "Player song-list scroll: X270 diagnosis and scoped fix",
+        "es": "Player song-list scroll: X270 diagnosis and scoped fix"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.23.0",
-  "sha": "6bc86a03bb29d151ceb719501726337914aeb4dd",
-  "publishedAt": "2026-10-10T09:11:01Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.23.0",
+  "tag": "v0.30.0",
+  "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+  "publishedAt": "2026-11-03T14:42:16Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.30.0",
   "assets": [
     {
       "name": "android-release.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/android-release.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/android-release.json"
     },
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/apps.json"
     },
     {
       "name": "release-acceptance.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/release-acceptance.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/release-acceptance.json"
     },
     {
       "name": "SHA256SUMS-android.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/SHA256SUMS-android.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/SHA256SUMS-android.txt"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible-Android-alpha.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible-Android-alpha.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible-Android-alpha.apk"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.23.0_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible_0.23.0_arm64-setup.exe"
+      "name": "Soundsible_0.30.0_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible_0.30.0_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.23.0_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/Soundsible_0.23.0_x64-setup.exe"
+      "name": "Soundsible_0.30.0_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible_0.30.0_x64-setup.exe"
     },
     {
       "name": "upgrade-seed-androidTest.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.23.0/upgrade-seed-androidTest.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/upgrade-seed-androidTest.apk"
     }
   ],
   "files": {
-    "docs/INSTALL.md": "b768626bfd40e66d4bf618f9497c89b3a1890519e391385a3f8c45172d0edcf7",
-    "docs/DOCKER.md": "881f0905544e3f3ffa0f2c02ca7d810d186628c72c2442d24ade72d26cfa239a",
-    "docs/DESKTOP_BETA.md": "1b3b1e91e4562c35f50a67df2cc0b16cf592ed501eecc7b88122cb383f5b06ad",
+    "docs/INSTALL.md": "0c6f7fbdf36301ba8da283e02211bbc7ba721d7c0a13507605fa4743116d1b77",
+    "docs/DOCKER.md": "8de3f3cebcbbeb9ef7a243d45b8124e218871f539602c473693202e22780cfa4",
+    "docs/DESKTOP_BETA.md": "bca40a0a8685122aa7dd52f5da4bf8a9c1194135dce39e86afac1a13088602fc",
     "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "docs/OPENSUBSONIC.md": "aabfea96f2e2f47234fff1892103c8ca4d99684bcdfe04ad482e226c6aa9cd87",
-    "docs/AUTO_MODE.md": "ef8550e948c3824fb92bcf2ec19df62aff12c2638a81bb2321e68e72e06b66a4",
+    "docs/AUTO_MODE.md": "e0c40fd2a5e7c9b0cf2b38172db75aebdc2588a27cd82fbaee16fa493080998b",
     "docs/LIVE.md": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
     "docs/CAR_INTEGRATION.md": "6c9696c052f4f0d23a0d6b404d8491de253f2c5541106febbcc607807d5ed698",
-    "docs/CONFIGURATION.md": "494a071f0ed78a49b873a1e7c703d1ae4e2f053effc832e5ac2455d953b3c8e6",
-    "docs/TELEMETRY_PRIVACY.md": "3b67ce1ab558d61658cffb0815620460adc7cdd99b1074d77052a9a4bcc1d673",
-    "docs/troubleshooting-yt-dlp-formats.md": "0626447d20950e792b59a27b07b45cdbabbd67df9bfe9d2f8a5f6121e40d7c5c",
+    "docs/CONFIGURATION.md": "581e01b77c9d4905db157a6bcbc4466eb95c01ec457d8ba61eb4925e43e41f79",
+    "docs/TELEMETRY_PRIVACY.md": "2c7b1d7ae85b5a12faf0417f8526acc8e7a129a4679fabf1436305fc23bb2e90",
+    "docs/troubleshooting-yt-dlp-formats.md": "636f3fe47d35878aeeefbe45ac11cd2eb28dbf0249a71fd5fab87ec9ea0b87cf",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
-    "docs/ARCHITECTURE.md": "c9a0be55d99385fea3ec6310ef6c5895ba1841fd39c23153c3e9551f1118423b",
+    "docs/ARCHITECTURE.md": "9ca61517d73906080f030646352cef1687bdcd39105146a6fdf27928f3ce542e",
     "docs/AGENT_INTEGRATION.md": "fe2dc18873a16930f4711a1b1bd3e8c195ba1d4ad5010f66cec4926421a716c8",
     "docs/VPS_RELAY.md": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
     "CONTRIBUTING.md": "4e00593df491011f72dab4de0dfcd19f1a1d93db2ca2d5e448f19d1ba9e200ac",
     "desktop-shell/README.md": "4e414b6b9ea7095f46bbc06bcfb553676221a976742f8005078e2cfd4ecfb5ca",
-    "deploy/community/README.md": "dfaa385af3df0d37ac743956cf10956919ab882608c78e0d6532717b3088062e",
+    "deploy/community/README.md": "1970c163aef254ea197262be31fbb4483911243dce35d9b3f69a886646e15042",
     "docs/RELEASING.md": "7f28c2dad057f26780cfaa0d77f59888534d59ca40f8d0e873d5fe940ef54791",
     "docs/ROADMAP.md": "02c4375690303788638c7f1ec674b017f0c54ea40481f1280ab73aef34bfb906",
     "docs/MOBILE_LISTS.md": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
     "docs/PLAYBACK_DIAGNOSIS.md": "e4ea00fcaac0d0afcb4649b59b28d4ab4d987fa182c01530fc08a62b0c4bcc38",
     "docs/ARTWORK.md": "c40aa96cf98e87acfcb2cf97c7860e66af15e08b163c40928ac9601256e52e82",
-    "docs/PERFORMANCE.md": "5ac8e034d9f37671d4269371be4e04abbd3a3fa7fdc6586caa6ea9f9190d9a1a",
-    "docs/README.md": "e166732e93c0a2cc7022d7e3cd36a9834d75e127f7c5a99b34c111b6618eefe3",
+    "docs/PERFORMANCE.md": "0ae5e46875e14b0d0debfb563527c36e44b48830cce85f48562897557c63c0be",
+    "docs/README.md": "671fd17be3d111f159cc406cf0ba16675763ea1e12cbad29db9e82cd9197fb96",
     "docs/audits/2026-09-20-engineering.md": "6da3127682f09e68b0753667d565d6ed0a0f0e805a403ac8e6e5217410b1c8fc",
     "docs/audits/2026-09-25-ui-loading-feedback.md": "646c70b3b36f7f5725a08d41e2bf65bad7281e88cc3e3bc9055acbb968aa704d",
     "docs/audits/2026-09-28-recovery-and-construction.md": "5c68bc4bbf3f612fe1cf1ce6e3d372467c72762d87f95b9612dfedb6331838dc",
-    "docs/audits/ENGINEERING_HANDOFF.md": "f9d8156c98318749e0d465581b3d6b2082af947c2607733e7eeaddc5b21de31b",
+    "docs/audits/ENGINEERING_HANDOFF.md": "246ed404ee735f6b97ae2ad30f78f0cfa380fd165f36de59f89c237201c7c77e",
     "docs/engineering/instance-recovery.md": "bfbc9806ba1664b3d40d9dd7cd613cc04c77cfd8a29cc7adb248a1286d23f7ca",
     "docs/engineering/library-integrity.md": "820a9a21362e058aeb4c1a7feb6f1b63c76df2c810ef506780531fafe265b35d",
     "docs/performance/artwork-variant-quota.md": "02b7666e1a1e234a252922e3693d20d6dfdce066feadaf713414782eed1c25e2",
@@ -1441,13 +1740,13 @@
     "docs/performance/playback-load.md": "c9f541c85acfa0cde2f30b9a8a1e17343a3d9bf6deb3bca4f4667fe40141b7d0",
     "docs/performance/track-metadata-patch.md": "eb8a14d6862fa37f3534d84e141c5e2e988a5e5f143a16b51ccc9a5ee057f428",
     "docs/performance/web-payload.md": "04d94d439deae2c2d358cb3e696e5621059020664ed3ed1a7f5d1dbe1341ab87",
-    "docs/ANDROID.md": "37c46741ad435b8df8d58f7f79bde7c650f18551d3845bf3e796b60310b6eeac",
+    "docs/ANDROID.md": "ed146ed9638f288c17c6414ae87b1562c76d280ce9fd8e4d18a9fe08d381786d",
     "docs/DESKTOP_CLIENT.md": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
     "docs/android/ALPHA.md": "8cba7847babddfb3d0cc9e4a52b72edf56f236327734c78323f043d924f2192c",
     "docs/android/ARCHITECTURE.md": "cc7c4c0f640f465404abc44127178b7246d76be96eb7d2ce60db66a2cc75ca65",
     "docs/android/AUTH_FIXTURE_ISOLATION.md": "794402e18c6eb11f64655d43ff3e61adc5b00cba4eac00e5fa46a763aef35c76",
-    "docs/android/EVIDENCE.md": "6c39bbea0f5f4fdc6c59bb0d44350605ed8fac3136839a48b08f75680059a91b",
-    "docs/android/HANDOFF.md": "292df538e786fd03c49c9c2c08f6758d7f0d8e94e6f671ad156f6c7522e3e38e",
+    "docs/android/EVIDENCE.md": "48c37fc74310d6f8d4dedd46b70398a2cd5f494fc01c414d1652afa0c06bf203",
+    "docs/android/HANDOFF.md": "dfee244ede625c05b2a1678c5539a21aeee1b8f5e2d6fd68e8af891c29d5c836",
     "docs/android/HANDOFF_HISTORY.md": "341a975d26f770f42ea4d8e6cea2da48a446742e7b327358ca7aa3414957903b",
     "docs/android/OFFLINE_DECISION.md": "6fe358a69d4368960dcb687faa30d75bcc5ff0cb65a13878c3110a966fddae91",
     "docs/android/PORT_PLAN.md": "e05ba4c091e235794d8aeca59858726d5927c1d70c4745e71d28dcbc3c55991f",
@@ -1516,32 +1815,55 @@
     "docs/android/SLICE_5G.md": "790493e67708028d1e8957aa3280c692e2635b87ce35dc4f23f64c05082e2abf",
     "docs/android/SLICE_5H.md": "0610535f9cab44519b0706cf0a2d6a5a7ecd8e532f72f7ef56a044c576c18eec",
     "docs/android/SLICE_6.md": "204be8ff4d1db8972ab20415d41561f5b2a50a8788e128174d362a0446981b64",
+    "docs/LYRICS_RECOVERY.md": "85e9071f7d65f8b72d20e3d60d53aa5a7f2b0d46e6b58274020532086adcdf44",
+    "docs/PODCASTS.md": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
+    "docs/android/CI_DIAGNOSTICS.md": "04e1ffd033ea6fa67b77524014e7d3de3a3c4f319f7ed576516613f8b487be7c",
+    "docs/audits/2026-10-13-ci-runtime.md": "124ee93bb7cf2e4c5c8fbda155b1157e8bc09ce9aeb283c1d3c3f30d166c073d",
+    "docs/audits/2026-11-03-unused-code.md": "0e0881c1702c17357ca23fd3580cba966f90d1f6f3d2e209b9ce1acb8e505a03",
+    "docs/audits/DEPENDENCY_INFRASTRUCTURE.md": "cbf5c6cd2a4114e66b1ccd83ba3288d8dccd452fa78531ca3de011363c05126b",
+    "docs/audits/DEPENDENCY_UPDATE_PLAN.md": "b2463ed32f12d23bf23b81970d06a21bd97e88ddef47789148a683459ce53101",
+    "docs/dj/ARCHITECTURE.md": "fa54bae6aa6b9b629cec77547607ad596e21734908e632615db29e1c1b93b5f0",
+    "docs/dj/DETECTOR_COMPARISON.md": "7663c5cc5cd3bf99f1eba2029919c57bfbbe60446a204a8bad253349d2e15f0b",
+    "docs/dj/HANDOFF.md": "ac2a43e456d60fb26e5f5578c3d1902efa9e0e000490c0a16c061e08616020ff",
+    "docs/dj/P12.md": "c601d50a8654132d178115028e01f7ac59239cebfe932a2621c0685213af2d8e",
+    "docs/dj/P13.md": "c0ae5892ae8e7db42d2ab238c6338d7cd9aab0380bfa0bfdc2f97dafb6b3e05e",
+    "docs/dj/P14.md": "075c52b7ad8bfa499e6a76bd205850bd13d8fe272605c674bca3e06070befe81",
+    "docs/dj/P15.md": "c2c4f53d319eccee5ef6e31ce8868043b6a7aa00937b30b8fdead5f7652fb616",
+    "docs/dj/P16.md": "ef40a339eece68579509541e05ebca1ddf1a900617cea25f2d7b1f420b7d77d6",
+    "docs/dj/SESSION_CAPTURE.md": "1d0e53174879ced78fbf1526c79c2756ddcd6d1858ac0ff53822c5455d0d370f",
+    "docs/dj/SESSION_PROGRESS.md": "6604ff73598768e7b8d4b3f1337d7c2d1d545911a53a94bb8bbc142931f41f5d",
+    "docs/dj/detector_comparison/FINAL_RESULTS.md": "75ea7fa35eb99a303dabed40400822c13b6bcf8929eb182eccca294c207cb60c",
+    "docs/dj/detector_comparison/README.md": "0349426a4e5a082d2f5d049da5880761f6caf08c3472e0a4b839d4623313a2f6",
+    "docs/dj/detector_comparison/RESULTS.md": "c9b87181e100c47d3b8936dc60e97f275bb4bd83879a9f369a2109b001239db5",
+    "docs/dj/detector_comparison/results/TABLES.md": "7c42bebecccf9c0ba1dfec8d3b38b4ecb01bd9034c427fc9b4587602e89a9ace",
+    "docs/engineering/catalog-reconciliation.md": "3cb56e9c5eb76338319189b6b4ad7d37c3ad456a5b83f64a84dc122d7f81a0cd",
+    "docs/performance/player-song-scroll.md": "a0aeca65735b9f4bdb79f9705dd985feb765555e049e42743539df813198d337",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
-    "docs/images/screenshots/dark/desktop-library.webp": "d8afff6ba504afd654ebc8a85128b12cf2c88e92dbbf21dbd556d0905407f985",
-    "docs/images/screenshots/dark/desktop-now-playing.webp": "92fd1a4342e933baaedfd407a0e1ed5b5b43d84f9beeb739710d6f3cb09bc4a7",
-    "docs/images/screenshots/dark/desktop-search.webp": "275e327b90776459b81fff86e4fc01833addd7f5a7a4e053fa02147e895c5672",
+    "docs/images/screenshots/dark/desktop-library.webp": "c98341c6aba6842b6e0ab10e2b66a72f14f975b46a2dd18806ab89c48b86adb8",
+    "docs/images/screenshots/dark/desktop-now-playing.webp": "8bb89c10e44c85a12b14f445bf744efc9751480276ab7cb6c5c68651afb2b7b5",
+    "docs/images/screenshots/dark/desktop-search.webp": "6bc153b4a51772454f98426d5c862c0ddca0ebb6651dd9602f7c399c47e9dd51",
     "docs/images/screenshots/dark/mobile-library.webp": "2a4652200d352d0218c099b6ec099de93fbaecfe4eaaca916f36b5eea2e216e6",
-    "docs/images/screenshots/dark/mobile-now-playing.webp": "6e9c5147efb387aa32f7bbd1fa63ccaa3f02f01b63e4f16639caaf8b49d36f04",
-    "docs/images/screenshots/forest-green/desktop-library.webp": "9031546a4cdd1f9b0a7a10f28f9c86b5c027c5f6d19b4ca467ed990efb2afb5d",
-    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "0c6cfe9c05b5d9e24bf77d8cceac42345332988ddddc084041b004db34db5e5c",
-    "docs/images/screenshots/forest-green/desktop-search.webp": "281db99decfa628c9606a1c7703497f735f6de587ae4c406b28b59ee1d2d1706",
+    "docs/images/screenshots/dark/mobile-now-playing.webp": "6bb77c151079c52c54acc8d1cd8ca2e133a3f9d938fb2d5e91e50aecc50712bd",
+    "docs/images/screenshots/forest-green/desktop-library.webp": "42375adc8887854045c5f4b36c4fa264e1497067d7169b02f305e601347c9bc2",
+    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "baa634240aa4bc6b0a8febc6579bac5d78c4db709f06d9b8b63183fbd44b1fad",
+    "docs/images/screenshots/forest-green/desktop-search.webp": "13be28ca0b27202c0f8d1ad4b6293da7520d2ad12b9e41ed31076437e83052b9",
     "docs/images/screenshots/forest-green/mobile-library.webp": "9223ebe11ecdd8c7b863ea4f0788dddcf178fc6988c285e1dc1edbdb3d365dca",
-    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "4c8ffc04e57d4bfcfc2fe0a7b71c0310e7a4ecb0a288edbbe3956ed3b54ff440",
-    "docs/images/screenshots/light/desktop-library.webp": "e65e4e2f31db06c4fc4014d6b5d4db4eb039ce7b0d8f492a01ebc9d879b038a6",
-    "docs/images/screenshots/light/desktop-now-playing.webp": "23ff9fd01968b058c46060bb546b2ad0105b8f7c94aa67f3978606da1c5f3296",
-    "docs/images/screenshots/light/desktop-search.webp": "59edd4ba4ac1931f8dbd43150725a682bf242b891a26a08327eec7dcaa9207f9",
+    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "5e576ef36535b98deb8a24eab2c6e9f40ac0f6eb21f21dd057efafb9f9df1ac9",
+    "docs/images/screenshots/light/desktop-library.webp": "0907d5e820593bed05ac476b34509b5eb54e466342ff0f812154cc49e57dddd9",
+    "docs/images/screenshots/light/desktop-now-playing.webp": "17b5ad21d856c9e0e06ee7c2abcab82c4974de09382fde25e0116eb443577233",
+    "docs/images/screenshots/light/desktop-search.webp": "51734fd565c8dc2d230bb8515a5919aa1f9f9f35fc397f99a8d65163d644a6c6",
     "docs/images/screenshots/light/mobile-library.webp": "4f2236794f6614143dd37e7fae70b663015a057071bb14f0b82cb32b570d7c68",
-    "docs/images/screenshots/light/mobile-now-playing.webp": "67676fa1bc87ff0b8c1856190403ef6212b23fee44ba28f47a6289617a5641be",
-    "docs/images/screenshots/pure-black/desktop-library.webp": "c19e659720423c507f6bd69d55c546c1dad0bebf858e0eae3c569813a10e6ad1",
-    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "37381b9ef2a8ee424be2f6885bc7ff2fcfe159a0de52dcf1797eac9eee664643",
-    "docs/images/screenshots/pure-black/desktop-search.webp": "cc732529e5c2116bdfe102406b802fc2198dd578a1431ce070c4a33e44cf59d8",
+    "docs/images/screenshots/light/mobile-now-playing.webp": "f441ec212094ac6739525ab736b328a566ee4c3ce232f14fc345de94aa9f9bf8",
+    "docs/images/screenshots/pure-black/desktop-library.webp": "1ae72c08e9a41f8e8bb64658105e781a44a14ca4e6436a58ce47770ae721ff4c",
+    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "5b50a3155819972d9badfc56d20bd23c44f5f20986cd1cbbb6817aea8392e23b",
+    "docs/images/screenshots/pure-black/desktop-search.webp": "8e22d8c9e2e73b1021041937667be23c7215c82a4053ad189f4c69fd760f6e06",
     "docs/images/screenshots/pure-black/mobile-library.webp": "fd03277fcc121054194fd00a8223bb2421cf74267035642c0f6281a6706024e7",
-    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "8218ec0f1b43a6c2e7b79ae1a5e5ba4fd38666964d539ca152d30ba7ed55c368",
-    "docs/images/screenshots/slate/desktop-library.webp": "321d16b98f3f03081c9cad542e328d49f676db666de44acf4e8cb4bf327030c1",
-    "docs/images/screenshots/slate/desktop-now-playing.webp": "80294719d2e572f1b44c691fa7656c2f9b2b1af1420de613ecf44a0e943baa43",
-    "docs/images/screenshots/slate/desktop-search.webp": "0b13d900c37f21e7aa9d73e066d5c63aa26950ff1df5525db931969c4320db45",
+    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "33a71aefed2ad5cae73f54be8dbcd6b2953487a3efed3483501fce211ee11e9a",
+    "docs/images/screenshots/slate/desktop-library.webp": "9af5688f352a3e88eb5c7322c08b020ceade8d4d226fa8cd08a70944307c12ef",
+    "docs/images/screenshots/slate/desktop-now-playing.webp": "8cc88ae3bd7a9d83792846297b03a929f91f4e628dbc1f3991a35f1a1dd85218",
+    "docs/images/screenshots/slate/desktop-search.webp": "7085b057a5c7fa4c1f9c4f7b12c0258f7bc0e4c1bf2cd0552b414668aa840301",
     "docs/images/screenshots/slate/mobile-library.webp": "5a4e15d3705472663d11788546702a14fbe2b704f5da595ed969660a8ede361a",
-    "docs/images/screenshots/slate/mobile-now-playing.webp": "799b11c0ef9877b9d91f1a8785e2c9b14240e71177cda806309244e3ff4a0d2d",
-    "docs/images/social-card.png": "f64710ea6ead13525b90e777a93598e66ea6db7c1652889e9e6ccb9f79fe72fa"
+    "docs/images/screenshots/slate/mobile-now-playing.webp": "87b301986dac2a4aed85d16f4d9fc6de510b4e3532f66600ca5e8a3582e91337",
+    "docs/images/social-card.png": "ff1c4122cf45ec8ea544fccf06b6563d1c8129015b6ab4d2a622fa02a20c363e"
   }
 }

@@ -65,9 +65,19 @@ La verificación `impact_label` rechaza una pull request sin una. Luego, el proc
 ```bash
 python scripts/release.py plan       # what would go out, and as what number
 python scripts/release.py prepare    # opens the bump PR, auto-merge armed
-#   ... it merges once the required checks pass ...
-python scripts/release.py finish     # tags the merge commit
+#   ... it merges once the required checks pass, and that is the release
 ```
+
+La fusión de la pull request de incremento de versión es lo que publica la versión. `release-tag.yml` etiqueta el
+commit de fusión con `vX.Y.Z` e inicia los dos flujos de trabajo siguientes sobre esa etiqueta; una
+etiqueta enviada con `GITHUB_TOKEN` no inicia nada por sí sola, por lo que los lanza explícitamente.
+Para retener una versión hasta que se revise, desactiva la fusión automática en la pull request de incremento de versión
+(`gh pr merge <url> --disable-auto`): entonces se publicará cuando alguien la fusione.
+
+Si ese trabajo falla a medias, vuelve a ejecutarlo: solo inicia los flujos de trabajo que
+todavía no tienen una ejecución sobre la etiqueta. `python scripts/release.py finish` es la
+alternativa manual cuando no se ha ejecutado en absoluto: etiqueta el commit de fusión desde una
+copia de trabajo, y al enviar la etiqueta se inician los mismos flujos de trabajo.
 
 O `/release` en Claude Code, que ejecuta los tres pasos y espera en el medio.
 
@@ -77,9 +87,16 @@ O `/release` en Claude Code, que ejecuta los tres pasos y espera en el medio.
 
 ## Qué genera una etiqueta
 
-Al publicar la etiqueta `vX.Y.Z` se inician dos flujos de trabajo:
+La etiqueta `vX.Y.Z` inicia dos flujos de trabajo:
 
-- **CI** crea y envía las imágenes del contenedor a GHCR: `X.Y.Z`, `X.Y` y `latest` (solo versiones estables; una versión candidata nunca mueve `latest`).
-- **Versión** verifica la etiqueta con la declaración, crea los instaladores Linux `.deb` y Windows x64 y arm64, y publica una versión GitHub con todos ellos adjuntos y notas generadas.
+- **CI** compila y publica las imágenes de contenedor en GHCR: `X.Y.Z`, `X.Y` y
+  `latest` (solo las versiones estables; una versión candidata nunca actualiza `latest`).
+- **Release** verifica la etiqueta frente a la declaración, compila los instaladores de Windows
+  x64 y arm64, la aplicación para iPhone y el
+  APK alfa firmado de Android, y publica una única versión en GitHub Releases con todos ellos
+  adjuntos y notas generadas. El trabajo de Android instala el APK sobre el
+  publicado anteriormente en un emulador y espera a que el CI del propio commit etiquetado
+  termine correctamente antes de entregarlo. Si falla, la versión de GitHub Release
+  no se publica; las imágenes de contenedor, que CI publica desde la misma etiqueta, sí.
 
 Cada envío a `main` también publica una imagen `edge`, que informa `0.0.0-edge+<sha>` para que dos compilaciones de desarrollo nunca se confundan entre sí.

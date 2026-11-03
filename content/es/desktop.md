@@ -15,14 +15,14 @@ con [Docker](DOCKER.md).
 
 ## Descargas
 
-Cada [versión](https://github.com/Arzuparreta/soundsible/releases) adjunta:
+Cada [versión](https://github.com/Arzuparreta/soundsible/releases) incluye estos archivos adjuntos:
 
 | Archivo | Para | Qué comprueba la CI |
 | --- | --- | --- |
-| `Soundsible_<version>_x64-setup.exe` | Windows 11 x64 | Lo instala, lo ejecuta y lo desinstala a través de la interfaz real de Windows ([más abajo](#what-ci-proves)) |
+| `Soundsible_<version>_x64-setup.exe` | Windows 11 x64 | Lo instala, lo ejecuta y lo desinstala mediante la interfaz real de Windows ([más abajo](#what-ci-proves)) |
 | `Soundsible_<version>_arm64-setup.exe` | Windows 11 ARM64 | Lo mismo, en un ejecutor ARM64 nativo |
 
-No hay versión para macOS. En un Mac, usa la [instalación nativa](INSTALL.md)
+No hay una compilación para macOS. En un Mac, usa la [instalación nativa](INSTALL.md)
 o Docker.
 
 ### No hay aplicación para Linux

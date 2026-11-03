@@ -1,12 +1,17 @@
 # Soundsible for iOS
 
-A native client for your own Soundsible. It exists for the three things Safari
-will not let a web player do on an iPhone:
+Native client code for your own Soundsible server.
 
-- **Keep playing when the screen locks** or you switch app.
-- **Download music to the phone** and play it with no server in reach.
-- **Behave properly in a car** — title, artist, artwork, a progress bar that
-  moves, and buttons on the wheel that do what they say.
+> **Never installed or run on a device.** Nobody has installed this iOS app
+> anywhere. Its runtime behaviour is entirely theoretical. CI produces an IPA
+> and automated tests cover parts of the code, but neither proves installation,
+> pairing, playback, background audio, offline listening or car integration.
+> The instructions and feature descriptions below describe the intended
+> behaviour of the code, not a verified user experience. First installation and
+> physical-device validation are still required.
+
+The intended capabilities include background playback, downloading music from
+its server for disconnected listening, and native media metadata and controls.
 
 It is not on the App Store, and that is deliberate. See
 [Why not the App Store](#why-not-the-app-store).
@@ -14,6 +19,8 @@ It is not on the App Store, and that is deliberate. See
 ---
 
 ## Installing
+
+This procedure has never been executed for Soundsible.
 
 You need an iPhone or iPad on **iOS 26 or newer** and a sideloading app.
 **[SideStore](https://sidestore.io)** is the recommended one: after a one-time
@@ -34,11 +41,10 @@ setup it re-signs your apps on the phone itself, with no computer.
 3. Install Soundsible from that source.
 4. Open it and pair with your server (below).
 
-> **Not published yet.** The source above goes live with the first release that
-> carries the app. Until then the `.ipa` exists only as an artefact of the
-> [iOS workflow](https://github.com/Arzuparreta/soundsible/actions/workflows/ios-build.yml);
-> check [Releases](https://github.com/Arzuparreta/soundsible/releases) to see
-> whether it has shipped.
+> **Release downloads.** Published releases include `apps.json` and
+> `Soundsible.ipa`. Use the source above to install the released app; workflow
+> artifacts are development builds. This does not verify the separate AltStore
+> PAL distribution path described below.
 
 > **The seven-day thing.** A free Apple ID can sign at most **3** sideloaded
 > apps, and the signature lasts **7 days**. SideStore renews it in the
@@ -68,17 +74,17 @@ The credential lives in the Keychain and is only ever sent to your own server.
 
 ## In the car
 
-Connect the phone as you normally would — Bluetooth, USB or CarPlay — and start
-playback from the phone. The car shows what is playing and its buttons work.
+The intended flow is to connect through Bluetooth, USB or CarPlay and start
+playback from the phone. None of the following has been tested on a device.
 
-What you get:
+Implementation intent:
 
 | | |
 |---|---|
-| Title, artist, album and artwork on the head unit | ✅ |
-| Progress bar that tracks the song | ✅ |
-| Play, pause, next, previous from the wheel or dashboard | ✅ |
-| Soundsible's Now Playing screen inside CarPlay | ✅ |
+| Title, artist, album and artwork on the head unit | Implemented in code; unverified |
+| Progress bar that tracks the song | Implemented in code; unverified |
+| Play, pause, next, previous from the wheel or dashboard | Implemented in code; unverified |
+| Soundsible's Now Playing screen inside CarPlay | Implemented in code; unverified |
 | **Browsing your library from the car screen** | ❌ |
 
 That last one is a **CarPlay app**, which needs the `carplay-audio` entitlement.
@@ -89,6 +95,8 @@ drive the lock screen.
 
 ## Offline
 
+The following workflow exists in code but has never been exercised on a device.
+
 Open a playlist, album or Favourites and choose **Make available offline**. Only
 what is missing is fetched, so pinning two playlists that overlap costs the
 difference and not the sum.
@@ -97,7 +105,7 @@ difference and not the sum.
 never evicted; only music that was downloaded on the way past is, least recently
 played first.
 
-## Crossfade and Auto Mode
+## Crossfade and DJ
 
 **Settings → Playback** sets a crossfade of up to 12 seconds. Halfway through the
 blend the lock screen and the car switch to the incoming track — that handover
@@ -209,8 +217,8 @@ has never been given the chance.
 
 | | Status |
 |---|---|
-| `ios-build.yml`, the sideloading path | **Verified.** Builds a real IPA on every push. |
-| `scripts/altstore_source.py`, sideloading half | **Verified.** Runs on every release; has tests. |
+| `ios-build.yml`, IPA generation | **Build only verified.** Produces a real IPA; installation and runtime have never been tested. |
+| `scripts/altstore_source.py`, sideloading half | **Generation only verified.** Runs on releases and has tests; nobody has installed the app from its source. |
 | `scripts/altstore_source.py`, `--marketplace-id` half | Field names from documentation; has tests for its *shape*, but no client has ever installed from a source it produced. |
 | `scripts/altstore_pal_preflight.py` | **Verified.** Has tests and runs. It is a checklist for something unverified. |
 | `.github/workflows/ios-altstore-pal.yml` | **Never executed. Not once.** |

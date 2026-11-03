@@ -163,12 +163,24 @@ An account without a canonical marker is migrated once using the previous manife
 - Radio remains the explicit “more of this now” mode and continuously refills.
   DJ uses the v6 compositional contract: route occurrences determine
   what will sound, while visible ephemeral sources independently steer the
-  generated runway. Sources accumulate with recency decay; heard tracks provide
-  rolling one-hop context only after they actually sound. Exact placement and
-  exclusions remain session-local, with no waypoint state or hard musical
-  boundary. The director builds an energy arc from signal analysis and
-  stochastic graph walks; it does not use an LLM or silently apply the
-  account's global taste profile.
+  generated runway. Sources accumulate, and the most recent one opens a
+  session; heard tracks provide rolling one-hop context only after they
+  actually sound. Exact placement and exclusions remain session-local, with no
+  waypoint state or hard musical boundary. The route comes from stochastic
+  graph walks over the sources. A deterministic sample is chosen before reading
+  analysis; measured songs are then ordered by transition quality and continuity
+  in notes/s, LUFS, spectral flatness and tempo, scaled by the sample's own
+  dispersion. Unmeasured songs retain their sampled slots. Signal analysis
+  also shapes each transition: measured outros/breakdowns place the exit, and
+  an incoming drop can land on an outgoing phrase at the executed playback
+  rate. Tempo reliability gates beatmatch independently of tonal confidence.
+  Section interpretation stays in the server; web and Android execute the
+  same bounded cues. It does not use an LLM or silently apply the account's
+  global taste profile.
+  El mapa de responsabilidades del DJ, sus contratos y las diferencias entre
+  políticas de ruta están en [DJ architecture](dj/ARCHITECTURE.md). La fachada
+  `shared/dj_engine.py` conserva los imports públicos; `shared/dj/store.py`
+  posee la única caché y los trabajos, y los módulos musicales son puros.
   Autoplay remains an invisible finite-context continuation. Search does not
   use the queue planner and its UI is unchanged.
 - **Playback and downloads** for those rows do **not** use Deezer audio. The UI runs **YouTube / YouTube Music text search** (the same `/api/downloader/youtube/search` path as the downloader) using Deezer title + artist, picks a matching video id, then:

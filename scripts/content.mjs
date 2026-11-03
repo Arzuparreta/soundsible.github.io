@@ -13,9 +13,16 @@ import { catalog, excerptSlugs, repository } from './catalog.mjs';
 // article, which does. Read on first use, from the root like every other
 // `content/` path: Astro also bundles this module, and only links need it.
 let translations;
+const translatedAnchors = new Map();
 function spanishAnchors(slug) {
   translations ??= JSON.parse(readFileSync('content/es/manifest.json', 'utf8'));
-  return translations[slug]?.anchors;
+  const meta = translations[slug];
+  if (!meta) return;
+  if (translatedAnchors.has(slug)) return translatedAnchors.get(slug);
+  const actual = anchorsFor(readFileSync(`content/es/${slug}.md`, 'utf8'));
+  const anchors = meta.anchors?.length === actual.length ? meta.anchors : actual;
+  translatedAnchors.set(slug, anchors);
+  return anchors;
 }
 export const markdown = unified()
   .use(remarkParse)

@@ -65,7 +65,7 @@ The importer resolves a tag to one commit before fetching any source. It replace
 the snapshot only after every required file has downloaded successfully. CI
 keeps the exact source and translation inputs alongside the generated website.
 
-The daily scheduled job, pushes to main and manual dispatch import the latest
+The scheduled job, pushes to main and manual dispatch import the latest
 release before building, preventing a later website change from restoring old
 documentation. Pull requests build the checked-in snapshot for reproducible review. The workflow publishes only after all checks succeed; a failed
 update leaves the previously deployed website intact. There is no runtime
@@ -73,21 +73,18 @@ GitHub dependency for reading documentation.
 
 ### Translation updates
 
-English updates do not wait for Spanish. An older Spanish article retains its
-original version and displays an explicit notice linking to the current English
-article. A missing Spanish translation displays the original, marked as English,
-and is excluded from the Spanish search index.
+Translations are part of the deploying agent's work. Asking an agent to deploy
+means updating the latest stable documentation, translating pending changes,
+validating the website, and publishing it. The complete instructions are in
+[AGENTS.md](AGENTS.md); no additional user involvement is needed.
 
-For a translation update, use the current original at `source` in the catalog.
-Edit the complete Markdown article in `content/es/`, retain its exact English
-input under `content/es/originals/`, and update `sourceHash`, `tag`, `sha` and
-`anchors` in `content/es/manifest.json` together. Keeping the original input
-allows checking a translation even after a newer release arrives. The source
-hash is SHA-256 of the extracted source text; `sourceContent` and `anchorsFor` in `scripts/content.mjs` implement the same
-extraction used by the build. Preserve code, URLs and document structure.
-`npm test` checks these invariants; do not mark an old translation current merely
-by changing its hash. Stable section identifiers come from the English source,
-so language switches keep the reader on the same section.
+The agent compares current English articles with `content/es/originals/`, translates
+only changed passages in existing Spanish articles, and translates new guides in
+full. Spanish Markdown, exact English originals, and release metadata are committed
+together. There is no translation API dependency, watcher, human approval, or
+translation quality gate. Missing and outdated translations show no warning;
+users can report problems through GitHub issues. GitHub's scheduled builds can
+refresh English independently; Spanish catches up at the next agent deployment.
 
 The original installation guide clones `main`. The Get started page derives its
 commands from the release README and pins the clone to that release's tag. The
@@ -113,6 +110,6 @@ backend, account system, hosted translator or analytics service is required.
 
 GitHub Pages must use **GitHub Actions** as its source. Pull requests upload a
 `site-preview` artifact and browser results; pushes to `main` publish the
-validated build. Scheduled refreshes run daily at 06:17 UTC and manual dispatch
+validated build. Scheduled refreshes are requested hourly at minute 17 (GitHub may delay runs) and manual dispatch
 can choose a release tag. After publication, check the deployed navigation,
 search, languages, Live and `docs-release.json` before calling it verified.

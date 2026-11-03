@@ -22,7 +22,8 @@ docker compose --env-file deploy/community/.env \
   -f deploy/community/docker-compose.yml up -d --build
 ```
 
-Antes de comenzar y después de cada renovación del certificado TURN, coloque copias legibles en contenedor dentro de un directorio protegido por raíz:
+Antes de empezar, coloca copias del certificado TURN que el contenedor pueda leer dentro de
+un directorio protegido y controlado por root:
 
 ```bash
 install -d -m 700 deploy/community/certs
@@ -31,6 +32,19 @@ install -m 644 /etc/letsencrypt/live/turn.example.org/privkey.pem deploy/communi
 docker compose --env-file deploy/community/.env \
   -f deploy/community/docker-compose.yml restart coturn-tls
 ```
+
+Ambos certificados se renuevan mediante la raíz web, lo que no recarga Nginx ni
+actualiza la copia de Coturn. Instala el hook de despliegue para que certbot haga ambas cosas después de
+cada renovación, adaptando primero `COMMUNITY_DIR` y `TURN_HOST` al principio del archivo:
+
+```bash
+install -m 755 deploy/community/certbot-deploy-hook.sh \
+  /etc/letsencrypt/renewal-hooks/deploy/soundsible-community.sh
+certbot renew --dry-run
+```
+
+Sin él, el origen público sigue sirviendo un certificado caducado después de una
+renovación correcta, y TURN sobre TLS falla cuando caduca la copia.
 
 Exponga TCP 80/443/3478, UDP 443/3478, UDP y TCP 8189 y UDP 49152–50687. TLS/TCP 443 es la ruta TURN principal porque sobrevive a las redes que bloquean el tráfico 3478 y no HTTPS; UDP 443 y TCP 3478 siguen siendo alternativas. El rango UDP limitado se utiliza sólo para asignaciones de retransmisión autenticadas. Los puertos 18080, 18889 y TURN TLS 5349 se vinculan intencionalmente solo al bucle detrás de Nginx.
 

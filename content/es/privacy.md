@@ -67,6 +67,33 @@ Los eventos `play_timing` de la versión 2 correlacionan el trabajo del navegado
 - ciclo de vida de salida del programa (`ui_program_output`): si el portador de salida estable o el respaldo de compatibilidad directa estaban activos, su estado listo/en pausa, el estado del contexto de Web Audio y un motivo de falla limitado;
 - Proyección de sesión de medios (`ui_media_session_sync`): el estado de reproducción de la plataforma declarado, por qué se actualizó, una revisión monótona de metadatos y registros booleanos de si el estado del operador/fuente coincidió. Los títulos de las pistas, los artistas, las URL de las carátulas y otros metadatos nunca se escriben en la telemetría.
 
+El diagnóstico de reproducción se inicia automáticamente con el reproductor autenticado. Registra
+el estado multimedia del navegador, los tiempos, los identificadores de origen y de transporte, el ID del dispositivo, la
+huella del origen, la plataforma declarada y las operaciones de control de reproducción. No incluye
+títulos de pistas, URL de contenido multimedia, imágenes, audio, credenciales ni la pantalla del coche.
+
+Los lotes sin confirmar se guardan en IndexedDB, separados por cuenta, para reintentar su envío tras
+un trayecto sin conexión o una recarga (en cada ciclo de envío se depuran hasta un máximo de 16 MiB / 8,192 lotes / siete días). Si falla el
+almacenamiento del navegador, se usa memoria con un límite de tamaño. La instancia guarda los lotes validados
+y sin duplicados en el archivo `telemetry/playback-traces.sqlite3` de cada usuario, con un límite de
+64 MiB de contenido / 32,768 lotes / siete días. Los índices de SQLite y las páginas reutilizables
+añaden algo de espacio adicional en el sistema de archivos. Estos datos solo se envían a la instancia de Soundsible
+del usuario, con su autenticación existente; no se envían a terceros.
+
+El ajuste existente `SOUNDSIBLE_TELEMETRY_ENABLED=0` desactiva el almacenamiento persistente en el servidor;
+la respuesta detiene la recopilación automática y vacía la bandeja de salida pendiente de la cuenta
+en la página. Consulta [PLAYBACK_DIAGNOSIS.md](PLAYBACK_DIAGNOSIS.md) para conocer los límites y el
+comando de informe para el operador. La persona que escucha no tiene que activar ni exportar nada.
+
+**Nota de cambios, 2026-10-30:** el registrador del navegador también conserva observaciones
+vinculadas del DJ (`dj.*`) e identificadores opacos de arista e intento de preparación en los eventos del mezclador. Los campos
+abarcan la disponibilidad observada de los análisis, las características numéricas de audio existentes, las técnicas,
+los puntos de entrada y salida y las velocidades seleccionados y ejecutados, el número de candidatos y las acciones manuales o
+interrupciones. No se añade ninguna identidad de canción, título, URL de contenido multimedia ni audio. La separación
+por cuentas, la conservación, el envío tras recuperar la conexión y la opción de desactivación existentes se aplican sin cambios.
+El registrador del navegador no cubre la aplicación nativa de Android. El informe local
+es `scripts/dj_session_report.py`; consulta [el contrato de campos](dj/SESSION_CAPTURE.md).
+
 El almacenamiento en búfer antes del primer sonido y el almacenamiento en búfer después se registran como campos separados. Solían ser un contador emitido en el momento del primer sonido, mientras que el segundo tipo no puede haber sucedido todavía, por lo que informaba la espera de apertura que `click_to_playing_ms` ya describió, y leía lo mismo en prácticamente todas las jugadas, independientemente de lo que hiciera la entrega.
 
 Los intentos cancelados y reemplazados se escriben explícitamente y no se cuentan como muestras de latencia exitosas. Los valores de tiempo que terminan en `_ms` fuera del rango aceptado de 0 a 300 segundos se rechazan en lugar de percentiles contaminantes. Las filas de la versión 1 siguen siendo inspeccionables, pero no se mezclan en el informe SLO de la versión 2.

@@ -41,10 +41,23 @@ El comando imprime el valor a configurar en el VPS:
 SOUNDSIBLE_YT_PROXY=http://100.a.b.c:8888
 ```
 
-Agréguelo al entorno systemd de la estación, haga que la estación espere a `tailscaled.service`, luego vuelva a cargarla y reinicie:
+Añádelo al
+[servicio de systemd](INSTALL.md#run-it-as-a-systemd-service) de Station en el VPS y haz
+que Station espere a `tailscaled.service`. Abre un archivo de configuración complementaria con
+`sudo systemctl edit soundsible` y añade:
+
+```ini
+[Unit]
+Wants=tailscaled.service
+After=tailscaled.service
+
+[Service]
+Environment=SOUNDSIBLE_YT_PROXY=http://100.a.b.c:8888
+```
+
+Después, reinicia Station:
 
 ```bash
-sudo systemctl daemon-reload
 sudo systemctl restart soundsible.service
 ```
 

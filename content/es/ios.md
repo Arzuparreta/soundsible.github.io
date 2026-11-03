@@ -1,16 +1,25 @@
 # Soundsible para iOS
 
-Un cliente nativo para tu propio Soundsible. Existe para las tres cosas que Safari no permitirá que haga un reproductor web en un iPhone:
+Código de un cliente nativo para tu propio servidor de Soundsible.
 
-- **Sigue reproduciendo cuando la pantalla se bloquee** o cambies de aplicación.
-- **Descarga música al teléfono** y reprodúcela sin ningún servidor al alcance.
-- **Compórtate correctamente en un auto**: título, artista, carátula, una barra de progreso que se mueve y botones en el volante que hacen lo que dicen.
+> **Nunca se ha instalado ni ejecutado en un dispositivo.** Nadie ha instalado esta aplicación de iOS
+> en ningún sitio. Su comportamiento en ejecución es completamente teórico. La CI genera un IPA
+> y las pruebas automatizadas cubren partes del código, pero ninguna de las dos cosas demuestra que funcionen la instalación,
+> la vinculación, la reproducción, el audio en segundo plano, la escucha sin conexión o la integración con el coche.
+> Las instrucciones y descripciones de funciones que siguen explican el comportamiento
+> previsto del código, no una experiencia de uso verificada. Todavía hacen falta una primera instalación y
+> la validación en un dispositivo físico.
+
+Las funciones previstas incluyen la reproducción en segundo plano, la descarga de música desde
+su servidor para escucharla sin conexión y los metadatos y controles multimedia nativos.
 
 No está en la App Store y eso es deliberado. Consulte [¿Por qué no la App Store?](#why-not-the-app-store).
 
-***
+---
 
 ## Instalación
+
+Este procedimiento nunca se ha llevado a cabo con Soundsible.
 
 Necesita un iPhone o iPad con **iOS 26 o posterior** y una herramienta de sideloading. **[SideStore](https://sidestore.io)** es el recomendado: después de una configuración única, vuelve a firmar tus aplicaciones en el teléfono, sin computadora.
 
@@ -28,7 +37,10 @@ Necesita un iPhone o iPad con **iOS 26 o posterior** y una herramienta de sidelo
 
 4. Ábrelo y emparéjalo con tu servidor (abajo).
 
-> **Aún no publicado.** La fuente anterior se publica con la primera versión que incluye la aplicación. Hasta entonces, el `.ipa` existe sólo como un artefacto del [flujo de trabajo iOS](https://github.com/Arzuparreta/soundsible/actions/workflows/ios-build.yml); verifique [Versiones](https://github.com/Arzuparreta/soundsible/releases) para comprobar si ya está publicada.
+> **Descargas de versiones publicadas.** Las versiones publicadas incluyen `apps.json` y
+> `Soundsible.ipa`. Usa la fuente anterior para instalar la aplicación publicada; los artefactos
+> del flujo de trabajo son compilaciones de desarrollo. Esto no verifica la vía de distribución independiente mediante AltStore
+> PAL que se describe a continuación.
 
 > **Lo de los siete días.** Una ID Apple gratuita puede firmar como máximo **3** aplicaciones instaladas mediante sideloading, y la firma dura **7 días**. SideStore lo renueva en segundo plano en el teléfono y al vincularlo con **LiveContainer** se soluciona el límite de tres aplicaciones. Ambos son los límites de Apple en cuanto a sideloading, no algo que Soundsible pueda superar.
 
@@ -46,31 +58,34 @@ La credencial reside en el llavero y solo se envía a su propio servidor.
 
 ## En el coche
 
-Conecte el teléfono como lo haría normalmente (Bluetooth, USB o CarPlay) e inicie la reproducción desde el teléfono. El coche muestra lo que está sonando y sus botones funcionan.
+El uso previsto consiste en conectarse por Bluetooth, USB o CarPlay e iniciar
+la reproducción desde el teléfono. Nada de lo siguiente se ha probado en un dispositivo.
 
-Lo que obtienes:
+Implementación prevista:
 
-|                                                                    |   |
-| ------------------------------------------------------------------ | - |
-| Título, artista, álbum y carátula en la unidad principal.          | ✅ |
-| Barra de progreso que sigue la canción.                            | ✅ |
-| Reproducir, pausar, siguiente, anterior desde el volante o tablero | ✅ |
-| Pantalla Now Playing de Soundsible dentro de CarPlay               | ✅ |
-| **Navegando por tu biblioteca desde la pantalla del coche**        | ❌ |
+| | |
+|---|---|
+| Título, artista, álbum y carátula en el equipo del coche | Implementado en el código; sin verificar |
+| Barra de progreso que sigue la canción | Implementado en el código; sin verificar |
+| Reproducir, pausar, siguiente y anterior desde el volante o el salpicadero | Implementado en el código; sin verificar |
+| Pantalla En reproducción de Soundsible dentro de CarPlay | Implementado en el código; sin verificar |
+| **Explorar tu biblioteca desde la pantalla del coche** | ❌ |
 
 Esta última es una **aplicación CarPlay**, que necesita el derecho `carplay-audio`. Apple lo otorga solo a aplicaciones publicadas en la App Store, por lo que está fuera del alcance en esta ruta de distribución. Todo lo anterior no necesita ningún derecho: son `MPNowPlayingInfoCenter` y `MPRemoteCommandCenter`, las mismas API del sistema que controlan la pantalla de bloqueo.
 
 ## Sin conexión
 
+El siguiente flujo de trabajo existe en el código, pero nunca se ha probado en un dispositivo.
+
 Abra una lista de reproducción, un álbum o Favoritos y elija **Hacer disponible sin conexión**. Solo se recupera lo que falta, por lo que fijar dos listas de reproducción que se superponen cuesta la diferencia y no la suma.
 
 **Configuración → Sin conexión** permite establecer un límite de almacenamiento. La música que hayas fijado explícitamente nunca se elimina. Solo se libera la música descargada por haberse reproducido anteriormente, empezando por la que lleva más tiempo sin escucharse.
 
-## Fundido cruzado y Auto Mode
+## Fundido cruzado y DJ
 
 **Configuración → Reproducción** establece un fundido cruzado de hasta 12 segundos. A mitad de la mezcla, la pantalla de bloqueo y el coche cambian a la pista entrante; ese punto de transferencia es lo que un navegador no puede controlar, porque la API de sesión de medios solo describe una pista a la vez mientras suenan dos.
 
-***
+---
 
 ## ¿Por qué no la App Store?
 
@@ -143,14 +158,14 @@ Ambas fuentes mantienen el mismo identificador de paquete, por lo que PAL actual
 
 Esto importa más de lo que parece. Los archivos PAL se encuentran en el repositorio junto al código que CI ejercita en cada inserción, y nada en su *apariencia* los distingue. Cualquiera (una persona o un agente) que lea `ios-altstore-pal.yml` podría asumir razonablemente que funciona. No es así, porque nunca se le ha dado la oportunidad.
 
-|                                                           | Estado                                                                                                                                   |
-| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `ios-build.yml`, el camino del sideloading                | **Verificado.** Crea una IPA real en cada push.                                                                                       |
-| `scripts/altstore_source.py`, sideloading media         | **Verificado.** Se ejecuta en cada versión; tiene pruebas.                                                                               |
-| `scripts/altstore_source.py`, `--marketplace-id` la mitad | Nombres de campos de la documentación; tiene pruebas de su *forma*, pero ningún cliente ha instalado nunca desde una fuente que produjo. |
-| `scripts/altstore_pal_preflight.py`                       | **Verificado.** Tiene pruebas y ejecuciones. Es una lista de verificación para algo no verificado.                                       |
-| `.github/workflows/ios-altstore-pal.yml`                  | **Nunca ejecutado. Ni una sola vez.**                                                                                                    |
-| `ios/exportOptions/app-store-connect.plist`               | **Nunca usado.**                                                                                                                         |
+| | Estado |
+|---|---|
+| `ios-build.yml`, generación de IPA | **Solo se ha verificado la compilación.** Genera un IPA real; la instalación y la ejecución nunca se han probado. |
+| `scripts/altstore_source.py`, parte de instalación externa | **Solo se ha verificado la generación.** Se ejecuta al publicar versiones y tiene pruebas; nadie ha instalado la aplicación desde su fuente. |
+| `scripts/altstore_source.py`, parte de `--marketplace-id` | Nombres de campos tomados de la documentación; tiene pruebas de su *estructura*, pero ningún cliente ha instalado nunca desde una fuente generada por él. |
+| `scripts/altstore_pal_preflight.py` | **Verificado.** Tiene pruebas y se ejecuta. Es una lista de comprobación para algo que no está verificado. |
+| `.github/workflows/ios-altstore-pal.yml` | **Nunca se ha ejecutado. Ni una sola vez.** |
+| `ios/exportOptions/app-store-connect.plist` | **Nunca se ha usado.** |
 
 La aprobación de CI no dice nada sobre los dos últimos: nada en CI los ejecuta.
 
@@ -171,7 +186,7 @@ Todos leídos **2026-08-06**. Tanto Apple como AltStore mueven estas páginas, a
 - **`CODE_SIGN_IDENTITY="Apple Distribution"`.** La cadena exacta depende de cómo se llama el certificado. `security find-identity -v -p codesigning` en el ejecutor dirá.
 - **Si es necesario el paso 9.** La documentación de AltStore menciona las compilaciones de procesamiento PAL automáticamente, lo que puede hacer que la recolección manual del ADP sea innecesaria.
 
-***
+---
 
 ## Compilar la aplicación
 

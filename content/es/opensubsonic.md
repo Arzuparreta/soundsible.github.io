@@ -1,6 +1,30 @@
 # OpenSubsonic
 
-Soundsible habla la **API OpenSubsonic** en `/rest`. Las aplicaciones creadas para ello (Symfonium, Feishin, Amperfy, DSub, Tempo, play:Sub y el resto) exploran y reproducen su biblioteca sin saber nada sobre Soundsible, que es también la forma en que el proyecto obtiene la reproducción móvil sin conexión, Android Auto y una aplicación de reloj sin escribir ninguna de ellas.
+OpenSubsonic es la interfaz de compatibilidad opcional de Soundsible para otras aplicaciones
+de música. Sirve la misma biblioteca musical a través de `/rest`, mientras que los clientes propios de Soundsible
+siguen siendo la opción principal para descubrir, escuchar, adquirir música y usar el DJ.
+
+Entre las aplicaciones del ecosistema OpenSubsonic están Symfonium, Feishin, Amperfy, DSub,
+Tempo y play:Sub. Esta lista no certifica que se hayan probado con Soundsible todas las combinaciones
+de aplicaciones y dispositivos.
+
+## Qué te ofrece esta conexión
+
+| A través de esta interfaz | Límites |
+| --- | --- |
+| Explorar y buscar artistas, álbumes y canciones | Busca en tu biblioteca musical, no en catálogos externos |
+| Reproducir en streaming o descargar pistas | Requiere un archivo de música local en el servidor; no adquiere las pistas que falten |
+| Listas de reproducción, favoritos, valoraciones y recuentos de reproducciones | Usa el mismo estado de la biblioteca de la cuenta que Soundsible |
+| Reproducción en la aplicación que elijas | La aplicación controla su reproductor; esto no da acceso a la sesión de DJ ni al programa de Live de Soundsible |
+| Funciones sin conexión, para el coche y para el reloj que ofrezca un cliente | Dependen de esa aplicación y requieren validación para el cliente y el dispositivo concretos |
+
+Usa el reproductor propio de Soundsible para descubrir música externa, adquirirla y trabajar con el
+DJ editable. Compartir la biblioteca no hace que un reproductor de terceros equivalga
+a la experiencia completa de Soundsible. La [hoja de ruta](ROADMAP.md) incluye nuestra
+propia compatibilidad con dispositivos y la escucha sin conexión; las aplicaciones externas son opciones adicionales.
+La escucha sin conexión sigue necesitando un servidor de Soundsible para descargar música y
+sincronizar al recuperar la conexión. Un cliente independiente sin servidor queda fuera
+de esa hoja de ruta.
 
 La superficie es servida por el mismo motor en el mismo puerto. No hay nada que habilitar: se puede acceder a una cuenta en el momento en que tiene una credencial y se detiene en el momento en que se revoca esa credencial.
 
@@ -81,4 +105,9 @@ Dos límites que vale la pena conocer. El proceso de codificación se detiene en
 
 ## Funciones no implementadas
 
-Vídeo, máquina de discos, chat, recursos compartidos, marcadores, radio por Internet, administración de usuarios y podcasts a través de esta API. Soundsible tiene su propia superficie de podcast bajo `/api/podcasts`, y el resto está fuera de lo que necesita un servidor de música para un hogar. Las llamadas a ellos responden con el error genérico del protocolo en lugar de un HTML 404, por lo que un cliente informa que falta una característica en lugar de un servidor inactivo.
+Vídeo, máquina de discos, chat, recursos compartidos, marcadores, radio por Internet, administración de usuarios
+y pódcast a través de esta API. Soundsible tiene su propia interfaz de pódcast en
+`/api/podcasts`. Estas ausencias describen esta interfaz de compatibilidad, no los
+límites de Soundsible en su conjunto. Las llamadas a esas funciones reciben el error
+genérico del protocolo en lugar de un 404 en HTML, de modo que el cliente informa de una función no disponible
+en vez de un servidor caído.

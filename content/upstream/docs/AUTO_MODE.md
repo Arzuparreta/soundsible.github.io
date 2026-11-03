@@ -19,20 +19,25 @@ planning and interface are still being refined.
   the route there.
 - With a track playing, open the player and switch from **NORMAL** to **DJ**.
   The current track becomes the first visible influence in **Session**.
-- From any song's menu, **Start DJ from this song** makes that song the
+- From a song's menu in NORMAL or inside the shell, **Start DJ from this song** makes that song the
   session's source. It is the next song the DJ mixes into, the way it mixes any
   other, and the music comes from it after that.
+- While DJ is active, playing a song anywhere outside the player shell starts
+  a fresh DJ session immediately from that song at 0:00. Its source and route
+  replace the previous session, including all previous requests and influences.
+  Playing a collection starts from its first song and uses the collection as
+  the source. Session controls are inside the shell.
 - In **Session**, use **Mix with…** to add an influence or **Change…** to
   choose a new direction using the same music browser.
 
 ### A source is one piece of music
 
 A song, an album, an artist, a playlist or the favourites is **one source**.
-Choosing a collection while DJ is on — its primary button, on its page or in
-the music browser — moves the session onto it: the DJ draws the next songs from
-it. It never turns the collection into a list of requests. Asking for every song
+Choosing a collection outside the shell starts a new DJ session from it.
+Inside the shell, its primary button moves the current session onto it while
+the playing song continues: the DJ draws the next songs from it. It never turns the collection into a list of requests. Asking for every song
 of a collection is still there, by name (**Add to session**) in the
-collection's menu, and those songs travel together: they belong to the session
+collection's menu inside the shell, and those songs travel together: they belong to the session
 they were asked for in.
 
 The three parts of the workspace have separate jobs:
@@ -40,15 +45,18 @@ The three parts of the workspace have separate jobs:
 | Part | What it controls |
 | --- | --- |
 | **Session** | The musical material and direction DJ should draw from |
-| **Stage / Booth** | What is on air, what comes next, energy, depth, and DJ style |
+| **Stage / Booth** | What is on air and what comes next |
 | **Route** | The actual upcoming order, including your fixed tracks and DJ's generated bridges |
 
 ## What the DJ listens for
 
 When a track can be analysed, Soundsible measures its tempo and beat grid, key,
-energy, musical sections, intro, and outro. It uses those features both to order
-candidates and to choose a transition. Depending on the material and DJ style,
-the two-deck engine can perform:
+musical sections, intro and outro, and three magnitudes that can be compared
+between songs: notes per second, integrated loudness (EBU R128, in LUFS) and
+spectral flatness, which tells a pure tone (0) from noise (about 0.56). The DJ
+does not steer the session by any of them: the sources and the recommender
+choose the music, and the DJ mixes it. Depending on the material, the two-deck
+engine can perform:
 
 - beatmatched long blends;
 - bass swaps and filter blends;
@@ -56,9 +64,85 @@ the two-deck engine can perform:
 - conservative fades when the analysis is missing or a more elaborate mix
   would sound worse.
 
+The server chooses the technique automatically for each pair, with the same
+plan for web and Android. A beatmatched blend must fit the local tempo within
+the players' speed limit and keep a steady shared pulse throughout the overlap.
+Whether a pair can be beatmatched is all that decides it: any two keys can be
+mixed. Key and tempo closeness choose which song comes next and which blend
+is used, never an echo cut or fade instead of a blend.
+The incoming song may be stretched up to 8 % (a turntable's pitch range) and
+returns to its own tempo after the blend. Two songs share a pulse when whole
+numbers of their beats last the same: one
+to one, two to one, three to two (116 and 174 BPM) or four to three (90 and
+120 BPM). Reading a song in two or in three is a choice of level — a 12/8 is a
+4/4 with ternary beats — so the mix does not depend on it.
+The plan states which alignment it promises: the beats, or also the bars when
+both songs' first beats are confirmed and their bars last the same. Even when
+only the beats are promised, the mix starts on each song's estimated first
+beat. A recording without a steady pulse uses an echo cut or fade. A longer
+blend also needs compatible keys and enough measured quiet opening and tail in
+both songs, with a straight beat grid throughout; it never crosses an
+unmeasured gap to extend the mix.
+
+When reliable pulses cannot be blended at the permitted speed, DJ can choose
+an echo cut. Its delay is one measured outgoing beat near the exit, corrected
+for the deck's playback speed. An unreliable pulse uses a structural fade;
+missing analysis keeps a conservative fade.
+
+For each refill, DJ chooses up to eight songs before looking at their analysis,
+then orders the measured songs for transition quality and continuity in notes
+per second, loudness, timbre and tempo. The scales come from that refill's own
+measurements, with equal influence after scaling. Songs without analysis keep
+their shuffled positions, so already downloaded music cannot crowd them out.
+An empty session still opens inside the most recently added source.
+
+The server prepares up to sixteen candidates per refill in the background,
+including previews that have not been downloaded yet. The choice follows the
+session shuffle, so a downloaded song gets no advantage in joining the route.
+Once the entire chosen pool is measured, DJ can insert a compatible bridge
+between two songs that would otherwise mix poorly, while keeping every original
+song. It also analyses the whole local music library in the background.
+
+A newly acquired preview is analysed as soon as its complete audio is ready.
+Web and Android retry pending transition measurements before loading the next
+deck; an unavailable measurement keeps its conservative fade.
+
 The engine limits tempo stretching and falls back safely instead of forcing two
 incompatible recordings together. Loudness levelling sits inside the same
 program path, so a transition does not need a sudden volume jump to feel alive.
+
+Measured sections help place the mix: it can start during an outro or finish
+before a breakdown. A phrase starts on a bar where the arrangement measurably
+changes, a sound entering or leaving; between changes, phrases are counted in
+whole bars at the length the changes repeat, or in eight-bar steps that are
+marked as an assumption. A breakdown is where the kick and bass fall to less
+than half as loud, and a drop is where they come back after one; a passage that
+is only louder is neither. When the pulse is reliable and a measured phrase
+fits, the incoming song enters so its drop lands on a phrase start of the
+outgoing song at the end of the blend; an assumed phrase is used only when no
+measured one fits. Otherwise it keeps the ordinary intro. Both web and Android
+follow the same server plan.
+
+The pulse and the first beat of each bar come from Beat This!, an open
+neural beat tracker (MIT licence) that runs locally with ONNX Runtime; its
+decisions are then placed on the attacks precisely enough to keep blended kicks
+together. The network can misplace a first beat by a whole beat or two, and
+its confidence does not show when, so a bar alignment is only promised where an
+independent measurement of harmony changes and accents agrees. Phrases and
+sections are counted on those bars, so a misplaced first beat moves them too;
+where the levels do not show a role clearly, the DJ claims none.
+
+The model adds about 4 seconds of processor time per minute of audio, on one
+core, and up to about 0.5 GB of memory while a song is analysed. A first
+analysis of a large library therefore takes hours in the background; songs
+play with conservative fades until they are measured. Docker images and the
+desktop app include the model. An installation from source downloads it once
+(84 MB) the first time it analyses a song, and verifies its checksum.
+A recording whose tempo drifts,
+such as a live band, gets a grid that follows the performance and a fade at
+normal speed instead of a fixed-rate beatmatch. After an update that changes
+the analysis, the library and selected previews are measured again in the
+background; until those measurements land, their transitions are plain fades.
 
 ### Whole songs, without mixing
 
@@ -75,7 +159,7 @@ not prepared yet; a mix already prepared still plays.
 
 - **Add to session** requests specific songs without changing the musical direction.
 - **Mix into session** adds an influence alongside the existing ones.
-- **Change session** (and **Start DJ from…**) moves the session onto a new
+- Inside the shell, **Change session** (and **Start DJ from…**) moves the session onto a new
   source at once. The old sources, the DJ's own picks and bridges, and songs
   that were requested as a whole collection go with the old session; songs you
   requested one at a time stay. The current song continues and the DJ mixes out

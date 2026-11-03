@@ -1,7 +1,7 @@
 ---
 import images from '../generated/images.json';
 import Layout from '../layouts/Layout.astro';
-import { href, pick, release, type Locale } from '../lib/site';
+import { href, pick, release, repoUrl, type Locale } from '../lib/site';
 import { themes, type Theme } from '../lib/themes';
 import { publicAsset } from '../public-asset';
 interface Props {
@@ -33,16 +33,6 @@ const phone = { width: 1170, height: 2532 };
 const shots = [
   [
     {
-      name: 'desktop-now-playing',
-      ...desktop,
-      alt: t(
-        'Soundsible player with the library, the current artwork and the playback queue',
-        'Reproductor Soundsible con la biblioteca, la portada actual y la cola de reproducción',
-      ),
-    },
-  ],
-  [
-    {
       name: 'desktop-library',
       ...desktop,
       alt: t(
@@ -63,6 +53,16 @@ const shots = [
   ],
   [
     {
+      name: 'desktop-now-playing',
+      ...desktop,
+      alt: t(
+        'Soundsible player with the library, the current artwork and the playback queue',
+        'Reproductor Soundsible con la biblioteca, la portada actual y la cola de reproducción',
+      ),
+    },
+  ],
+  [
+    {
       name: 'mobile-library',
       ...phone,
       alt: t(
@@ -70,6 +70,8 @@ const shots = [
         'Soundsible en un móvil, con la lista de canciones y el mini reproductor',
       ),
     },
+  ],
+  [
     {
       name: 'mobile-now-playing',
       ...phone,
@@ -86,44 +88,6 @@ const shots = [
   });
   return images.length === screens.length ? [{ images }] : [];
 });
-const paths = [
-  [
-    '01',
-    t('Bring your music', 'Trae tu música'),
-    t(
-      'Bring your music profile across from Spotify or Apple Music, using your account export.',
-      'Trae tu perfil musical de Spotify o Apple Music a partir de la exportación de tu cuenta.',
-    ),
-    'music-migration',
-  ],
-  [
-    '02',
-    t('Make it a DJ set', 'Conviértela en una sesión DJ'),
-    t(
-      'Choose the sources, shape the route and let DJ Mode handle the transitions.',
-      'Elige las fuentes, ajusta el recorrido y deja que el modo DJ se encargue de las transiciones.',
-    ),
-    'dj-mode',
-  ],
-  [
-    '03',
-    t('Listen on your devices', 'Escucha en tus dispositivos'),
-    t(
-      'Use the web player, desktop app, iOS app or an OpenSubsonic client.',
-      'Usa el reproductor web, la aplicación de escritorio, iOS o un cliente OpenSubsonic.',
-    ),
-    'opensubsonic',
-  ],
-  [
-    '04',
-    t('Share a live session', 'Comparte una sesión en directo'),
-    t(
-      'Broadcast what you hear. Your listeners join from their browser.',
-      'Emite lo que escuchas. Tus oyentes se conectan desde el navegador.',
-    ),
-    'live',
-  ],
-];
 ---
 
 <Layout
@@ -138,9 +102,23 @@ const paths = [
   <main id="main" class="container home">
     <section class="home-hero" aria-labelledby="home-title">
       <div class="hero-copy">
-        <p class="eyebrow">{t('FREE · OPEN SOURCE', 'GRATIS · CÓDIGO ABIERTO')}</p><h1
-          id="home-title"
+        <a
+          class="github-button"
+          href={repoUrl}
+          aria-label={t('Soundsible on GitHub', 'Soundsible en GitHub')}
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="currentColor"
+            aria-hidden="true"
+            viewBox="0 0 16 16"
+            ><path
+              d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
+            ></path></svg
+          ><span>GitHub</span><span aria-hidden="true">↗</span>
+        </a><h1 id="home-title">
           {
             t(
               'Host your free, personal music service',
@@ -150,8 +128,8 @@ const paths = [
         </h1><p class="lead">
           {
             t(
-              'Explore and save music, get endless recommendations and enjoy a full-featured music streaming service with everything you expect from paid services, and more. Access it from anywhere. Hosted by you, for you.',
-              'Explora, guarda música y disfruta de todo lo que esperas de un servicio de música convencional, y más. Hosteado por ti, para ti.',
+              'Run Soundsible in your server and listen to any music from any device',
+              'Instala Soundsible en tu server y escucha cualquier música desde cualquier dispositivo',
             )
           }
         </p><div class="actions">
@@ -199,11 +177,12 @@ const paths = [
                   class:list={['shot', index === 0 && 'is-current']}
                   href={shot.images[0].src.dark}
                   data-shot-index={index}
+                  data-portrait={shot.images[0].height > shot.images[0].width ? '' : undefined}
                   data-image-preview
                   aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
                 >
                   <>
-                    <span class:list={['shot-media', shot.images.length > 1 && 'is-pair']}>
+                    <span class="shot-media">
                       {shot.images.map((image) =>
                         themes.map(({ id }) => (
                           <img
@@ -238,32 +217,6 @@ const paths = [
               <span aria-hidden="true" />
             </button>
           )
-        }
-      </div>
-    </section>
-    <section class="explore-section" aria-labelledby="explore-heading">
-      <div class="section-heading">
-        <h2 id="explore-heading">{t('Find your way around', 'Encuentra lo que necesitas')}</h2><a
-          href={href(locale, 'docs/')}>{t('All documentation', 'Toda la documentación')} →</a
-        >
-      </div><div class="task-grid">
-        {
-          paths.map(([number, title, description, doc]) => (
-            <a class="task-row" href={href(locale, `docs/${doc}/`)}>
-              <>
-                <span class="row-number">{number}</span>
-                <div>
-                  <>
-                    <h3>{title}</h3>
-                    <p>{description}</p>
-                  </>
-                </div>
-                <span class="row-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </>
-            </a>
-          ))
         }
       </div>
     </section>

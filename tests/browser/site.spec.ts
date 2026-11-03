@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { themes } from '../../src/lib/themes';
+const themes = [{ id: 'light' }, { id: 'dark' }];
 const [owner, repository] = (
   process.env.GITHUB_REPOSITORY ?? 'Arzuparreta/soundsible.github.io'
 ).split('/');
@@ -52,7 +52,8 @@ test('language links retain article and section; theme persists', async ({ page 
   await page.locator('[data-language-switch]').click();
   await expect(page).toHaveURL(new RegExp('/es/docs/dj-mode/#start-a-set$'));
   await expect(page.locator('#start-a-set')).toBeVisible();
-  await page.selectOption('#theme-select', 'dark');
+  await page.locator('#theme-toggle').click();
+  await page.locator('#theme-toggle').click();
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
@@ -86,11 +87,11 @@ test('mobile menu, documentation and wide code at 200% equivalent reflow', async
     .getByRole('link', { name: 'Documentación', exact: true })
     .click();
   await page.getByRole('link', { name: 'Configuración', exact: false }).first().click();
-  await page.locator('.mobile-doc-nav summary').click();
+  await page.locator('.mobile-doc-nav > summary').click();
   await expect(page.locator('.mobile-doc-nav nav')).toBeVisible();
   await page.setViewportSize({ width: 320, height: 700 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.locator('.mobile-doc-nav summary').click();
+  await page.locator('.mobile-doc-nav > summary').click();
   const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(axe.violations).toEqual([]);
 });
@@ -214,7 +215,8 @@ test('Live language and theme changes preserve the active peer, media element an
   await expect(page).toHaveURL(new RegExp('/es/live/\\?session=test-room$'));
   await expect(page.locator('#listen-live')).toHaveText('Escuchando en directo');
   await expect(page.locator('#listener-count')).toHaveText('1 oyente');
-  await page.selectOption('#theme-select', 'dark');
+  await page.locator('#theme-toggle').click();
+  await page.locator('#theme-toggle').click();
   expect(
     await page.evaluate(() => ({
       created: (window as any).__mediaTest.created,
@@ -272,25 +274,21 @@ test('Docker quick start persists the release pin and stops if the directory exi
   expect(code).not.toContain('/main/');
   expect(code).not.toContain(':edge');
 });
-test('the screenshot carousel keeps rotating under the pointer', async ({ page }) => {
+test('the screenshot carousel stays still until the user steps', async ({ page }) => {
+  await page.clock.install();
   await page.goto(base);
   const current = page.locator('.shot.is-current');
-  await expect(page.locator('.shot')).toHaveCount(4);
-  // The dots and the pause button are gone; the arrows are the only controls.
-  await expect(page.locator('[data-shot-dot], [data-shot-toggle]')).toHaveCount(0);
+  await expect(page.locator('.shot')).toHaveCount(5);
   await expect(current).toHaveAttribute('data-shot-index', '0');
-  // A pointer resting on the screenshots no longer holds the carousel.
-  await page.locator('.product-figure').hover();
-  await expect(current).toHaveAttribute('data-shot-index', '1', { timeout: 9000 });
-  await expect(current).toHaveAttribute('data-shot-index', '2', { timeout: 9000 });
-  // Stepping by hand leaves focus on the arrow; autoplay must not read that as
-  // a reader holding the carousel.
+  await page.clock.fastForward(30000);
+  await expect(current).toHaveAttribute('data-shot-index', '0');
   await page.locator('.shot-arrow.next').click();
-  await expect(current).toHaveAttribute('data-shot-index', '3');
-  await expect(current).toHaveAttribute('data-shot-index', '0', { timeout: 9000 });
+  await expect(current).toHaveAttribute('data-shot-index', '1');
+  await page.clock.fastForward(30000);
+  await expect(current).toHaveAttribute('data-shot-index', '1');
 });
 test('the arrows step through the screenshots and wrap around', async ({ page }) => {
-  // Reduced motion parks autoplay, so the arrows are the only thing moving.
+  // The arrows are the only way to advance.
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(base);
   const current = page.locator('.shot.is-current');
@@ -300,7 +298,7 @@ test('the arrows step through the screenshots and wrap around', async ({ page })
   await page.locator('.shot-arrow.prev').click();
   await expect(current).toHaveAttribute('data-shot-index', '0');
   await page.locator('.shot-arrow.prev').click();
-  await expect(current).toHaveAttribute('data-shot-index', '3');
+  await expect(current).toHaveAttribute('data-shot-index', '4');
   await page.locator('.shot-arrow.next').click();
   await expect(current).toHaveAttribute('data-shot-index', '0');
   // Nothing is moving on its own.
@@ -315,11 +313,11 @@ test('the screenshots are the ones taken in the theme the page wears', async ({ 
     const theme = request.url().match(/\/screenshots\/([^/]+)\//)?.[1];
     if (theme) requested.add(theme);
   });
-  await page.addInitScript(() => localStorage.setItem('soundsible:site-theme', 'slate'));
+  await page.addInitScript(() => localStorage.setItem('soundsible:site-theme', 'light'));
   await page.goto(base);
   await page.waitForLoadState('networkidle');
   // Each slide holds its screen in every theme; only the page's own is fetched.
-  expect([...requested]).toEqual(['slate']);
+  expect([...requested]).toEqual(['light']);
   const shown = () =>
     page
       .locator('.shot.is-current img')
@@ -327,7 +325,7 @@ test('the screenshots are the ones taken in the theme the page wears', async ({ 
         images.filter((image) => image.checkVisibility()).map((image) => image.className),
       );
   for (const { id } of themes) {
-    await page.selectOption('#theme-select', id);
+    if (id === 'dark') await page.locator('#theme-toggle').click();
     await expect.poll(shown).toEqual([`theme-${id}`]);
     await page.locator('.shot.is-current').click();
     await expect(page.locator('#image-dialog img')).toHaveAttribute(
@@ -336,4 +334,75 @@ test('the screenshots are the ones taken in the theme the page wears', async ({ 
     );
     await page.locator('#image-dialog [data-close-dialog]').click();
   }
+});
+
+test('mobile captures are separate, fill their frame and enlarge individually', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(base);
+  const current = page.locator('.shot.is-current');
+  for (let i = 0; i < 3; i++) await page.locator('.shot-arrow.next').click();
+  for (const name of ['mobile-library', 'mobile-now-playing']) {
+    await expect(current).toHaveAttribute('data-portrait', '');
+    const img = current.locator('img:visible');
+    await expect(img).toHaveAttribute('src', new RegExp(name));
+    const frame = await current.boundingBox();
+    const image = await img.boundingBox();
+    expect(Math.abs(frame!.height - image!.height)).toBeLessThan(2);
+    expect(Math.abs(frame!.width - image!.width)).toBeLessThan(2);
+    await current.click();
+    await expect(page.locator('#image-dialog img')).toHaveAttribute('src', new RegExp(name));
+    const enlarged = await page.locator('#image-dialog img').boundingBox();
+    expect(enlarged!.height).toBeLessThanOrEqual(844);
+    await page.keyboard.press('Escape');
+    await page.locator('.shot-arrow.next').click();
+  }
+});
+
+test('documentation opens its root inside the shared navigation', async ({ page }) => {
+  for (const locale of ['', 'es/']) {
+    await page.goto(`${base}${locale}docs/`);
+    await expect(page.locator('.docs-sidebar .sidebar-title')).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await expect(page.locator('main .doc-index-link')).toHaveCount(10);
+    const more = page.locator('.docs-sidebar details.sidebar-group');
+    await expect(more).not.toHaveAttribute('open');
+    await more.locator('summary').click();
+    await expect(more.locator('a').first()).toBeVisible();
+    await more.locator('summary').click();
+    await expect(more.locator('a').first()).toBeHidden();
+    await page.locator('main a[href$="docs/native-installation/"]').click();
+    await expect(page.locator('.docs-sidebar')).toBeVisible();
+    await page.locator('.docs-sidebar .sidebar-title').click();
+    await expect(page.locator('.docs-root')).toBeVisible();
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.mobile-doc-nav')).toBeVisible();
+  await page.locator('.mobile-doc-nav > summary').click();
+  await expect(page.locator('.mobile-doc-nav .sidebar-title')).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('theme button cycles through system, light and dark and follows the OS', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto(base);
+  const toggle = page.locator('#theme-toggle');
+  await expect(toggle).toHaveAttribute('data-mode', 'system');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('data-mode', 'light');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('data-mode', 'dark');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('data-mode', 'system');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });

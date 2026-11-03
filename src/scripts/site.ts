@@ -3,24 +3,37 @@ import { themes } from '../lib/themes';
 const language = (): Locale => (document.documentElement.lang === 'es' ? 'es' : 'en');
 const choose = (en: string, es: string) => (language() === 'es' ? es : en);
 const base = (document.body.dataset.base ?? '/').replace(/\/?$/, '/');
-const theme = document.querySelector<HTMLSelectElement>('#theme-select');
+const theme = document.querySelector<HTMLButtonElement>('#theme-toggle');
 const media = matchMedia('(prefers-color-scheme: dark)');
 const chrome = new Map<string, string>(themes.map(({ id, color }) => [id, color]));
 let themeChoice = 'system';
 try {
   themeChoice = localStorage.getItem('soundsible:site-theme') ?? 'system';
 } catch {}
-if (!chrome.has(themeChoice)) themeChoice = 'system';
+const modes = ['system', 'light', 'dark'];
+if (!modes.includes(themeChoice)) themeChoice = 'system';
 function applyTheme() {
   const applied = themeChoice === 'system' ? (media.matches ? 'dark' : 'light') : themeChoice;
   document.documentElement.dataset.theme = applied;
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', chrome.get(applied)!);
-  if (theme) theme.value = themeChoice;
+  if (theme) {
+    theme.dataset.mode = themeChoice;
+    const names =
+      language() === 'es' ? ['Sistema', 'Claro', 'Oscuro'] : ['System', 'Light', 'Dark'];
+    const index = modes.indexOf(themeChoice);
+    const label =
+      choose('Theme: ', 'Tema: ') +
+      names[index] +
+      choose('. Switch to ', '. Cambiar a ') +
+      names[(index + 1) % modes.length];
+    theme.setAttribute('aria-label', label);
+    theme.title = label;
+  }
 }
 applyTheme();
 media.addEventListener('change', applyTheme);
-theme?.addEventListener('change', () => {
-  themeChoice = theme.value;
+theme?.addEventListener('click', () => {
+  themeChoice = modes[(modes.indexOf(themeChoice) + 1) % modes.length];
   try {
     localStorage.setItem('soundsible:site-theme', themeChoice);
   } catch {}
@@ -82,6 +95,7 @@ window.addEventListener('popstate', () => {
   if (next !== language()) {
     document.documentElement.lang = next;
     localizeStatic();
+    applyTheme();
     document.dispatchEvent(new CustomEvent('site:locale', { detail: next }));
   }
   updateLanguageLink();
@@ -113,6 +127,7 @@ switcher?.addEventListener('click', (event) => {
   searchUI?.destroy();
   searchUI = undefined;
   searchLocale = undefined;
+  applyTheme();
   document.dispatchEvent(new CustomEvent('site:locale', { detail: next }));
 });
 for (const element of document.querySelectorAll<HTMLDialogElement>('dialog')) {
@@ -152,63 +167,18 @@ for (const preview of document.querySelectorAll<HTMLAnchorElement>('[data-image-
 const carousel = document.querySelector<HTMLElement>('[data-carousel]');
 if (carousel) {
   const slides = [...carousel.querySelectorAll<HTMLElement>('.shot')];
-  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const interval = 5000;
   let current = 0;
-  let timer: number | undefined;
-  // The pointer no longer holds the carousel -- it keeps turning under the
-  // reader's mouse. Autoplay only parks for a hidden tab, the enlarged view,
-  // reduced motion, or a keyboard reader holding a slide to read it.
-  let stopped = still.matches;
-
-  // A mouse click leaves focus behind, so :focus-within would hold the
-  // carousel for good once an arrow was pressed. Only a keyboard focus counts.
-  function focusedByKeyboard() {
-    const active = document.activeElement;
-    if (!active || !carousel!.contains(active)) return false;
-    try {
-      return active.matches(':focus-visible');
-    } catch {
-      return false;
-    }
-  }
-
   function show(next: number) {
-    if (next === current) return;
-    slides[current].classList.remove('is-current');
-    slides[current].classList.add('is-leaving');
-    const leaving = slides[current];
-    window.setTimeout(() => leaving.classList.remove('is-leaving'), 620);
     current = next;
-    slides[current].classList.add('is-current');
+    slides.forEach((slide, index) => slide.classList.toggle('is-current', index === current));
   }
-
-  function play() {
-    window.clearInterval(timer);
-    if (stopped || focusedByKeyboard()) return;
-    if (document.hidden || imageDialog?.open) return;
-    timer = window.setInterval(() => show((current + 1) % slides.length), interval);
-  }
-
-  // Opening the enlarged view must not advance the slide behind it. The preview
-  // handler above has already opened the dialog by now, so play() parks the
-  // timer -- and restarts it if the dialog never opened.
-  for (const slide of slides) slide.addEventListener('click', play);
-  // Stepping by hand restarts the clock, so the chosen slide gets a full turn.
-  for (const arrow of carousel.querySelectorAll<HTMLButtonElement>('[data-shot-step]'))
+  show(0);
+  for (const arrow of carousel.querySelectorAll<HTMLButtonElement>('[data-shot-step]')) {
     arrow.addEventListener('click', () => {
       const step = Number(arrow.dataset.shotStep);
       show((current + step + slides.length) % slides.length);
-      play();
     });
-  for (const event of ['focusin', 'focusout']) carousel.addEventListener(event, play);
-  document.addEventListener('visibilitychange', play);
-  imageDialog?.addEventListener('close', play);
-  still.addEventListener('change', (event) => {
-    stopped = event.matches;
-    play();
-  });
-  play();
+  }
 }
 const searchDialog = document.querySelector<HTMLDialogElement>('#search-dialog');
 const search = document.querySelector<HTMLElement>('#search');

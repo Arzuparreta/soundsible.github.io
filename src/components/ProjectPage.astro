@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { href, pick, release, repoUrl, type Locale } from '../lib/site';
+import { href, pick, repoUrl, type Locale } from '../lib/site';
 interface Props {
   locale: Locale;
 }
@@ -68,25 +68,9 @@ const links = [
   )}
   ><main id="main" class="container">
     <header class="page-heading">
-      <p class="eyebrow">{t('THE PROJECT', 'EL PROYECTO')}</p><h1>
-        {t('Built in the open.', 'Desarrollado en abierto.')}
-      </h1><p>
-        {
-          t(
-            'Soundsible is a self-hosted music project by Arzuparreta, a musician and Linux sysadmin. Its source is available under the MIT license.',
-            'Soundsible es un proyecto musical autoalojado de Arzuparreta, músico y administrador de sistemas Linux. Su código está disponible bajo la licencia MIT.',
-          )
-        }
-      </p>
-    </header><p class="project-source">
-      {t('These guides describe', 'Estas guías describen')}
-      <a href={release.url}>{release.tag}</a>. {
-        t(
-          'For ongoing development, visit the repository.',
-          'Para seguir el desarrollo actual, visita el repositorio.',
-        )
-      }
-    </p><div class="project-grid">
+      <h1 class="sr-only">{t('The project', 'El proyecto')}</h1>
+      <p class="eyebrow">{t('THE PROJECT', 'EL PROYECTO')}</p>
+    </header><div class="project-grid">
       {
         links.map(([title, description, url]) => (
           <a class="task-row" href={url}>
@@ -109,6 +93,6 @@ const links = [
 >
 <style>
   .project-grid h2 {
-    font-size: 19px;
+    font-size: 24px;
   }
 </style>

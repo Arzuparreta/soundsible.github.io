@@ -93,7 +93,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.6;
 }
 h1,
@@ -204,7 +204,7 @@ input {
   align-items: center;
   gap: 9px;
   font-weight: 700;
-  font-size: 21px;
+  font-size: 24px;
   letter-spacing: -0.8px;
   flex-shrink: 0;
 }
@@ -215,7 +215,7 @@ input {
   display: flex;
   align-items: center;
   gap: 24px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 550;
   height: 100%;
 }
@@ -244,7 +244,7 @@ input {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .search-trigger {
   display: flex;
@@ -269,15 +269,30 @@ input {
   min-height: 40px;
   font-weight: 650;
 }
-.theme-control select {
-  border: 0;
+.theme-control {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
   color: var(--muted);
-  /* As wide as its longest palette name, in either language. */
-  width: auto;
-  min-height: 40px;
-  padding: 0 2px;
-  font-size: 12px;
+  cursor: pointer;
+}
+.theme-control:hover {
+  color: var(--text);
+  background: var(--surface-muted);
+  border-color: var(--line);
+}
+.theme-control svg {
+  display: none;
+}
+.theme-control[data-mode='system'] [data-theme-icon='system'],
+.theme-control[data-mode='light'] [data-theme-icon='light'],
+.theme-control[data-mode='dark'] [data-theme-icon='dark'] {
+  display: block;
 }
 .menu-toggle {
   display: none;
@@ -300,19 +315,64 @@ input {
 }
 .home-hero {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  gap: 48px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
   align-items: center;
-  min-height: calc(100vh - var(--header-h));
-  min-height: calc(100svh - var(--header-h));
-  padding-block: 32px;
+  padding-block: 48px;
+}
+.hero-copy {
+  max-width: 800px;
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+}
+.hero-copy h1 {
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.github-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 13px;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 600;
+}
+.github-button:hover {
+  border-color: var(--text);
+  background: var(--surface-muted);
+}
+.hero-copy .lead {
+  max-width: 620px;
+  margin: 16px auto 0;
+  text-wrap: balance;
+}
+.hero-copy .actions {
+  justify-content: center;
+  margin-top: 20px;
+}
+.hero-copy .release-note {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 18px;
+  border: 0;
+  padding: 0;
+  margin-top: 18px;
 }
 .home-hero .shot-stage {
   width: 100%;
   justify-content: center;
 }
 .eyebrow {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 650;
   letter-spacing: 0.12em;
   color: var(--muted);
@@ -330,7 +390,7 @@ input {
   }
 }
 .lead {
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.6;
   color: var(--muted);
   max-width: 680px;
@@ -351,7 +411,7 @@ input {
   padding: 9px 17px;
   border: 1px solid var(--line);
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   background: var(--surface);
 }
@@ -371,7 +431,7 @@ input {
   border-left: 1px solid var(--line);
   padding: 4px 0 4px 25px;
   margin-top: 30px;
-  font-size: 13px;
+  font-size: 15px;
 }
 .release-note > a {
   font-weight: 600;
@@ -385,7 +445,7 @@ input {
   background: var(--accent);
 }
 .subtle-link {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 /* Just enough radius to keep the corner from aliasing against the border. */
@@ -393,36 +453,28 @@ input {
   border: 1px solid var(--line);
   border-radius: 2px;
   overflow: hidden;
-  background: #101010;
+  background: transparent;
 }
 .shots {
   position: relative;
   aspect-ratio: 1920 / 1080;
 }
+.shots:has(.shot.is-current[data-portrait]) {
+  aspect-ratio: 1170 / 2532;
+}
 .shot {
+  display: block;
   position: absolute;
   inset: 0;
-  display: block;
-  opacity: 0;
   visibility: hidden;
-  transform: translateX(3%);
-  transition:
-    opacity 620ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 620ms cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0s linear 620ms;
 }
 .shot.is-current {
-  opacity: 1;
   visibility: visible;
-  transform: none;
-  transition:
-    opacity 620ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 620ms cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0s;
+  position: relative;
 }
-/* The outgoing slide leaves the way the incoming one arrives. */
-.shot.is-leaving {
-  transform: translateX(-3%);
+.home-hero .product-figure:has(.shot.is-current[data-portrait]) {
+  flex: 0 1 auto;
+  width: min(100%, calc(72svh * 1170 / 2532));
 }
 .shot-media {
   display: flex;
@@ -432,10 +484,6 @@ input {
   width: 100%;
   height: 100%;
 }
-.shot-media.is-pair {
-  gap: 5%;
-  padding: 1.5% 0;
-}
 .shot-media img {
   display: block;
   width: auto;
@@ -444,7 +492,7 @@ input {
   max-height: 100%;
   object-fit: contain;
 }
-.shot-media:not(.is-pair) img {
+.shot-media img {
   width: 100%;
 }
 /* Every screenshot comes in each of the player's themes; show the one the page
@@ -458,9 +506,7 @@ input {
   display: none;
 }
 .home-hero .product-figure {
-  --shot-height: calc(100vh - var(--header-h) - 112px);
-  --shot-height: calc(100svh - var(--header-h) - 112px);
-  max-width: calc(var(--shot-height) * 1920 / 1080);
+  max-width: 100%;
 }
 .shot-stage {
   position: relative;
@@ -528,10 +574,10 @@ input {
   margin-bottom: 20px;
 }
 .section-heading h2 {
-  font-size: 21px;
+  font-size: 24px;
 }
 .section-heading > a {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .section-heading > a:hover {
@@ -549,17 +595,17 @@ input {
   border-top: 1px solid var(--line);
 }
 .task-row h3 {
-  font-size: 17px;
+  font-size: 20px;
   letter-spacing: -0.025em;
 }
 .task-row p {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   margin-top: 8px;
   max-width: 390px;
 }
 .row-number {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   padding-top: 4px;
   font-variant-numeric: tabular-nums;
@@ -582,17 +628,17 @@ input {
   padding: 28px 0;
 }
 .home-bottom h2 {
-  font-size: 20px;
+  font-size: 23px;
 }
 .home-bottom p {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   margin-top: 6px;
 }
 .text-action {
   white-space: nowrap;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--accent);
 }
 .site-footer {
@@ -602,22 +648,15 @@ input {
   border-top: 1px solid var(--line);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 24px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
-}
-.site-footer > div {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-.footer-brand {
-  font-weight: 650;
-  color: var(--text);
 }
 .site-footer nav {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 22px;
 }
 .site-footer a:hover {
@@ -628,18 +667,18 @@ input {
   max-width: 760px;
 }
 .page-heading h1 {
-  font-size: 36px;
+  font-size: 42px;
 }
 .page-heading p:not(.eyebrow) {
   margin-top: 14px;
   color: var(--muted);
-  font-size: 16px;
+  font-size: 19px;
 }
 .page-heading .eyebrow {
   margin-bottom: 13px;
 }
 .release-line {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   display: flex;
   flex-wrap: wrap;
@@ -661,24 +700,24 @@ input {
   border-bottom: 1px solid var(--line);
 }
 .install-option h2 {
-  font-size: 21px;
+  font-size: 24px;
 }
 .install-option .platforms {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 8px;
 }
 .install-option p {
   color: var(--muted);
   max-width: 670px;
-  font-size: 14px;
+  font-size: 16px;
 }
 .install-option .actions {
   margin-top: 16px;
 }
 .tag {
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.035em;
   color: var(--accent);
@@ -692,7 +731,7 @@ input {
 }
 .install-option summary {
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   padding: 8px 0;
 }
@@ -702,7 +741,7 @@ input {
   margin: 18px 0 0;
 }
 .os-tabs button {
-  font-size: 12px;
+  font-size: 14px;
   padding: 9px 16px;
   border: 1px solid var(--line);
   background: var(--surface);
@@ -722,7 +761,7 @@ input {
   position: relative;
 }
 .install-code pre {
-  font-size: 12px;
+  font-size: 14px;
   padding: 40px 16px 18px;
   overflow: auto;
   margin: 0;
@@ -734,14 +773,14 @@ input {
   border: 1px solid var(--line);
   background: var(--surface);
   border-radius: 3px;
-  font-size: 11px;
+  font-size: 13px;
   padding: 3px 9px;
   min-height: 30px;
 }
 .install-note {
   margin: 26px 0 54px;
   padding: 20px 0;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
 }
 .install-note a {
@@ -757,7 +796,7 @@ input {
   gap: 36px 56px;
 }
 .docs-group h2 {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 650;
   color: var(--muted);
   margin-bottom: 15px;
@@ -768,7 +807,7 @@ input {
   padding: 17px 0;
 }
 .doc-index-link strong {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
 }
 .doc-index-link strong:after {
@@ -778,7 +817,7 @@ input {
   color: var(--muted);
 }
 .doc-index-link p {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   margin-top: 4px;
 }
@@ -801,7 +840,7 @@ input {
   max-height: calc(100vh - 73px);
   overflow: auto;
   padding-block: 30px;
-  font-size: 12px;
+  font-size: 14px;
   scrollbar-width: thin;
 }
 .docs-sidebar {
@@ -809,7 +848,7 @@ input {
   padding-right: 23px;
 }
 .docs-sidebar .sidebar-title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 650;
   display: block;
   margin-bottom: 25px;
@@ -819,14 +858,14 @@ input {
 }
 .sidebar-group h2 {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0;
   margin: 0 0 8px;
-  padding-inline: 10px;
+  padding-inline: 0;
 }
 .sidebar-group a {
   display: block;
-  padding: 6px 10px;
+  padding: 6px 10px 6px 18px;
   margin-bottom: 2px;
   border-radius: 4px;
   line-height: 1.5;
@@ -845,7 +884,7 @@ input {
   padding-bottom: 64px;
 }
 .breadcrumbs {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   display: flex;
   flex-wrap: wrap;
@@ -860,7 +899,7 @@ input {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   padding-bottom: 20px;
   border-bottom: 1px solid var(--line);
@@ -871,26 +910,26 @@ input {
   text-underline-offset: 3px;
 }
 .prose {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
 .prose h1 {
-  font-size: 34px;
+  font-size: 39px;
   line-height: 1.18;
   margin-bottom: 25px;
 }
 .prose h2 {
-  font-size: 24px;
+  font-size: 28px;
   margin: 36px 0 16px;
   padding-top: 8px;
 }
 .prose h3 {
-  font-size: 19px;
+  font-size: 22px;
   margin: 28px 0 12px;
 }
 .prose h4 {
-  font-size: 16px;
+  font-size: 19px;
   margin: 24px 0 10px;
 }
 .prose p,
@@ -948,7 +987,7 @@ input {
   border-left: 2px solid var(--accent);
   padding: 12px 16px;
   background: var(--accent-bg);
-  font-size: 13px;
+  font-size: 15px;
 }
 .prose blockquote p:last-child {
   margin: 0;
@@ -963,7 +1002,7 @@ input {
   width: 100%;
   overflow: auto;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 14px;
 }
 .prose th,
 .prose td {
@@ -1002,10 +1041,10 @@ input {
   opacity: 1;
 }
 .docs-toc {
-  font-size: 11px;
+  font-size: 13px;
 }
 .docs-toc h2 {
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0;
   margin-bottom: 14px;
   color: var(--muted);
@@ -1031,12 +1070,12 @@ input {
   border-top: 1px solid var(--line);
   margin-top: 40px;
   padding-top: 24px;
-  font-size: 13px;
+  font-size: 15px;
 }
 .doc-pagination small {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 6px;
 }
 .doc-pagination a:last-child {
@@ -1050,7 +1089,7 @@ input {
   border-left: 3px solid var(--accent);
   background: var(--accent-bg);
   padding: 16px;
-  font-size: 13px;
+  font-size: 15px;
   margin-bottom: 24px;
 }
 .translation-notice a {
@@ -1071,7 +1110,7 @@ input {
 .project-source {
   padding: 22px 0 32px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 .project-source a {
   color: var(--accent);
@@ -1098,7 +1137,7 @@ dialog::backdrop {
   margin-bottom: 20px;
 }
 .dialog-heading h2 {
-  font-size: 18px;
+  font-size: 21px;
 }
 .dialog-heading button,
 dialog > button {
@@ -1107,11 +1146,14 @@ dialog > button {
   padding: 6px 12px;
   border-radius: 4px;
   min-height: 40px;
-  font-size: 12px;
+  font-size: 14px;
 }
 #image-dialog {
-  width: min(1500px, 96vw);
-  padding: 8px;
+  width: fit-content;
+  max-width: 96vw;
+  max-height: 96svh;
+  padding: 0;
+  overflow: hidden;
 }
 #image-dialog button {
   position: absolute;
@@ -1123,6 +1165,11 @@ dialog > button {
 }
 #image-dialog img {
   display: block;
+  width: auto;
+  height: auto;
+  max-width: min(1500px, calc(96vw - 2px));
+  max-height: calc(96svh - 2px);
+  object-fit: contain;
 }
 #search {
   --pagefind-ui-scale: 0.8;
@@ -1135,15 +1182,12 @@ dialog > button {
   --pagefind-ui-border-radius: 4px;
 }
 #search-error {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
 }
 @media (min-width: 1500px) {
   .home {
     max-width: 1360px;
-  }
-  .home-hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   }
 }
 @media (max-width: 1150px) {
@@ -1222,7 +1266,7 @@ dialog > button {
   }
   .mobile-doc-nav summary {
     cursor: pointer;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     min-height: 28px;
   }
@@ -1235,14 +1279,14 @@ dialog > button {
   .mobile-doc-nav nav a {
     display: block;
     padding-block: 8px;
-    font-size: 12px;
+    font-size: 14px;
   }
   .mobile-doc-nav nav a[aria-current] {
     color: var(--accent);
     font-weight: 600;
   }
   .mobile-doc-nav h2 {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--muted);
     margin-block: 10px;
   }
@@ -1253,18 +1297,11 @@ dialog > button {
   .site-footer {
     padding-inline: 24px;
   }
-  .site-footer > div {
-    display: block;
-  }
-  .site-footer > div span {
-    display: block;
-    margin-top: 3px;
-  }
   .docs-shell .prose h1 {
-    font-size: 32px;
+    font-size: 37px;
   }
   .home h1 {
-    font-size: 38px;
+    font-size: 44px;
   }
 }
 @media (max-width: 600px) {
@@ -1273,7 +1310,7 @@ dialog > button {
     gap: 10px;
   }
   .site-brand {
-    font-size: 19px;
+    font-size: 22px;
     gap: 7px;
   }
   .site-brand img {
@@ -1282,9 +1319,6 @@ dialog > button {
   }
   .header-tools {
     gap: 3px;
-  }
-  .theme-control select {
-    font-size: 11px;
   }
   .search-label {
     display: none;
@@ -1297,10 +1331,10 @@ dialog > button {
   }
   .language-switch {
     min-width: 30px;
-    font-size: 11px;
+    font-size: 13px;
   }
   .menu-toggle {
-    font-size: 11px;
+    font-size: 13px;
     padding: 2px 4px;
   }
   .container {
@@ -1313,11 +1347,11 @@ dialog > button {
     margin-top: 30px;
   }
   .home h1 {
-    font-size: 35px;
+    font-size: 41px;
     max-width: 360px;
   }
   .lead {
-    font-size: 15px;
+    font-size: 17px;
     margin-top: 18px;
   }
   .release-note {
@@ -1328,21 +1362,21 @@ dialog > button {
     flex-wrap: wrap;
     align-items: center;
     gap: 4px 14px;
-    font-size: 11px;
+    font-size: 13px;
   }
   .release-note .status-dot {
     width: 5px;
     height: 5px;
   }
   .eyebrow {
-    font-size: 10px;
+    font-size: 12px;
   }
   .actions {
     gap: 9px;
     margin-top: 22px;
   }
   .button {
-    font-size: 12px;
+    font-size: 14px;
     padding-inline: 13px;
     gap: 16px;
   }
@@ -1355,8 +1389,8 @@ dialog > button {
     top: 50%;
     z-index: 1;
     transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
     background: rgba(16, 16, 16, 0.72);
     border-color: rgba(255, 255, 255, 0.22);
     color: #fff;
@@ -1381,11 +1415,11 @@ dialog > button {
     gap: 15px;
   }
   .section-heading h2 {
-    font-size: 19px;
+    font-size: 22px;
     max-width: 200px;
   }
   .section-heading > a {
-    font-size: 11px;
+    font-size: 13px;
     text-align: right;
     max-width: 110px;
   }
@@ -1397,10 +1431,10 @@ dialog > button {
     gap: 15px;
   }
   .task-row h3 {
-    font-size: 16px;
+    font-size: 19px;
   }
   .task-row p {
-    font-size: 12px;
+    font-size: 14px;
   }
   .home-bottom {
     display: block;
@@ -1408,7 +1442,7 @@ dialog > button {
     padding: 23px 0;
   }
   .home-bottom h2 {
-    font-size: 19px;
+    font-size: 22px;
   }
   .home-bottom .text-action {
     display: inline-block;
@@ -1418,29 +1452,19 @@ dialog > button {
     display: block;
     padding: 22px 20px;
   }
-  .site-footer > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 15px;
-  }
-  .site-footer > div span {
-    margin: 0;
-    font-size: 11px;
-  }
   .site-footer nav {
     flex-wrap: wrap;
     gap: 10px 18px;
-    margin-top: 18px;
-    font-size: 11px;
+    font-size: 13px;
   }
   .page-heading {
     padding-top: 32px;
   }
   .page-heading h1 {
-    font-size: 31px;
+    font-size: 36px;
   }
   .page-heading p:not(.eyebrow) {
-    font-size: 14px;
+    font-size: 16px;
   }
   .install-option {
     display: block;
@@ -1450,10 +1474,10 @@ dialog > button {
     margin-bottom: 18px;
   }
   .install-option h2 {
-    font-size: 20px;
+    font-size: 23px;
   }
   .install-option p {
-    font-size: 13px;
+    font-size: 15px;
   }
   .install-option .tag {
     margin-top: 8px;
@@ -1470,30 +1494,30 @@ dialog > button {
     padding-inline: 20px;
   }
   .prose {
-    font-size: 14px;
+    font-size: 16px;
   }
   .prose h1 {
-    font-size: 29px !important;
+    font-size: 34px !important;
   }
   .prose h2 {
-    font-size: 22px;
+    font-size: 26px;
   }
   .prose pre {
-    font-size: 12px;
+    font-size: 14px;
     padding-inline: 12px;
   }
   .doc-meta {
-    font-size: 10px;
+    font-size: 12px;
   }
   .doc-pagination {
     gap: 12px;
-    font-size: 12px;
+    font-size: 14px;
   }
   .mobile-doc-nav nav {
     grid-template-columns: 1fr;
   }
   .dialog-heading h2 {
-    font-size: 16px;
+    font-size: 19px;
   }
 }
 @media (min-width: 901px) and (max-height: 700px) {
@@ -1505,10 +1529,10 @@ dialog > button {
     margin-bottom: 8px;
   }
   .home-hero h1 {
-    font-size: 32px;
+    font-size: 37px;
   }
   .home-hero .lead {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.5;
     margin-top: 12px;
   }
@@ -1517,10 +1541,6 @@ dialog > button {
   }
   .home-hero .release-note {
     margin-top: 16px;
-  }
-  .home-hero .product-figure {
-    --shot-height: calc(100vh - var(--header-h) - 62px);
-    --shot-height: calc(100svh - var(--header-h) - 62px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1566,4 +1586,190 @@ dialog > button {
 .doc-main {
   max-width: 80ch;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .home-hero .product-figure:has(.shot.is-current[data-portrait]) {
+    width: min(100%, calc(82svh * 1170 / 2532));
+  }
+}
+
+/* A stronger scale across the site, with a compact centered introduction. */
+:root {
+  --header-h: 84px;
+}
+.site-brand {
+  gap: 11px;
+}
+.site-brand img {
+  width: 38px;
+  height: 38px;
+}
+.desktop-nav {
+  font-weight: 600;
+}
+.hero-copy {
+  max-width: 1000px;
+}
+.home-hero h1 {
+  font-size: clamp(42px, 4.6vw, 64px);
+  font-weight: 650;
+  line-height: 1.06;
+}
+.hero-copy .lead {
+  max-width: 780px;
+  font-size: 21px;
+  line-height: 1.5;
+  margin-top: 20px;
+}
+.hero-copy .actions {
+  margin-top: 26px;
+}
+.hero-copy .release-note {
+  margin-top: 22px;
+  font-size: 14px;
+}
+.github-button {
+  min-height: 46px;
+  padding: 10px 16px;
+}
+.github-button svg {
+  width: 21px;
+  height: 21px;
+}
+.button {
+  min-height: 52px;
+  padding: 12px 22px;
+  font-weight: 650;
+}
+.eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+}
+.page-heading {
+  max-width: 900px;
+}
+.page-heading h1 {
+  font-size: clamp(38px, 4vw, 50px);
+}
+.task-row {
+  padding-block: 32px;
+}
+.project-grid .task-row h2 {
+  font-size: 24px;
+}
+.doc-index-link {
+  padding-block: 22px;
+}
+.theme-control {
+  width: 48px;
+  height: 48px;
+}
+.theme-control svg {
+  width: 23px;
+  height: 23px;
+}
+.site-footer {
+  padding-block: 32px;
+}
+@media (max-width: 1050px) {
+  .header-inner {
+    gap: 22px;
+  }
+  .desktop-nav {
+    gap: 16px;
+  }
+}
+@media (max-width: 900px) {
+  :root {
+    --header-h: 72px;
+  }
+  .home-hero h1 {
+    font-size: clamp(38px, 6vw, 54px);
+  }
+  .hero-copy .lead {
+    font-size: 19px;
+  }
+}
+@media (max-width: 600px) {
+  .header-inner {
+    padding-inline: 16px;
+    gap: 12px;
+  }
+  .site-brand {
+    font-size: 23px;
+    gap: 8px;
+  }
+  .site-brand img {
+    width: 32px;
+    height: 32px;
+  }
+  .header-tools {
+    gap: 4px;
+  }
+  .theme-control {
+    width: 44px;
+    height: 44px;
+  }
+  .home-hero h1 {
+    font-size: clamp(36px, 9.5vw, 44px);
+    max-width: 100%;
+  }
+  .hero-copy .lead {
+    font-size: 18px;
+  }
+  .hero-copy .actions {
+    gap: 10px;
+  }
+  .button {
+    font-size: 14px;
+    padding-inline: 16px;
+    gap: 14px;
+    min-height: 50px;
+  }
+  .hero-copy .release-note {
+    font-size: 13px;
+  }
+  .project-grid .task-row h2 {
+    font-size: 23px;
+  }
+}
+
+.docs-root-heading {
+  margin-bottom: 36px;
+}
+.docs-root-heading h1 {
+  font-size: clamp(36px, 4vw, 48px);
+  line-height: 1.15;
+}
+.docs-shortcuts {
+  margin-bottom: 38px;
+}
+.docs-shortcuts h2 {
+  font-size: 23px;
+  margin-bottom: 16px;
+}
+.sidebar-title[aria-current='page'] {
+  color: var(--accent);
+}
+.docs-sidebar,
+.docs-toc {
+  top: var(--header-h);
+  max-height: calc(100svh - var(--header-h));
+}
+
+.sidebar-group > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.sidebar-group > summary:hover {
+  color: var(--text);
+}
+.mobile-doc-nav .sidebar-group > summary {
+  font-size: 14px;
+  margin-block: 10px;
 }

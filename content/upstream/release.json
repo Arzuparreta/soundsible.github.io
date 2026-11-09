@@ -1702,57 +1702,70 @@
         "en": "Guide from the current Soundsible release.",
         "es": "Guía de la versión actual de Soundsible."
       }
+    },
+    {
+      "slug": "design-view-redesign",
+      "source": "docs/design/VIEW_REDESIGN.md",
+      "group": "more",
+      "title": {
+        "en": "Cohesive view redesign",
+        "es": "Cohesive view redesign"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.31.1",
-  "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
-  "publishedAt": "2026-11-07T18:55:09Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.31.1",
+  "tag": "v0.32.1",
+  "sha": "068f3009a75817143e1c8140ca638dc33062f38e",
+  "publishedAt": "2026-11-09T07:15:13Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.32.1",
   "assets": [
     {
       "name": "android-release.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/android-release.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/android-release.json"
     },
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/apps.json"
     },
     {
       "name": "release-acceptance.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/release-acceptance.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/release-acceptance.json"
     },
     {
       "name": "SHA256SUMS-android.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/SHA256SUMS-android.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/SHA256SUMS-android.txt"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible-Android-alpha.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible-Android-alpha.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/Soundsible-Android-alpha.apk"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.31.1_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible_0.31.1_arm64-setup.exe"
+      "name": "Soundsible_0.32.1_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/Soundsible_0.32.1_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.31.1_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible_0.31.1_x64-setup.exe"
+      "name": "Soundsible_0.32.1_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/Soundsible_0.32.1_x64-setup.exe"
     },
     {
       "name": "upgrade-seed-androidTest.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/upgrade-seed-androidTest.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.32.1/upgrade-seed-androidTest.apk"
     }
   ],
   "files": {
@@ -1775,7 +1788,7 @@
     "CONTRIBUTING.md": "4e00593df491011f72dab4de0dfcd19f1a1d93db2ca2d5e448f19d1ba9e200ac",
     "desktop-shell/README.md": "4e414b6b9ea7095f46bbc06bcfb553676221a976742f8005078e2cfd4ecfb5ca",
     "deploy/community/README.md": "1970c163aef254ea197262be31fbb4483911243dce35d9b3f69a886646e15042",
-    "docs/RELEASING.md": "7f28c2dad057f26780cfaa0d77f59888534d59ca40f8d0e873d5fe940ef54791",
+    "docs/RELEASING.md": "506b12422ce48896f21a38144143a05098f0850a9715186f938720ba4bcabd48",
     "docs/ROADMAP.md": "02c4375690303788638c7f1ec674b017f0c54ea40481f1280ab73aef34bfb906",
     "docs/MOBILE_LISTS.md": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
     "docs/PLAYBACK_DIAGNOSIS.md": "0610c643f28980932f620a9a42d717cfe2bd699f02cddba8251458c1e8e9d031",
@@ -1810,7 +1823,7 @@
     "docs/android/ALPHA.md": "8cba7847babddfb3d0cc9e4a52b72edf56f236327734c78323f043d924f2192c",
     "docs/android/ARCHITECTURE.md": "cc7c4c0f640f465404abc44127178b7246d76be96eb7d2ce60db66a2cc75ca65",
     "docs/android/AUTH_FIXTURE_ISOLATION.md": "794402e18c6eb11f64655d43ff3e61adc5b00cba4eac00e5fa46a763aef35c76",
-    "docs/android/EVIDENCE.md": "784fc624d2369d9799596c1f39afc36b9d6401ffb52e03d68fb5ccf4d0c6174c",
+    "docs/android/EVIDENCE.md": "edd0d5baadae4f2da6003b46e6a7c127223eb7b6c0a3352bd59ee83a2551f7fe",
     "docs/android/HANDOFF.md": "dfee244ede625c05b2a1678c5539a21aeee1b8f5e2d6fd68e8af891c29d5c836",
     "docs/android/HANDOFF_HISTORY.md": "341a975d26f770f42ea4d8e6cea2da48a446742e7b327358ca7aa3414957903b",
     "docs/android/OFFLINE_DECISION.md": "6fe358a69d4368960dcb687faa30d75bcc5ff0cb65a13878c3110a966fddae91",
@@ -1882,14 +1895,14 @@
     "docs/android/SLICE_6.md": "204be8ff4d1db8972ab20415d41561f5b2a50a8788e128174d362a0446981b64",
     "docs/LYRICS_RECOVERY.md": "85e9071f7d65f8b72d20e3d60d53aa5a7f2b0d46e6b58274020532086adcdf44",
     "docs/PODCASTS.md": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
-    "docs/android/CI_DIAGNOSTICS.md": "3631241bdbb86d12170ce2d840596f44a3a839507d0169a53392e584ef3a658f",
+    "docs/android/CI_DIAGNOSTICS.md": "039167607a85acff0941d2c1a2438787c9079adb219cac5c44eb378a83ca3b02",
     "docs/audits/2026-10-13-ci-runtime.md": "124ee93bb7cf2e4c5c8fbda155b1157e8bc09ce9aeb283c1d3c3f30d166c073d",
     "docs/audits/2026-11-03-unused-code.md": "0e0881c1702c17357ca23fd3580cba966f90d1f6f3d2e209b9ce1acb8e505a03",
     "docs/audits/DEPENDENCY_INFRASTRUCTURE.md": "cbf5c6cd2a4114e66b1ccd83ba3288d8dccd452fa78531ca3de011363c05126b",
     "docs/audits/DEPENDENCY_UPDATE_PLAN.md": "b2463ed32f12d23bf23b81970d06a21bd97e88ddef47789148a683459ce53101",
     "docs/dj/ARCHITECTURE.md": "fa54bae6aa6b9b629cec77547607ad596e21734908e632615db29e1c1b93b5f0",
     "docs/dj/DETECTOR_COMPARISON.md": "7663c5cc5cd3bf99f1eba2029919c57bfbbe60446a204a8bad253349d2e15f0b",
-    "docs/dj/HANDOFF.md": "64cdf92d1e90eae79e40821187cff9d34a9b292b2d288c96e0e53ac239b267b9",
+    "docs/dj/HANDOFF.md": "dbc43af47f767b4b33c1c67b49b3891fbf88343877f283afd0452c449690ea7a",
     "docs/dj/P12.md": "c601d50a8654132d178115028e01f7ac59239cebfe932a2621c0685213af2d8e",
     "docs/dj/P13.md": "c0ae5892ae8e7db42d2ab238c6338d7cd9aab0380bfa0bfdc2f97dafb6b3e05e",
     "docs/dj/P14.md": "075c52b7ad8bfa499e6a76bd205850bd13d8fe272605c674bca3e06070befe81",
@@ -1908,6 +1921,7 @@
     "docs/audits/COLLECTION_IDENTITY.md": "7b3b50d5cb6cbae39102754867b9091a505243a29755aa9e92162cd9e99a0ca9",
     "docs/dj/P18.md": "d64c5cafc9b5a462e94fff5537aaed840fe45e1a21e0fe249fd32aad7d3991f0",
     "docs/performance/measured-runtime-optimizations.md": "cfafbb288f5f88636f3ef4bd4422bda97df2a7e5dae3f20ae2d513cf8374240a",
+    "docs/design/VIEW_REDESIGN.md": "f2a1e438d6327c92773e1cbb3313a012bd4dab9a1e0d7073102e9e31dc121c14",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
     "docs/images/screenshots/dark/desktop-library.webp": "c98341c6aba6842b6e0ab10e2b66a72f14f975b46a2dd18806ab89c48b86adb8",
     "docs/images/screenshots/dark/desktop-now-playing.webp": "8bb89c10e44c85a12b14f445bf744efc9751480276ab7cb6c5c68651afb2b7b5",

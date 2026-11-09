@@ -100,3 +100,25 @@ La etiqueta `vX.Y.Z` inicia dos flujos de trabajo:
   no se publica; las imágenes de contenedor, que CI publica desde la misma etiqueta, sí.
 
 Cada envío a `main` también publica una imagen `edge`, que informa `0.0.0-edge+<sha>` para que dos compilaciones de desarrollo nunca se confundan entre sí.
+
+## Recuperar la certificación de procedencia
+
+La compilación y las pruebas se ejecutan en trabajos separados de la certificación
+de procedencia. La compilación de Windows sube el instalador probado y el manifiesto
+de sumas de comprobación antes de que `attest-windows` los descargue y certifique.
+El trabajo `attest_image` de CI certifica el digest inmutable que produce `publish`,
+sin reconstruir la imagen ni mover sus etiquetas. Ambos usan la acción oficial de
+procedencia de GitHub con cuatro intentos, separados por 30, 90 y 180 segundos.
+Esto cubre fallos temporales de Sigstore/Rekor o GitHub; no puede hacer que un
+servicio no disponible funcione indefinidamente.
+
+Si la certificación sigue fallando, el flujo de trabajo permanece en rojo y la
+publicación de Windows sigue bloqueada. Cuando se recupere el servicio, vuelve
+a ejecutar **solo los trabajos fallidos** (`gh run rerun RUN_ID --failed`). Se
+reutilizan los trabajos de compilación aprobados y sus artefactos o el digest de
+la imagen; no hace falta recompilar instaladores ni reconstruir contenedores.
+Los artefactos de los instaladores deben seguir dentro del plazo de conservación
+de GitHub. La imagen ya fue publicada por `publish`, como antes; un trabajo de
+certificación en rojo significa que su procedencia en GitHub no está confirmada.
+No des por completado ese flujo de trabajo ni una release que dependa de él hasta
+que la certificación pase.

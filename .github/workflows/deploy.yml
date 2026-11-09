@@ -42,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           SOURCE_TAG: ${{ inputs.source_tag }}
         run: npm run docs:sync
-      - name: Refresh independent Android alpha channel
+      - name: Refresh published Android alpha APK
         run: node scripts/sync-android.mjs
         env:
           GITHUB_TOKEN: ${{ github.token }}

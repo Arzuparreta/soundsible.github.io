@@ -64,11 +64,10 @@ Los eventos `play_timing` de la versión 2 correlacionan el trabajo del navegado
 - cómo se entregó una respuesta: el tamaño del archivo, el tamaño de lo prometido, el desplazamiento de bytes solicitado, la forma del encabezado `Range`, si se redujo a un fragmento y por qué no cuando no lo fue, y la extensión del contenedor. Todo describe la transferencia, nada del audio;
 - una vez por reproducción audible (`ui_play_delivery`): cuánto tiempo sonó, y con qué frecuencia y durante cuánto tiempo se detuvo después de comenzar;
 - pausa/reanudación de todo el programa y reproducción rechazada de deck inactivo (`ui_program_transport`, `ui_inactive_deck_play`): si el comando vino de la interfaz de usuario o de la sesión multimedia, la fase de mezcla, la visibilidad, el deck dominante y un estado de reproducción booleano para cada deck. Estos campos diagnostican transferencias de Bluetooth y pantalla de bloqueo; no contienen audio, títulos ni identificadores de control;
-- ciclo de vida de salida del programa (`ui_program_output`): si el portador de salida estable o el respaldo de compatibilidad directa estaban activos, su estado listo/en pausa, el estado del contexto de Web Audio y un motivo de falla limitado;
-- Proyección de sesión de medios (`ui_media_session_sync`): el estado de reproducción de la plataforma declarado, por qué se actualizó, una revisión monótona de metadatos y registros booleanos de si el estado del operador/fuente coincidió. Los títulos de las pistas, los artistas, las URL de las carátulas y otros metadatos nunca se escriben en la telemetría.
+- Proyección de sesión de medios (`ui_media_session_sync`): el estado de reproducción de la plataforma declarado, por qué se actualizó, una revisión monótona de metadatos y registros booleanos de si la fuente se estaba reproduciendo y de si el estado declarado coincidía con el esperado. Los títulos de las pistas, los artistas, las URL de las carátulas y otros metadatos nunca se escriben en la telemetría.
 
 El diagnóstico de reproducción se inicia automáticamente con el reproductor autenticado. Registra
-el estado multimedia del navegador, los tiempos, los identificadores de origen y de transporte, el ID del dispositivo, la
+el estado multimedia del navegador, los tiempos, los identificadores de origen, el ID del dispositivo, la
 huella del origen, la plataforma declarada y las operaciones de control de reproducción. No incluye
 títulos de pistas, URL de contenido multimedia, imágenes, audio, credenciales ni la pantalla del coche.
 

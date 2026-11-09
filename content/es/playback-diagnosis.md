@@ -4,6 +4,32 @@ Estado: propuesta de corrección de la salida en iOS y de la retirada de fuentes
 demuestran qué muestran Now Playing, CarPlay o el equipo multimedia del coche, ni que el sonido llegue
 a los altavoces. Sigue siendo necesaria la aceptación en el dispositivo.
 
+## 6 de noviembre: las canciones en escritorio empiezan aceleradas, después sufren cortes y se estabilizan
+
+El oyente informa de que, en un cliente de escritorio recién abierto y en modo normal, una canción
+("Free Your Mind") empieza a una velocidad incorrecta, vuelve a la normalidad poco después
+y a veces sufre cortes y chasquidos. La captura `209dfe5a` (dispositivo `ac870b49`,
+Chromium, modo de salida `carrier`) muestra que todos los elementos tienen `playbackRate` a 1 y
+que el reloj del contexto, la posición de la fuente y la posición de la portadora avanzan
+a 1,000 respecto al tiempo del cliente. Nada de lo que puede leer la página cambió de velocidad.
+
+El cambio se produjo después de la página: la portadora es un MediaStream reproducido por un
+elemento `<audio>`, una segunda salida con su propio reloj, y el navegador corrige
+la deriva entre ambos mediante remuestreo. La medición en este equipo (Chromium,
+salida nula de PipeWire a 48 kHz, grabada desde su monitor), siguiendo el orden de la aplicación —
+contexto en ejecución durante 7 s con la portadora conectada pero en pausa, y después reproducción de la portadora y
+la fuente —, mostró que un tono de 1000 Hz salía a 1007,27 Hz (+0,73 %) durante unos seis
+segundos, seguido de 30 ms de silencio y después de 998,4 Hz, aún variando. El mismo tono
+a través del destino del contexto salió a 1000,00 Hz durante toda la grabación,
+sin cortes. Es el mismo mecanismo que las evidencias del iPhone del 9 de septiembre, más abajo,
+atribuyen al conversor de WebKit.
+
+Corrección: se elimina la portadora en todas las plataformas. La mezcla se conecta al
+destino de AudioContext, como hace iOS desde #166; la toma de Live no cambia.
+También se eliminan el modo `direct_fallback`, el reintento de la portadora mediante gestos y la
+telemetría `ui_program_output`. El servidor sigue aceptando y mostrando los campos antiguos
+para que los clientes antiguos que siguen abiertos y el historial continúen funcionando.
+
 ## 29 de septiembre: saltos en pódcasts en la PWA de iPhone
 
 El oyente informa de que los toques de +/-15 segundos vuelven a reproducir brevemente o repiten en bucle el
@@ -143,7 +169,7 @@ el monitor de la mezcla se conecta directamente al destino de AudioContext. El
 modo notificado es `direct`, distinto de `direct_fallback`, que corresponde a un fallo de la portadora.
 Los gestos no pueden devolver a la portadora una salida directa intencionada. La toma de transmisión
 de Live sigue siendo independiente y anterior al volumen y al silencio locales. Las demás
-plataformas conservan su ruta mediante la portadora.
+plataformas conservaron su ruta mediante la portadora hasta el 6 de noviembre (véase más arriba).
 
 La habilitación de las fuentes se controla de forma independiente a la ganancia: los platos vacíos, preparados y retirados
 permanecen silenciados; el plato entrante deja de estar silenciado antes de reproducirse, incluida la

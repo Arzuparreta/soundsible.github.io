@@ -69,8 +69,12 @@ del límite de velocidad de los reproductores y mantener un pulso compartido est
 Lo único que lo decide es si los pulsos de la pareja pueden sincronizarse: se pueden
 mezclar dos tonalidades cualesquiera. La proximidad de tonalidad y tempo determina qué canción viene después y qué mezcla
 se utiliza, nunca un corte con eco o un fundido en lugar de una mezcla.
-La canción entrante puede acelerarse o ralentizarse hasta un 8 % (el margen de ajuste de tono de un tocadiscos) y
-vuelve a su propio tempo después de la mezcla. Dos canciones comparten pulso cuando un número
+Ambas canciones se acercan a un tempo compartido, cada una con el mismo cambio porcentual y
+nunca superior al 8 % (el margen de ajuste de tono de un tocadiscos): 120 y 132 BPM se encuentran en
+125,7 BPM, a un 4,8 % del tempo propio de cada una. La canción que está sonando alcanza ese tempo
+gradualmente en los segundos anteriores a la entrada de la siguiente, y esta última
+vuelve a su propio tempo gradualmente después de la mezcla. Si no hay margen para esa
+rampa, solo cambia la canción entrante, dentro del mismo límite. Dos canciones comparten pulso cuando un número
 entero de pulsos de cada una dura lo mismo: uno
 a uno, dos a uno, tres a dos (116 y 174 BPM) o cuatro a tres (90 y
 120 BPM). Interpretar una canción en dos o en tres es una elección de nivel: un 12/8 es un

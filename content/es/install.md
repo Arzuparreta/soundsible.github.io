@@ -394,6 +394,18 @@ Sirve Soundsible detrás de Nginx, Caddy o Traefik:
    con `--host 127.0.0.1` para que solo el proxy pueda acceder a él.
 2. Redirige una ruta pública (p. ej., `https://music.example.com`) a `http://127.0.0.1:5005`.
 3. Permite WebSocket y conexiones de larga duración en la configuración del proxy.
+4. Haz que el proxy envíe la dirección de quien realiza la llamada en `X-Forwarded-For` (Caddy,
+   Traefik y `tailscale serve` lo hacen de forma predeterminada; Nginx necesita
+   `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`).
+5. **Pon primero una contraseña a la cuenta** (Ajustes → Cuenta → Personas) si el proxy es
+   accesible desde Internet.
+
+Sin cuentas, Soundsible concede permisos de propietario a quienes realizan llamadas desde esta máquina, la LAN y la
+red de Tailscale. Detrás de un proxy, todas las solicitudes proceden del proxy, así que
+el motor decide según la dirección que este reenvía: quien llama desde
+Internet no obtiene permisos de propietario, y un proxy que no identifica a quien realiza la llamada se considera
+Internet. Un proxy que no reenvía nada en absoluto parece ser esta máquina, por lo que
+un proxy público necesita una contraseña.
 
 Dirige el proxy al puerto del servidor, no al motor de la aplicación de escritorio, que escucha en un puerto
 local aleatorio. Consulta la documentación de tu proxy para configurar TLS y obtener ejemplos exactos.
@@ -445,7 +457,8 @@ Soundsible está diseñado para un uso confiable **LAN / Tailscale**. Para cualq
 
    Envíalo como `Authorization: Bearer <token>` o `X-Soundsible-Admin-Token: <token>`. En el modo de motor de escritorio, Soundsible también crea un token de propietario de corta duración y lo inyecta automáticamente en `/player/desktop/`.
 
-3. **Añade una contraseña cuando lo usen otras personas.** Una instalación con una sola cuenta
+3. **Añade una contraseña cuando lo usen otras personas,** y antes de publicarlo con
+   `tailscale funnel` o un proxy inverso público. Una instalación con una sola cuenta
    no tiene pantalla de inicio de sesión. Al añadir una segunda persona, se activa el inicio de sesión para todos; consulta
    [Cuentas](CONFIGURATION.md#6-accounts-multi-user).
 

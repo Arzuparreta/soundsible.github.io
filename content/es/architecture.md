@@ -277,35 +277,39 @@ Un motor atiende a **varias cuentas**. El Estado se divide en dos: lo que perten
 |------|---------|
 | `library.db` | Biblioteca canónica: pistas y listas de reproducción ordenadas, ajustes, estado de los pódcasts, catálogo normalizado de artistas y álbumes, estado por pista y rutas y huellas de análisis locales del equipo. También contiene un índice de búsqueda local derivado, que se regenera a partir de esas filas cuando hace falta. |
 | `library.json` | Exportación portátil de tu biblioteca canónica para recuperación e interoperabilidad con la nube. La primera migración también conserva `library.json.pre-sqlite.bak`. |
-| `favourites.json`, `playback_state.json`, `discovery_settings.json` | Canciones guardadas, reanudación entre dispositivos y activación voluntaria del descubrimiento. |
+| `favourites.json` | Importación heredada de canciones guardadas, conservada una sola vez para su restauración; SQLite es la fuente de referencia. |
+| `playback_state.json`, `discovery_settings.json` | Reanudación entre dispositivos y activación voluntaria del descubrimiento. |
 | `queue_state.json` *(directorio de datos)* | Cola de reproducción. |
 | `telemetry/listening-events.jsonl`, `telemetry/play-timing.jsonl` *(directorio de datos)* | Historial de escucha: la información que alimenta *tus* recomendaciones. |
 
-La edición de las etiquetas de una pista vuelve a codificar el archivo y, por lo tanto, cambia su hash, lo que genera una nueva identificación de pista. Eso es lo que mantiene privadas las ediciones de metadatos: su manifiesto sigue la nueva identificación mientras que todos los demás conservan la original.
+Editar el título, el artista, el álbum o la carátula de una canción nunca modifica su archivo de audio
+(`/api/library/track-labels/<id>/…`, que usan el reproductor web y la aplicación de
+Android). Las etiquetas se escriben en tu `library.db` y la carátula en el
+archivo auxiliar de imágenes de la cuenta, por lo que el identificador, sus posiciones en listas de reproducción, los recuentos de reproducciones y
+las copias sin conexión se mantienen, y nadie más ve la edición. El catálogo
+propio del grupo de descargas solo refleja esas etiquetas mientras una única cuenta sea propietaria de la
+carpeta de música.
 
-**Los favoritos usan claves de identidad, no de identificador.** `favourites.json` (v3) contiene
-entradas ordenadas, con las más recientes primero:
+**La identidad de la colección es independiente del audio.** El `library.db` de una cuenta
+almacena elementos estables en `collection_items`, evidencias de proveedores en `collection_keys`,
+vínculos explícitos a fuentes en línea y archivos en `collection_sources`/`collection_files`, y
+recuentos de reproducciones y valoraciones personales en `collection_user_state`. Las referencias de las listas de reproducción,
+el estado de guardado y los favoritos apuntan al mismo elemento. El hash del contenido de un archivo, el
+identificador de vídeo de un proveedor y una aparición en la cola siguen siendo identidades distintas.
 
-```json
-{"version": "3.0", "saved": [
-  {"keys": ["lib:9f2a…", "yt:dQw4w9WgXcQ"], "title": "…", "artist": "…",
-   "duration": 355, "thumbnail": null, "favourite": true,
-   "added_at": "…", "favourited_at": "…"}
-]}
-```
+`GET /api/library/collection` lee los elementos, archivos, propiedades de guardado, listas de reproducción
+y ajustes en una sola transacción. La web y Android consultan ese recurso en lugar
+de reconstruir las canciones a partir de instantáneas de archivos y canciones guardadas. La navegación del coche y de iOS expone
+el mismo elemento estable junto a una fuente de audio independiente. La reproducción y las copias
+sin conexión conservan los bytes seleccionados cuando llega otra fuente.
 
-`keys` es el conjunto de identidades con espacio de nombres que corresponden a la canción: los mismos
-espacios de nombres que usa el reproductor para seguir una canción entre saltos (`lib:`, `yt:`, `isrc:`,
-`mb:`, `deezer:`, `cat:`; consulta `ui_web/src/lib/playbackIdentity.ts`). Dos entradas
-son la misma canción cuando sus conjuntos de claves se intersectan. Eso es lo que permite guardar una
-canción que no has descargado: la instantánea basta para mostrarla y reproducirla en streaming,
-y la entrada se resuelve frente a la biblioteca *en el momento de la lectura*, de modo que descargarla
-más adelante convierte esa misma entrada en la pista propia sin reescribir nada. Los archivos v1
-(una matriz plana de identificadores de pista) se migran al cargarse. La derivación de claves está en el
-cliente; `player/favourites_manager.py` solo almacena, ordena y calcula intersecciones.
-`added_at` es la fecha de incorporación de la canción a la biblioteca (la misma que lleva su archivo, consulta
-más arriba); `favourited_at` es el momento en que se marcó como favorita y solo existe mientras siga marcada:
-marcar una canción no es incorporarla a la biblioteca, así que nunca modifica la fecha de incorporación.
+Las canciones guardadas en JSON heredado y los identificadores de proveedores y archivos en listas de reproducción se migran una sola vez. Las evidencias exactas
+y sin ambigüedad vinculan una fuente entrante; compartir evidencias de vídeo o ISRC
+no fusiona ediciones distintas. Las referencias sin resolver siguen visibles y
+no disponibles. Los endpoints de compatibilidad escriben en las mismas entidades de SQLite. Consulta
+[el contrato de la colección](audits/COLLECTION_IDENTITY.md) para conocer la migración y la
+negociación de la API. Las fechas de incorporación a la colección se conservan al cambiar de fuente; las fechas de favorito registran la
+marca, no la incorporación.
 
 Los nombres de archivos y campos exactos pueden evolucionar; Trate el código bajo `shared/` y `player/` como la fuente de la verdad.
 

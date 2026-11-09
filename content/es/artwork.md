@@ -4,8 +4,8 @@ Soundsible conserva la mejor carátula disponible fuera del archivo de audio. La
 reparación del audio puede seguir reduciendo las imágenes incrustadas sin disminuir la calidad de la interfaz.
 Los bytes originales se almacenan una sola vez, según su SHA-256, en `data_dir/artwork/objects`;
 `data_dir/artwork/index.sqlite3` contiene las referencias, dimensiones, procedencia,
-revisiones y progreso de recuperación. Haz copias de seguridad y restaura **todo el directorio de
-carátulas**, junto con la biblioteca. La copia de seguridad documentada del volumen de datos de Docker
+revisiones, elecciones específicas de cada cuenta, observaciones de las fuentes y progreso de recuperación. Haz copias de seguridad y restaura **todo el directorio de
+carátulas**, junto con la biblioteca y `config_dir/.artwork-selection-key`. La copia de seguridad documentada del volumen de datos de Docker
 ya lo incluye. Detén el servicio durante una copia de seguridad del sistema de archivos.
 
 Las variantes se guardan en `cache_dir/artwork` y se pueden eliminar mientras el servicio está
@@ -24,9 +24,8 @@ Las carátulas manuales, eliminadas o de origen desconocido nunca activan la rec
 Una edición manual tiene prioridad sobre un resultado de recuperación en curso.
 
 La recuperación se puede reanudar: un solo proceso, como máximo una solicitud externa por segundo,
-tres intentos con espera exponencial y compatibilidad con `Retry-After` del proveedor.
-Los fallos y las mejoras no disponibles se registran en lugar de reintentarse en
-cada arranque. Si no hay una fuente mejor disponible, se conserva la imagen existente.
+periodos de reintento limitados con espera exponencial y compatibilidad persistente con `Retry-After` del proveedor.
+Los fallos y las mejoras no disponibles se registran con fechas límite de reevaluación en lugar de reintentarse en cada arranque. Nuevas evidencias relevantes sobre la fuente pueden reabrir la evaluación. Si no hay una fuente mejor disponible, se conserva la imagen existente.
 Una coincidencia perceptual es una heurística conservadora, no una prueba de identidad de la imagen.
 Los diagnósticos del índice distinguen conservación, mejora y fallos;
 los registros de depuración muestran los totales por estado, los bytes almacenados y el tiempo transcurrido. El proceso no
@@ -41,14 +40,12 @@ son `160`, `320`, `640`, `960` y `1280`; `fit` es `original` (predeterminado) o
 Las variantes JPEG usan calidad 90 y orientación normalizada.
 
 Las respuestas de la biblioteca añaden los campos opcionales `artwork_revision`, `artwork_width` y
-`artwork_height`. La interfaz los usa para crear `srcset` con la resolución cuadrada realmente
+`artwork_height`, además de `artwork_scope`, específico de cada cuenta. La interfaz los usa para crear `srcset` con la resolución cuadrada realmente
 disponible. `rev` identifica la revisión de la carátula; las respuestas de la revisión
 actual se pueden almacenar en una caché privada durante un año con `ETag`. Una revisión obsoleta
-redirige a la actual sin almacenamiento inmutable en caché. Las solicitudes sin versión
-conservan la política existente de caché privada de siete días. Las pistas desconocidas y las imágenes
-dañadas mantienen el comportamiento de los marcadores de posición. El contenido original se deduplica; las variantes
+redirige a la actual sin almacenamiento inmutable en caché. Las solicitudes sin versión y los marcadores de posición se revalidan de forma privada, incluso después de un cambio de cuenta. Un fallo temporal de procesamiento devuelve 503 con `no-store` y `Retry-After`, en lugar de almacenar en caché una carátula ausente. El contenido original se deduplica; las variantes
 se generan una sola vez por hash de contenido, tamaño, recorte y revisión de transformación, con
-un máximo de dos transformaciones simultáneas.
+una sola transformación activa en un proceso hijo que se inicia bajo demanda, con admisión limitada y un plazo máximo que incluye la espera en cola. El mismo proceso hijo valida las nuevas imágenes maestras fuera del bucle HTTP cooperativo. Las herramientas de línea de órdenes sin gevent mantienen el procesamiento local.
 
 El componente de imagen compartido mide su espacio, deja que el navegador elija la densidad
 y carga de forma diferida las carátulas fuera de pantalla. NORMAL y DJ comparten la misma ruta de renderizado.
@@ -57,10 +54,36 @@ tarjetas de búsqueda). Las filas de las listas mantienen un fondo CSS con la va
 su carátula mide como máximo 60 píxeles CSS, que esa variante ya cubre a 3x, y
 las filas de las colas no están virtualizadas: un `<img>` medido por fila bastó
 para dejar a WebKit sin tiempo para generar fotogramas en un ejecutor móvil.
-Las imágenes de catálogos externos conservan las URL proporcionadas por sus proveedores; no se introduce ningún proxy de URL
-arbitrarias ni reescritura especulativa de URL.
+Las imágenes de catálogos externos conservan las URL proporcionadas por sus proveedores. Una adquisición desde un catálogo
+puede conservar la imagen del álbum elegida explícitamente tras la verificación del servidor y
+un comprobante autenticado vinculado a la cuenta. La publicación del audio no espera a que termine;
+el proceso de recuperación trata esa elección persistente. Las carátulas editadas o eliminadas por el usuario
+pertenecen a esa cuenta y prevalecen sobre la fuente compartida. Se conservan las referencias manuales
+globales antiguas cuya atribución es ambigua. No se introduce ningún proxy de URL arbitrarias.
+Los cambios de identidad de pistas personales copian solo las elecciones de esa cuenta; los comprobantes pendientes se verifican
+respecto al vídeo actual de la pista entrante. El trabajo persistente de la cola se marca como completado
+solo después de registrar su elección opcional de carátula, también al repetir la operación tras un cierre inesperado.
 
-## Muestra de validación local
+Las descargas de imágenes públicas usan un proceso hijo independiente que se inicia bajo demanda, con una sola admisión y una
+sesión con conexiones reutilizables, sin credenciales ni proxies heredados del entorno. El proceso padre supervisa
+la operación completa, incluidos el DNS y las cabeceras de la respuesta, y termina el proceso hijo y recoge su estado
+al alcanzar el plazo máximo o cancelarse. Una descarga lenta nunca ocupa el proceso hijo de
+transformación. Puede haber dos intérpretes relacionados con las imágenes; ambos terminan cuando quedan inactivos.
+El plazo máximo de la operación excluye un margen limitado para recoger el estado del proceso terminado. Las reservas de los
+archivos de preparación abarcan tanto al proceso padre como al hijo, incluso si el padre termina.
+
+La búsqueda de YouTube usa las miniaturas candidatas declaradas que ya figuran en las respuestas
+del extractor. La resolución conserva las observaciones de las fuentes públicas; la respuesta existente del estado de
+la vista previa puede incluir una miniatura principal mejor del mismo vídeo. Si una mejora opcional
+falla, se conserva la imagen anterior. Las URL del extractor deducidas sin dimensiones y los
+fotogramas alternativos del vídeo no tienen prioridad sobre las referencias principales conocidas.
+Las filas pequeñas de vista previa conservan su miniatura original en lugar de solicitar la
+mejora de gran tamaño. Las superficies CSS grandes colocan la imagen anterior debajo de la mejorada.
+
+Consulta [arquitectura y validación](audits/2026-11-07-artwork-requests.md) para conocer
+la responsabilidad sobre los recursos, la cancelación, la recuperación y los límites restantes de las plataformas.
+
+## Muestra histórica de validación local
 
 Una muestra de 100 imágenes de la caché local existente tuvo una media de 289,9 KiB por
 original. Las variantes JPEG cuadradas tuvieron una media de 8,2 KiB a 160 px, 25,9 KiB a 320 px,

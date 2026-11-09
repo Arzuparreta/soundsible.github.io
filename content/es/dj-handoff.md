@@ -9,6 +9,20 @@ históricos; buscar por nombre de función en el código vigente.
 El documento empezó como diagnóstico. Los puntos cerrados lo indican en la tabla
 de estado y en su sección; el resto sigue siendo diagnóstico.
 
+## Identidad musical y fuentes (PR #423)
+
+La colección asigna `item_id` estable a biblioteca, guardados y playlists. Los
+candidatos y planes DJ conservan esa referencia cuando se conoce, aparte del ID
+de fuente usado para análisis y de la ocurrencia usada por el transporte.
+Descargar o reparar no reemplaza audio ya preparado. Este cambio no modifica
+medidas ni su significado y no cambia `ANALYSER_VERSION`; tampoco cierra puntos
+musicales de la tabla. La regresión nativa detectó que, tras recuperar el plato
+saliente por inanición del entrante, reabrir el mismo prefijo cacheado podía
+volver a hacerlo audible antes de recibir datos nuevos. El reintento de esa
+ocurrencia exige superar el límite de buffer conocido; un seek explícito limpia
+esa guarda. Se conserva el reloj del plato saliente y no se cambian medidas.
+Contrato: [identidad de colección](../audits/COLLECTION_IDENTITY.md).
+
 ## Cómo trabajar con este documento
 
 - Revisar **un punto por sesión** (o los que el usuario indique). Para la
@@ -68,7 +82,7 @@ limitaciones de escucha anotadas en entregas anteriores son históricas.
 | Punto | Tema | Evidencia | Estado |
 | --- | --- | --- | --- |
 | P1 | Precisión del tempo y de la rejilla de golpes | Medido | Cerrado (#377) |
-| P2 | Alineación de fase en el navegador | Traza de la estación: un `seek` en el cue dejó 115 ms de desfase 30 s, oído por el usuario | Cerrado en la web (PR #395): fase mantenida con `playbackRate` durante la mezcla; Android sin medir |
+| P2 | Alineación de fase en el navegador | Traza de la estación: un `seek` en el cue dejó 115 ms de desfase 30 s, oído por el usuario | Cerrado en la web (PR #395): fase mantenida con `playbackRate` durante la mezcla; Android medido en [P18](P18.md): la entrante suena 6–15 ms tarde, constante, causa sin identificar |
 | P3 | El orden de la ruta ignora la calidad de la transición | Tests de magnitudes, audio sintético → HTTP y replay de análisis locales | Cerrado (implementación `0e62b0fb`) |
 | P4 | La "energía" no mide intensidad | Medido | Cerrado (#385): notas/s, LUFS y planitud; `energy` eliminado |
 | P5 | Pool analizado, previews y canciones puente | AAC → caché → HTTP, pools fríos/calientes y adquisición real de 16 previews | Cerrado (implementación `31f696bc`) |
@@ -85,8 +99,31 @@ limitaciones de escucha anotadas en entregas anteriores son históricas.
 | P13 | Frases y secciones sobre una base métrica explícita | Señales con cambios y papeles conocidos (4/4, 3/4, 6/8), compases equivocados y red real; AAC → SQLite → HTTP; vectores web/Android; [resultados](p13-results.json) | Cerrado (PR #399); límites en [P13](P13.md) |
 | P14 | Primera mezcla y trabajos ligados a la sesión vigente | Cola cancelable, proceso real interrumpido, intereses compartidos, caché y protocolo HTTP; refinado temprano web/Android; [contrato y evidencia](P14.md) | Cerrado; aceptación física confirmada por el usuario (2026-10-30) |
 | P15 | Continuidad ante fallos del reloj y saltos sin muestras | Dos capturas completas del 2026-10-29; tests de reproducción y WAV real; [evidencia](P15.md) | Cerrado en PR #405: correcciones y suites locales completas; aceptación física confirmada por el usuario (2026-10-30) |
-| P16 | Continuidad medida por plato y reconexión de la PWA | Captura del viaje del 2026-10-30; regresiones antes/después, PCM real en navegador y recuperación de conexión; [contrato](P16.md) | Cerrado (PR #408); aceptación física confirmada por el usuario (2026-10-30) |
+| P16 | Continuidad medida por plato y reconexión de la PWA | Captura del viaje del 2026-10-30; regresiones antes/después, PCM real en navegador y recuperación de conexión; [contrato y seguimientos](P16.md) | Original cerrado (#408), escucha aceptada el 2026-10-30; Retry corregido el 2026-11-06; confirmación del déficit transitorio implementada en `fix/confirm-media-clock-starvation`, nueva escucha pendiente |
+| P18 | Tempo compartido entre las dos canciones | Planes y vectores comunes servidor/web/Android; AAC → análisis → HTTP con y sin cabecera; clics reales por el mezclador web y el servicio nativo, comparados con `main`; [método y medidas](P18.md) | Implementado (PR #416, rama `dj/split-tempo`); 1:1 primero cuando cabe; pendiente de escucha real |
 | P17 | Evolución de la sesión sin interacción | 12 sesiones de planificación emparejadas, 8 tramos de entregas y replay de 31 parejas; [primeras mediciones](SESSION_PROGRESS.md); [captura enlazada](SESSION_CAPTURE.md) | Estudio retrospectivo completado; captura prospectiva web/PWA implementada en PR #409. Mejora general sin demostrar: faltan sesiones reales con la captura nueva; Android fuera del recorder web |
+
+Seguimiento de recuperación web (2026-11-06): las trazas de la estación muestran
+un atasco de carga, recuperación agotada y `native_paused_on_restore`. Después,
+Retry publicaba «cargando», pero `recover()` terminaba sin actuar porque ya no
+había una solicitud de reproducción activa. El reintento explícito solicita
+ahora reproducción antes de cargar el otro plato; la recuperación automática
+conserva la pausa, y Pause/Stop durante la espera cancelan el arranque tardío.
+Regresión reproducida antes de corregirla, pruebas de transporte/store y botón
+Retry con WAV real en navegador. Este seguimiento corrige el reintento que no
+actuaba: no atribuye la causa del atasco inicial ni acredita una nueva escucha
+física. No cambia el análisis, los planes ni el ejecutor Android.
+
+Seguimiento del reloj (2026-11-07): los cortes de NORMAL se correlacionan con
+alarmas de déficit al arrancar, seguidas de pausas y reactivaciones emitidas por
+el supervisor. Un desfase transitorio también aparece en cinco mezclas DJ a 1×
+que después avanzan normalmente. El observador exige ahora dos ventanas
+deficientes consecutivas; una sana limpia la sospecha. Mantiene la protección
+ante retrocesos y la vigilancia independiente del contexto congelado. Una
+alarma ya a 1× no declara incompatible el control de velocidad de futuras mezclas.
+Regresiones de transporte y PCM real, diagnóstico y límites en [P16](P16.md).
+Pendiente de nueva escucha en el iPhone; no se atribuye el mecanismo interno del
+transitorio ni se modifica el análisis, los planes o Android.
 
 Orden acordado con el usuario (2026-10-22): **P4 rehecho → P6 → P3 → P5
 ampliado**, después P8 y P9. P7 y P10 son decisiones y limpieza. P2 no se trabaja
@@ -108,8 +145,9 @@ procesar canciones de sesiones anteriores es un fallo. Esta decisión sustituye
 el barrido automático y la adquisición especulativa de 16 previews de P5;
 la caché sigue siendo compartida y reutilizable. Quedan
 registrados, sin orden decidido: repartir el cambio de tempo entre las dos
-canciones durante la mezcla (decisión del usuario del 2026-10-26, punto
-propio) y P2 en Android sin medir. P11-a está cerrado: la rama legacy no se alcanzaba en producción y se ha
+canciones durante la mezcla (decisión del usuario del 2026-10-26; implementado
+en [P18](P18.md)) y P2 en Android, medido con P18: la entrante suena 6–15 ms tarde con un
+solo plato, causa sin identificar. P11-a está cerrado: la rama legacy no se alcanzaba en producción y se ha
 eliminado.
 
 **P12 se cerró con P12-b; después vino P13.** Historia: el cierre
@@ -137,10 +175,10 @@ Resultados y límites en [detector_comparison/RESULTS](detector_comparison/RESUL
   revertir #394.
 - Velocidad: el límite de estiramiento de la canción que entra pasa del 6 % al
   8 %, el rango de pitch de un plato o CDJ (120 ↔ 128 BPM, 6,7 %, se oía
-  mezclable y caía en `echo_cut`). Pendiente como punto propio: repartir el
-  cambio de tempo entre las dos canciones durante la mezcla (cada una ≤ 8 %,
-  hasta ~16 %, p. ej. 120 ↔ 140) y volver gradualmente; requiere variar la
-  velocidad de ambas manteniendo la fase en web y Android.
+  mezclable y caía en `echo_cut`). Punto propio, implementado en
+  [P18](P18.md): repartir el cambio de tempo entre las dos canciones durante
+  la mezcla (cada una ≤ 8 %, hasta ~16 %, p. ej. 120 ↔ 140) y volver
+  gradualmente, manteniendo la fase en web y Android.
 - Puerta del beatmatch: **solo la ejecución decide si hay fallback**. Si los
   dos pulsos son estables y la velocidad local cabe en el 8 % con ≤ 5 ms de
   desfase, hay beatmatch. Se quita la puerta `score ≥ 0,55`: con ella la
@@ -382,8 +420,11 @@ recolocación usan esos unos.
 | Confianza ≥ 0,42 sin los requisitos anteriores | structural_fade | 8 |
 | Resto | safe_fade | 8 |
 
-El ajuste local no supera el 8 % (rango de pitch de un plato o CDJ; decisión
-del usuario, 2026-10-26, antes 6 %) y debe acumular como máximo 5 ms de desfase
+El ajuste local no supera el 8 % por plato (rango de pitch de un plato o CDJ;
+decisión del usuario, 2026-10-26, antes 6 %). Con clientes que lo declaran
+(`X-Soundsible-Dj-Rates: split`), las dos canciones comparten el cambio y cada
+plato queda en el 7,75 % como máximo ([P18](P18.md)); el resto solo mueve la
+entrante. Debe acumular como máximo 5 ms de desfase
 con los valores redondeados del contrato. Un score alto por tonalidad no puede
 eludir esa comprobación. Cualquier ciclo común mantiene alineados todos los
 niveles que comparten las dos canciones; medio/doble tempo es el caso 2:1.
@@ -400,9 +441,14 @@ niveles que comparten las dos canciones; medio/doble tempo es el caso 2:1.
   `bars` o `beats` de ambos cues y del tramo completo. Las reservas declaran
   `none`, mantienen velocidad normal y su score de mezcla vale cero en el
   contrato métrico. La tonalidad no puede eludir la guarda.
-- `playback_rate` = velocidad que iguala el ciclo común con los periodos medidos
-  cerca de cada punto (n · periodo_entra / (m · periodo_sale)). Solo en
-  bass_swap, long_blend y filter_blend, y solo si el cambio es ≤ 8 %. Si no, 1,0.
+- `playback_rate` = relación que iguala el ciclo común con los periodos medidos
+  cerca de cada punto (n · periodo_entra / (m · periodo_sale)): segundos de la
+  entrante por segundo de la saliente. Solo en bass_swap, long_blend y
+  filter_blend, y solo si los platos caben en su rango. Si no, 1,0.
+- Clientes `split`: `out_playback_rate` = 2 / (1 + playback_rate), velocidad de
+  la saliente durante la mezcla, alcanzada con `out_rate_ramp` entre
+  `out_cue − 15` y `out_cue − 7` s de su archivo; la entrante suena a
+  `playback_rate · out_playback_rate` ([P18](P18.md)).
 
 ### Ejecución en el navegador
 
@@ -429,14 +475,18 @@ niveles que comparten las dos canciones; medio/doble tempo es el caso 2:1.
 
 `mixer.ts` y `graph.ts`:
 
+- Con tempo compartido, la saliente llega a `out_playback_rate` con una rampa
+  suave guiada por la posición de su archivo antes de que arranque la entrante.
 - La canción entrante arranca en silencio hasta 4 s antes del punto de mezcla, a
-  `playback_rate` (0,92–1,08, `preservesPitch` activado). Mientras está en
-  silencio se corrige **una vez** su posición para que `in_cue` coincida con
-  `out_cue`, con tolerancia de 5 ms.
+  `playback_rate` por la velocidad de la saliente (cada plato en 0,92–1,08,
+  `preservesPitch` activado). Mientras está en silencio se corrige **una vez**
+  su posición para que `in_cue` coincida con `out_cue`, con tolerancia de 5 ms,
+  y desde P18 también su velocidad (las correcciones de fase).
 - Volumen: curva de igual potencia (seno/coseno) durante el solapamiento,
   calculada con el reloj de la canción entrante. Umbral del limitador a −6 dB
   durante la mezcla.
-- Al terminar, la velocidad de la entrante vuelve a 1,0 de forma lineal en 8 s.
+- Al terminar, la velocidad de la entrante vuelve a 1,0 en 8 s con comienzo y
+  final suaves; la cuenta se detiene durante las pausas.
 
 | Técnica | Qué hace |
 | --- | --- |

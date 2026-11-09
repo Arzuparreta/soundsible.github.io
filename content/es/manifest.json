@@ -1,7 +1,7 @@
 {
   "native-installation": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "905db518d925b5220592328aee834df6f4cb235b9df6854ae03a86d37aaa00cd",
     "anchors": [
       "native-installation",
@@ -11,9 +11,9 @@
     "title": "Instalación nativa"
   },
   "install": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "0c6f7fbdf36301ba8da283e02211bbc7ba721d7c0a13507605fa4743116d1b77",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "75312d8397a253336dc7d5ef29a5e8287749e0e638ff87bb8bf1a2847057fc44",
     "anchors": [
       "install--deployment",
       "ways-to-run-it",
@@ -38,8 +38,8 @@
     "title": "Instalación y despliegue"
   },
   "docker": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "8de3f3cebcbbeb9ef7a243d45b8124e218871f539602c473693202e22780cfa4",
     "anchors": [
       "docker-deployment",
@@ -54,8 +54,8 @@
     "title": "Despliegue con Docker"
   },
   "desktop": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "bca40a0a8685122aa7dd52f5da4bf8a9c1194135dce39e86afac1a13088602fc",
     "anchors": [
       "desktop-app-beta",
@@ -71,8 +71,8 @@
     "title": "Aplicación de escritorio (beta)"
   },
   "ios": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "anchors": [
       "soundsible-for-ios",
@@ -96,8 +96,8 @@
     "title": "Soundsible para iOS"
   },
   "opensubsonic": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "aabfea96f2e2f47234fff1892103c8ca4d99684bcdfe04ad482e226c6aa9cd87",
     "anchors": [
       "opensubsonic",
@@ -112,9 +112,9 @@
     "title": "OpenSubsonic"
   },
   "dj-mode": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "e0c40fd2a5e7c9b0cf2b38172db75aebdc2588a27cd82fbaee16fa493080998b",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "9d328306357a5fb17889b602ec5879ab2bf0eca448c7747590bbed1d9d16e43c",
     "anchors": [
       "dj-mode",
       "start-a-set",
@@ -131,8 +131,8 @@
     "title": "Modo DJ"
   },
   "live": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "anchors": [
       "live--broadcasting-your-soundsible",
@@ -148,8 +148,8 @@
     "title": "Live: emitir desde Soundsible"
   },
   "music-migration": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
     "anchors": [
       "moving-from-spotify-or-apple-music-to-soundsible",
@@ -162,8 +162,8 @@
     "title": "Pasar de Spotify o Apple Music a Soundsible"
   },
   "car": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "6c9696c052f4f0d23a0d6b404d8491de253f2c5541106febbcc607807d5ed698",
     "anchors": [
       "car-integration",
@@ -176,8 +176,8 @@
     "title": "Integración del coche"
   },
   "configuration": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "581e01b77c9d4905db157a6bcbc4466eb95c01ec457d8ba61eb4925e43e41f79",
     "anchors": [
       "configuration",
@@ -202,9 +202,9 @@
     "title": "Configuración"
   },
   "privacy": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "2c7b1d7ae85b5a12faf0417f8526acc8e7a129a4679fabf1436305fc23bb2e90",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "fea21378eed134e109747ba49def068a10964d2424ea1c80710ad13d600b769a",
     "anchors": [
       "soundsible-telemetry-and-privacy-contract",
       "what-we-collect-when-enabled",
@@ -219,8 +219,8 @@
     "title": "Contrato de telemetría y privacidad Soundsible"
   },
   "troubleshooting": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "636f3fe47d35878aeeefbe45ac11cd2eb28dbf0249a71fd5fab87ec9ea0b87cf",
     "anchors": [
       "download-troubleshooting",
@@ -232,8 +232,8 @@
     "title": "Solución de problemas de descarga"
   },
   "legal": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
     "anchors": [
       "legal-disclaimer-and-acceptable-use",
@@ -244,9 +244,9 @@
     "title": "Aviso legal y uso aceptable"
   },
   "architecture": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "9ca61517d73906080f030646352cef1687bdcd39105146a6fdf27928f3ce542e",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "0364b05669719215d57b52c6d240e855d5225c8df87c96f78e8063dff877d48a",
     "anchors": [
       "architecture--system-overview",
       "1-mental-model",
@@ -263,8 +263,8 @@
     "title": "ARQUITECTURA – Descripción general del sistema"
   },
   "agent-integration": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "fe2dc18873a16930f4711a1b1bd3e8c195ba1d4ad5010f66cec4926421a716c8",
     "anchors": [
       "soundsible-agent-integration-guide",
@@ -294,8 +294,8 @@
     "title": "Guía de integración del agente Soundsible"
   },
   "relay": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
     "anchors": [
       "verified-vps-relay",
@@ -308,8 +308,8 @@
     "title": "Relé VPS verificado"
   },
   "contributing": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "4e00593df491011f72dab4de0dfcd19f1a1d93db2ca2d5e448f19d1ba9e200ac",
     "anchors": [
       "contributing-to-soundsible",
@@ -324,8 +324,8 @@
     "title": "Contribuir a Soundsible"
   },
   "desktop-development": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "4e414b6b9ea7095f46bbc06bcfb553676221a976742f8005078e2cfd4ecfb5ca",
     "anchors": [
       "soundsible-desktop-shell",
@@ -341,8 +341,8 @@
     "title": "Carcasa de escritorio Soundsible"
   },
   "relay-deployment": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "1970c163aef254ea197262be31fbb4483911243dce35d9b3f69a886646e15042",
     "anchors": [
       "soundsible-community-live-stack",
@@ -353,8 +353,8 @@
     "title": "Pila en vivo de la comunidad Soundsible"
   },
   "releasing": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7f28c2dad057f26780cfaa0d77f59888534d59ca40f8d0e873d5fe940ef54791",
     "anchors": [
       "versioning-and-releases",
@@ -368,8 +368,8 @@
     "title": "Versiones y lanzamientos"
   },
   "roadmap": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "02c4375690303788638c7f1ec674b017f0c54ea40481f1280ab73aef34bfb906",
     "anchors": [
       "roadmap",
@@ -388,8 +388,8 @@
     "title": "Hoja de ruta"
   },
   "mobile-lists": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
     "anchors": [
       "content-first-mobile-lists",
@@ -400,11 +400,12 @@
     "title": "Listas móviles centradas en el contenido"
   },
   "playback-diagnosis": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "e4ea00fcaac0d0afcb4649b59b28d4ab4d987fa182c01530fc08a62b0c4bcc38",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "0610c643f28980932f620a9a42d717cfe2bd699f02cddba8251458c1e8e9d031",
     "anchors": [
       "automatic-iphone--car-playback-evidence",
+      "november-6-desktop-songs-start-fast-then-drop-out-and-settle",
       "september-29-podcast-skip-on-iphone-pwa",
       "september-19-lock-regression-and-rejected-reconnect-corrections",
       "candidate-correction-pending-physical-acceptance",
@@ -419,20 +420,20 @@
     "title": "Evidencias automáticas de reproducción en iPhone / coche"
   },
   "artwork": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "c40aa96cf98e87acfcb2cf97c7860e66af15e08b163c40928ac9601256e52e82",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "944279394d0c399403f4ec6f904026fa7865871fd7b8f513205d727b78e7bcaf",
     "anchors": [
       "artwork-storage-and-delivery",
       "existing-libraries",
       "http-contract",
-      "local-validation-sample"
+      "historical-local-validation-sample"
     ],
     "title": "Almacenamiento y distribución de carátulas"
   },
   "performance": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0ae5e46875e14b0d0debfb563527c36e44b48830cce85f48562897557c63c0be",
     "anchors": [
       "resource-usage-and-performance-validation",
@@ -449,8 +450,8 @@
     "title": "Uso de recursos y validación del rendimiento"
   },
   "readme": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "671fd17be3d111f159cc406cf0ba16675763ea1e12cbad29db9e82cd9197fb96",
     "anchors": [
       "soundsible-guides",
@@ -462,9 +463,9 @@
     "title": "Guías de Soundsible"
   },
   "audits-2026-09-20-engineering": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "6da3127682f09e68b0753667d565d6ed0a0f0e805a403ac8e6e5217410b1c8fc",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "573dc510e250fdb09070c5d91502bffc5eedde4d183c36cf9f23d84ffe534a3f",
     "anchors": [
       "revisión-de-ingeniería-y-consumo-de-recursos",
       "evidencia-y-alcance",
@@ -484,8 +485,8 @@
     "title": "Revisión de ingeniería y consumo de recursos"
   },
   "audits-2026-09-25-ui-loading-feedback": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "646c70b3b36f7f5725a08d41e2bf65bad7281e88cc3e3bc9055acbb968aa704d",
     "anchors": [
       "navegación-y-feedback-de-carga",
@@ -497,8 +498,8 @@
     "title": "Navegación y feedback de carga"
   },
   "audits-2026-09-28-recovery-and-construction": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "5c68bc4bbf3f612fe1cf1ce6e3d372467c72762d87f95b9612dfedb6331838dc",
     "anchors": [
       "recovery-writer-ownership-and-background-load-quality",
@@ -510,12 +511,12 @@
     "title": "Recuperación, propiedad de los escritores y calidad bajo carga en segundo plano"
   },
   "audits-engineering-handoff": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "246ed404ee735f6b97ae2ad30f78f0cfa380fd165f36de59f89c237201c7c77e",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "5f2b7256e6b58fe47741264dd1b05cf8015e030ce48c6a8f90e3b62f13d05b26",
     "anchors": [
       "traspaso-de-la-optimización-de-recursos-de-soundsible",
-      "instrucciones-del-usuario-que-siguen-vigentes",
+      "instrucciones-de-la-entrega-original",
       "auditoría-original-y-significado-de-sus-resultados",
       "chunks-ya-completados",
       "estado-técnico-que-debe-preservarse",
@@ -531,13 +532,15 @@
       "pendientes-de-auditoría-sin-declarar-todo-terminado",
       "última-validación-y-cómo-retomar",
       "recovery-and-construction-follow-up-2026-09-28",
-      "limpieza-posterior-de-código-sin-consumidores-2026-11-03"
+      "limpieza-posterior-de-código-sin-consumidores-2026-11-03",
+      "continuación-medida-2026-11-05",
+      "portadas-y-recursos-de-adquisición-2026-11-07"
     ],
     "title": "Traspaso de la optimización de recursos de Soundsible"
   },
   "engineering-instance-recovery": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "bfbc9806ba1664b3d40d9dd7cd613cc04c77cfd8a29cc7adb248a1286d23f7ca",
     "anchors": [
       "verified-offline-recovery"
@@ -545,8 +548,8 @@
     "title": "Recuperación offline verificada"
   },
   "engineering-library-integrity": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "820a9a21362e058aeb4c1a7feb6f1b63c76df2c810ef506780531fafe265b35d",
     "anchors": [
       "library-integrity-and-recovery",
@@ -559,8 +562,8 @@
     "title": "Integridad y recuperación de la biblioteca"
   },
   "performance-artwork-variant-quota": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "02b7666e1a1e234a252922e3693d20d6dfdce066feadaf713414782eed1c25e2",
     "anchors": [
       "artwork-variant-disk-quota",
@@ -572,8 +575,8 @@
     "title": "Cuota de disco para variantes de carátulas"
   },
   "performance-catalog-sync": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "bb0fba3dd4ecca585ab8e7440baf7ceb87e5089afb06996b05e5caf46ecadb3b",
     "anchors": [
       "catalog-synchronization-share-work-and-acknowledge-the-latest-revision",
@@ -583,8 +586,8 @@
     "title": "Sincronización del catálogo: compartir el trabajo y confirmar la última revisión"
   },
   "performance-dj-queue-priority-gate": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "1cb688bb1bbdd57a992b57701ecd9607b6d79b4bc6f8de378cae34cd542950c0",
     "anchors": [
       "dj-analysis-queue-priority-decision-gate",
@@ -598,8 +601,8 @@
     "title": "Cola de análisis DJ: puerta de decisión sobre la prioridad"
   },
   "performance-incremental-library-writes": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c19e176ef2fd925ba4ebe08153bc9c3b227d950e2f4493a5c48fc80e69589f61",
     "anchors": [
       "incremental-canonical-library-writes",
@@ -610,8 +613,8 @@
     "title": "Escrituras incrementales de la biblioteca canónica"
   },
   "performance-journal-library-deltas": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3715621d80ae83ee4d05b229e3f6265f31727551f6be1e573410fe7cd4424065",
     "anchors": [
       "journal-driven-public-library-deltas",
@@ -624,8 +627,8 @@
     "title": "Deltas públicos de la biblioteca basados en journal"
   },
   "performance-library-delta-serialization": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3f449f259addbb41b75e8954331dd1bbc10bc55e14647ee3f1196ca25ac1a377",
     "anchors": [
       "bounded-json-serialization-for-library-deltas",
@@ -636,8 +639,8 @@
     "title": "Serialización JSON acotada para deltas de biblioteca"
   },
   "performance-library-deltas": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0c96d7324754b12ecd131a22851fd59031476654ca6789040af72c541da4ee2f",
     "anchors": [
       "disk-backed-library-deltas",
@@ -648,8 +651,8 @@
     "title": "Deltas de biblioteca almacenados en disco"
   },
   "performance-library-export-streaming": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "fe8c237a7f701d474ed2dc82f3a7fbd67d3dd24d8ea9c8fc3f4b8f0e128e9123",
     "anchors": [
       "streamed-libraryjson-exports",
@@ -661,8 +664,8 @@
     "title": "Exportaciones de library.json por streaming"
   },
   "performance-library-revisions": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "8097f5c05edbdef3e1c999812c58fd829a4832328739cf33bdefe406ef4c9b4b",
     "anchors": [
       "conditional-library-snapshots",
@@ -673,8 +676,8 @@
     "title": "Instantáneas condicionales de la biblioteca"
   },
   "performance-local-catalog-selection": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "1ef25eb3a859e04a29e65df77dda7124277a0d59b9bac34e20302609260ca310",
     "anchors": [
       "local-catalog-selection",
@@ -683,8 +686,8 @@
     "title": "Selección del catálogo local"
   },
   "performance-local-search-index": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7d5a889f1fbdde6d7840a55cb7c1b82e3f88eb5d4943c08de1f4fb752bc55d77",
     "anchors": [
       "local-search-index",
@@ -698,8 +701,8 @@
     "title": "Índice de búsqueda local"
   },
   "performance-memo-coordination": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "f24bd5c140af5db105e71b1cc3e047240d354eca6534af4deed97bc55ac3f073",
     "anchors": [
       "atomic-cache-lookup-and-single-flight-admission",
@@ -708,8 +711,8 @@
     "title": "Consulta atómica de la caché y admisión single-flight"
   },
   "performance-odst-podcast-read": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "ea09fcf3127fe0aec2d69328fb1502192968b6f78458d98bffdcec2eb5386ddb",
     "anchors": [
       "odst-podcast-preservation-without-reconstructing-disk-tracks",
@@ -720,8 +723,8 @@
     "title": "Conservación de podcasts en ODST sin reconstruir las pistas del disco"
   },
   "performance-odst-save-streaming": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "16acdcb923fa3541b36cfd3e3ec501b35bf8992869a2680a64c2b82165a3eaa2",
     "anchors": [
       "odst-library-saves-without-a-whole-json-output-string",
@@ -732,8 +735,8 @@
     "title": "Guardados de biblioteca de ODST sin una cadena de salida JSON completa"
   },
   "performance-playback-load": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c9f541c85acfa0cde2f30b9a8a1e17343a3d9bf6deb3bca4f4667fe40141b7d0",
     "anchors": [
       "playback-transport-under-background-load",
@@ -743,8 +746,8 @@
     "title": "Transporte de reproducción bajo carga en segundo plano"
   },
   "performance-track-metadata-patch": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "eb8a14d6862fa37f3534d84e141c5e2e988a5e5f143a16b51ccc9a5ee057f428",
     "anchors": [
       "explicit-track-metadata-edits"
@@ -752,9 +755,9 @@
     "title": "Ediciones explícitas de metadatos de pistas"
   },
   "performance-web-payload": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "04d94d439deae2c2d358cb3e696e5621059020664ed3ed1a7f5d1dbe1341ab87",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "f3d13fb73edaf9366c67f8505f4571a4565e6462fe4e41d2272fdaf5742bab97",
     "anchors": [
       "web-payload-and-authenticated-runtime",
       "bundle-budget",
@@ -765,8 +768,8 @@
     "title": "Payload web y runtime autenticado"
   },
   "android": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "ed146ed9638f288c17c6414ae87b1562c76d280ce9fd8e4d18a9fe08d381786d",
     "anchors": [
       "soundsible-para-android-desarrollo-del-port",
@@ -783,8 +786,8 @@
     "title": "Soundsible para Android: desarrollo del port"
   },
   "desktop-client": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
     "anchors": [
       "desktop-client-connections",
@@ -794,8 +797,8 @@
     "title": "Conexiones del cliente de escritorio"
   },
   "android-alpha": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "8cba7847babddfb3d0cc9e4a52b72edf56f236327734c78323f043d924f2192c",
     "anchors": [
       "soundsible-android-alpha",
@@ -807,8 +810,8 @@
     "title": "Alpha de Soundsible para Android"
   },
   "android-architecture": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "cc7c4c0f640f465404abc44127178b7246d76be96eb7d2ce60db66a2cc75ca65",
     "anchors": [
       "arquitectura-y-contratos-del-port-android",
@@ -835,8 +838,8 @@
     "title": "Arquitectura y contratos del port Android"
   },
   "android-auth-fixture-isolation": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "794402e18c6eb11f64655d43ff3e61adc5b00cba4eac00e5fa46a763aef35c76",
     "anchors": [
       "aislar-presupuesto-de-login-entre-tests-apk"
@@ -844,9 +847,9 @@
     "title": "Aislar presupuesto de login entre tests APK"
   },
   "android-evidence": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "48c37fc74310d6f8d4dedd46b70398a2cd5f494fc01c414d1652afa0c06bf203",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "784fc624d2369d9799596c1f39afc36b9d6401ffb52e03d68fb5ccf4d0c6174c",
     "anchors": [
       "evidencia-del-port-android",
       "preparación-de-distribución-2026-10-07",
@@ -865,8 +868,8 @@
     "title": "Evidencia del port Android"
   },
   "android-handoff": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "dfee244ede625c05b2a1678c5539a21aeee1b8f5e2d6fd68e8af891c29d5c836",
     "anchors": [
       "traspaso-del-port-android",
@@ -878,8 +881,8 @@
     "title": "Traspaso del port Android"
   },
   "android-handoff-history": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "341a975d26f770f42ea4d8e6cea2da48a446742e7b327358ca7aa3414957903b",
     "anchors": [
       "historial-del-port-android",
@@ -969,8 +972,8 @@
     "title": "Historial del port Android"
   },
   "android-offline-decision": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "6fe358a69d4368960dcb687faa30d75bcc5ff0cb65a13878c3110a966fddae91",
     "anchors": [
       "offline-decisión-aprobada",
@@ -982,8 +985,8 @@
     "title": "Offline: decisión aprobada"
   },
   "android-port-plan": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "e05ba4c091e235794d8aeca59858726d5927c1d70c4745e71d28dcbc3c55991f",
     "anchors": [
       "slices-y-matriz-de-paridad",
@@ -995,8 +998,8 @@
     "title": "Slices y matriz de paridad"
   },
   "android-refresh-confirmation": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "274921f5c84b44bd0ae00fca7d379592f92e07f8d6953a9d022e9bbc9d93a31d",
     "anchors": [
       "confirmación-de-refresh-android-tras-escrituras"
@@ -1004,8 +1007,8 @@
     "title": "Confirmación de refresh Android tras escrituras"
   },
   "android-release-gates": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "8850ddedfaf5146752c53f9b639b2f603edf8607f89da79606765abc8a475d03",
     "anchors": [
       "distribución-android-y-requisitos-de-publicación",
@@ -1019,8 +1022,8 @@
     "title": "Distribución Android y requisitos de publicación"
   },
   "android-slice-1": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "5f05c5402ec6e8c9a54c710c8d416bfd7ff2c3eb2a1208e230668bfc3f25e2e1",
     "anchors": [
       "primer-slice-funcional-conexión-cuenta-y-biblioteca-real",
@@ -1033,8 +1036,8 @@
     "title": "Primer slice funcional: conexión, cuenta y biblioteca real"
   },
   "android-slice-2": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "2217542bf9930292e4b5fc651044539607efc353cba5d41e059b86f4ed35748a",
     "anchors": [
       "s2-primer-programa-de-audio-nativo",
@@ -1056,8 +1059,8 @@
     "title": "S2: primer programa de audio nativo"
   },
   "android-slice-2aa": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "54099ef92583c13b3dd6881555f9d1364bccf4cf41f0b0673a4fe0410eab4989",
     "anchors": [
       "s2aa-eliminar-un-archivo-adquirido-desde-android",
@@ -1067,8 +1070,8 @@
     "title": "S2aa: eliminar un archivo adquirido desde Android"
   },
   "android-slice-2ab": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "d877071b1a21cadef614c1b27d5e3fc47f7f4135ce70315095f9168088a077b9",
     "anchors": [
       "s2ab-retirada-durante-una-respuesta-pendiente-de-radioautoplay"
@@ -1076,8 +1079,8 @@
     "title": "S2ab: retirada durante una respuesta pendiente de Radio/autoplay"
   },
   "android-slice-2ac": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "ad4d66d26d4989a249ebf2ac99d7e37fd32f23a1d9f78c8247aee070ef9af869",
     "anchors": [
       "s2ac-settings-de-cuenta-compartido-con-android",
@@ -1086,8 +1089,8 @@
     "title": "S2ac: Settings de cuenta compartido con Android"
   },
   "android-slice-2ad": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "b3093869dcd9480481fe6dd5e5619bbdf4c00174d958b3349bb86bf3f9777f15",
     "anchors": [
       "s2ad-appearance-y-preferencias-visuales-compartidas",
@@ -1098,8 +1101,8 @@
     "title": "S2ad: Appearance y preferencias visuales compartidas"
   },
   "android-slice-2ae": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "a63d7641a82ea9a60d9dad2dccc8b5a83a2b1619f218f781c9e1e30f451d36f3",
     "anchors": [
       "s2ae-discover-y-entidades-externas",
@@ -1111,8 +1114,8 @@
     "title": "S2ae: Discover y entidades externas"
   },
   "android-slice-2af": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "36ab8378349c7a653a9bdf87af0fefb8b672ee5aa99c846025019e64c31be299",
     "anchors": [
       "s2af-settings-restantes-y-efectos-reales",
@@ -1122,8 +1125,8 @@
     "title": "S2af: Settings restantes y efectos reales"
   },
   "android-slice-2ag": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "985d92fb1264cbc7d225fa8690759435ba487bd08d98b48dd696a3083f82cc53",
     "anchors": [
       "s2ag-acceso-subsonic-desde-ajustes-android",
@@ -1134,8 +1137,8 @@
     "title": "S2ag: acceso Subsonic desde Ajustes Android"
   },
   "android-slice-2ah": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "a475ce2a463a8b5ad8a8679e23519ce0e1feedd38ecede3fdf734a6988af571f",
     "anchors": [
       "s2ah-compartir-canciones-desde-android"
@@ -1143,8 +1146,8 @@
     "title": "S2ah: compartir canciones desde Android"
   },
   "android-slice-2ai": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "366dee14afbcc7fff97688b822d08e4038ac97f364eaee9584a3aaec9f15b627",
     "anchors": [
       "s2ai-recibir-canciones-compartidas"
@@ -1152,8 +1155,8 @@
     "title": "S2ai: recibir canciones compartidas"
   },
   "android-slice-2aj": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "79ab7dd4bc10b04d24fa6d59ff431cb3e064d296347823efe5d3d3ef21d82f0e",
     "anchors": [
       "s2aj--registro-nativo-mediante-invitación"
@@ -1161,8 +1164,8 @@
     "title": "S2aj — Registro nativo mediante invitación"
   },
   "android-slice-2ak": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "a442a376d99f6a61d870e770ea59d7c56ccf4d6b4596712e6dbd7389abece8da",
     "anchors": [
       "s2ak--personas-y-permisos-administrativos-nativos"
@@ -1170,8 +1173,8 @@
     "title": "S2ak — Personas y permisos administrativos nativos"
   },
   "android-slice-2al": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "cbe9147d722a5ee92ab65e2aa8267bd17cfc1e5d26cdd0784cafba5ff51364ed",
     "anchors": [
       "s2al--dispositivo-nativo-y-traspaso-normal"
@@ -1179,8 +1182,8 @@
     "title": "S2al — Dispositivo nativo y traspaso NORMAL"
   },
   "android-slice-2am": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "25e58a816a3281a43b3874c9be4e8d02c5107b02b8ac016d4761c1d537313251",
     "anchors": [
       "s2am--controles-de-dispositivos-desde-android"
@@ -1188,8 +1191,8 @@
     "title": "S2am — Controles de dispositivos desde Android"
   },
   "android-slice-2an": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3acb35c5370acf1b35e3b5bb5fab268544db97df91454c5cf04cd90750f57b58",
     "anchors": [
       "s2an--traspaso-de-salida-normal"
@@ -1197,8 +1200,8 @@
     "title": "S2an — Traspaso de salida NORMAL"
   },
   "android-slice-2ao": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "b271cabe70db1bce90479ea3be14905b129c34112e2c65b97ff1afed3d59a759",
     "anchors": [
       "s2ao--workspace-dj-multidispositivo"
@@ -1206,8 +1209,8 @@
     "title": "S2ao — Workspace DJ multidispositivo"
   },
   "android-slice-2ap": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "a5f721f9c30b4c48b6a708b2e05e1eeca014c5782629adb1a67f63a5def71217",
     "anchors": [
       "s2ap--radio-y-runway-de-autoplay-en-traspasos"
@@ -1215,8 +1218,8 @@
     "title": "S2ap — Radio y runway de Autoplay en traspasos"
   },
   "android-slice-2aq": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "cfdc4e9d5868569e5e6c1fee2c759102e6cf609150e36f2635914b03874c7b62",
     "anchors": [
       "s2aq--reconexión-de-dispositivo-tras-agotar-socketio"
@@ -1224,8 +1227,8 @@
     "title": "S2aq — Reconexión de dispositivo tras agotar Socket.IO"
   },
   "android-slice-2ar": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "798d9e04609d4cf39576daece5a2004f6fe680171fd64d1941e1cf2dba88919f",
     "anchors": [
       "s2ar--catálogo-diferido-en-el-programa-nativo"
@@ -1233,8 +1236,8 @@
     "title": "S2ar — Catálogo diferido en el programa nativo"
   },
   "android-slice-2as": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "8afc35abbd8963118429db3dba38b6b5eece2b882dbc9616b6b425d936612c51",
     "anchors": [
       "s2as--continuación-y-retry-del-catálogo-diferido"
@@ -1242,8 +1245,8 @@
     "title": "S2as — Continuación y retry del catálogo diferido"
   },
   "android-slice-2at": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "2bb1da5ed35b110e59899836250ce83db4e39ab554808c53a07b94f6b16c00fc",
     "anchors": [
       "s2at--invitaciones-recibidas-del-sistema-y-menú-de-ocurrencia-pendiente"
@@ -1251,8 +1254,8 @@
     "title": "S2at — Invitaciones recibidas del sistema y menú de ocurrencia pendiente"
   },
   "android-slice-2au": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "6421cae0fbaf5ff84c5b64d445d2fcf579dcd421994d6c9e361ac88fb96d0cf9",
     "anchors": [
       "s2au--ajustes-de-servidor-y-de-este-dispositivo"
@@ -1260,8 +1263,8 @@
     "title": "S2au — Ajustes de servidor y de este dispositivo"
   },
   "android-slice-2av": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "aba9885a58763e932e082593ca550eeb18eb1799782e9fa9de82479d5051ea1d",
     "anchors": [
       "s2av--iniciar-sesión-escaneando-un-código-de-emparejamiento"
@@ -1269,8 +1272,8 @@
     "title": "S2av — Iniciar sesión escaneando un código de emparejamiento"
   },
   "android-slice-2k": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "768f527d81d8c2c420b290e3c029dafe7c2b185e32b0e46c3df1784be689eeb1",
     "anchors": [
       "s2k-primer-vertical-de-podcasts",
@@ -1284,8 +1287,8 @@
     "title": "S2k: primer vertical de podcasts"
   },
   "android-slice-2l": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "97ccc264e44bcc20bf0577325c213a2af80924a3a0431cd0660173456bbed272",
     "anchors": [
       "s2l-directorio-seguimiento-y-adquisición-podcast"
@@ -1293,8 +1296,8 @@
     "title": "S2l: directorio, seguimiento y adquisición podcast"
   },
   "android-slice-2m": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "e7f9bec241080d72505d100655158a5bcaf461fb24f100508b668950c65a8cda",
     "anchors": [
       "s2m-radio-normal-propiedad-del-servicio"
@@ -1302,8 +1305,8 @@
     "title": "S2m: Radio NORMAL propiedad del servicio"
   },
   "android-slice-2n": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "9a0eca198642a18392bb6c3f1e920badd030107d998d17dfa0a2819d23c6e3a4",
     "anchors": [
       "s2n-favoritos-y-pertenencia-a-playlists"
@@ -1311,8 +1314,8 @@
     "title": "S2n: favoritos y pertenencia a playlists"
   },
   "android-slice-2o": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3252fa38e80e77e74d1681e8b4ad60ca839ec3bd9f21940688c110e4fb667dc8",
     "anchors": [
       "s2o-gestión-de-playlists-con-condiciones-de-escritura"
@@ -1320,8 +1323,8 @@
     "title": "S2o: gestión de playlists con condiciones de escritura"
   },
   "android-slice-2p": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0d8db01b5ca05300856b1534933a31e6dea445d2912c5663135b2190be816f15",
     "anchors": [
       "s2p-perfiles-y-refill-radio-normal"
@@ -1329,8 +1332,8 @@
     "title": "S2p: perfiles y refill Radio NORMAL"
   },
   "android-slice-2q": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "08671cc1a380cccc94f76b2a6910d94d81617bd3ee60618954cf9be1fae44e4d",
     "anchors": [
       "s2q-autoplay-normal-propiedad-del-servicio"
@@ -1338,8 +1341,8 @@
     "title": "S2q: autoplay NORMAL propiedad del servicio"
   },
   "android-slice-2r": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "d7289ac81f165bd4b0d197891d0dc7f8cd9870bc3a9dd7543870ef7f19f7b44d",
     "anchors": [
       "s2r-primer-vertical-de-metadatos-y-carátulas",
@@ -1348,8 +1351,8 @@
     "title": "S2r: primer vertical de metadatos y carátulas"
   },
   "android-slice-2s": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "421c49e5b1c3a9b4f0cca9a5eafdac953b30bd4f536e1d69ffc349ac979635d7",
     "anchors": [
       "s2s-edición-de-biblioteca-conservando-audio-e-identidad"
@@ -1357,8 +1360,8 @@
     "title": "S2s: edición de biblioteca conservando audio e identidad"
   },
   "android-slice-2t": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0bef2deafc89aea59760e493733d6a805dda6467376719bdf5a0360e59794ff3",
     "anchors": [
       "s2t-bookmarks-de-álbumartist-y-refresh-confirmado",
@@ -1367,8 +1370,8 @@
     "title": "S2t: bookmarks de álbum/artist y refresh confirmado"
   },
   "android-slice-2u": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "ca6343f79d51fa86d43d8bccf7ce0557a37b6494df7d6793a92ee544cd649447",
     "anchors": [
       "s2u-selector-de-carátula-del-sistema"
@@ -1376,8 +1379,8 @@
     "title": "S2u: selector de carátula del sistema"
   },
   "android-slice-2v": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "af351cfae4ac77db6caedf355245f7e7ce3a15413b5e76215a6c304f7347f798",
     "anchors": [
       "s2v-carátula-editada-frente-a-artwork-embebido"
@@ -1385,8 +1388,8 @@
     "title": "S2v: carátula editada frente a artwork embebido"
   },
   "android-slice-2w": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "d4fffd9ad3e508f7dbef77772b59ccef0025156dfb1eb9f6fa125471113f7fbb",
     "anchors": [
       "s2w-letras-temporizadas-con-programa-nativo"
@@ -1394,8 +1397,8 @@
     "title": "S2w: letras temporizadas con programa nativo"
   },
   "android-slice-2x": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "52442b2449317f935cb6d527f6d9451c9eee548fb3840b3f108450a1f883bc08",
     "anchors": [
       "s2x-adquisición-de-música-y-promoción-de-identidad"
@@ -1403,8 +1406,8 @@
     "title": "S2x: adquisición de música y promoción de identidad"
   },
   "android-slice-2y": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "9de9b1772348744dca63efdda87daf4824e3a915b63ec90dd7eca9a9a214df62",
     "anchors": [
       "s2y-importación-desde-export-del-usuario"
@@ -1412,8 +1415,8 @@
     "title": "S2y: importación desde export del usuario"
   },
   "android-slice-2z": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7046cb0f9adb0c5c3b3ce0ba7ebe0ae551959bc0c5d018c1af3e83a34f413dd3",
     "anchors": [
       "s2z-atrás-del-sistema-en-la-navegación-nativa"
@@ -1421,8 +1424,8 @@
     "title": "S2z: Atrás del sistema en la navegación nativa"
   },
   "android-slice-3a": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7e879a3b8e95f308f092ee16cc3ee9a989077551374af669b1ef228630c5791a",
     "anchors": [
       "s3a-nivelación-y-salida-pcm-antes-de-djlive",
@@ -1437,8 +1440,8 @@
     "title": "S3a: nivelación y salida PCM antes de DJ/Live"
   },
   "android-slice-3b": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "039bb520abd6fa0a08267ab1c164414608a1269bd32121b57d546c3588deda9e",
     "anchors": [
       "s3b-ejecución-dj-nativa",
@@ -1451,8 +1454,8 @@
     "title": "S3b: ejecución DJ nativa"
   },
   "android-slice-4a": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "116efa6728274daebebfa6061c4748891fced45b0bee170777e16fbbae33912b",
     "anchors": [
       "s4a-entrada-del-programa-nativo-a-webrtc"
@@ -1460,8 +1463,8 @@
     "title": "S4a: entrada del programa nativo a WebRTC"
   },
   "android-slice-4b": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "d3ac9f613b9ddcca10959cd180f289d9f22811d7425c3dbc5b6f9bda98aa62d1",
     "anchors": [
       "s4b--relay-nativo-whipwhep"
@@ -1469,8 +1472,8 @@
     "title": "S4b — relay nativo WHIP/WHEP"
   },
   "android-slice-4c": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c6e2a3fc36d65640fa53f6d1d8e9c75e4d6d3cd31f5170276659e49d00c8005f",
     "anchors": [
       "s4c--host-live-propiedad-del-servicio"
@@ -1478,8 +1481,8 @@
     "title": "S4c — host Live propiedad del servicio"
   },
   "android-slice-4d": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "e3927e224308ca6d14dc92be0846192caf7908b57164182dbc66e982d2ae51fe",
     "anchors": [
       "s4d--escucha-live-en-mediasession"
@@ -1487,8 +1490,8 @@
     "title": "S4d — escucha Live en MediaSession"
   },
   "android-slice-4e": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "eafda1709a4de1438af7bb590c287fe5fa1f8bdcc984edbb7205879019d013b9",
     "anchors": [
       "s4e--live-visible-y-guest-nativo"
@@ -1496,8 +1499,8 @@
     "title": "S4e — Live visible y guest nativo"
   },
   "android-slice-4f": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "9175bdbb4ec2b608b24d589b67c83a55132b6ca5ef472461d8fcbec0a38c034a",
     "anchors": [
       "s4f--programa-dj-y-carátulas-de-live"
@@ -1505,8 +1508,8 @@
     "title": "S4f — Programa DJ y carátulas de Live"
   },
   "android-slice-4g": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "6d94afeba33746e1f2ba46806700e23764329477e68d51749da222de3f576a5e",
     "anchors": [
       "s4g--cancelación-y-recuperación-de-media-live"
@@ -1514,8 +1517,8 @@
     "title": "S4g — Cancelación y recuperación de media Live"
   },
   "android-slice-4h": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3ac651028a1e5a879d345694180ab29b9ed4412628cdc078f9cd4519aa2e0886",
     "anchors": [
       "s4h--autorización-y-lease-de-sala-live"
@@ -1523,8 +1526,8 @@
     "title": "S4h — Autorización y lease de sala Live"
   },
   "android-slice-4i": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "1b9b5f860f66fabaff537fb8652798bde6959dfc53586845779514c888f76b5a",
     "anchors": [
       "s4i--reanudar-sala-y-programa-después-de-otro-publisherproceso"
@@ -1532,8 +1535,8 @@
     "title": "S4i — Reanudar sala y programa después de otro publisher/proceso"
   },
   "android-slice-4j": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c445dcb11fa2c50801f502b635298d08f6726a716647e9503afc05d820cfbb6c",
     "anchors": [
       "s4j--recovery-del-receptor-reset-y-foco-del-sistema"
@@ -1541,8 +1544,8 @@
     "title": "S4j — Recovery del receptor, reset y foco del sistema"
   },
   "android-slice-4k": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "f2de2eddb56da76a495289ff0cd614a7fa76ca6ea69ae7b8339c7c2e00a31e54",
     "anchors": [
       "s4k--agotamiento-y-cancelación-del-emisor-en-background"
@@ -1550,8 +1553,8 @@
     "title": "S4k — Agotamiento y cancelación del emisor en background"
   },
   "android-slice-4l": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "716c458a51bba96a5a14628b26b46a3550af6dfacada3af3f4a76dc6120240de",
     "anchors": [
       "s4l--programa-visible-y-enlace-público-de-live"
@@ -1559,8 +1562,8 @@
     "title": "S4l — Programa visible y enlace público de Live"
   },
   "android-slice-5a": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "b6da960ed88e96b60245c5752cc68f4fffc3af8d0078e69107777d53beb0ebad",
     "anchors": [
       "s5a-android-auto-biblioteca-y-selección-del-programa"
@@ -1568,8 +1571,8 @@
     "title": "S5a: Android Auto, biblioteca y selección del programa"
   },
   "android-slice-5b": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7621ea856c2decec4dacb333aa3c66a08b1a2e04be7636ca06b7c927d1286919",
     "anchors": [
       "s5b-suscripciones-android-auto-en-segundo-plano"
@@ -1577,8 +1580,8 @@
     "title": "S5b: suscripciones Android Auto en segundo plano"
   },
   "android-slice-5c": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "8e955a77a04fd073ba3b69bb40a8db5d56f9f242115a7a44c95d80f7ade8623c",
     "anchors": [
       "s5c-copias-auto-después-de-expirar-la-cookie"
@@ -1586,8 +1589,8 @@
     "title": "S5c: copias Auto después de expirar la cookie"
   },
   "android-slice-5d": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c2618792a5e2eb55c53c1293079a3647d5cf1b884b4464fe42d07c274ade8ffe",
     "anchors": [
       "s5d-cambios-de-copias-locales-en-auto"
@@ -1595,8 +1598,8 @@
     "title": "S5d: cambios de copias locales en Auto"
   },
   "android-slice-5e": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "944ae3e141fab11bd5dbcbdf51ad4c5de273a1dcce0c77d9b28a382fab143669",
     "anchors": [
       "s5e-controles-del-coche-durante-dj"
@@ -1604,8 +1607,8 @@
     "title": "S5e: controles del coche durante DJ"
   },
   "android-slice-5f": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0f9b8a7617529b05d4b84d1ad854057cccdc422d97d38dc898829e74130b97cb",
     "anchors": [
       "s5f-reconexión-nativa-de-suscripciones"
@@ -1613,8 +1616,8 @@
     "title": "S5f: reconexión nativa de suscripciones"
   },
   "android-slice-5g": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "790493e67708028d1e8957aa3280c692e2635b87ce35dc4f23f64c05082e2abf",
     "anchors": [
       "s5g-confianza-y-artwork-entre-uids"
@@ -1622,8 +1625,8 @@
     "title": "S5g: confianza y artwork entre UIDs"
   },
   "android-slice-5h": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0610535f9cab44519b0706cf0a2d6a5a7ecd8e532f72f7ef56a044c576c18eec",
     "anchors": [
       "s5h-reproducción-y-revocación-desde-otro-uid"
@@ -1631,8 +1634,8 @@
     "title": "S5h: reproducción y revocación desde otro UID"
   },
   "android-slice-6": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "204be8ff4d1db8972ab20415d41561f5b2a50a8788e128174d362a0446981b64",
     "anchors": [
       "s6-offline-y-distribución",
@@ -1644,8 +1647,8 @@
     "title": "S6: offline y distribución"
   },
   "lyrics-recovery": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "85e9071f7d65f8b72d20e3d60d53aa5a7f2b0d46e6b58274020532086adcdf44",
     "anchors": [
       "lyrics-recovery",
@@ -1656,8 +1659,8 @@
     "title": "Recuperación de letras"
   },
   "podcasts": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
     "anchors": [
       "podcast-discovery-by-country",
@@ -1666,19 +1669,20 @@
     "title": "Descubrimiento de podcasts por país"
   },
   "android-ci-diagnostics": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "04e1ffd033ea6fa67b77524014e7d3de3a3c4f319f7ed576516613f8b487be7c",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "3631241bdbb86d12170ce2d840596f44a3a839507d0169a53392e584ef3a658f",
     "anchors": [
       "diagnóstico-del-shard-android",
+      "arranque-de-adb-y-red-del-fixture",
       "silencio-en-live-después-de-recuperar-whep",
       "incidente-del-2026-11-03"
     ],
     "title": "Diagnóstico del shard Android"
   },
   "audits-2026-10-13-ci-runtime": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "124ee93bb7cf2e4c5c8fbda155b1157e8bc09ce9aeb283c1d3c3f30d166c073d",
     "anchors": [
       "cloud-ci-runtime",
@@ -1688,8 +1692,8 @@
     "title": "Tiempo de ejecución del CI en la nube"
   },
   "audits-2026-11-03-unused-code": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0e0881c1702c17357ca23fd3580cba966f90d1f6f3d2e209b9ce1acb8e505a03",
     "anchors": [
       "limpieza-de-código-heredado-sin-consumidores",
@@ -1700,8 +1704,8 @@
     "title": "Limpieza de código heredado sin consumidores"
   },
   "audits-dependency-infrastructure": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "cbf5c6cd2a4114e66b1ccd83ba3288d8dccd452fa78531ca3de011363c05126b",
     "anchors": [
       "bloque-2--infraestructura-de-dependencias",
@@ -1711,8 +1715,8 @@
     "title": "Bloque 2 · Infraestructura de dependencias"
   },
   "audits-dependency-update-plan": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "b2463ed32f12d23bf23b81970d06a21bd97e88ddef47789148a683459ce53101",
     "anchors": [
       "actualización-de-dependencias-en-tres-bloques",
@@ -1729,8 +1733,8 @@
     "title": "Actualización de dependencias en tres bloques"
   },
   "dj-architecture": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "fa54bae6aa6b9b629cec77547607ad596e21734908e632615db29e1c1b93b5f0",
     "anchors": [
       "responsabilidades-del-dj-tras-la-infraestructura-de-p12",
@@ -1744,8 +1748,8 @@
     "title": "Responsabilidades del DJ tras la infraestructura de P12"
   },
   "dj-detector-comparison": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7663c5cc5cd3bf99f1eba2029919c57bfbbe60446a204a8bad253349d2e15f0b",
     "anchors": [
       "p12-a-comparar-detección-conjunta-y-alternativas-abiertas",
@@ -1760,11 +1764,12 @@
     "title": "P12-a: comparar detección conjunta y alternativas abiertas"
   },
   "dj-handoff": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "ac2a43e456d60fb26e5f5578c3d1902efa9e0e000490c0a16c061e08616020ff",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "64cdf92d1e90eae79e40821187cff9d34a9b292b2d288c96e0e53ac239b267b9",
     "anchors": [
       "traspaso-revisión-del-modo-dj",
+      "identidad-musical-y-fuentes-pr-423",
       "cómo-trabajar-con-este-documento",
       "síntoma-que-el-usuario-oye",
       "estado",
@@ -1809,8 +1814,8 @@
     "title": "Traspaso: revisión del modo DJ"
   },
   "dj-p12": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c601d50a8654132d178115028e01f7ac59239cebfe932a2621c0685213af2d8e",
     "anchors": [
       "p12-métrica-local-y-garantías-de-mezcla",
@@ -1823,8 +1828,8 @@
     "title": "P12: métrica local y garantías de mezcla"
   },
   "dj-p13": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c0ae5892ae8e7db42d2ab238c6338d7cd9aab0380bfa0bfdc2f97dafb6b3e05e",
     "anchors": [
       "p13-frases-y-secciones-sobre-los-compases-medidos",
@@ -1836,8 +1841,8 @@
     "title": "P13: frases y secciones sobre los compases medidos"
   },
   "dj-p14": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "075c52b7ad8bfa499e6a76bd205850bd13d8fe272605c674bca3e06070befe81",
     "anchors": [
       "p14-primera-mezcla-y-duración-del-trabajo",
@@ -1849,8 +1854,8 @@
     "title": "P14. Primera mezcla y duración del trabajo"
   },
   "dj-p15": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c2c4f53d319eccee5ef6e31ce8868043b6a7aa00937b30b8fdead5f7652fb616",
     "anchors": [
       "p15-continuidad-de-reproducción-en-las-sesiones-del-2026-10-29",
@@ -1861,21 +1866,22 @@
     "title": "P15. Continuidad de reproducción en las sesiones del 2026-10-29"
   },
   "dj-p16": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-    "sourceHash": "ef40a339eece68579509541e05ebca1ddf1a900617cea25f2d7b1f420b7d77d6",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "70fb6f2a413617a805991e33bb65d58b50e1c7e31a4a7e0fe3162646758c7568",
     "anchors": [
       "p16-continuidad-por-plato-y-recuperación-de-conexión",
       "evidencia",
       "responsabilidades",
+      "seguimiento-del-7-de-noviembre-déficit-transitorio-y-cortes-en-normal",
       "conexión",
       "validación-y-límites"
     ],
     "title": "P16. Continuidad por plato y recuperación de conexión"
   },
   "dj-session-capture": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "1d0e53174879ced78fbf1526c79c2756ddcd6d1858ac0ff53822c5455d0d370f",
     "anchors": [
       "automatic-linked-dj-session-evidence",
@@ -1887,8 +1893,8 @@
     "title": "Evidencia automática de sesiones DJ enlazadas"
   },
   "dj-session-progress": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "6604ff73598768e7b8d4b3f1337d7c2d1d545911a53a94bb8bbc142931f41f5d",
     "anchors": [
       "dj-session-progress-first-measurements",
@@ -1902,8 +1908,8 @@
     "title": "Progreso de las sesiones DJ: primeras medidas"
   },
   "dj-detector-comparison-final-results": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "75ea7fa35eb99a303dabed40400822c13b6bcf8929eb182eccca294c207cb60c",
     "anchors": [
       "p12-revalidación-del-analizador-final",
@@ -1918,8 +1924,8 @@
     "title": "P12: revalidación del analizador final"
   },
   "dj-detector-comparison-readme": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "0349426a4e5a082d2f5d049da5880761f6caf08c3472e0a4b839d4623313a2f6",
     "anchors": [
       "banco-experimental-de-compás-y-primer-tiempo",
@@ -1933,8 +1939,8 @@
     "title": "Banco experimental de compás y primer tiempo"
   },
   "dj-detector-comparison-results": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "c9b87181e100c47d3b8936dc60e97f275bb4bd83879a9f369a2109b001239db5",
     "anchors": [
       "p12-a-evidencia-para-elegir-el-detector",
@@ -1953,8 +1959,8 @@
     "title": "P12-a: evidencia para elegir el detector"
   },
   "dj-detector-comparison-results-tables": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "7c42bebecccf9c0ba1dfec8d3b38b4ecb01bd9034c427fc9b4587602e89a9ace",
     "anchors": [
       "tablas-medidas"
@@ -1962,8 +1968,8 @@
     "title": "Tablas medidas"
   },
   "engineering-catalog-reconciliation": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "3cb56e9c5eb76338319189b6b4ad7d37c3ad456a5b83f64a84dc122d7f81a0cd",
     "anchors": [
       "album-recordings-and-owned-audio",
@@ -1972,13 +1978,95 @@
     "title": "Grabaciones de álbumes y audio propio"
   },
   "performance-player-song-scroll": {
-    "tag": "v0.30.0",
-    "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
     "sourceHash": "a0aeca65735b9f4bdb79f9705dd985feb765555e049e42743539df813198d337",
     "anchors": [
       "player-song-list-scroll-x270-diagnosis-and-scoped-fix",
       "evidence-and-limits"
     ],
     "title": "Desplazamiento de la lista de canciones del reproductor: diagnóstico en X270 y corrección acotada"
+  },
+  "audits-2026-11-07-artwork-requests": {
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "7b5aa111170cae147041dabbfc90153079dab601a59a7a64d562850389d75646",
+    "anchors": [
+      "portadas-adquisición-y-presupuestos-de-trabajo",
+      "diagnóstico-y-recorrido-de-las-peticiones",
+      "qué-permite-yt-dlp",
+      "contratos",
+      "decisión-de-alcance-promoción-de-audio",
+      "crítica-e-iteración",
+      "evidencia-y-límites",
+      "medición-http-aislada",
+      "validación-local-y-gates-pendientes"
+    ],
+    "title": "Portadas, adquisición y presupuestos de trabajo"
+  },
+  "audits-architecture-handoff": {
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "0c79dc868585d860e185b2c7a84060f851f26877a9b64b6de9dc6c20e7cf84b0",
+    "anchors": [
+      "traspaso-de-la-revisión-de-arquitectura-2026-11-05",
+      "estado",
+      "cerrado-en-la-primera-pr",
+      "1-editor-de-metadatos-de-la-web-reproducido",
+      "1b-copia-de-etiquetas-al-catálogo-del-pool",
+      "2-confianza-por-red-detrás-de-un-proxy-reproducido",
+      "pendiente",
+      "3-socketio-acepta-cualquier-origen",
+      "4-cola-de-reproducción-del-servidor",
+      "5-capas",
+      "6-escrituras-json-no-atómicas",
+      "7-actualización-de-yt-dlp-en-caliente-no-reproducido",
+      "8-código-muerto-y-menores",
+      "9-identidad-de-colección-pr-423"
+    ],
+    "title": "Traspaso de la revisión de arquitectura (2026-11-05)"
+  },
+  "audits-collection-identity": {
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "7b3b50d5cb6cbae39102754867b9091a505243a29755aa9e92162cd9e99a0ca9",
+    "anchors": [
+      "identidad-de-colección-y-fuentes-reproducibles",
+      "contrato",
+      "migración-y-compatibilidad",
+      "plan-y-aceptación",
+      "decisión-y-alcance-de-la-pr-423"
+    ],
+    "title": "Identidad de colección y fuentes reproducibles"
+  },
+  "dj-p18": {
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "d64c5cafc9b5a462e94fff5537aaed840fe45e1a21e0fe249fd32aad7d3991f0",
+    "anchors": [
+      "p18-tempo-compartido-entre-las-dos-canciones",
+      "criterio",
+      "contrato",
+      "ejecución",
+      "medidas",
+      "carga-inicial-de-la-web",
+      "pendiente"
+    ],
+    "title": "P18. Tempo compartido entre las dos canciones"
+  },
+  "performance-measured-runtime-optimizations": {
+    "tag": "v0.31.1",
+    "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+    "sourceHash": "cfafbb288f5f88636f3ef4bd4422bda97df2a7e5dae3f20ae2d513cf8374240a",
+    "anchors": [
+      "measured-library-and-runtime-optimizations",
+      "implemented",
+      "reproduction-and-evidence",
+      "candidates-without-an-accepted-change",
+      "concurrent-transport",
+      "acceptance-boundaries",
+      "validation"
+    ],
+    "title": "Optimizaciones medidas de la biblioteca y del entorno de ejecución"
   }
 }

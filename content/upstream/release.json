@@ -1637,74 +1637,139 @@
         "en": "Guide from the current Soundsible release.",
         "es": "Guía de la versión actual de Soundsible."
       }
+    },
+    {
+      "slug": "audits-2026-11-07-artwork-requests",
+      "source": "docs/audits/2026-11-07-artwork-requests.md",
+      "group": "more",
+      "title": {
+        "en": "Portadas, adquisición y presupuestos de trabajo",
+        "es": "Portadas, adquisición y presupuestos de trabajo"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-architecture-handoff",
+      "source": "docs/audits/ARCHITECTURE_HANDOFF.md",
+      "group": "more",
+      "title": {
+        "en": "Traspaso de la revisión de arquitectura (2026-11-05)",
+        "es": "Traspaso de la revisión de arquitectura (2026-11-05)"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "audits-collection-identity",
+      "source": "docs/audits/COLLECTION_IDENTITY.md",
+      "group": "more",
+      "title": {
+        "en": "Identidad de colección y fuentes reproducibles",
+        "es": "Identidad de colección y fuentes reproducibles"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "dj-p18",
+      "source": "docs/dj/P18.md",
+      "group": "more",
+      "title": {
+        "en": "P18. Tempo compartido entre las dos canciones",
+        "es": "P18. Tempo compartido entre las dos canciones"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
+      "slug": "performance-measured-runtime-optimizations",
+      "source": "docs/performance/measured-runtime-optimizations.md",
+      "group": "more",
+      "title": {
+        "en": "Measured library and runtime optimizations",
+        "es": "Measured library and runtime optimizations"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.30.0",
-  "sha": "f9d2136b3933af419bf78dcec0ac93d7fadf6bd5",
-  "publishedAt": "2026-11-03T14:42:16Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.30.0",
+  "tag": "v0.31.1",
+  "sha": "1efdf58acfecd983193d1865a1f557d2eb8ea8a6",
+  "publishedAt": "2026-11-07T18:55:09Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.31.1",
   "assets": [
     {
       "name": "android-release.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/android-release.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/android-release.json"
     },
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/apps.json"
     },
     {
       "name": "release-acceptance.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/release-acceptance.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/release-acceptance.json"
     },
     {
       "name": "SHA256SUMS-android.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/SHA256SUMS-android.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/SHA256SUMS-android.txt"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible-Android-alpha.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible-Android-alpha.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible-Android-alpha.apk"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.30.0_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible_0.30.0_arm64-setup.exe"
+      "name": "Soundsible_0.31.1_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible_0.31.1_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.30.0_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/Soundsible_0.30.0_x64-setup.exe"
+      "name": "Soundsible_0.31.1_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/Soundsible_0.31.1_x64-setup.exe"
     },
     {
       "name": "upgrade-seed-androidTest.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.30.0/upgrade-seed-androidTest.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.31.1/upgrade-seed-androidTest.apk"
     }
   ],
   "files": {
-    "docs/INSTALL.md": "0c6f7fbdf36301ba8da283e02211bbc7ba721d7c0a13507605fa4743116d1b77",
+    "docs/INSTALL.md": "75312d8397a253336dc7d5ef29a5e8287749e0e638ff87bb8bf1a2847057fc44",
     "docs/DOCKER.md": "8de3f3cebcbbeb9ef7a243d45b8124e218871f539602c473693202e22780cfa4",
     "docs/DESKTOP_BETA.md": "bca40a0a8685122aa7dd52f5da4bf8a9c1194135dce39e86afac1a13088602fc",
     "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "docs/OPENSUBSONIC.md": "aabfea96f2e2f47234fff1892103c8ca4d99684bcdfe04ad482e226c6aa9cd87",
-    "docs/AUTO_MODE.md": "e0c40fd2a5e7c9b0cf2b38172db75aebdc2588a27cd82fbaee16fa493080998b",
+    "docs/AUTO_MODE.md": "9d328306357a5fb17889b602ec5879ab2bf0eca448c7747590bbed1d9d16e43c",
     "docs/LIVE.md": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
     "docs/CAR_INTEGRATION.md": "6c9696c052f4f0d23a0d6b404d8491de253f2c5541106febbcc607807d5ed698",
     "docs/CONFIGURATION.md": "581e01b77c9d4905db157a6bcbc4466eb95c01ec457d8ba61eb4925e43e41f79",
-    "docs/TELEMETRY_PRIVACY.md": "2c7b1d7ae85b5a12faf0417f8526acc8e7a129a4679fabf1436305fc23bb2e90",
+    "docs/TELEMETRY_PRIVACY.md": "fea21378eed134e109747ba49def068a10964d2424ea1c80710ad13d600b769a",
     "docs/troubleshooting-yt-dlp-formats.md": "636f3fe47d35878aeeefbe45ac11cd2eb28dbf0249a71fd5fab87ec9ea0b87cf",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
-    "docs/ARCHITECTURE.md": "9ca61517d73906080f030646352cef1687bdcd39105146a6fdf27928f3ce542e",
+    "docs/ARCHITECTURE.md": "0364b05669719215d57b52c6d240e855d5225c8df87c96f78e8063dff877d48a",
     "docs/AGENT_INTEGRATION.md": "fe2dc18873a16930f4711a1b1bd3e8c195ba1d4ad5010f66cec4926421a716c8",
     "docs/VPS_RELAY.md": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
     "CONTRIBUTING.md": "4e00593df491011f72dab4de0dfcd19f1a1d93db2ca2d5e448f19d1ba9e200ac",
@@ -1713,14 +1778,14 @@
     "docs/RELEASING.md": "7f28c2dad057f26780cfaa0d77f59888534d59ca40f8d0e873d5fe940ef54791",
     "docs/ROADMAP.md": "02c4375690303788638c7f1ec674b017f0c54ea40481f1280ab73aef34bfb906",
     "docs/MOBILE_LISTS.md": "b105f5c1371b070cb736e78486d58f6d7defe375a4d74c938de69539af157fb7",
-    "docs/PLAYBACK_DIAGNOSIS.md": "e4ea00fcaac0d0afcb4649b59b28d4ab4d987fa182c01530fc08a62b0c4bcc38",
-    "docs/ARTWORK.md": "c40aa96cf98e87acfcb2cf97c7860e66af15e08b163c40928ac9601256e52e82",
+    "docs/PLAYBACK_DIAGNOSIS.md": "0610c643f28980932f620a9a42d717cfe2bd699f02cddba8251458c1e8e9d031",
+    "docs/ARTWORK.md": "944279394d0c399403f4ec6f904026fa7865871fd7b8f513205d727b78e7bcaf",
     "docs/PERFORMANCE.md": "0ae5e46875e14b0d0debfb563527c36e44b48830cce85f48562897557c63c0be",
     "docs/README.md": "671fd17be3d111f159cc406cf0ba16675763ea1e12cbad29db9e82cd9197fb96",
-    "docs/audits/2026-09-20-engineering.md": "6da3127682f09e68b0753667d565d6ed0a0f0e805a403ac8e6e5217410b1c8fc",
+    "docs/audits/2026-09-20-engineering.md": "573dc510e250fdb09070c5d91502bffc5eedde4d183c36cf9f23d84ffe534a3f",
     "docs/audits/2026-09-25-ui-loading-feedback.md": "646c70b3b36f7f5725a08d41e2bf65bad7281e88cc3e3bc9055acbb968aa704d",
     "docs/audits/2026-09-28-recovery-and-construction.md": "5c68bc4bbf3f612fe1cf1ce6e3d372467c72762d87f95b9612dfedb6331838dc",
-    "docs/audits/ENGINEERING_HANDOFF.md": "246ed404ee735f6b97ae2ad30f78f0cfa380fd165f36de59f89c237201c7c77e",
+    "docs/audits/ENGINEERING_HANDOFF.md": "5f2b7256e6b58fe47741264dd1b05cf8015e030ce48c6a8f90e3b62f13d05b26",
     "docs/engineering/instance-recovery.md": "bfbc9806ba1664b3d40d9dd7cd613cc04c77cfd8a29cc7adb248a1286d23f7ca",
     "docs/engineering/library-integrity.md": "820a9a21362e058aeb4c1a7feb6f1b63c76df2c810ef506780531fafe265b35d",
     "docs/performance/artwork-variant-quota.md": "02b7666e1a1e234a252922e3693d20d6dfdce066feadaf713414782eed1c25e2",
@@ -1739,13 +1804,13 @@
     "docs/performance/odst-save-streaming.md": "16acdcb923fa3541b36cfd3e3ec501b35bf8992869a2680a64c2b82165a3eaa2",
     "docs/performance/playback-load.md": "c9f541c85acfa0cde2f30b9a8a1e17343a3d9bf6deb3bca4f4667fe40141b7d0",
     "docs/performance/track-metadata-patch.md": "eb8a14d6862fa37f3534d84e141c5e2e988a5e5f143a16b51ccc9a5ee057f428",
-    "docs/performance/web-payload.md": "04d94d439deae2c2d358cb3e696e5621059020664ed3ed1a7f5d1dbe1341ab87",
+    "docs/performance/web-payload.md": "f3d13fb73edaf9366c67f8505f4571a4565e6462fe4e41d2272fdaf5742bab97",
     "docs/ANDROID.md": "ed146ed9638f288c17c6414ae87b1562c76d280ce9fd8e4d18a9fe08d381786d",
     "docs/DESKTOP_CLIENT.md": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
     "docs/android/ALPHA.md": "8cba7847babddfb3d0cc9e4a52b72edf56f236327734c78323f043d924f2192c",
     "docs/android/ARCHITECTURE.md": "cc7c4c0f640f465404abc44127178b7246d76be96eb7d2ce60db66a2cc75ca65",
     "docs/android/AUTH_FIXTURE_ISOLATION.md": "794402e18c6eb11f64655d43ff3e61adc5b00cba4eac00e5fa46a763aef35c76",
-    "docs/android/EVIDENCE.md": "48c37fc74310d6f8d4dedd46b70398a2cd5f494fc01c414d1652afa0c06bf203",
+    "docs/android/EVIDENCE.md": "784fc624d2369d9799596c1f39afc36b9d6401ffb52e03d68fb5ccf4d0c6174c",
     "docs/android/HANDOFF.md": "dfee244ede625c05b2a1678c5539a21aeee1b8f5e2d6fd68e8af891c29d5c836",
     "docs/android/HANDOFF_HISTORY.md": "341a975d26f770f42ea4d8e6cea2da48a446742e7b327358ca7aa3414957903b",
     "docs/android/OFFLINE_DECISION.md": "6fe358a69d4368960dcb687faa30d75bcc5ff0cb65a13878c3110a966fddae91",
@@ -1817,19 +1882,19 @@
     "docs/android/SLICE_6.md": "204be8ff4d1db8972ab20415d41561f5b2a50a8788e128174d362a0446981b64",
     "docs/LYRICS_RECOVERY.md": "85e9071f7d65f8b72d20e3d60d53aa5a7f2b0d46e6b58274020532086adcdf44",
     "docs/PODCASTS.md": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
-    "docs/android/CI_DIAGNOSTICS.md": "04e1ffd033ea6fa67b77524014e7d3de3a3c4f319f7ed576516613f8b487be7c",
+    "docs/android/CI_DIAGNOSTICS.md": "3631241bdbb86d12170ce2d840596f44a3a839507d0169a53392e584ef3a658f",
     "docs/audits/2026-10-13-ci-runtime.md": "124ee93bb7cf2e4c5c8fbda155b1157e8bc09ce9aeb283c1d3c3f30d166c073d",
     "docs/audits/2026-11-03-unused-code.md": "0e0881c1702c17357ca23fd3580cba966f90d1f6f3d2e209b9ce1acb8e505a03",
     "docs/audits/DEPENDENCY_INFRASTRUCTURE.md": "cbf5c6cd2a4114e66b1ccd83ba3288d8dccd452fa78531ca3de011363c05126b",
     "docs/audits/DEPENDENCY_UPDATE_PLAN.md": "b2463ed32f12d23bf23b81970d06a21bd97e88ddef47789148a683459ce53101",
     "docs/dj/ARCHITECTURE.md": "fa54bae6aa6b9b629cec77547607ad596e21734908e632615db29e1c1b93b5f0",
     "docs/dj/DETECTOR_COMPARISON.md": "7663c5cc5cd3bf99f1eba2029919c57bfbbe60446a204a8bad253349d2e15f0b",
-    "docs/dj/HANDOFF.md": "ac2a43e456d60fb26e5f5578c3d1902efa9e0e000490c0a16c061e08616020ff",
+    "docs/dj/HANDOFF.md": "64cdf92d1e90eae79e40821187cff9d34a9b292b2d288c96e0e53ac239b267b9",
     "docs/dj/P12.md": "c601d50a8654132d178115028e01f7ac59239cebfe932a2621c0685213af2d8e",
     "docs/dj/P13.md": "c0ae5892ae8e7db42d2ab238c6338d7cd9aab0380bfa0bfdc2f97dafb6b3e05e",
     "docs/dj/P14.md": "075c52b7ad8bfa499e6a76bd205850bd13d8fe272605c674bca3e06070befe81",
     "docs/dj/P15.md": "c2c4f53d319eccee5ef6e31ce8868043b6a7aa00937b30b8fdead5f7652fb616",
-    "docs/dj/P16.md": "ef40a339eece68579509541e05ebca1ddf1a900617cea25f2d7b1f420b7d77d6",
+    "docs/dj/P16.md": "70fb6f2a413617a805991e33bb65d58b50e1c7e31a4a7e0fe3162646758c7568",
     "docs/dj/SESSION_CAPTURE.md": "1d0e53174879ced78fbf1526c79c2756ddcd6d1858ac0ff53822c5455d0d370f",
     "docs/dj/SESSION_PROGRESS.md": "6604ff73598768e7b8d4b3f1337d7c2d1d545911a53a94bb8bbc142931f41f5d",
     "docs/dj/detector_comparison/FINAL_RESULTS.md": "75ea7fa35eb99a303dabed40400822c13b6bcf8929eb182eccca294c207cb60c",
@@ -1838,6 +1903,11 @@
     "docs/dj/detector_comparison/results/TABLES.md": "7c42bebecccf9c0ba1dfec8d3b38b4ecb01bd9034c427fc9b4587602e89a9ace",
     "docs/engineering/catalog-reconciliation.md": "3cb56e9c5eb76338319189b6b4ad7d37c3ad456a5b83f64a84dc122d7f81a0cd",
     "docs/performance/player-song-scroll.md": "a0aeca65735b9f4bdb79f9705dd985feb765555e049e42743539df813198d337",
+    "docs/audits/2026-11-07-artwork-requests.md": "7b5aa111170cae147041dabbfc90153079dab601a59a7a64d562850389d75646",
+    "docs/audits/ARCHITECTURE_HANDOFF.md": "0c79dc868585d860e185b2c7a84060f851f26877a9b64b6de9dc6c20e7cf84b0",
+    "docs/audits/COLLECTION_IDENTITY.md": "7b3b50d5cb6cbae39102754867b9091a505243a29755aa9e92162cd9e99a0ca9",
+    "docs/dj/P18.md": "d64c5cafc9b5a462e94fff5537aaed840fe45e1a21e0fe249fd32aad7d3991f0",
+    "docs/performance/measured-runtime-optimizations.md": "cfafbb288f5f88636f3ef4bd4422bda97df2a7e5dae3f20ae2d513cf8374240a",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
     "docs/images/screenshots/dark/desktop-library.webp": "c98341c6aba6842b6e0ab10e2b66a72f14f975b46a2dd18806ab89c48b86adb8",
     "docs/images/screenshots/dark/desktop-now-playing.webp": "8bb89c10e44c85a12b14f445bf744efc9751480276ab7cb6c5c68651afb2b7b5",

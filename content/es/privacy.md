@@ -17,6 +17,20 @@ Todos los eventos son **líneas JSON de solo agregar** en el **directorio de dat
 
 **Esquema del historial de escucha:** los registros activos utilizan `"v": 2`. Los escritores graban reproducciones reales de 30 segundos, acciones explícitas de guardados/listas de reproducción/suscripción y comentarios de `not_interested`. El texto de búsqueda y los clics en los resultados de la búsqueda nunca se escriben. Los saltos nunca crean una señal negativa.
 
+## El scrobbling es aparte y opcional
+
+Nada de este contrato envía datos de escucha a ningún sitio. El [scrobbling](SCROBBLING.md)
+sí lo hace, por diseño: cuando una cuenta conecta ListenBrainz, Last.fm o Maloja, el
+servidor envía a ese servicio cada canción que escucha la cuenta (artista, título,
+álbum, duración, hora de inicio y, si se conoce, el ID de grabación de MusicBrainz). Está
+desactivado hasta que se conecta un servicio, es por cuenta, y desconectarlo lo
+detiene. No depende del ajuste de aprendizaje de más abajo, y desactivar el aprendizaje
+no desactiva el scrobbling.
+
+Las reproducciones pendientes de envío esperan en `users/<account>/scrobble.sqlite3` dentro del
+directorio de **configuración**, junto a la biblioteca de esa cuenta, no en
+`telemetry/`.
+
 ## Donde vive
 
 - **Raíz:** `{SOUNDSIBLE_DATA_DIR or platform user-data}/users/<account>/telemetry/`

@@ -14,6 +14,5 @@ export const groups = [
   { id: 'install', en: 'Installation', es: 'Instalación' },
   { id: 'use', en: 'Using Soundsible', es: 'Usar Soundsible' },
   { id: 'admin', en: 'Administration', es: 'Administración' },
-  { id: 'develop', en: 'Development', es: 'Desarrollo' },
   { id: 'more', en: 'More guides', es: 'Más guías' },
 ];

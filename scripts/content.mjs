@@ -98,11 +98,33 @@ export function rewriteLink(url, item, locale, base, sha, images = {}) {
   }
   return `https://github.com/${repository}/blob/${sha}/${resolved}${hash ? '#' + hash : ''}`;
 }
+// Guides also embed raw HTML, such as a `<picture>` with a light and a dark
+// capture. Its URLs are relative to the guide just like Markdown ones.
+const htmlUrl = /\b(src|srcset|href)\s*=\s*(["'])(.*?)\2/gi;
+export function rewriteHtml(html, item, locale, base, sha, images) {
+  const rewrite = (url) => rewriteLink(url, item, locale, base, sha, images);
+  return html.replace(htmlUrl, (whole, name, quote, value) => {
+    if (!value.trim()) return whole;
+    const rewritten =
+      name.toLowerCase() === 'srcset'
+        ? value
+            .split(',')
+            .map((candidate) => {
+              const [url, ...descriptor] = candidate.trim().split(/\s+/);
+              return [rewrite(url), ...descriptor].join(' ');
+            })
+            .join(', ')
+        : rewrite(value);
+    return `${name}=${quote}${rewritten}${quote}`;
+  });
+}
 export function transform(source, item, locale, base, sha, images) {
   const tree = markdown.parse(source);
   visit(tree, (node) => {
     if (node.type === 'link' || node.type === 'image' || node.type === 'definition')
       node.url = rewriteLink(node.url, item, locale, base, sha, images);
+    else if (node.type === 'html')
+      node.value = rewriteHtml(node.value, item, locale, base, sha, images);
   });
   return markdown.stringify(tree);
 }

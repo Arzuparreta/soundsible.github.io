@@ -76,19 +76,6 @@ const group = groups.find((x) => x.id === entry.data.group);
         )
       }
       {
-        slug === 'contributing' && (
-          <aside class="translation-notice">
-            {t(
-              'A source installation also needs Node.js 22+ and the web player dependencies. Complete the native prerequisites before following these instructions.',
-              'Una instalación desde el código fuente también necesita Node.js 22+ y las dependencias del reproductor web. Completa los requisitos de instalación nativa antes de seguir estas instrucciones.',
-            )}{' '}
-            <a href={href(locale, 'docs/native-installation/')}>
-              {t('Native prerequisites', 'Requisitos de instalación nativa')} →
-            </a>
-          </aside>
-        )
-      }
-      {
         iosPublished && (
           <aside class="translation-notice">
             {t(

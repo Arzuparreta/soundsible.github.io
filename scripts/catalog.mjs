@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs';
 export const repository = 'Arzuparreta/soundsible';
-// Public reading material only. Explicit selection keeps working notes out of the site.
+// User guides only. Soundsible keeps its user guides directly in `docs/` and
+// everything written for developers and agents under `docs/internal/`, which
+// this site never publishes.
 const curatedCatalog = [
   [
     'native-installation',
@@ -129,18 +131,9 @@ const curatedCatalog = [
     'Contexto de licencia y responsabilidades.',
   ],
   [
-    'architecture',
-    'docs/ARCHITECTURE.md',
-    'develop',
-    'Architecture',
-    'Arquitectura',
-    'Components, data flow and application boundaries.',
-    'Componentes, flujo de datos y límites de la aplicación.',
-  ],
-  [
     'agent-integration',
     'docs/AGENT_INTEGRATION.md',
-    'develop',
+    'use',
     'Agent integration',
     'Integración con agentes',
     'Connect assistants using the scoped API.',
@@ -149,47 +142,11 @@ const curatedCatalog = [
   [
     'relay',
     'docs/VPS_RELAY.md',
-    'develop',
+    'admin',
     'Residential relay for VPS',
     'Relay residencial para VPS',
     'Resolve and transfer media through your trusted residential network.',
     'Resuelve y transfiere audio a través de tu red residencial de confianza.',
-  ],
-  [
-    'contributing',
-    'CONTRIBUTING.md',
-    'develop',
-    'Contributing',
-    'Contribuir',
-    'Development setup and contribution workflow.',
-    'Entorno de desarrollo y proceso de contribución.',
-  ],
-  [
-    'desktop-development',
-    'desktop-shell/README.md',
-    'develop',
-    'Desktop development',
-    'Desarrollo de escritorio',
-    'Build and test the native desktop shell.',
-    'Compila y prueba la interfaz nativa de escritorio.',
-  ],
-  [
-    'relay-deployment',
-    'deploy/community/README.md',
-    'develop',
-    'Relay deployment',
-    'Despliegue del relay',
-    'Deploy and operate a Community relay.',
-    'Despliega y administra un relay comunitario.',
-  ],
-  [
-    'releasing',
-    'docs/RELEASING.md',
-    'develop',
-    'Releasing',
-    'Publicar versiones',
-    'Versioning and the release process.',
-    'Versionado y proceso de publicación.',
   ],
   [
     'roadmap',
@@ -208,6 +165,32 @@ const curatedCatalog = [
   description: { en: descriptionEn, es: descriptionEs },
 }));
 
+// Releases up to v0.33.0 mixed internal documents into `docs/` and kept the
+// Android alpha guide in `docs/android/`. These two lists classify that older
+// layout; a release with `docs/internal/` no longer contains any of their paths.
+const legacyInternal = new Set([
+  'docs/ANDROID.md',
+  'docs/ARCHITECTURE.md',
+  'docs/ARTWORK.md',
+  'docs/LAYER_CONTRACTS.md',
+  'docs/LYRICS_RECOVERY.md',
+  'docs/MOBILE_LISTS.md',
+  'docs/PERFORMANCE.md',
+  'docs/PLAYBACK_DIAGNOSIS.md',
+  'docs/PLAYBACK_QUEUE_CONTRACT.md',
+  'docs/PREMIUM_QUALITY_CONTRACT.md',
+  'docs/RELEASING.md',
+  'docs/UI_REBUILD_PLAN.md',
+  'docs/appliance-rework-plan.md',
+]);
+const legacyUserGuides = new Set(['docs/android/ALPHA.md']);
+// A user guide is a Markdown file directly in `docs/`. Subfolders, including
+// `docs/internal/`, hold material for developers and agents.
+export function isUserGuide(path) {
+  if (legacyUserGuides.has(path)) return true;
+  return /^docs\/[^/]+\.md$/.test(path) && !legacyInternal.has(path);
+}
+
 // Newly published public guides remain available even before editorial labels arrive.
 let discovered = [];
 try {
@@ -217,15 +200,10 @@ try {
 } catch {}
 export const catalog = [
   ...curatedCatalog,
-  ...discovered.filter((doc) => !curatedCatalog.some((item) => item.source === doc.source)),
+  ...discovered.filter(
+    (doc) => isUserGuide(doc.source) && !curatedCatalog.some((item) => item.source === doc.source),
+  ),
 ];
 // `native-installation` republishes one section of `docs/INSTALL.md`, so a
 // link to that file has to resolve to the complete guide, not to the excerpt.
 export const excerptSlugs = new Set(['native-installation']);
-export const excludedSources = new Set([
-  'docs/appliance-rework-plan.md',
-  'docs/UI_REBUILD_PLAN.md',
-  'docs/PREMIUM_QUALITY_CONTRACT.md',
-  'docs/LAYER_CONTRACTS.md',
-  'docs/PLAYBACK_QUEUE_CONTRACT.md',
-]);

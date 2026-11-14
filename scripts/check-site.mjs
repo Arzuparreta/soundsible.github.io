@@ -27,10 +27,17 @@ for (const [file, doc] of cache) {
   if (!doc.querySelector('h1')) errors.push(`${file}: missing h1`);
   const ids = [...doc.querySelectorAll('[id]')].map((el) => el.id);
   if (new Set(ids).size !== ids.length) errors.push(`${file}: duplicate IDs`);
+  const references = [];
   for (const el of doc.querySelectorAll(
     'a[href],img[src],script[src],link[rel="stylesheet"][href]',
-  )) {
-    const raw = el.getAttribute('href') ?? el.getAttribute('src');
+  ))
+    references.push(el.getAttribute('href') ?? el.getAttribute('src'));
+  // A `<picture>` keeps its light capture in `srcset`, which the browser loads
+  // as surely as `src`.
+  for (const el of doc.querySelectorAll('img[srcset],source[srcset]'))
+    for (const candidate of el.getAttribute('srcset').split(','))
+      references.push(candidate.trim().split(/\s+/)[0]);
+  for (const raw of references) {
     if (!raw || raw === '#') continue;
     const url = new URL(raw, current);
     if (url.origin !== current.origin) continue;
@@ -61,5 +68,5 @@ if (errors.length) {
   process.exitCode = 1;
 } else
   console.log(
-    `Checked ${files.length} pages: internal links, anchors, assets, landmarks and image alternatives.`,
+    `Checked ${files.length} pages: internal links, anchors, assets, image sources, landmarks and image alternatives.`,
   );

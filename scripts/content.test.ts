@@ -1,8 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { catalog } from './catalog.mjs';
-import { sourceContent, anchorsFor, rewriteLink, translationStatus } from './content.mjs';
+import { catalog, isUserGuide } from './catalog.mjs';
+import {
+  sourceContent,
+  anchorsFor,
+  rewriteLink,
+  rewriteHtml,
+  transform,
+  translationStatus,
+} from './content.mjs';
 describe('release documentation pipeline', () => {
   it('extracts native instructions and refuses an unknown install layout', () => {
     const item = catalog.find((d) => d.slug === 'native-installation')!;
@@ -49,6 +56,32 @@ describe('release documentation pipeline', () => {
     expect(rewriteLink('INSTALL.md#7-storage', item, 'en', '', 'abc')).toBe(
       '/docs/install/#7-storage',
     );
+  });
+  it('rewrites the captures of an HTML picture like Markdown images', () => {
+    const item = catalog.find((d) => d.slug === 'dj-mode')!;
+    const images = {
+      'docs/images/scrobbling/settings-light.webp': 'source-assets/docs/images/a.11111111.webp',
+      'docs/images/scrobbling/settings-dark.webp': 'source-assets/docs/images/b.22222222.webp',
+    };
+    const html =
+      '<picture><source media="(prefers-color-scheme: light)" srcset="images/scrobbling/settings-light.webp"><img src="images/scrobbling/settings-dark.webp" alt="Settings"></picture>';
+    const result = transform(html + '\n', item, 'es', '/site', 'abc', images);
+    expect(result).toContain('srcset="/site/source-assets/docs/images/a.11111111.webp"');
+    expect(result).toContain('src="/site/source-assets/docs/images/b.22222222.webp"');
+    expect(
+      rewriteHtml('<img srcset="images/x.png 1x, images/y.png 2x" alt="">', item, 'en', '', 'abc', {
+        'docs/images/x.png': 'source-assets/x.1.png',
+        'docs/images/y.png': 'source-assets/y.2.png',
+      }),
+    ).toBe('<img srcset="/source-assets/x.1.png 1x, /source-assets/y.2.png 2x" alt="">');
+  });
+  it('publishes user guides from docs/ and never internal documents', () => {
+    expect(isUserGuide('docs/SCROBBLING.md')).toBe(true);
+    expect(isUserGuide('docs/android/ALPHA.md')).toBe(true);
+    expect(isUserGuide('docs/internal/ARCHITECTURE.md')).toBe(false);
+    expect(isUserGuide('docs/dj/HANDOFF.md')).toBe(false);
+    expect(isUserGuide('docs/ARCHITECTURE.md')).toBe(false);
+    expect(catalog.every((d) => isUserGuide(d.source))).toBe(true);
   });
   it('detects missing and stale translations without blocking the English release', () => {
     expect(translationStatus('new', undefined)).toBe('missing');

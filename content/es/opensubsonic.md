@@ -83,7 +83,7 @@ Las respuestas regresan como XML (el valor predeterminado), JSON (`f=json`) o JS
 | `artists[]` en una canción          | artistas ordenados de `track_artists`, nunca una división de la cadena de visualización |
 | Destacado                           | Los favoritos que el reproductor ya mantiene: una marca, no dos listas.                 |
 | `userRating`, `playCount`, `played` | `track_user_state`                                                                      |
-| `scrobble`                          | una reproducción registrada en esa misma tabla                                                |
+| `scrobble`                          | una reproducción registrada en esa misma tabla, que además se envía a los servicios de [scrobbling](SCROBBLING.md) que la cuenta haya conectado; `submission=false` se envía como «escuchando ahora» |
 | `replayGain`                        | las medidas EBU R128 que toma el motor para nivelar el volumen                          |
 | Listas de reproducción              | las listas de reproducción ordenadas en el canónico `library.db` de la cuenta           |
 | Arte de portada                     | La misma carátula que muestra el reproductor, arte incrustado extraído a pedido.        |

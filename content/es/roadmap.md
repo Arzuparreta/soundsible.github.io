@@ -28,6 +28,8 @@ compromisos con la escucha sin conexión, los coches o los relojes.
 - [Live](LIVE.md) transmite el programa a una sala de escucha en el navegador.
 - [OpenSubsonic](OPENSUBSONIC.md) da acceso a la biblioteca musical a clientes compatibles,
   con búsqueda en la biblioteca, listas de reproducción y transmisión con transcodificación.
+- [Scrobbling](SCROBBLING.md) envía las reproducciones de cada cuenta a ListenBrainz,
+  Last.fm y Maloja, desde cualquier cliente, cuando esa cuenta conecta un servicio.
 
 Estas capacidades están implementadas, pero eso no significa que se hayan validado todas las combinaciones
 de dispositivos. Las guías de cada cliente describen sus límites específicos; el comportamiento
@@ -121,8 +123,6 @@ no dan acceso a la búsqueda externa, la adquisición ni la sesión de DJ de Sou
 
 Incorporaciones previstas:
 
-- Envío externo del historial de escuchas a ListenBrainz, Last.fm y Maloja. El endpoint `scrobble`
-  de Subsonic existente registra reproducciones locales; no envía el historial a servicios externos.
 - Recomendaciones de ListenBrainz junto con las señales locales.
 - Importación y exportación de M3U y OPML, junto con el flujo de trabajo existente de
   [migración de música](MUSIC_MIGRATION.md).

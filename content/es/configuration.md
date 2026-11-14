@@ -111,6 +111,7 @@ valores predeterminados se indican en la [sección 7](#7-where-soundsible-keeps-
 | `SOUNDSIBLE_TELEMETRY_ENABLED` | activado | `0`, `false` u `off` detiene el registro de la telemetría de escucha local. Consulta [Privacidad](TELEMETRY_PRIVACY.md). |
 | `SOUNDSIBLE_LOUDNESS_ANALYSIS` | activado | `false` deja de medir las pistas nuevas para nivelar la sonoridad; las pistas ya medidas conservan sus niveles. |
 | `SOUNDSIBLE_SUBSONIC_MAX_TRANSCODES` | `2` | Transcodificaciones simultáneas de [OpenSubsonic](OPENSUBSONIC.md). |
+| `SOUNDSIBLE_LASTFM_API_KEY`, `SOUNDSIBLE_LASTFM_API_SECRET` | sin definir | La cuenta de la API de Last.fm a través de la que este servidor hace [scrobbling](SCROBBLING.md#lastfm). Hay que definir las dos. Sustituyen a la que un administrador guarda en **Ajustes → Scrobbling**, que entonces ya no se puede editar ahí. |
 | `SOUNDSIBLE_SKIP_UI_BUILD` | sin establecer | `1` impide que el motor vuelva a compilar el reproductor web al iniciarse; sirve lo que contenga `ui_web/dist`. |
 
 Para activar los registros detallados de conexión y reproducción en un navegador, añade
@@ -252,7 +253,9 @@ se copia a las nuevas ubicaciones en el primer inicio. Las opciones de `run.py` 
 [variables de rutas](#paths) permiten sustituir cualquiera de estas ubicaciones.
 
 El directorio de configuración también contiene `downloader.env`, con los
-[ajustes guardados del descargador](#3-downloads).
+[ajustes guardados del descargador](#3-downloads), y lo que guarda el
+[scrobbling](SCROBBLING.md#where-it-is-stored): `scrobble.key`,
+`lastfm_app.json` y el `users/<account>/scrobble.sqlite3` de cada cuenta.
 
 La aplicación de escritorio también guarda dos archivos en el directorio de configuración:
 

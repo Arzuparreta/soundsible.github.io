@@ -1,6 +1,6 @@
 import { mkdir, writeFile, rename, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { repository, catalog, excludedSources } from './catalog.mjs';
+import { repository, catalog, isUserGuide } from './catalog.mjs';
 const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'soundsible-site' };
 if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 async function json(path) {
@@ -28,7 +28,7 @@ const publicDocs = tree.tree
       x.type === 'blob' &&
       x.path.startsWith('docs/') &&
       x.path.endsWith('.md') &&
-      !excludedSources.has(x.path),
+      isUserGuide(x.path),
   )
   .map((x) => x.path);
 const sources = [...new Set([...catalog.map((x) => x.source), ...publicDocs])];

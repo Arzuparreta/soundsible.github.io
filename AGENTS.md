@@ -9,6 +9,10 @@ provide API credentials, approve AI translations, or run commands themselves.
 1. Check the working tree and fetch `origin/main`. Preserve unrelated work.
 2. Run `npm run docs:sync`. This imports documentation from the latest published
    stable Soundsible release, never an open PR or unreleased development branch.
+   The site publishes only Soundsible's user guides: Markdown files directly in
+   `docs/` (`isUserGuide` in `scripts/catalog.mjs`). Documents for developers and
+   agents live in `docs/internal/` and are never imported, published or
+   translated. Do not add them to the catalog.
 3. Translate the imported documentation into Spanish yourself, as the deploying
    agent. No translation API integration, background watcher, scheduled local job,
    provider-specific pipeline, human review, or translation approval is required.

@@ -269,4 +269,4 @@ sala.
 
 El análisis de audio es local. Soundsible guarda características medidas y compactas en su caché de DJ, no copias del audio decodificado. El historial de escucha y las señales de recomendación permanecen asociados a la cuenta en tu estación.
 
-Las reglas detalladas de la cola y el recorrido se recogen en el [contrato de la cola de reproducción](PLAYBACK_QUEUE_CONTRACT.md). La implementación y el flujo de datos se describen en [Arquitectura](ARCHITECTURE.md).
+Las reglas detalladas de la cola y el recorrido se recogen en el [contrato de la cola de reproducción](internal/PLAYBACK_QUEUE_CONTRACT.md). La implementación y el flujo de datos se describen en [Arquitectura](internal/ARCHITECTURE.md).

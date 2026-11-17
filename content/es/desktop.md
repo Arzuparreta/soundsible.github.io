@@ -55,7 +55,7 @@ firmados**, así que Windows avisa de un editor desconocido; consulta
 
 La aplicación lleva el mismo número de versión que el resto de la versión.
 "Beta" describe la madurez del shell de escritorio, no una versión aparte —
-consulta [Publicación de versiones](RELEASING.md).
+consulta [Publicación de versiones](internal/RELEASING.md).
 
 ## Uso
 
@@ -148,7 +148,7 @@ los manifiestos SHA-256, añade a los instaladores atestaciones de procedencia
 de GitHub y los publica en una etiqueta `v*` junto con las imágenes del
 servidor. Una versión candidata — `vX.Y.Z-rc.N` — se marca como prepublicación
 y nunca mueve la etiqueta `latest` del contenedor. Consulta
-[RELEASING.md](RELEASING.md).
+[RELEASING.md](internal/RELEASING.md).
 
 ## Bloqueos de la versión estable
 

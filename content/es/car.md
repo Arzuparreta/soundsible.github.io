@@ -114,7 +114,7 @@ Evite la interfaz de usuario enriquecida o de formato libre en la pantalla del a
 
 ## Objetivo Android
 
-La [adaptación a Android](ANDROID.md) solo tiene actualmente una estructura básica de desarrollo. Android
+La [adaptación a Android](internal/ANDROID.md) solo tiene actualmente una estructura básica de desarrollo. Android
 Auto es un requisito del plan de adaptación, pero no está implementado ni validado.
 
 La aplicación Android posterior debería exponer el mismo árbol `/api/car/*` a través de Media3 `MediaLibraryService` y `MediaSession`. Los sistemas operativos Android Auto y Android Automotive pueden luego representar la interfaz de usuario de navegación/reproducción desde la sesión multimedia nativa Android.

@@ -1,6 +1,6 @@
 import { mkdir, writeFile, rename, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { repository, catalog, isUserGuide } from './catalog.mjs';
+import { repository, curatedCatalog, isUserGuide } from './catalog.mjs';
 const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'soundsible-site' };
 if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 async function json(path) {
@@ -31,7 +31,9 @@ const publicDocs = tree.tree
       isUserGuide(x.path),
   )
   .map((x) => x.path);
-const sources = [...new Set([...catalog.map((x) => x.source), ...publicDocs])];
+// Discover from the requested release, not from the previous local snapshot.
+// A moved guide in that snapshot must not force a fetch of its retired path.
+const sources = [...new Set([...curatedCatalog.map((x) => x.source), ...publicDocs])];
 const assets = new Set([
   'branding/logo-app.png',
   ...tree.tree
@@ -45,7 +47,7 @@ try {
     );
     if (!response.ok) throw new Error(`Missing source ${path}: ${response.status}`);
     const bytes = Buffer.from(await response.arrayBuffer());
-    if (publicDocs.includes(path) && !catalog.some((d) => d.source === path)) {
+    if (publicDocs.includes(path) && !curatedCatalog.some((d) => d.source === path)) {
       const title =
         bytes.toString('utf8').match(/^#{1,2}\s+(.+)$/m)?.[1] ??
         path.split('/').at(-1).replace(/\.md$/, '');
@@ -55,7 +57,7 @@ try {
         .toLowerCase()
         .replaceAll('_', '-')
         .replaceAll('/', '-');
-      if (catalog.some((d) => d.slug === slug) || documents.some((d) => d.slug === slug))
+      if (curatedCatalog.some((d) => d.slug === slug) || documents.some((d) => d.slug === slug))
         throw new Error(`Duplicate new guide route: ${slug}`);
       documents.push({
         slug,
@@ -75,7 +77,7 @@ try {
     await writeFile(`${temp}/${path}`, bytes);
   }
   const manifest = {
-    documents: [...catalog.filter((d) => d.group === 'more'), ...documents],
+    documents: [...curatedCatalog.filter((d) => d.group === 'more'), ...documents],
     repository,
     tag: release.tag_name,
     sha: commit.sha,

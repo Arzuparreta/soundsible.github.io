@@ -1,12 +1,12 @@
 {
   "documents": [
     {
-      "slug": "readme",
-      "source": "docs/README.md",
+      "slug": "android-alpha",
+      "source": "docs/ANDROID_ALPHA.md",
       "group": "more",
       "title": {
-        "en": "Soundsible guides",
-        "es": "Soundsible guides"
+        "en": "Soundsible Android alpha",
+        "es": "Soundsible Android alpha"
       },
       "description": {
         "en": "Guide from the current Soundsible release.",
@@ -27,12 +27,12 @@
       }
     },
     {
-      "slug": "android-alpha",
-      "source": "docs/android/ALPHA.md",
+      "slug": "podcasts",
+      "source": "docs/PODCASTS.md",
       "group": "more",
       "title": {
-        "en": "Soundsible Android alpha",
-        "es": "Soundsible Android alpha"
+        "en": "Podcast discovery by country",
+        "es": "Podcast discovery by country"
       },
       "description": {
         "en": "Guide from the current Soundsible release.",
@@ -40,12 +40,12 @@
       }
     },
     {
-      "slug": "podcasts",
-      "source": "docs/PODCASTS.md",
+      "slug": "readme",
+      "source": "docs/README.md",
       "group": "more",
       "title": {
-        "en": "Podcast discovery by country",
-        "es": "Podcast discovery by country"
+        "en": "Soundsible guides",
+        "es": "Soundsible guides"
       },
       "description": {
         "en": "Guide from the current Soundsible release.",
@@ -67,79 +67,81 @@
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.33.0",
-  "sha": "cd443d6ff92f5763447bb0a5b031862bcd77d9cb",
-  "publishedAt": "2026-11-12T12:12:37Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.33.0",
+  "tag": "v0.34.1",
+  "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+  "publishedAt": "2026-11-17T11:04:02Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.34.1",
   "assets": [
     {
       "name": "android-release.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/android-release.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/android-release.json"
     },
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/apps.json"
     },
     {
       "name": "release-acceptance.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/release-acceptance.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/release-acceptance.json"
     },
     {
       "name": "SHA256SUMS-android.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/SHA256SUMS-android.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/SHA256SUMS-android.txt"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible-Android-alpha.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/Soundsible-Android-alpha.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible-Android-alpha.apk"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.33.0_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/Soundsible_0.33.0_arm64-setup.exe"
+      "name": "Soundsible_0.34.1_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible_0.34.1_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.33.0_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/Soundsible_0.33.0_x64-setup.exe"
+      "name": "Soundsible_0.34.1_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible_0.34.1_x64-setup.exe"
     },
     {
       "name": "upgrade-seed-androidTest.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.33.0/upgrade-seed-androidTest.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/upgrade-seed-androidTest.apk"
     }
   ],
   "files": {
-    "docs/INSTALL.md": "75312d8397a253336dc7d5ef29a5e8287749e0e638ff87bb8bf1a2847057fc44",
-    "docs/DOCKER.md": "8de3f3cebcbbeb9ef7a243d45b8124e218871f539602c473693202e22780cfa4",
-    "docs/DESKTOP_BETA.md": "bca40a0a8685122aa7dd52f5da4bf8a9c1194135dce39e86afac1a13088602fc",
+    "docs/INSTALL.md": "15d470e158eff3b508a01cbecdf920365911ad5472daa503066bdcd567e8a179",
+    "docs/DOCKER.md": "02753fa1f56eea541d0c2561b834faaa08ee66d255584a9f594cd15bdd3e310d",
+    "docs/DESKTOP_BETA.md": "6b0b64ce6f4f8ea4f3e5a5e952de88eae6d387be10c58df7a72f20f98862320f",
     "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
-    "docs/OPENSUBSONIC.md": "8213b34372093b8e1652eb5ce9cc5157438ecfb0649e73b7470b96a5d2676c78",
-    "docs/AUTO_MODE.md": "9d328306357a5fb17889b602ec5879ab2bf0eca448c7747590bbed1d9d16e43c",
+    "docs/OPENSUBSONIC.md": "5a2624e7570e40de281b440b10681468c267da78d39492727d3fb1f431136fb0",
+    "docs/AUTO_MODE.md": "2b50dc74599a3af7e5ccda78141cbe9297c75f47c2165625f4f033e68402d3ec",
     "docs/LIVE.md": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
-    "docs/CAR_INTEGRATION.md": "6c9696c052f4f0d23a0d6b404d8491de253f2c5541106febbcc607807d5ed698",
-    "docs/CONFIGURATION.md": "abd346f0e7888c3596df6b85b29a8d8a777b7346af357acdccc1b29b3751e3df",
-    "docs/TELEMETRY_PRIVACY.md": "1889079467bff264b508be3011ad2accf8d35628341eda975150d5b78ccdb2c6",
-    "docs/troubleshooting-yt-dlp-formats.md": "636f3fe47d35878aeeefbe45ac11cd2eb28dbf0249a71fd5fab87ec9ea0b87cf",
+    "docs/CAR_INTEGRATION.md": "aceecb53b1eb394d7943c92925249743f52ef80b2aeb9b2006609f761ffb99dc",
+    "docs/CONFIGURATION.md": "b24e67ed5705ec7dd1022dc58d329e57832c55d002add83ed693a1198e153f38",
+    "docs/TELEMETRY_PRIVACY.md": "29c25054adba5a3f6a15026147c1012ee835ee97695ae4958986a1abd77424fc",
+    "docs/troubleshooting-yt-dlp-formats.md": "100ceaeba80f9bb5956b422077d0b194a988389bd5cc376d7d8285999470c7bd",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
-    "docs/AGENT_INTEGRATION.md": "fe2dc18873a16930f4711a1b1bd3e8c195ba1d4ad5010f66cec4926421a716c8",
+    "docs/AGENT_INTEGRATION.md": "c8474953c34d1489ccc49be4edaa2aba06d3f6dd138aa7f5e9cdf7a16fd7e033",
     "docs/VPS_RELAY.md": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
-    "docs/ROADMAP.md": "b12387ca6b3f8745f8d205065371b759d58deba7682870636dd056595c3fc3a3",
-    "docs/README.md": "d8e3b7853883bd60d3150d09f7fb815799b5650a7ecb86814bf2e13b6111fb3b",
+    "docs/ROADMAP.md": "3d542926bd523afea720b336505b6e4d01139636858588bd90bfc3003f292fc2",
+    "docs/ANDROID_ALPHA.md": "922b063921bbce1aedaebbcfeaf412934851c160cd268e7eb52a09ffd85c6a3e",
     "docs/DESKTOP_CLIENT.md": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
-    "docs/android/ALPHA.md": "8cba7847babddfb3d0cc9e4a52b72edf56f236327734c78323f043d924f2192c",
     "docs/PODCASTS.md": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
+    "docs/README.md": "452ea8ed650e4926b64f55959b1786e880742d68e7fc4e13b5452ecc790e33a1",
     "docs/SCROBBLING.md": "690e08b98db408cb86cdc49a6d9baa1d2550e0bcfb9cff288edec3836aeb7eab",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
+    "docs/images/readme-dark.png": "541b9e7f39478404571ed770e7d46f46c93b2ad8bf42444fb8fdb103a5ed630c",
+    "docs/images/readme-light.png": "d1ee3313cb3c482df19bf06e3dbf8255305ceb68561519d763b2cebfb9755f7d",
     "docs/images/screenshots/dark/desktop-library.webp": "c9d27d2b33aa647a0b77d42debc33e346a823c80858d94145c3d097396b7c529",
     "docs/images/screenshots/dark/desktop-now-playing.webp": "05c028f435291449073cb690cce835524c24727d82fc1b37365770330d2501ab",
     "docs/images/screenshots/dark/desktop-search.webp": "1ff9a39387c0721597b7dcfdf7e4a74cc910b601a502659abd91da5f4bf225a9",

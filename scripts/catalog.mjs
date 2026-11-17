@@ -3,7 +3,7 @@ export const repository = 'Arzuparreta/soundsible';
 // User guides only. Soundsible keeps its user guides directly in `docs/` and
 // everything written for developers and agents under `docs/internal/`, which
 // this site never publishes.
-const curatedCatalog = [
+export const curatedCatalog = [
   [
     'native-installation',
     'docs/INSTALL.md',

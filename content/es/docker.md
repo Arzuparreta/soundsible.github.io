@@ -150,7 +150,7 @@ docker compose start soundsible
 ```
 
 Para hacer copias con sumas de comprobación, validar SQLite y restaurar en un directorio nuevo,
-consulta la [recuperación verificada sin conexión](engineering/instance-recovery.md). Ese procedimiento
+consulta la [recuperación verificada sin conexión](internal/engineering/instance-recovery.md). Ese procedimiento
 también transfiere a un contenedor de sustitución la clave de las credenciales de almacenamiento cifradas.
 
 Haga una copia de seguridad del volumen de la música por separado cuando contenga la única copia de su audio. Los volúmenes de caché y registros son opcionales en las copias de seguridad.

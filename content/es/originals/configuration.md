@@ -63,8 +63,8 @@ Set them where the engine starts, then restart it — they are read at start:
 | `SOUNDSIBLE_HOST` | `0.0.0.0` | Address the engine listens on; same as `--host`. The desktop app uses `127.0.0.1`. |
 | `SOUNDSIBLE_PORT` | `5005` | Port the engine listens on; same as `--port`. The terminal menu always uses 5005. |
 | `SOUNDSIBLE_ADMIN_TOKEN` | unset | When set, admin routes require it as `Authorization: Bearer <token>` or `X-Soundsible-Admin-Token: <token>`. See the [security baseline](INSTALL.md#8-security-baseline). |
-| `SOUNDSIBLE_ALLOWED_ORIGINS` | localhost, private LAN and Tailscale addresses | Comma-separated browser origins allowed to call the API. |
-| `SOUNDSIBLE_SOCKET_CORS_ORIGINS` | any | Comma-separated origins allowed to open the real-time connection. |
+| `SOUNDSIBLE_ALLOWED_ORIGINS` | localhost, private LAN and Tailscale addresses (only localhost when the engine listens on `127.0.0.1`) | Comma-separated browser origins allowed to call the API from another address. |
+| `SOUNDSIBLE_SOCKET_CORS_ORIGINS` | same as `SOUNDSIBLE_ALLOWED_ORIGINS` | Comma-separated origins allowed to open the real-time connection from another address. The player's own address is always allowed, also behind `tailscale serve` or a reverse proxy that sends `X-Forwarded-Proto` (and `X-Forwarded-Host` when it changes `Host`). `*` allows any page. |
 | `SOUNDSIBLE_HTTPS_URL` | unset | Your own HTTPS address, so [Live](LIVE.md#5-broadcasting-needs-https) can send a browser there to broadcast. |
 | `SOUNDSIBLE_LAUNCHER_BIND_ALL` | `false` | `true` makes the setup page and launcher answer on the network, not only on `localhost`. |
 | `LAUNCHER_PORT` | `5099` | Port of the setup page and launcher. |
@@ -99,7 +99,7 @@ defaults are listed in [section 7](#7-where-soundsible-keeps-its-files).
 | `SOUNDSIBLE_YTDLP_HTTP_CHUNK_SIZE` | `10M` | yt-dlp HTTP chunk size. |
 | `SOUNDSIBLE_YTDLP_RETRY_SLEEP` | exponential, 1 to 20 s | yt-dlp `--retry-sleep` expression, e.g. `linear=2:10`. |
 | `SOUNDSIBLE_PREVIEW_CACHE_MB` | `2048` | Disk (not RAM) for the preview-audio LRU cache. `0` disables audio caching while URL warming remains available. |
-| `SOUNDSIBLE_ARTWORK_CACHE_MB` | `512` | MiB of retained resized/cropped cover JPEGs per cache directory. Originals are excluded; `0` serves temporary disk variants without retention. Restart after changing it. See [quota details](performance/artwork-variant-quota.md). |
+| `SOUNDSIBLE_ARTWORK_CACHE_MB` | `512` | MiB of retained resized/cropped cover JPEGs per cache directory. Originals are excluded; `0` serves temporary disk variants without retention. Restart after changing it. See [quota details](internal/performance/artwork-variant-quota.md). |
 | `SOUNDSIBLE_FFMPEG` | FFmpeg on `PATH` | Explicit path to the FFmpeg binary. |
 
 ### Features
@@ -168,7 +168,7 @@ they never guess from the current environment after the URL has been resolved.
 
 ## 4. Discover (Deezer metadata)
 
-- **No Deezer API key** is required for the built-in Discover experience. The Station proxies **public** Deezer GET endpoints (see [ARCHITECTURE.md](ARCHITECTURE.md)).
+- **No Deezer API key** is required for the built-in Discover experience. The Station proxies **public** Deezer GET endpoints (see [ARCHITECTURE.md](internal/ARCHITECTURE.md)).
 - The engine must be able to reach **`https://api.deezer.com`** outbound. If that fails, Discover lists and search will be empty or error.
 - Playback still depends on **YouTube / YouTube Music search** and your existing downloader configuration; Discover does not add a separate audio backend.
 

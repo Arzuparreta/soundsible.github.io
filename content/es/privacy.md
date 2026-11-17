@@ -13,7 +13,7 @@ Todos los eventos son **líneas JSON de solo agregar** en el **directorio de dat
 | Tiempo de juego                         | `play-timing.jsonl`                   | Segmentos de latencia para la línea base de la Fase 2 (instrumentación solo en la Fase 1). |
 | Escucha y comentarios de recomendación. | `listening-events.jsonl`              | Resultados positivos por cuenta y comentarios negativos suaves explícitos.                 |
 
-**Versiones de esquema:** Los registros de configuración y migración utilizan `"v": 1`. Los intentos de reproducción utilizan `"v": 2`; El historial de escucha utiliza `"v": 2`. Las formas de eventos se catalogan en [LAYER\_CONTRACTS.md](./LAYER_CONTRACTS.md) §3. Los campos futuros son acumulativos dentro de una versión o superan `v` con una migración documentada.
+**Versiones de esquema:** Los registros de configuración y migración utilizan `"v": 1`. Los intentos de reproducción utilizan `"v": 2`; El historial de escucha utiliza `"v": 2`. Las formas de eventos se catalogan en [LAYER\_CONTRACTS.md](internal/LAYER_CONTRACTS.md) §3. Los campos futuros son acumulativos dentro de una versión o superan `v` con una migración documentada.
 
 **Esquema del historial de escucha:** los registros activos utilizan `"v": 2`. Los escritores graban reproducciones reales de 30 segundos, acciones explícitas de guardados/listas de reproducción/suscripción y comentarios de `not_interested`. El texto de búsqueda y los clics en los resultados de la búsqueda nunca se escriben. Los saltos nunca crean una señal negativa.
 
@@ -95,7 +95,7 @@ del usuario, con su autenticación existente; no se envían a terceros.
 
 El ajuste existente `SOUNDSIBLE_TELEMETRY_ENABLED=0` desactiva el almacenamiento persistente en el servidor;
 la respuesta detiene la recopilación automática y vacía la bandeja de salida pendiente de la cuenta
-en la página. Consulta [PLAYBACK_DIAGNOSIS.md](PLAYBACK_DIAGNOSIS.md) para conocer los límites y el
+en la página. Consulta [PLAYBACK_DIAGNOSIS.md](internal/PLAYBACK_DIAGNOSIS.md) para conocer los límites y el
 comando de informe para el operador. La persona que escucha no tiene que activar ni exportar nada.
 
 **Nota de cambios, 2026-10-30:** el registrador del navegador también conserva observaciones
@@ -105,7 +105,7 @@ los puntos de entrada y salida y las velocidades seleccionados y ejecutados, el 
 interrupciones. No se añade ninguna identidad de canción, título, URL de contenido multimedia ni audio. La separación
 por cuentas, la conservación, el envío tras recuperar la conexión y la opción de desactivación existentes se aplican sin cambios.
 El registrador del navegador no cubre la aplicación nativa de Android. El informe local
-es `scripts/dj_session_report.py`; consulta [el contrato de campos](dj/SESSION_CAPTURE.md).
+es `scripts/dj_session_report.py`; consulta [el contrato de campos](internal/dj/SESSION_CAPTURE.md).
 
 El almacenamiento en búfer antes del primer sonido y el almacenamiento en búfer después se registran como campos separados. Solían ser un contador emitido en el momento del primer sonido, mientras que el segundo tipo no puede haber sucedido todavía, por lo que informaba la espera de apertura que `click_to_playing_ms` ya describió, y leía lo mismo en prácticamente todas las jugadas, independientemente de lo que hiciera la entrega.
 

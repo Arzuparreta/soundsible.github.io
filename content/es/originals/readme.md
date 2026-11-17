@@ -20,25 +20,27 @@
 | [Live](LIVE.md) | Broadcast, share a room and understand the relay and browser requirements. |
 | [OpenSubsonic](OPENSUBSONIC.md) | Connect other apps to your saved music library. |
 | [Scrobbling](SCROBBLING.md) | Report what you listen to, to ListenBrainz, Last.fm or Maloja. |
-| [Android app](android/ALPHA.md) | Install the alpha APK, pair it with your server, permissions and limits. Port development: [ANDROID.md](ANDROID.md). |
+| [Android app](ANDROID_ALPHA.md) | Install the alpha APK, pair it with your server, permissions and limits. |
 | [iOS status](IOS.md) | Build and installation instructions, with device behaviour still unverified. |
 | [Car integration](CAR_INTEGRATION.md) | Web media controls and the unverified native car path. |
 | [Roadmap](ROADMAP.md) | Current capabilities, priorities and planned device support. |
 | [Privacy](TELEMETRY_PRIVACY.md) | What listening data stays on your server and how to turn learning off. |
 | [Legal & acceptable use](LEGAL.md) | Responsibilities when downloading and sharing music. |
 
-## Troubleshooting and development
+## Troubleshooting and integrations
 
-- [Download troubleshooting](troubleshooting-yt-dlp-formats.md) · [Playback diagnosis](PLAYBACK_DIAGNOSIS.md)
-- [VPS YouTube relay](VPS_RELAY.md) · [Performance](PERFORMANCE.md)
-- [Contributing](../CONTRIBUTING.md) · [Web player development](../ui_web/README.md)
-- [Architecture](ARCHITECTURE.md) · [Design](../DESIGN.md) · [Artwork](ARTWORK.md)
-- [Desktop shell](../desktop-shell/README.md) · [Agent API](AGENT_INTEGRATION.md)
-- [Releases](RELEASING.md) · [Security policy](../SECURITY.md)
+- [Download troubleshooting](troubleshooting-yt-dlp-formats.md)
+- [VPS YouTube relay](VPS_RELAY.md)
+- [Desktop client connections](DESKTOP_CLIENT.md)
+- [Podcast discovery by country](PODCASTS.md)
+- [Agent API](AGENT_INTEGRATION.md)
 
-Some working notes are kept in the repository but go stale and are not
-maintained for readers — read the [roadmap](ROADMAP.md) instead of these:
-[appliance rework](appliance-rework-plan.md) · [premium quality contract](PREMIUM_QUALITY_CONTRACT.md) · [layer contracts](LAYER_CONTRACTS.md) · [playback queue contract](PLAYBACK_QUEUE_CONTRACT.md) · [mobile lists](MOBILE_LISTS.md) · [UI rebuild plan](UI_REBUILD_PLAN.md)
+## Contributing
+
+Documents for people working on Soundsible itself — architecture, contracts,
+handoffs, audits and measurements — are in [`internal/`](internal/README.md).
+Start with [Contributing](../CONTRIBUTING.md) and the
+[security policy](../SECURITY.md).
 
 ## Built with
 
@@ -51,6 +53,7 @@ player is built with `npm` in `ui_web/`.
 | [Flask](https://flask.palletsprojects.com/) + [Socket.IO](https://socket.io/) | BSD / MIT | Station Engine API and real-time events |
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp) | Unlicense (public domain) | YouTube and YouTube Music search and download |
 | [LRCLIB](https://lrclib.net/) | Public API | Synced and plain lyrics |
+| [lrc.red](https://lrc.red/) | Public API | Synced lyrics LRCLIB has no fitting timing for; credited beside them |
 | [Deezer public API](https://developers.deezer.com/) | Public API | Discovery metadata only — no audio comes from Deezer |
 | [MusicBrainz](https://musicbrainz.org/) | Public API | Recording and release identification |
 | [ListenBrainz](https://listenbrainz.org/), [Last.fm](https://www.last.fm/api) and [Maloja](https://github.com/krateng/maloja) | Public APIs | Optional [scrobbling](SCROBBLING.md), per account |

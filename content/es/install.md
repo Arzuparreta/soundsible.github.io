@@ -394,9 +394,12 @@ Sirve Soundsible detrás de Nginx, Caddy o Traefik:
    con `--host 127.0.0.1` para que solo el proxy pueda acceder a él.
 2. Redirige una ruta pública (p. ej., `https://music.example.com`) a `http://127.0.0.1:5005`.
 3. Permite WebSocket y conexiones de larga duración en la configuración del proxy.
-4. Haz que el proxy envíe la dirección de quien realiza la llamada en `X-Forwarded-For` (Caddy,
-   Traefik y `tailscale serve` lo hacen de forma predeterminada; Nginx necesita
-   `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`).
+4. Haz que el proxy envíe la dirección de quien realiza la llamada en `X-Forwarded-For` y
+   el protocolo que utilizó el navegador en `X-Forwarded-Proto` (Caddy, Traefik y
+   `tailscale serve` lo hacen de forma predeterminada; Nginx necesita
+   `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;` y
+   `proxy_set_header X-Forwarded-Proto $scheme;`). Sin el protocolo, las actualizaciones
+   en directo del reproductor se rechazan por proceder de otro sitio.
 5. **Pon primero una contraseña a la cuenta** (Ajustes → Cuenta → Personas) si el proxy es
    accesible desde Internet.
 
@@ -436,7 +439,7 @@ con un archivo de configuración complementaria (`sudo systemctl edit soundsible
 RequiresMountsFor=/mnt/music
 ```
 
-Consulte [CONFIGURATION.md](./CONFIGURATION.md) para conocer las opciones de almacenamiento.
+Consulte [CONFIGURATION.md](CONFIGURATION.md) para conocer las opciones de almacenamiento.
 
 ---
 
@@ -468,12 +471,17 @@ Soundsible está diseñado para un uso confiable **LAN / Tailscale**. Para cualq
    export SOUNDSIBLE_LAUNCHER_BIND_ALL=true
    ```
 
-5. **Orígenes CORS.** De forma predeterminada, la API acepta orígenes de navegador de localhost, de la LAN privada y de Tailscale. Para restringirlos:
+5. **Orígenes CORS.** El reproductor servido por el motor siempre puede acceder a él. Las páginas
+   de *otras* direcciones se aceptan de forma predeterminada si están en localhost,
+   la LAN privada o Tailscale, tanto para la API como para la conexión en tiempo real.
+   Para restringirlas:
 
    ```bash
    export SOUNDSIBLE_ALLOWED_ORIGINS='http://localhost:5005,http://192.168.1.10:5005'
-   export SOUNDSIBLE_SOCKET_CORS_ORIGINS='http://localhost:5005,http://192.168.1.10:5005'
    ```
+
+   `SOUNDSIBLE_SOCKET_CORS_ORIGINS` permite dar a la conexión en tiempo real una lista
+   distinta cuando sea necesario.
 
 ---
 
@@ -500,4 +508,4 @@ Las actualizaciones de Docker se explican en [Docker → Operaciones](DOCKER.md#
 
 ---
 
-Para conocer las variables de entorno, el ajuste del descargador y las cookies YouTube, consulte [CONFIGURATION.md](./CONFIGURATION.md).
+Para conocer las variables de entorno, el ajuste del descargador y las cookies YouTube, consulte [CONFIGURATION.md](CONFIGURATION.md).

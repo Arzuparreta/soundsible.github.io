@@ -71,6 +71,10 @@ No hay **ninguna excepción de autenticación para redes de confianza**. Algunas
 
 Extensiones anunciadas: `apiKeyAuthentication`, `formPost`, `songLyrics`, `transcodeOffset`.
 
+Las letras de LRCLIB están disponibles para los clientes Subsonic. La alternativa
+lrc.red del reproductor de Soundsible se excluye aquí porque estas respuestas de
+letras no pueden incluir la atribución al proveedor que exige lrc.red.
+
 Las respuestas regresan como XML (el valor predeterminado), JSON (`f=json`) o JSONP (`f=jsonp&callback=`), y tanto la forma simple como la variante `.view` de cada método funcionan. Los errores se devuelven con HTTP 200 y el propio código de error del protocolo dentro del documento, porque un cliente que ve un 4xx informa "servidor inalcanzable" en lugar de "contraseña incorrecta".
 
 `startScan` inicia el mismo análisis asincrónico de carpetas configuradas que Configuración. `getScanStatus` lo informa como escaneo mientras está en cola o leyendo archivos y usa `count` para archivos procesados ​​durante la ejecución. Una vez inactivo, `count` vuelve al número de pistas en la biblioteca de la cuenta. Al iniciarlo de nuevo mientras hay un análisis activo, se une a la ejecución existente en lugar de iniciar otro trabajo que compita por el acceso al disco.

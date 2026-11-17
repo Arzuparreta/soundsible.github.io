@@ -63,8 +63,8 @@ Defínelas donde se inicia el motor y después reinícialo: se leen al arrancar.
 | `SOUNDSIBLE_HOST` | `0.0.0.0` | Dirección en la que escucha el motor; equivale a `--host`. La aplicación de escritorio usa `127.0.0.1`. |
 | `SOUNDSIBLE_PORT` | `5005` | Puerto en el que escucha el motor; equivale a `--port`. El menú del terminal siempre usa 5005. |
 | `SOUNDSIBLE_ADMIN_TOKEN` | sin definir | Cuando está definido, las rutas de administración lo exigen como `Authorization: Bearer <token>` o `X-Soundsible-Admin-Token: <token>`. Consulta las [medidas básicas de seguridad](INSTALL.md#8-security-baseline). |
-| `SOUNDSIBLE_ALLOWED_ORIGINS` | localhost, direcciones de la LAN privada y de Tailscale | Orígenes de navegador autorizados para llamar a la API, separados por comas. |
-| `SOUNDSIBLE_SOCKET_CORS_ORIGINS` | cualquiera | Orígenes autorizados para abrir la conexión en tiempo real, separados por comas. |
+| `SOUNDSIBLE_ALLOWED_ORIGINS` | localhost, direcciones de la LAN privada y de Tailscale (solo localhost cuando el motor escucha en `127.0.0.1`) | Orígenes de navegador autorizados para llamar a la API desde otra dirección, separados por comas. |
+| `SOUNDSIBLE_SOCKET_CORS_ORIGINS` | igual que `SOUNDSIBLE_ALLOWED_ORIGINS` | Orígenes autorizados para abrir la conexión en tiempo real desde otra dirección, separados por comas. La propia dirección del reproductor siempre se permite, también detrás de `tailscale serve` o de un proxy inverso que envíe `X-Forwarded-Proto` (y `X-Forwarded-Host` cuando cambie `Host`). `*` permite cualquier página. |
 | `SOUNDSIBLE_HTTPS_URL` | sin definir | Tu propia dirección HTTPS, para que [Live](LIVE.md#5-broadcasting-needs-https) pueda dirigir allí un navegador para emitir. |
 | `SOUNDSIBLE_LAUNCHER_BIND_ALL` | `false` | `true` hace que la página de configuración y el lanzador respondan en la red, no solo en `localhost`. |
 | `LAUNCHER_PORT` | `5099` | Puerto de la página de configuración y del lanzador. |
@@ -99,7 +99,7 @@ valores predeterminados se indican en la [sección 7](#7-where-soundsible-keeps-
 | `SOUNDSIBLE_YTDLP_HTTP_CHUNK_SIZE` | `10M` | Tamaño de los fragmentos HTTP de yt-dlp. |
 | `SOUNDSIBLE_YTDLP_RETRY_SLEEP` | exponencial, de 1 a 20 s | Expresión de `--retry-sleep` de yt-dlp, por ejemplo, `linear=2:10`. |
 | `SOUNDSIBLE_PREVIEW_CACHE_MB` | `2048` | Espacio en disco (no en RAM) para la caché LRU del audio de previsualización. `0` desactiva la caché de audio, pero permite seguir preparando las URL de antemano. |
-| `SOUNDSIBLE_ARTWORK_CACHE_MB` | `512` | MiB de portadas JPEG redimensionadas o recortadas que se conservan por directorio de caché. Se excluyen los originales; `0` sirve variantes temporales desde el disco sin conservarlas. Reinicia después de cambiarlo. Consulta los [detalles de la cuota](performance/artwork-variant-quota.md). |
+| `SOUNDSIBLE_ARTWORK_CACHE_MB` | `512` | MiB de portadas JPEG redimensionadas o recortadas que se conservan por directorio de caché. Se excluyen los originales; `0` sirve variantes temporales desde el disco sin conservarlas. Reinicia después de cambiarlo. Consulta los [detalles de la cuota](internal/performance/artwork-variant-quota.md). |
 | `SOUNDSIBLE_FFMPEG` | FFmpeg en `PATH` | Ruta explícita al binario de FFmpeg. |
 
 ### Funciones
@@ -168,7 +168,7 @@ nunca la deducen del entorno actual una vez resuelta la URL.
 
 ## 4. Descubrir (metadatos de Deezer)
 
-- **No hace falta una clave de API de Deezer** para la función Descubrir integrada. Station actúa como proxy de los endpoints GET **públicos** de Deezer (consulta [ARCHITECTURE.md](ARCHITECTURE.md)).
+- **No hace falta una clave de API de Deezer** para la función Descubrir integrada. Station actúa como proxy de los endpoints GET **públicos** de Deezer (consulta [ARCHITECTURE.md](internal/ARCHITECTURE.md)).
 - El motor debe poder establecer conexiones salientes con **`https://api.deezer.com`**. Si no puede, las listas y la búsqueda de Descubrir estarán vacías o mostrarán un error.
 - La reproducción sigue dependiendo de la **búsqueda de YouTube / YouTube Music** y de tu configuración actual de descargas; Descubrir no añade un motor de audio independiente.
 

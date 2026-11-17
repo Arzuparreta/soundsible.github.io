@@ -19,8 +19,8 @@ En el modo de motor de escritorio, no se supone que la URL base sea `:5005`. Lea
 3. Si una respuesta incluye `warning: "Device appears offline (no active socket)"`, el comando se ha emitido, pero no hay ningún reproductor del navegador conectado actualmente a la sala de ese dispositivo.
 4. Deezer solo aporta metadatos. Soundsible nunca reproduce audio de Deezer.
 5. Para obtener resultados de búsqueda reproducibles fuera de la biblioteca, usa la búsqueda de YouTube / YouTube Music mediante la ruta de yt-dlp del descargador.
-6. La cola de reproducción no es la misma que la cola de descargas.
-7. Usa preferentemente `/api/agent/play` para «reproducir esto ahora». Usa preferentemente `/api/playback/queue` para «añadir esto a la cola del reproductor».
+6. Cada reproductor mantiene su propia lista de próximas canciones; el motor no tiene una cola de reproducción a la que un agente pueda añadir elementos. La cola de descargas solo descarga.
+7. Usa `/api/agent/play` para «reproducir esto ahora» y `/api/agent/command` (`next`, `previous`, `pause`, `play`, `seek`) para recorrer lo que tiene en cola el reproductor.
 
 ## Autenticación
 
@@ -82,7 +82,7 @@ Soundsible tiene tres conceptos independientes:
 | Concepto             | Propósito                                                           | Punto final importante         |
 | -------------------- | ------------------------------------------------------------------- | ------------------------------ |
 | Biblioteca           | Pistas y listas de reproducción persistentes descargadas/importadas | `GET /api/library`             |
-| Cola de reproducción | Cola en memoria consumida por el reproductor web                    | `GET/POST /api/playback/queue` |
+| Sesión del reproductor | Lo que reproduce un dispositivo, informado por ese dispositivo; el reproductor web y Android también informan de las próximas canciones (`session.queue`), pero la aplicación de iOS todavía no | `GET /api/playback/state` (solo lectura) |
 | Cola de descarga     | Trabajos en segundo plano que descargan pistas a la biblioteca      | `POST /api/downloader/queue`   |
 
 El reproductor activo normalmente es una pestaña del navegador o PWA en `/player/` o `/player/desktop/`. El reproductor registra un dispositivo y se une a una sala Socket.IO:
@@ -336,59 +336,9 @@ Las rutas de mutación pueden requerir autorización de administrador o acceso L
 
 Los escaneos de carpetas requieren `library:write`. Un inicio exitoso devuelve HTTP `202`; sondee la ruta `GET` hasta que `state` sea `completed` o `failed`. Repetir el inicio durante `queued` o `scanning` devuelve el mismo `scan_id`. Los análisis son aditivos: utilice la ruta de purga separada cuando los archivos fuente faltantes deban eliminarse del catálogo.
 
-## Cola de reproducción
-
-Esta es la cola que consume el reproductor del navegador cuando el usuario o agente pregunta "siguiente".
-
-Cola de lectura:
-
-```bash
-curl http://localhost:5005/api/playback/queue
-```
-
-Agregar una pista de biblioteca:
-
-```bash
-curl -X POST http://localhost:5005/api/playback/queue \
-  -H 'Content-Type: application/json' \
-  -d '{"track_id":"<library-track-id>"}'
-```
-
-Agregue un elemento de vista previa YouTube:
-
-```bash
-curl -X POST http://localhost:5005/api/playback/queue \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "preview": {
-      "video_id": "dQw4w9WgXcQ",
-      "title": "Example",
-      "artist": "Artist",
-      "duration": 213,
-      "thumbnail": "https://..."
-    }
-  }'
-```
-
-Operaciones de cola:
-
-| Método   | Camino                                 | Propósito                                     |         |       |              |
-| -------- | -------------------------------------- | --------------------------------------------- | ------- | ----- | ------------ |
-| `GET`    | `/api/playback/queue`                  | Contenido de la cola                          |         |       |              |
-| `POST`   | `/api/playback/queue`                  | Agregar pista de biblioteca o vista previa    |         |       |              |
-| `DELETE` | `/api/playback/queue/<index>`          | Eliminar por índice de cola                   |         |       |              |
-| `DELETE` | `/api/playback/queue/track/<track_id>` | Eliminar todas las entradas de la cola con ID |         |       |              |
-| `POST`   | `/api/playback/queue/move`             | Cuerpo `{"from_index":0,"to_index":1}`        |         |       |              |
-| `DELETE` | `/api/playback/queue`                  | Limpiar cola                                  |         |       |              |
-| `GET`    | `/api/playback/next`                   | Pop siguiente elemento                        |         |       |              |
-| `POST`   | `/api/playback/repeat`                 | Cuerpo \`{"modo":"apagado"                    | "todos" | "uno" | "una vez"}\` |
-| `POST`   | `/api/playback/shuffle`                | Mezclar la cola actual                        |         |       |              |
-
-Importante: `/api/playback/next` muestra un elemento. No lo llames sólo para inspeccionar la cola.
-
 ## Cola de descarga
 
-Esta cola descarga audio en la biblioteca persistente. No es lo mismo que la cola de reproducción.
+Esta cola descarga audio en la biblioteca persistente. No reproduce nada.
 
 Utilice este punto final solo cuando el usuario quiera **descargar/importar música a la biblioteca**:
 
@@ -408,7 +358,7 @@ El cuerpo de la solicitud es siempre un objeto con una matriz `items`:
 }
 ```
 
-No envíe un objeto de elemento desnudo. No envíe un `video_id` desnudo. No utilice aquí objetos `preview` de la cola de reproducción.
+No envíe un objeto de elemento desnudo. No envíe un `video_id` desnudo. No envíe aquí objetos `preview`.
 
 Buscar YouTube / YouTube Music:
 
@@ -595,7 +545,7 @@ Cuando finalizan las descargas, Soundsible emite `library_updated` y la pista ap
 1. Si el usuario dice "descargar este enlace YouTube", ponga en cola `source_type: "youtube_url"` con `song_str` como URL completa.
 2. Si el usuario dice "descargar canción por artista", primero llame a `/api/downloader/youtube/search?source=ytmusic`, elija el mejor resultado y luego ponga en cola el formato de URL resuelto.
 3. Si la búsqueda no está disponible o no es concluyente, ponga en cola el texto sin formato solo con `song_str` y `metadata_evidence` opcional; no agregue `source_type`.
-4. Nunca utilice ID de Deezer, URL de Spotify, objetos de vista previa de la cola de reproducción ni cargas útiles sin formato solo de `video_id` para `/api/downloader/queue`.
+4. Nunca utilice ID de Deezer, URL de Spotify, objetos de vista previa ni cargas útiles sin formato solo de `video_id` para `/api/downloader/queue`.
 5. Después de hacer cola, llame a `/api/downloader/start`; la cola por sí sola no comienza a procesarse.
 
 ## Descubrimiento Deezer
@@ -627,7 +577,6 @@ Los ID de pista Deezer no son ID de pista Soundsible reproducibles. Una fila Dee
 3. Elija el mejor resultado.
 4. O:
    - juega ahora con `/api/agent/play` usando la consulta, o
-   - agregar un elemento de vista previa a `/api/playback/queue`, o
    - agréguelo a `/api/downloader/queue` para descargarlo en la biblioteca.
 
 No llame a `/api/agent/play` con `track_id: "deezer_123"` o una identificación numérica sin formato Deezer.
@@ -728,12 +677,9 @@ Para "reproducir X en mi escritorio":
 4. Llame a `POST /api/agent/play` con `{"query":"X","device_id":"Desktop"}`.
 5. Si la respuesta es `warning`, informe que el dispositivo está fuera de línea.
 
-Para "agregar X a la cola":
-
-1. Buscar biblioteca local: `GET /api/library/search?q=X`.
-2. Si existe una buena coincidencia de biblioteca, `POST /api/playback/queue` con `{"track_id":"..."}`.
-3. Si no, busque YouTube Music con `/api/downloader/youtube/search`.
-4. Agregue el resultado elegido como `{"preview": {...}}`.
+Para «añadir X a la cola»: la lista de próximas canciones pertenece al reproductor y
+no existe un punto de acceso que permita añadir elementos. Ofrece reproducir X ahora
+(`/api/agent/play`) o descargarlo en la biblioteca (`/api/downloader/queue`).
 
 Para "buscar a 1:15" o "saltar a 75 segundos":
 
@@ -780,7 +726,6 @@ Problemas comunes:
 | Buscar retornos `seek requires position_sec`                       | El agente envió `seek` sin posición absoluta                                                | Enviar `{"command":"seek","position_sec":75}`                                                                                |
 | La búsqueda no devuelve ningún estado de reproducción              | El dispositivo de destino no ha informado de un seguimiento actual                          | Inicie la reproducción primero o apunte al dispositivo activo desde `/api/devices`                                           |
 | La identificación de Deezer falla                                  | Los ID de Deezer son solo metadatos                                                         | Resolver por título/artista mediante YouTube Music                                                                           |
-| `/api/playback/next` cambió de cola                                | Aparece el siguiente elemento                                                               | Utilice `GET /api/playback/queue` para inspeccionar                                                                          |
 | La cola de descarga rechaza el `video_id` sin procesar             | `/api/downloader/queue` requiere `items[].song_str`                                         | Enviar URL completa de YouTube en `song_str` más `video_id`                                                                  |
 | La cola de descarga rechaza `ytmusic_search` con texto sin formato | Los tipos de fuente YouTube explícitos requieren URL de YouTube resueltas                   | Busque primero, luego ponga en cola la URL del resultado seleccionado; u omita `source_type` para utilizar texto sin formato |
 | Canción descargada no visible                                      | El trabajo de descarga no ha finalizado o la biblioteca no está sincronizada                | Marque `/api/downloader/queue/status`, luego `/api/library/sync` si es necesario                                             |
@@ -812,12 +757,6 @@ POST /api/library/favourites/toggle
 POST /api/library/playlists
 POST /api/library/playlists/<name>/tracks
 
-GET    /api/playback/queue
-POST   /api/playback/queue
-DELETE /api/playback/queue/<index>
-DELETE /api/playback/queue/track/<track_id>
-POST   /api/playback/queue/move
-DELETE /api/playback/queue
 GET    /api/playback/state
 PUT    /api/playback/state
 POST   /api/playback/handoff

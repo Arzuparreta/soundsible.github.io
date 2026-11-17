@@ -32,8 +32,18 @@ error persiste tras los tres intentos:
 
 - **Actualiza yt-dlp.** YouTube cambia a menudo y una versión antigua de yt-dlp es la
   causa más habitual. En una instalación nativa, activa **Configuración → Descargas →
-  Actualizar yt-dlp automáticamente** (solo administradores) y reinicia Soundsible: a partir de entonces actualizará
-  yt-dlp en segundo plano cada vez que se inicie. Con Docker, descarga la imagen más reciente.
+  Actualizar yt-dlp automáticamente** (solo administradores) y reinicia Soundsible: a partir de entonces
+  la estación actualizará yt-dlp antes de empezar a servir, siempre que ningún otro motor
+  esté utilizando el mismo entorno de Python. La descarga de la actualización tiene un
+  límite de dos minutos; la instalación desde los paquetes wheel descargados termina antes
+  del arranque. Si otro motor utiliza ese entorno, la actualización espera a un reinicio
+  posterior con esos motores detenidos. La actualización automática exige bloqueo nativo
+  de archivos y un entorno con permisos de escritura; de lo contrario, se omite y se
+  registra un mensaje. Durante la instalación, Ctrl+C y el cierre normal esperan a que
+  pip termine de sustituir paquetes. Arrancar desde el código fuente después de cambiar
+  las dependencias también exige detener los otros motores que usen ese entorno.
+  La aplicación de escritorio y Docker ignoran este ajuste: la aplicación incluye su
+  propio yt-dlp en cada versión y, con Docker, debes descargar la imagen más reciente.
 - Exporta un `cookies.txt` nuevo; una sesión caducada puede fallar del mismo modo.
 
 ## «Inicia sesión para confirmar que no eres un bot», búsquedas vacías en un VPS

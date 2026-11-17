@@ -22,9 +22,9 @@ compromisos con la escucha sin conexión, los coches o los relojes.
 - Web/PWA y beta de escritorio. El [código nativo de iOS](IOS.md) incluye descarga sin conexión
   y gestión del almacenamiento, pero nadie ha instalado ni ejecutado la aplicación en un dispositivo.
   Su comportamiento sigue siendo teórico; generar un IPA no lo valida.
-- [Contenedor de desarrollo de Android](ANDROID.md): recursos compartidos de Solid y una base de compilación
+- [Contenedor de desarrollo de Android](internal/ANDROID.md): recursos compartidos de Solid y una base de compilación
   nativa. La conexión, la reproducción y la experiencia en el dispositivo aún no están implementadas;
-  consulta el [documento de traspaso de la adaptación](android/HANDOFF.md) para conocer los requisitos de entrega.
+  consulta el [documento de traspaso de la adaptación](internal/android/HANDOFF.md) para conocer los requisitos de entrega.
 - [Live](LIVE.md) transmite el programa a una sala de escucha en el navegador.
 - [OpenSubsonic](OPENSUBSONIC.md) da acceso a la biblioteca musical a clientes compatibles,
   con búsqueda en la biblioteca, listas de reproducción y transmisión con transcodificación.
@@ -96,7 +96,7 @@ Evaluar la escucha sin conexión en nuestros propios clientes: descargar música
 servidor Soundsible, escuchar sin conexión y sincronizar al recuperarla.
 El servidor sigue formando parte del producto aunque un cliente esté temporalmente sin conexión.
 En Android, el alcance y la interfaz siguen siendo una
-[decisión de producto pendiente](android/OFFLINE_DECISION.md) explícita; aún no se ha aprobado ninguna implementación
+[decisión de producto pendiente](internal/android/OFFLINE_DECISION.md) explícita; aún no se ha aprobado ninguna implementación
 sin conexión.
 Tratar el código existente de iOS como no validado y comprobar las descargas, los límites de almacenamiento,
 la reproducción sin conexión y la reconexión en cada cliente compatible.
@@ -148,4 +148,4 @@ para ver los cambios entregados. Los compromisos futuros anteriores no son afirm
 
 ## Internos
 
-Notas de trabajo, no compromisos. Pueden quedar obsoletas y no se mantienen como documentación para usuarios: [Contratos de capa](LAYER_CONTRACTS.md) · [Contrato de calidad premium](PREMIUM_QUALITY_CONTRACT.md) · [Plan de retrabajo del dispositivo](appliance-rework-plan.md) · [Plan de reconstrucción de UI](UI_REBUILD_PLAN.md).
+Notas de trabajo, no compromisos. Pueden quedar obsoletas y no se mantienen como documentación para usuarios: [Contratos de capa](internal/LAYER_CONTRACTS.md) · [Contrato de calidad premium](internal/PREMIUM_QUALITY_CONTRACT.md) · [Plan de retrabajo del dispositivo](internal/appliance-rework-plan.md) · [Plan de reconstrucción de UI](internal/UI_REBUILD_PLAN.md).

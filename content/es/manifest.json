@@ -1,14 +1,18 @@
 {
   "native-installation": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "905db518d925b5220592328aee834df6f4cb235b9df6854ae03a86d37aaa00cd",
-    "anchors": ["native-installation", "first-run", "every-run-after-that"],
+    "anchors": [
+      "native-installation",
+      "first-run",
+      "every-run-after-that"
+    ],
     "title": "Instalación nativa"
   },
   "install": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "15d470e158eff3b508a01cbecdf920365911ad5472daa503066bdcd567e8a179",
     "anchors": [
       "install--deployment",
@@ -34,8 +38,8 @@
     "title": "Instalación y despliegue"
   },
   "docker": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "02753fa1f56eea541d0c2561b834faaa08ee66d255584a9f594cd15bdd3e310d",
     "anchors": [
       "docker-deployment",
@@ -50,8 +54,8 @@
     "title": "Despliegue con Docker"
   },
   "desktop": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "6b0b64ce6f4f8ea4f3e5a5e952de88eae6d387be10c58df7a72f20f98862320f",
     "anchors": [
       "desktop-app-beta",
@@ -67,8 +71,8 @@
     "title": "Aplicación de escritorio (beta)"
   },
   "ios": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "anchors": [
       "soundsible-for-ios",
@@ -92,8 +96,8 @@
     "title": "Soundsible para iOS"
   },
   "opensubsonic": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "5a2624e7570e40de281b440b10681468c267da78d39492727d3fb1f431136fb0",
     "anchors": [
       "opensubsonic",
@@ -108,12 +112,14 @@
     "title": "OpenSubsonic"
   },
   "dj-mode": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
-    "sourceHash": "2b50dc74599a3af7e5ccda78141cbe9297c75f47c2165625f4f033e68402d3ec",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
+    "sourceHash": "24612cd9feab337d631460f0214a56a78457205f37d4cb20525f7812d0bab5c5",
     "anchors": [
       "dj-mode",
       "start-a-set",
+      "where-the-player-sits",
+      "choose-music-for-the-session",
       "a-source-is-one-piece-of-music",
       "what-the-dj-listens-for",
       "whole-songs-without-mixing",
@@ -127,8 +133,8 @@
     "title": "Modo DJ"
   },
   "live": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "anchors": [
       "live--broadcasting-your-soundsible",
@@ -144,8 +150,8 @@
     "title": "Live: emitir desde Soundsible"
   },
   "music-migration": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
     "anchors": [
       "moving-from-spotify-or-apple-music-to-soundsible",
@@ -158,8 +164,8 @@
     "title": "Pasar de Spotify o Apple Music a Soundsible"
   },
   "car": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "aceecb53b1eb394d7943c92925249743f52ef80b2aeb9b2006609f761ffb99dc",
     "anchors": [
       "car-integration",
@@ -172,8 +178,8 @@
     "title": "Integración del coche"
   },
   "configuration": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "b24e67ed5705ec7dd1022dc58d329e57832c55d002add83ed693a1198e153f38",
     "anchors": [
       "configuration",
@@ -198,8 +204,8 @@
     "title": "Configuración"
   },
   "privacy": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "29c25054adba5a3f6a15026147c1012ee835ee97695ae4958986a1abd77424fc",
     "anchors": [
       "soundsible-telemetry-and-privacy-contract",
@@ -216,8 +222,8 @@
     "title": "Contrato de telemetría y privacidad Soundsible"
   },
   "troubleshooting": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "100ceaeba80f9bb5956b422077d0b194a988389bd5cc376d7d8285999470c7bd",
     "anchors": [
       "download-troubleshooting",
@@ -229,8 +235,8 @@
     "title": "Solución de problemas de descarga"
   },
   "legal": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
     "anchors": [
       "legal-disclaimer-and-acceptable-use",
@@ -241,9 +247,9 @@
     "title": "Aviso legal y uso aceptable"
   },
   "agent-integration": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
-    "sourceHash": "c8474953c34d1489ccc49be4edaa2aba06d3f6dd138aa7f5e9cdf7a16fd7e033",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
+    "sourceHash": "9365f3a27ec8485c9f8eb1666ba265d93623998d7029c6b9288e82d863a2dbc8",
     "anchors": [
       "soundsible-agent-integration-guide",
       "agent-rules",
@@ -271,8 +277,8 @@
     "title": "Guía de integración del agente Soundsible"
   },
   "relay": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
     "anchors": [
       "verified-vps-relay",
@@ -285,8 +291,8 @@
     "title": "Relé VPS verificado"
   },
   "roadmap": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "3d542926bd523afea720b336505b6e4d01139636858588bd90bfc3003f292fc2",
     "anchors": [
       "roadmap",
@@ -305,9 +311,9 @@
     "title": "Hoja de ruta"
   },
   "readme": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
-    "sourceHash": "452ea8ed650e4926b64f55959b1786e880742d68e7fc4e13b5452ecc790e33a1",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
+    "sourceHash": "5d72b86c01578cf3a961651105cd5e821a32daa819a07021e401767b30d3d847",
     "anchors": [
       "soundsible-guides",
       "install-and-set-up",
@@ -319,8 +325,8 @@
     "title": "Guías de Soundsible"
   },
   "desktop-client": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
     "anchors": [
       "desktop-client-connections",
@@ -330,8 +336,8 @@
     "title": "Conexiones del cliente de escritorio"
   },
   "android-alpha": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "922b063921bbce1aedaebbcfeaf412934851c160cd268e7eb52a09ffd85c6a3e",
     "anchors": [
       "soundsible-android-alpha",
@@ -343,15 +349,18 @@
     "title": "Alpha de Soundsible para Android"
   },
   "podcasts": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
-    "anchors": ["podcast-discovery-by-country", "apple-sources"],
+    "anchors": [
+      "podcast-discovery-by-country",
+      "apple-sources"
+    ],
     "title": "Descubrimiento de podcasts por país"
   },
   "scrobbling": {
-    "tag": "v0.34.1",
-    "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
     "sourceHash": "690e08b98db408cb86cdc49a6d9baa1d2550e0bcfb9cff288edec3836aeb7eab",
     "anchors": [
       "scrobbling",
@@ -364,5 +373,17 @@
       "where-it-is-stored"
     ],
     "title": "Scrobbling"
+  },
+  "devices": {
+    "tag": "v0.37.0",
+    "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
+    "sourceHash": "c3fa31ecfe0d48a78fd8c8f45994afc02152ccae0849ae179c882637b328816b",
+    "anchors": [
+      "controlling-other-devices",
+      "control-another-device",
+      "move-music-between-devices",
+      "when-a-device-is-offline-or-needs-an-update"
+    ],
+    "title": "Controlar otros dispositivos"
   }
 }

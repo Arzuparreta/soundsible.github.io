@@ -17,6 +17,7 @@
 | Guía | Qué contiene |
 | --- | --- |
 | [DJ](AUTO_MODE.md) | Iniciar un set, elegir influencias, pedir canciones y editar transiciones. |
+| [Dispositivos y control remoto](DEVICES.md) | Controlar otro dispositivo Soundsible, mover música entre dispositivos y gestionar aplicaciones sin conexión o antiguas. |
 | [Live](LIVE.md) | Emitir, compartir una sala y entender el relay y los requisitos del navegador. |
 | [OpenSubsonic](OPENSUBSONIC.md) | Conectar otras aplicaciones a tu biblioteca de música guardada. |
 | [Scrobbling](SCROBBLING.md) | Enviar lo que escuchas a ListenBrainz, Last.fm o Maloja. |

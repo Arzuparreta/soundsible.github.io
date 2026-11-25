@@ -18,33 +18,67 @@ planificación y su interfaz siguen perfeccionándose.
   elige música. El DJ escoge un inicio entre esa selección y empieza
   la ruta desde ahí.
 - Con una pista en reproducción, abre el reproductor y cambia de **NORMAL** a **DJ**.
-  La pista actual se convierte en la primera influencia visible en **Sesión**.
-- Desde el menú de una canción en NORMAL o dentro del panel del reproductor, **Iniciar DJ desde esta canción** convierte esa canción en la
+  La pista actual se convierte en la primera influencia visible en **Fuentes**.
+- Desde el menú de una canción, **Iniciar DJ desde esta canción** convierte esa canción en la
   fuente de la sesión. Será la siguiente canción que el DJ introduzca en la mezcla, igual que mezcla cualquier
-  otra, y a partir de entonces servirá de origen para la música.
-- Mientras DJ está activo, reproducir una canción desde cualquier lugar fuera del panel del reproductor inicia
+  otra, y a partir de entonces servirá de origen para la música. Los álbumes, artistas y listas de reproducción
+  ofrecen **Iniciar una sesión de DJ** del mismo modo.
+- Mientras DJ está activo, reproducir una canción desde cualquier lugar de Soundsible inicia
   inmediatamente una nueva sesión de DJ desde esa canción en 0:00. Su fuente y su ruta
   sustituyen a las de la sesión anterior, incluidas todas las peticiones e influencias anteriores.
   Reproducir una colección empieza por su primera canción y usa la colección como
-  fuente. Los controles de la sesión están dentro del panel del reproductor.
-- En **Sesión**, usa **Mezclar con…** para añadir una influencia o **Cambiar…** para
-  elegir una nueva dirección con el mismo explorador musical.
+  fuente.
+- Para cambiar en su lugar la sesión que está sonando, usa sus propios controles (consulta
+  [Elegir música para la sesión](#choose-music-for-the-session)).
+
+### Dónde se sitúa el reproductor
+
+En un ordenador, el reproductor abierto es una columna a la derecha, junto a Soundsible:
+la biblioteca, Buscar y Descubrir siguen disponibles a su lado. Arrastra su borde izquierdo para
+hacerlo más ancho o más estrecho. Cuando deja de tener su ancho predeterminado, aparece un botón
+de restablecimiento (↶) en la barra superior del reproductor junto al botón de dispositivo; ese botón, o un
+doble clic en el borde, restaura el ancho predeterminado. Usa el botón en la parte superior del reproductor para ocupar
+toda la pantalla o volver a acoplarlo junto a la aplicación. Soundsible recuerda ambas elecciones.
+
+A pantalla completa, el escenario y la lista aparecen uno junto al otro y el escenario se ajusta al
+tamaño de la portada. Arrastra la línea entre ambos, o el tirador de un panel (los puntos en la
+parte superior de cada panel) para intercambiarlos; el botón de restablecimiento en la parte superior de esa línea
+devuelve la disposición automática.
+
+En un teléfono, el reproductor ocupa toda la pantalla.
+
+### Elegir música para la sesión
+
+**Mezclar con…** y **Cambiar ▾ → Elegir otra música…** en **Fuentes**, y **＋** entre dos canciones de la Ruta
+o al final de ella, piden música. Al pulsar cualquiera de ellos, el reproductor queda donde puedas
+ver la aplicación —acoplado a su lado en un ordenador, cerrado en un teléfono— y una barra en la
+parte superior de Soundsible indica qué está esperando. La siguiente canción que reproduzcas, desde
+cualquier lista, página o resultado de búsqueda, responde a esa petición en lugar de sonar:
+
+| Pulsaste | Una canción | Un álbum, artista o lista |
+| --- | --- | --- |
+| **Mezclar con…** | se añade como una influencia más | se añade como una influencia más |
+| **Cambiar ▾ → Elegir otra música…** | pasa a ser la nueva dirección | pasa a ser la nueva dirección |
+| **＋** | se coloca en ese punto de la Ruta | sus canciones se colocan ahí, en orden |
+
+Después, el reproductor vuelve a mostrar la Ruta. **Cancelar** en la barra, o pulsar
+otro de estos botones, descarta la primera petición.
 
 ### Una fuente es un único elemento musical
 
 Una canción, un álbum, un artista, una lista de reproducción o los favoritos constituyen **una fuente**.
-Elegir una colección fuera del panel del reproductor inicia una nueva sesión de DJ a partir de ella.
-Dentro del panel, su botón principal orienta la sesión actual hacia esa fuente mientras
-la canción sigue sonando: el DJ elige las siguientes canciones de ella. Nunca convierte la colección en una lista de peticiones. La opción de pedir todas las canciones
-de una colección sigue disponible, con su nombre (**Añadir a la sesión**), en el
-menú de la colección dentro del panel, y esas canciones van juntas: pertenecen a la sesión
-para la que se pidieron.
+Reproducir una colección inicia una nueva sesión de DJ a partir de ella. Elegida para **Cambiar ▾ → Elegir otra música…**,
+mueve la sesión actual hacia ella mientras la canción sigue sonando: el DJ
+extrae las siguientes canciones de ahí. Nunca convierte la colección en una lista de
+peticiones. La opción de pedir todas las canciones de una colección sigue ahí: elígela para
+**＋**, y esas canciones viajan juntas: pertenecen a la sesión para la que se
+pidieron.
 
 Las tres partes del espacio de trabajo tienen funciones diferentes:
 
 | Parte | Qué controla |
 | --- | --- |
-| **Sesión** | El material musical y la dirección en los que debe basarse el DJ |
+| **Fuentes** | El material musical y la dirección en los que debe basarse el DJ |
 | **Escenario / Cabina** | Lo que está sonando y lo que viene después |
 | **Ruta** | El orden real de las próximas canciones, incluidas las pistas que has fijado y los puentes generados por el DJ |
 
@@ -158,16 +192,16 @@ aún no haya preparado; una mezcla ya preparada se reproduce igualmente.
 
 ## Personalizar la sesión
 
-- **Añadir a la sesión** pide canciones concretas sin cambiar la dirección musical.
-- **Mezclar en la sesión** añade una influencia junto a las existentes.
-- Dentro del panel del reproductor, **Cambiar sesión** (e **Iniciar DJ desde…**) orienta la sesión hacia una nueva
+- **＋** en la Ruta pide canciones concretas sin cambiar la dirección musical.
+- **Mezclar con…** añade una influencia junto a las existentes.
+- **Cambiar ▾ → Elegir otra música…** orienta la sesión hacia una nueva
   fuente de inmediato. Las fuentes anteriores, las elecciones y los puentes del DJ, y las canciones
   pedidas como una colección completa se van con la sesión anterior; las canciones que
   hayas pedido de una en una se quedan. La canción actual continúa y el DJ hace la transición
   desde ella cuando lo considera oportuno; una mezcla que ya se esté oyendo termina. Después se planifica
   la nueva ruta como en cualquier reposición, con reintentos automáticos mientras la música sigue sonando.
-- El bloque Sesión muestra las influencias activas. Elimina una influencia mientras
-  quede otra, o usa **Cambiar…** para sustituir la última.
+- El bloque **Fuentes** muestra las influencias activas. Elimina una influencia mientras
+  quede otra, o usa **Cambiar ▾** para sustituir la última.
 - **Coloca una pista que tenga que sonar.** Añade una canción a la Ruta o suéltala en un
   hueco concreto. Soundsible puede insertar un puente si así se obtiene un camino más seguro
   hasta la petición.
@@ -185,9 +219,10 @@ aún no haya preparado; una mezcla ya preparada se reproduce igualmente.
   disponible con clic derecho o una pulsación larga en el móvil). El menú permite guardar la canción en tu
   biblioteca, descargarla, marcarla como favorita o añadirla a una lista de reproducción
   sin moverla en la ruta, incluida la canción que ya esté preparada.
-- **Elige música desde cualquier lugar.** Los menús de canciones y colecciones ofrecen las mismas
-  acciones de sesión. **Reproducir ahora** sigue siendo una transición inmediata explícita.
-  Elegir una influencia musical no implica pedir también esa canción concreta.
+- **Elige música desde cualquier lugar.** Las peticiones de sesión se responden desde cualquier lista
+  de Soundsible, no desde un explorador separado dentro del reproductor. **Reproducir ahora**
+  sigue siendo una transición inmediata explícita. Elegir una influencia musical no implica
+  pedir también esa canción concreta.
 
 
 El DJ da prioridad a las peticiones explícitas frente a la música generada. Salir de DJ elimina sus
@@ -212,9 +247,9 @@ termina y la selección más reciente entra en la mezcla a continuación.
 El DJ explora las influencias activas junto con las últimas cuatro canciones automáticas
 que hayan empezado a sonar en la dirección actual. Una recomendación pendiente
 no es una raíz de descubrimiento. Las peticiones concretas y los puentes no se convierten en raíces solo
-por haber sonado. **Mezclar con…** conserva esta exploración; **Cambiar…** la borra,
+por haber sonado. **Mezclar con…** conserva esta exploración; **Cambiar ▾** la borra,
 sin incorporar como raíz la canción saliente. Estas raíces de descubrimiento no aparecen como
-influencias adicionales en **Sesión**.
+influencias adicionales en **Fuentes**.
 
 Un cambio de dirección se aplica de inmediato: las nuevas influencias, una nueva
 revisión de la exploración y el vaciado de la ruta se guardan juntos, y cualquier

@@ -16,6 +16,10 @@
   --on-accent: #fff;
   --code: #eef0ea;
   --focus: #9c3c0d;
+  --tag-primary-fg: #145a32;
+  --tag-primary-bg: #e3f4ea;
+  --tag-prerelease-fg: #9b1c1c;
+  --tag-prerelease-bg: #fde8e8;
   --color-deep: var(--bg);
   --color-deeper: var(--bg);
   --color-surface: var(--surface);
@@ -725,6 +729,23 @@ input {
   padding: 2px 7px;
   border-radius: 3px;
   margin-top: 12px;
+}
+.tag-primary {
+  color: var(--tag-primary-fg);
+  background: var(--tag-primary-bg);
+}
+.tag-prerelease {
+  color: var(--tag-prerelease-fg);
+  background: var(--tag-prerelease-bg);
+}
+:root[data-theme='dark'],
+:root[data-theme='slate'],
+:root[data-theme='pure-black'],
+:root[data-theme='forest-green'] {
+  --tag-primary-fg: #7ee2a8;
+  --tag-primary-bg: #173323;
+  --tag-prerelease-fg: #fca5a5;
+  --tag-prerelease-bg: #3b191b;
 }
 .install-option details {
   margin-top: 18px;

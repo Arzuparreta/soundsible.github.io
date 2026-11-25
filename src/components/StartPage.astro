@@ -59,7 +59,7 @@ const commands = blocks.slice(0, 3).map(([, , code]) =>
             class="platforms"
           >
             Linux · macOS · Windows
-          </p><span class="tag">{t('PRIMARY METHOD', 'MÉTODO PRINCIPAL')}</span>
+          </p><span class="tag tag-primary">{t('PRIMARY METHOD', 'MÉTODO PRINCIPAL')}</span>
         </div><div>
           <p>
             {
@@ -132,67 +132,6 @@ const commands = blocks.slice(0, 3).map(([, , code]) =>
           </details>
         </div>
       </section>
-      <section class="install-option" aria-labelledby="desktop-title">
-        <div>
-          <h2 id="desktop-title">{t('Desktop app', 'Aplicación de escritorio')}</h2><p
-            class="platforms"
-          >
-            Windows
-          </p><span class="tag">BETA</span>
-        </div><div>
-          <p>
-            {
-              t(
-                'One Windows installer runs a server on this PC and its player, with no terminal required. Check the release assets for the installer that matches your processor. On Linux, run the server natively or with Docker and open the player in your browser.',
-                'Un instalador para Windows ejecuta un servidor en este PC y su reproductor, sin necesidad de terminal. Busca en los archivos de la versión el instalador de tu procesador. En Linux, ejecuta el servidor de forma nativa o con Docker y abre el reproductor en tu navegador.',
-              )
-            }
-          </p><div class="actions">
-            <a class="button primary" href={release.url}
-              >{t('Download from GitHub', 'Descargar desde GitHub')} ↗</a
-            ><a class="button" href={href(locale, 'docs/desktop/')}
-              >{t('Read the beta guide', 'Consultar la guía de la beta')}</a
-            >
-          </div>
-        </div>
-      </section>
-      {
-        android && (
-          <section class="install-option" aria-labelledby="android-title">
-            <div>
-              <>
-                <h2 id="android-title">Android</h2>
-                <span class="tag">ALPHA</span>
-              </>
-            </div>
-            <div>
-              <p>
-                {t(
-                  'Connect to your Soundsible server with native audio, DJ, Live, Android Auto and explicit offline copies.',
-                  'Conecta a tu servidor Soundsible con audio nativo, DJ, Live, Android Auto y copias explícitas sin conexión.',
-                )}
-              </p>
-              <div class="actions">
-                <a class="button primary" href={android.apk}>
-                  {t('Download Android APK', 'Descargar APK Android')} ↗
-                </a>
-                <a class="button" href={android.url}>
-                  {t('Installation and release notes', 'Instalación y notas de la alpha')} ↗
-                </a>
-                <a class="text-action" href={android.checksum}>
-                  SHA256SUMS ↗
-                </a>
-              </div>
-              <p class="command-note">
-                {t(
-                  'Allow installation from your browser, then install over an earlier alpha to keep your data. Updates are manual. Technical minimum: API 24 / WebView 120; automated evidence: API 36. Physical Bluetooth and car acceptance is pending for beta.',
-                  'Autoriza la instalación desde tu navegador e instala sobre una alpha anterior para conservar tus datos. Actualizaciones manuales. Mínimo técnico: API 24 / WebView 120; evidencia automatizada: API 36. La aceptación física de Bluetooth y coche queda pendiente para beta.',
-                )}
-              </p>
-            </div>
-          </section>
-        )
-      }
       <section class="install-option" aria-labelledby="docker-title">
         <div><h2 id="docker-title">Docker</h2><p class="platforms">Linux amd64 · arm64</p></div><div
         >
@@ -230,6 +169,67 @@ const commands = blocks.slice(0, 3).map(([, , code]) =>
           </details>
         </div>
       </section>
+      <section class="install-option" aria-labelledby="desktop-title">
+        <div>
+          <h2 id="desktop-title">{t('Desktop app', 'Aplicación de escritorio')}</h2><p
+            class="platforms"
+          >
+            Windows
+          </p><span class="tag tag-prerelease">BETA</span>
+        </div><div>
+          <p>
+            {
+              t(
+                'One Windows installer runs a server on this PC and its player, with no terminal required. Check the release assets for the installer that matches your processor. On Linux, run the server natively or with Docker and open the player in your browser.',
+                'Un instalador para Windows ejecuta un servidor en este PC y su reproductor, sin necesidad de terminal. Busca en los archivos de la versión el instalador de tu procesador. En Linux, ejecuta el servidor de forma nativa o con Docker y abre el reproductor en tu navegador.',
+              )
+            }
+          </p><div class="actions">
+            <a class="button primary" href={release.url}
+              >{t('Download from GitHub', 'Descargar desde GitHub')} ↗</a
+            ><a class="button" href={href(locale, 'docs/desktop/')}
+              >{t('Read the beta guide', 'Consultar la guía de la beta')}</a
+            >
+          </div>
+        </div>
+      </section>
+      {
+        android && (
+          <section class="install-option" aria-labelledby="android-title">
+            <div>
+              <>
+                <h2 id="android-title">Android</h2>
+                <span class="tag tag-prerelease">ALPHA</span>
+              </>
+            </div>
+            <div>
+              <p>
+                {t(
+                  'Connect to your Soundsible server with native audio, DJ, Live, Android Auto and explicit offline copies.',
+                  'Conecta a tu servidor Soundsible con audio nativo, DJ, Live, Android Auto y copias explícitas sin conexión.',
+                )}
+              </p>
+              <div class="actions">
+                <a class="button primary" href={android.apk}>
+                  {t('Download Android APK', 'Descargar APK Android')} ↗
+                </a>
+                <a class="button" href={android.url}>
+                  {t('Installation and release notes', 'Instalación y notas de la alpha')} ↗
+                </a>
+                <a class="text-action" href={android.checksum}>
+                  SHA256SUMS ↗
+                </a>
+              </div>
+              <p class="command-note">
+                {t(
+                  'Allow installation from your browser, then install over an earlier alpha to keep your data. Updates are manual. Technical minimum: API 24 / WebView 120; automated evidence: API 36. Physical Bluetooth and car acceptance is pending for beta.',
+                  'Autoriza la instalación desde tu navegador e instala sobre una alpha anterior para conservar tus datos. Actualizaciones manuales. Mínimo técnico: API 24 / WebView 120; evidencia automatizada: API 36. La aceptación física de Bluetooth y coche queda pendiente para beta.',
+                )}
+              </p>
+            </div>
+          </section>
+        )
+      }
       <section class="install-option" aria-labelledby="clients-title">
         <div>
           <h2 id="clients-title">{t('Phones and other clients', 'Móviles y otros clientes')}</h2><p

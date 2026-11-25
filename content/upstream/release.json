@@ -27,6 +27,19 @@
       }
     },
     {
+      "slug": "devices",
+      "source": "docs/DEVICES.md",
+      "group": "more",
+      "title": {
+        "en": "Controlling other devices",
+        "es": "Controlling other devices"
+      },
+      "description": {
+        "en": "Guide from the current Soundsible release.",
+        "es": "Guía de la versión actual de Soundsible."
+      }
+    },
+    {
       "slug": "podcasts",
       "source": "docs/PODCASTS.md",
       "group": "more",
@@ -67,54 +80,54 @@
     }
   ],
   "repository": "Arzuparreta/soundsible",
-  "tag": "v0.34.1",
-  "sha": "a9136bd07ead049ca8612d6a6e2dfa7abdd9c5dd",
-  "publishedAt": "2026-11-17T11:04:02Z",
-  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.34.1",
+  "tag": "v0.37.0",
+  "sha": "b7f61a54528182353ef85d23e9f637f704164e40",
+  "publishedAt": "2026-11-24T09:31:56Z",
+  "url": "https://github.com/Arzuparreta/soundsible/releases/tag/v0.37.0",
   "assets": [
     {
       "name": "android-release.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/android-release.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/android-release.json"
     },
     {
       "name": "apps.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/apps.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/apps.json"
     },
     {
       "name": "release-acceptance.json",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/release-acceptance.json"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/release-acceptance.json"
     },
     {
       "name": "SHA256SUMS-android.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/SHA256SUMS-android.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/SHA256SUMS-android.txt"
     },
     {
       "name": "SHA256SUMS-arm64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/SHA256SUMS-arm64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/SHA256SUMS-arm64.txt"
     },
     {
       "name": "SHA256SUMS-x64.txt",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/SHA256SUMS-x64.txt"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/SHA256SUMS-x64.txt"
     },
     {
       "name": "Soundsible-Android-alpha.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible-Android-alpha.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/Soundsible-Android-alpha.apk"
     },
     {
       "name": "Soundsible.ipa",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible.ipa"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/Soundsible.ipa"
     },
     {
-      "name": "Soundsible_0.34.1_arm64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible_0.34.1_arm64-setup.exe"
+      "name": "Soundsible_0.37.0_arm64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/Soundsible_0.37.0_arm64-setup.exe"
     },
     {
-      "name": "Soundsible_0.34.1_x64-setup.exe",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/Soundsible_0.34.1_x64-setup.exe"
+      "name": "Soundsible_0.37.0_x64-setup.exe",
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/Soundsible_0.37.0_x64-setup.exe"
     },
     {
       "name": "upgrade-seed-androidTest.apk",
-      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.34.1/upgrade-seed-androidTest.apk"
+      "url": "https://github.com/Arzuparreta/soundsible/releases/download/v0.37.0/upgrade-seed-androidTest.apk"
     }
   ],
   "files": {
@@ -123,7 +136,7 @@
     "docs/DESKTOP_BETA.md": "6b0b64ce6f4f8ea4f3e5a5e952de88eae6d387be10c58df7a72f20f98862320f",
     "docs/IOS.md": "213cef57a327c3bae2379268ac956b5e4bc5e00cae25c6b5cc2010c09c012071",
     "docs/OPENSUBSONIC.md": "5a2624e7570e40de281b440b10681468c267da78d39492727d3fb1f431136fb0",
-    "docs/AUTO_MODE.md": "2b50dc74599a3af7e5ccda78141cbe9297c75f47c2165625f4f033e68402d3ec",
+    "docs/AUTO_MODE.md": "24612cd9feab337d631460f0214a56a78457205f37d4cb20525f7812d0bab5c5",
     "docs/LIVE.md": "5ac4cedcc2e47abd56591dd74cf739281d970c719fd06dfdc4471d0b232687da",
     "docs/MUSIC_MIGRATION.md": "a2a650703789a392c6a8ae47e3fa9dbfc4b7381423bbe109f579a4ab1c9fc436",
     "docs/CAR_INTEGRATION.md": "aceecb53b1eb394d7943c92925249743f52ef80b2aeb9b2006609f761ffb99dc",
@@ -131,44 +144,46 @@
     "docs/TELEMETRY_PRIVACY.md": "29c25054adba5a3f6a15026147c1012ee835ee97695ae4958986a1abd77424fc",
     "docs/troubleshooting-yt-dlp-formats.md": "100ceaeba80f9bb5956b422077d0b194a988389bd5cc376d7d8285999470c7bd",
     "docs/LEGAL.md": "caf4494cc915f0e97b116a83b3b95b3b87a153c3c058d8f8c167bdc7b39cebe7",
-    "docs/AGENT_INTEGRATION.md": "c8474953c34d1489ccc49be4edaa2aba06d3f6dd138aa7f5e9cdf7a16fd7e033",
+    "docs/AGENT_INTEGRATION.md": "9365f3a27ec8485c9f8eb1666ba265d93623998d7029c6b9288e82d863a2dbc8",
     "docs/VPS_RELAY.md": "3459e32f16ab443e659debcdd72d8c7c86cf01a72cc264e74c0498d0941e7014",
     "docs/ROADMAP.md": "3d542926bd523afea720b336505b6e4d01139636858588bd90bfc3003f292fc2",
     "docs/ANDROID_ALPHA.md": "922b063921bbce1aedaebbcfeaf412934851c160cd268e7eb52a09ffd85c6a3e",
     "docs/DESKTOP_CLIENT.md": "f4947f9322004641ca6c1b42ea4541b44e37ee8bcbb61cfa4c19e4eb0451c2d6",
+    "docs/DEVICES.md": "c3fa31ecfe0d48a78fd8c8f45994afc02152ccae0849ae179c882637b328816b",
     "docs/PODCASTS.md": "746c8635373e0b14f9261070741f055aef3802be6272fbf2b504dba99097ae24",
-    "docs/README.md": "452ea8ed650e4926b64f55959b1786e880742d68e7fc4e13b5452ecc790e33a1",
+    "docs/README.md": "5d72b86c01578cf3a961651105cd5e821a32daa819a07021e401767b30d3d847",
     "docs/SCROBBLING.md": "690e08b98db408cb86cdc49a6d9baa1d2550e0bcfb9cff288edec3836aeb7eab",
     "branding/logo-app.png": "a0c1d658d82cf319fae61e80121acee664b5b5428f31fdf7a89125bff3ddda10",
-    "docs/images/readme-dark.png": "541b9e7f39478404571ed770e7d46f46c93b2ad8bf42444fb8fdb103a5ed630c",
-    "docs/images/readme-light.png": "d1ee3313cb3c482df19bf06e3dbf8255305ceb68561519d763b2cebfb9755f7d",
-    "docs/images/screenshots/dark/desktop-library.webp": "c9d27d2b33aa647a0b77d42debc33e346a823c80858d94145c3d097396b7c529",
-    "docs/images/screenshots/dark/desktop-now-playing.webp": "05c028f435291449073cb690cce835524c24727d82fc1b37365770330d2501ab",
-    "docs/images/screenshots/dark/desktop-search.webp": "1ff9a39387c0721597b7dcfdf7e4a74cc910b601a502659abd91da5f4bf225a9",
-    "docs/images/screenshots/dark/mobile-library.webp": "2a4652200d352d0218c099b6ec099de93fbaecfe4eaaca916f36b5eea2e216e6",
-    "docs/images/screenshots/dark/mobile-now-playing.webp": "a6ef594f23c8516022f97c9265262d7f984e607e371278b302ed88b78116e12c",
-    "docs/images/screenshots/forest-green/desktop-library.webp": "2bd3b6d4f8a822a836c336d15b3e8a805fb36b3bb4e7f0094a87ebb18d5cab52",
-    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "8c5a5936650e5a86447246ce28af67453f0a012aad726c8462f956b952609e77",
-    "docs/images/screenshots/forest-green/desktop-search.webp": "2d1cbca9e9cb87cdebe7bc2b427d4b7448c11300f9feb7e0a9ea3154ae769202",
-    "docs/images/screenshots/forest-green/mobile-library.webp": "9223ebe11ecdd8c7b863ea4f0788dddcf178fc6988c285e1dc1edbdb3d365dca",
-    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "e4d3ee905ae09d4a1a6973c7513adf74fa9ac8a86d1ed4444c9dfedd4d6def44",
-    "docs/images/screenshots/light/desktop-library.webp": "109ee0073bf021f5b5bbc3310e115d6654a162f9cdef40bde63ba66b4a4190f8",
-    "docs/images/screenshots/light/desktop-now-playing.webp": "a11ca15d0d909589a33f5820555a87f9a565210091dd6a062c464c2ee74e58ab",
-    "docs/images/screenshots/light/desktop-search.webp": "efcd5825017e15c0ce840c662c1c3da4e78c5aafff3da1d97bc4d458951c43e1",
-    "docs/images/screenshots/light/mobile-library.webp": "4f2236794f6614143dd37e7fae70b663015a057071bb14f0b82cb32b570d7c68",
-    "docs/images/screenshots/light/mobile-now-playing.webp": "e68f0da9d5a0c5c267dfc293bd4acb7f16ec62b907c667e8c1cb2ad963f39997",
-    "docs/images/screenshots/pure-black/desktop-library.webp": "3ffc61f611b765247ad4df5de86b460c05a0619a3229f107a701bba95d18d62b",
-    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "3b89a08271bae6861f4c2578d3df07e723d22febdcaa290a631fbf04c6119285",
-    "docs/images/screenshots/pure-black/desktop-search.webp": "a9c2a0de44ab32baba16f7ac534dcef4c542db2536a97650836c0ad0e57bdc0c",
-    "docs/images/screenshots/pure-black/mobile-library.webp": "fd03277fcc121054194fd00a8223bb2421cf74267035642c0f6281a6706024e7",
-    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "6dfb83a52cbf21c63eedd7ff1084af8c59bc4f2700ee70183263fcceca3d30f0",
-    "docs/images/screenshots/slate/desktop-library.webp": "20cabbfbaa5d2171c0ed2192932980ef49506c4d13ea9463dd96381ca97fa7bf",
-    "docs/images/screenshots/slate/desktop-now-playing.webp": "97cf4a929b5cca868b0e88dfc8cbd2638a46e909899754e839e494c2ac38e77e",
-    "docs/images/screenshots/slate/desktop-search.webp": "4a1c4e86076c201494e9a9883f5159b20166c356c1bc712ae8ff45f9bb0348f5",
-    "docs/images/screenshots/slate/mobile-library.webp": "5a4e15d3705472663d11788546702a14fbe2b704f5da595ed969660a8ede361a",
-    "docs/images/screenshots/slate/mobile-now-playing.webp": "11383ad0a8e2d9cd5b677a0a141078b94db0a10348936c1ff0ea9e1d897bda32",
     "docs/images/scrobbling/settings-dark.webp": "fc0a1808bd7e50fcb5a9453225f7c595d31026685bf5dee959eec1d7e843a40b",
     "docs/images/scrobbling/settings-light.webp": "68b34999a11b81fdf6cb698fd6e9d1fbab5c072009c64ac5cb3f0f979dc85164",
-    "docs/images/social-card.png": "1aa91f038fe3bb55e84943509b5fa91ecb389979e6a780c3ea0f4aaffe946f5f"
+    "docs/images/readme-dark.png": "eb1656eab8dc2ee36978095bc50aa7311f5b59b3b6f174379490ec1b7ae4f23a",
+    "docs/images/readme-light.png": "aeb5b0badb1f71bd9683afba57e4067f10da2e88553489f7c946227dfa7a268a",
+    "docs/images/screenshots/dark/desktop-library.webp": "e4b0550f40155d494d5a838d98798225abe48c2737ba1c8d1a21918fefd82c5a",
+    "docs/images/screenshots/dark/desktop-lyrics.webp": "5861cf0b7e7e979b55c2a2f2d3e5fe68c40ef7d81e7d52f8d4a88cdb9fc782e0",
+    "docs/images/screenshots/dark/desktop-now-playing.webp": "747b40562912b7f23b4b8fb1ab2d30e18bd44c9c032f40dddc1c6453d0d59d1d",
+    "docs/images/screenshots/dark/desktop-search.webp": "71fbf28dbc0e249ffc3014d67ce28c42bffd510393fc9f2c32c6cdcf4013d404",
+    "docs/images/screenshots/dark/mobile-library.webp": "b1b2aa9e372ba47dbec4c24839b32e0616b0aea57af1fc8a1ebcfb7ef4854019",
+    "docs/images/screenshots/dark/mobile-now-playing.webp": "0c9a1535652362a98341422914888e8e657ce1d2bf0f84847aa140edd702ba56",
+    "docs/images/screenshots/forest-green/desktop-library.webp": "19b9507331a6e78836e452084ec6ce501bc52fc410e8d06840ee0ea393a68401",
+    "docs/images/screenshots/forest-green/desktop-now-playing.webp": "ff1d970bab40854dd81b5b292a8c8e417b1f4eb0e9050fe8484c7b4a036fe617",
+    "docs/images/screenshots/forest-green/desktop-search.webp": "7d0d916b334b3bcf6a130df9d9969b2d1bafcb7e61555ffb35c4d9e2e575dddb",
+    "docs/images/screenshots/forest-green/mobile-library.webp": "4d833f12f6f5702ed174e84383b457ad70ead1069b3baaa3622dc52df1b3cb16",
+    "docs/images/screenshots/forest-green/mobile-now-playing.webp": "1921dbb2aa5c36d69d4cd93b109c0cbcb1d3885a15f857e127a129e91010bb89",
+    "docs/images/screenshots/light/desktop-library.webp": "1d35ffe2053b7b0b81e213568983e7666b369c959121ef9459242f49e16b8e54",
+    "docs/images/screenshots/light/desktop-now-playing.webp": "2e938521dd7d4b885c1d422d7c2f8c2284aeefc90eac4c569ed3dcaae2829eab",
+    "docs/images/screenshots/light/desktop-search.webp": "ebbb5d4cf636bb1760f02a16ad08e2f801d9391f1992c527c49c68d7ed7e7e43",
+    "docs/images/screenshots/light/mobile-library.webp": "4e707d376a12995c03ff6cbdaf8c4e3bb9d3045fd9c4ad18669b59a644ec1755",
+    "docs/images/screenshots/light/mobile-now-playing.webp": "5a1037c4efec992a29421edfcec8295be4c256400fc0f00083415b457d07240c",
+    "docs/images/screenshots/pure-black/desktop-library.webp": "76b67146bd5da825873994b169871d51e738b82d4e95eba542f9a18bca5785f5",
+    "docs/images/screenshots/pure-black/desktop-now-playing.webp": "1497cbe24718ae282e94c502bfdb8c6cfb5c9235a8a9fc75d77b30613d2295b4",
+    "docs/images/screenshots/pure-black/desktop-search.webp": "5efaf75ae107f2c50b29ec77e938280f984074f30b15651527ebdada9eb631ff",
+    "docs/images/screenshots/pure-black/mobile-library.webp": "e41ea370cd838cb35ccddd80960ef2cd95b615095a3e4edd86ad7396ebbe6446",
+    "docs/images/screenshots/pure-black/mobile-now-playing.webp": "3238971547f26bfaac9120c05e1da395bd6c8e2ba9f38244ca4c3e59c5be953d",
+    "docs/images/screenshots/slate/desktop-library.webp": "54b8f465afe218a47e741d8fd961101207b66354c8a103bff8deae38e9e9731a",
+    "docs/images/screenshots/slate/desktop-now-playing.webp": "940666bebd6b693f73bff17a9d7c88fcb4f966da00d9a9024f410d062f73bdd7",
+    "docs/images/screenshots/slate/desktop-search.webp": "a792fc91b1cc2a61d8a1a41fc46076e1551484f4a262da268ab5eea9f74b8bd2",
+    "docs/images/screenshots/slate/mobile-library.webp": "a8301793780919c639a2681ec975c6b340afed34fffae9bb8264a4170a61921f",
+    "docs/images/screenshots/slate/mobile-now-playing.webp": "946bd4ff1f32f05eb9cc9370f5a38afcbe0f4bd86c3b0c66169ba89ceef1c63c",
+    "docs/images/social-card.png": "f80e2619dd10145cd6dab8e920c022b26a7cddbb9a5703db327400b78b3cc8ea"
   }
 }

@@ -279,7 +279,7 @@ test('the screenshot carousel stays still until the user steps', async ({ page }
   await page.clock.install();
   await page.goto(base);
   const current = page.locator('.shot.is-current');
-  await expect(page.locator('.shot')).toHaveCount(5);
+  await expect(page.locator('.shot')).toHaveCount(4);
   await expect(current).toHaveAttribute('data-shot-index', '0');
   await page.clock.fastForward(30000);
   await expect(current).toHaveAttribute('data-shot-index', '0');
@@ -299,7 +299,7 @@ test('the arrows step through the screenshots and wrap around', async ({ page })
   await page.locator('.shot-arrow.prev').click();
   await expect(current).toHaveAttribute('data-shot-index', '0');
   await page.locator('.shot-arrow.prev').click();
-  await expect(current).toHaveAttribute('data-shot-index', '4');
+  await expect(current).toHaveAttribute('data-shot-index', '3');
   await page.locator('.shot-arrow.next').click();
   await expect(current).toHaveAttribute('data-shot-index', '0');
   // Nothing is moving on its own.
@@ -337,6 +337,21 @@ test('the screenshots are the ones taken in the theme the page wears', async ({ 
   }
 });
 
+test('Get Started orders Native, Docker, Desktop and Android with status tags', async ({
+  page,
+}) => {
+  await page.goto(base + 'start/');
+  const headings = await page.locator('.install-option h2').allTextContents();
+  expect(headings.slice(0, 3)).toEqual(['Native installation', 'Docker', 'Desktop app']);
+  await expect(page.locator('.install-option').nth(0).locator('.tag.tag-primary')).toHaveText(
+    'PRIMARY METHOD',
+  );
+  await expect(page.locator('.install-option').nth(1).locator('.tag')).toHaveCount(0);
+  await expect(page.locator('.install-option').nth(2).locator('.tag.tag-prerelease')).toHaveText(
+    'BETA',
+  );
+});
+
 test('mobile captures are separate, fill their frame and enlarge individually', async ({
   page,
 }) => {
@@ -344,7 +359,7 @@ test('mobile captures are separate, fill their frame and enlarge individually', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(base);
   const current = page.locator('.shot.is-current');
-  for (let i = 0; i < 3; i++) await page.locator('.shot-arrow.next').click();
+  for (let i = 0; i < 2; i++) await page.locator('.shot-arrow.next').click();
   for (const name of ['mobile-library', 'mobile-now-playing']) {
     await expect(current).toHaveAttribute('data-portrait', '');
     const img = current.locator('img:visible');

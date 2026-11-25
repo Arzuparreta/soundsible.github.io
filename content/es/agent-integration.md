@@ -14,9 +14,9 @@ En el modo de motor de escritorio, no se supone que la URL base sea `:5005`. Lea
 
 ## Reglas del agente
 
-1. Usa la API de agentes para controlar la reproducción: `/api/agent/*`.
+1. Usa la API de agentes para controlar la reproducción: `/api/agent/*`, o los puntos finales generales de comandos de dispositivo `/api/devices/<device_id>/commands` y `/api/devices/transfer` (con el alcance `playback:control`).
 2. No inventes identificadores de dispositivo. Consulta `/api/devices` y elige un `device_id` real o un `device_name` exacto.
-3. Si una respuesta incluye `warning: "Device appears offline (no active socket)"`, el comando se ha emitido, pero no hay ningún reproductor del navegador conectado actualmente a la sala de ese dispositivo.
+3. Cada comando devuelve un estado final: `200` `{"status": "applied", "rev": n}`, `400`/`404`/`409` `{"status": "rejected", "reason": "..."}` o `503`/`504` `{"status": "unreachable", "reason": "offline" | "timeout"}`. Los comandos nunca responden `"sent"` y nunca escriben estado de reproducción en nombre de un dispositivo.
 4. Deezer solo aporta metadatos. Soundsible nunca reproduce audio de Deezer.
 5. Para obtener resultados de búsqueda reproducibles fuera de la biblioteca, usa la búsqueda de YouTube / YouTube Music mediante la ruta de yt-dlp del descargador.
 6. Cada reproductor mantiene su propia lista de próximas canciones; el motor no tiene una cola de reproducción a la que un agente pueda añadir elementos. La cola de descargas solo descarga.
@@ -85,15 +85,9 @@ Soundsible tiene tres conceptos independientes:
 | Sesión del reproductor | Lo que reproduce un dispositivo, informado por ese dispositivo; el reproductor web y Android también informan de las próximas canciones (`session.queue`), pero la aplicación de iOS todavía no | `GET /api/playback/state` (solo lectura) |
 | Cola de descarga     | Trabajos en segundo plano que descargan pistas a la biblioteca      | `POST /api/downloader/queue`   |
 
-El reproductor activo normalmente es una pestaña del navegador o PWA en `/player/` o `/player/desktop/`. El reproductor registra un dispositivo y se une a una sala Socket.IO:
+El reproductor activo normalmente es una pestaña del navegador, PWA, aplicación de escritorio o aplicación de Android. Cada copia en ejecución se registra como una instancia de su `device_id` mediante Socket.IO (`playback_register`), declarando su versión de protocolo y los comandos admitidos.
 
-```text
-playback:{scope}:{device_id}
-```
-
-El alcance actual es `default`.
-
-Los comandos HTTP del agente emiten eventos Socket.IO en la sala del dispositivo de destino. Si el navegador de destino no está conectado, Soundsible puede aceptar la solicitud pero el dispositivo no reaccionará.
+Los comandos HTTP del agente envían `device_command` directamente a la instancia de Socket.IO propietaria del dispositivo y esperan su confirmación (5 segundos, o 10 segundos para `session.import` durante una transferencia). Si el dispositivo está desconectado, no admite el protocolo, no declara el comando o no confirma a tiempo, el motor devuelve `unreachable` o `rejected` directamente en lugar de fingir que el comando tuvo éxito.
 
 ## Dispositivos
 
@@ -111,22 +105,32 @@ Respuesta de ejemplo:
     {
       "device_id": "dev-1775490811387-hu7wrzro8",
       "device_name": "Desktop",
-      "device_type": "desktop",
-      "scope": "default",
-      "active_sid": "abc123",
-      "socket_connected": true,
-      "last_seen_ts": 1775490830.0
+      "device_type": "web",
+      "form_factor": "computer",
+      "online": true,
+      "socket_active": true,
+      "protocol": 1,
+      "commands": ["transport.play", "transport.pause", "transport.next", "transport.previous", "transport.seek", "play.tracks"],
+      "playing": {
+        "track": { "id": "track-id", "title": "One More Time", "artist": "Daft Punk" },
+        "is_playing": true,
+        "position_sec": 42.1,
+        "measured_at_ms": 1763820000000,
+        "mode": "normal",
+        "rev": 17
+      }
     }
-  ]
+  ],
+  "server_now_ms": 1763820001000
 }
 ```
 
 Cómo los agentes deben elegir un dispositivo:
 
-1. Prefiere un dispositivo con el conjunto `active_sid`.
+1. Prefiere un dispositivo con `online: true` y `protocol` definido (no nulo).
 2. Prefiera `device_type != "agent"` para la reproducción.
 3. Si el usuario dice "Escritorio", seleccione el dispositivo cuyo `device_name` sea exactamente `Desktop`, o utilice su `device_id`.
-4. Si no hay dispositivos con `active_sid`, dígale al usuario que abra Soundsible en un navegador o PWA.
+4. Si no hay dispositivos en línea, dígale al usuario que abra Soundsible en un navegador, PWA o aplicación.
 
 Registre un dispositivo de agente, opcional pero útil para el descubrimiento:
 
@@ -136,9 +140,23 @@ curl -X POST http://localhost:5005/api/devices/register \
   -d '{"device_id":"openclaw-agent","device_name":"OpenClaw","device_type":"agent"}'
 ```
 
-Los reproductores del navegador también se registran a través de Socket.IO. El registro HTTP por sí solo no hace que un dispositivo sea controlable; `active_sid` es la señal de que está conectado un reproductor Socket.IO real.
+Los reproductores del navegador y las aplicaciones también se registran a través de Socket.IO. El registro HTTP por sí solo no hace que un dispositivo sea controlable; `online: true` con un `protocol` no nulo es la señal de que una instancia activa del reproductor está conectada y acepta comandos.
 
 ## Controlar la reproducción
+
+Tanto `/api/agent/command` como `/api/agent/play` pasan por el despachador de comandos remotos (`POST /api/devices/<device_id>/commands`) y devuelven sus códigos de estado HTTP y respuestas JSON:
+
+| HTTP | Cuerpo | Significado |
+|---|---|---|
+| `200` | `{"status": "applied", "rev": 18}` | El destino ejecutó el comando y publicó su estado actualizado |
+| `400` | `{"status": "rejected", "reason": "invalid"}` | Comando desconocido o argumentos no válidos |
+| `404` | `{"status": "rejected", "reason": "unknown_device"}` | Dispositivo de destino no encontrado (o ningún dispositivo registrado) |
+| `404` | `{"status": "rejected", "reason": "not_found"}` | La pista solicitada o la búsqueda no devolvió ningún elemento reproducible |
+| `409` | `{"status": "rejected", "reason": "update_required" \| "unsupported" \| "invalid_state" \| "not_found" \| "locked" \| "needs_gesture" \| "nothing_playing"}` | El destino rechazó el comando o no admite el protocolo/comando |
+| `503` | `{"status": "unreachable", "reason": "offline"}` | El destino no tiene ninguna instancia de Socket.IO conectada |
+| `504` | `{"status": "unreachable", "reason": "timeout"}` | El destino no confirmó a tiempo |
+
+Los puntos finales heredados `POST /api/playback/remote-command` y `POST /api/playback/handoff` permanecen durante una versión como envoltorios ligeros sobre `POST /api/devices/<device_id>/commands` y `POST /api/devices/transfer`, devolviendo estas mismas formas de respuesta.
 
 Pausar un dispositivo de destino:
 
@@ -176,7 +194,7 @@ curl -X POST http://localhost:5005/api/agent/command \
   -d '{"command":"seek","position_sec":75.5,"device_id":"Desktop"}'
 ```
 
-La búsqueda utiliza segundos absolutos desde el inicio de la pista actual. Para buscar hasta el 1:15, envíe `position_sec: 75`. Para saltar hacia adelante o hacia atrás, primero lea `/api/playback/state`, sume o reste segundos de `position_sec` y luego envíe el nuevo valor absoluto.
+La búsqueda utiliza segundos absolutos desde el inicio de la pista actual. Para buscar hasta el 1:15, envíe `position_sec: 75`. Para saltar hacia adelante o hacia atrás, primero lea `/api/playback/state` o `/api/devices`, sume o reste segundos de `position_sec` y luego envíe el nuevo valor absoluto.
 
 Comandos admitidos:
 
@@ -184,12 +202,13 @@ Comandos admitidos:
 {"command":"pause"}
 {"command":"play"}
 {"command":"next"}
+{"command":"previous"}
 {"command":"seek","position_sec":75.5}
 ```
 
-Para `seek`, se requiere `position_sec` y debe ser un número mayor o igual a `0`. `position_ms` también se acepta para clientes basados ​​en milisegundos. El navegador de destino fija posiciones más allá de la duración de la pista cargada hasta el final de la pista.
+Para `seek`, se requiere `position_sec` y debe ser un número finito mayor o igual a `0`. `position_ms` también se acepta para clientes basados en milisegundos. El reproductor de destino ajusta posiciones más allá de la duración de la pista cargada hasta el final de la pista.
 
-Si se omite `device_id`, Soundsible se dirige al dispositivo que no es agente registrado más recientemente, prefiriendo dispositivos con un socket activo.
+Si se omite `device_id`, Soundsible se dirige al dispositivo que no es agente visto más recientemente, prefiriendo dispositivos en línea.
 
 ## Reproducir música ahora
 
@@ -214,48 +233,47 @@ curl -X POST http://localhost:5005/api/agent/play \
 Comportamiento de búsqueda:
 
 1. Soundsible busca primero en la biblioteca local.
-2. Si no se encuentra ninguna coincidencia de biblioteca, busca YouTube Music a través de yt-dlp.
-3. El reproductor objetivo recibe una carga útil de pista de biblioteca o una carga útil de vista previa.
+2. Si no se encuentra ninguna coincidencia de biblioteca, busca en YouTube a través de yt-dlp.
+3. El motor envía `play.tracks` con el descriptor de pista acotado a la instancia propietaria del reproductor de destino.
 
-Respuesta esperada cuando se envía a un dispositivo en vivo:
-
-```json
-{
-  "status": "sent",
-  "device_id": "dev-...",
-  "track": {
-    "id": "track-or-video-id",
-    "title": "Track title",
-    "artist": "Artist"
-  }
-}
-```
-
-Si el dispositivo está registrado pero fuera de línea:
+Respuesta esperada cuando la aplica un dispositivo en vivo:
 
 ```json
 {
-  "status": "sent",
-  "device_id": "dev-...",
-  "warning": "Device appears offline (no active socket)"
+  "status": "applied",
+  "rev": 19
 }
 ```
 
-Trátelo como si no se hubiera jugado realmente.
+Si el dispositivo está registrado pero fuera de línea, el motor devuelve HTTP `503`:
+
+```json
+{
+  "status": "unreachable",
+  "reason": "offline"
+}
+```
 
 ### Limitación de reproducción automática del navegador
 
-Después de recargar el navegador, es posible que la página no tenga activación por parte del usuario. En ese estado, Chrome, Safari y Firefox pueden rechazar llamadas audibles de `audio.play()` que se originan en Socket.IO o comandos de agente activados por HTTP.
+Después de recargar el navegador, es posible que la página no tenga activación por parte del usuario. En ese estado, Chrome, Safari y Firefox pueden rechazar llamadas audibles de `audio.play()` que se originan en comandos remotos.
 
-Soundsible maneja esto colocando la solicitud remota en el reproductor. El dispositivo de destino muestra el mensaje **La reproducción remota está lista** con la pista solicitada. Un toque inicia la reproducción por etapas y desbloquea la sesión de audio del navegador para comandos posteriores del agente en esa sesión de página.
+Cuando el navegador bloquea el inicio del audio, el destino responde con HTTP `409`:
+
+```json
+{
+  "status": "rejected",
+  "reason": "needs_gesture"
+}
+```
 
 Comportamiento del agente:
 
-1. Si `/api/agent/play` devuelve `status: "sent"` y el dispositivo tiene `active_sid`, el comando llegó al navegador.
-2. Si la reproducción no comienza de manera audible inmediatamente después de una nueva recarga, dígale al usuario que toque el mensaje de reproducción remota en ese dispositivo.
-3. Una vez que el usuario ha iniciado cualquier audio en esa sesión de página, los comandos posteriores de reproducción, pausa, reanudación y siguiente del agente deberían funcionar sin este mensaje.
+1. Si `/api/agent/play` o `/api/agent/command` devuelve `status: "applied"`, el destino ejecutó la acción y publicó su nuevo estado.
+2. Si devuelve `409` con `reason: "needs_gesture"`, dígale al usuario que toque reproducir en ese dispositivo para desbloquear el audio del navegador.
+3. Una vez que el usuario ha iniciado audio en esa sesión de página, los comandos remotos posteriores de reproducción, pausa, reanudación, salto y búsqueda funcionan sin este aviso.
 
-Esta es una política de seguridad del navegador, no una falla de la API Soundsible. Para evitar el mensaje por completo, utilice una superficie de reproducción nativa o un motor de reproducción del lado del servidor en lugar del audio del navegador.
+Esta es una política de seguridad del navegador, no un fallo de la API de Soundsible. Para evitarla por completo, utilice una superficie de reproducción nativa como la aplicación de Android o la aplicación de escritorio.
 
 ## Biblioteca
 
@@ -625,28 +643,24 @@ curl 'http://localhost:5005/api/playback/state?exclude_device=<device-id>'
 Mover la reproducción de un dispositivo a otro:
 
 ```bash
-curl -X POST http://localhost:5005/api/playback/handoff \
+curl -X POST http://localhost:5005/api/devices/transfer \
   -H 'Content-Type: application/json' \
   -d '{"from_device_id":"dev-phone","to_device_id":"dev-desktop"}'
 ```
 
+(`POST /api/playback/handoff` permanece durante una versión como envoltorio sobre `POST /api/devices/transfer` con el mismo cuerpo y respuestas.)
+
 Comportamiento de transferencia:
 
-1. Lee el estado de `from_device_id`.
-2. Emite `playback_stop_requested` a `playback:default:<from_device_id>`.
-3. Escribe el estado de reproducción de destino con `to_device_id`.
-4. Emite `playback_start_requested` a `playback:default:<to_device_id>`.
-
-Si `to_device_id` no tiene ningún socket activo, la respuesta incluye una advertencia fuera de línea.
+1. Envía `session.export` a `from_device_id` (o usa su último estado publicado si está desconectado o no tiene protocolo). Si no se reproduce ninguna pista, devuelve `409` `{"status": "rejected", "reason": "nothing_playing", "step": "export"}`.
+2. Envía `session.import` a `to_device_id` (tiempo de espera de 10 s). Si falla, devuelve el error con `"step": "import"` y deja a `from_device_id` reproduciendo.
+3. Solo después de que `to_device_id` responda `applied`, envía `session.release` a `from_device_id` si está en línea (los fallos aquí se registran y la respuesta sigue siendo `applied`).
 
 Comportamiento de búsqueda:
 
-1. `POST /api/agent/command` con `{"command":"seek","position_sec":...}` lee el estado de reproducción del dispositivo de destino.
-2. La API escribe el `position_sec` solicitado en estado de reproducción.
-3. La API emite `playback_seek_requested` a `playback:default:<device_id>`.
-4. El reproductor del navegador establece `audio.currentTime` y conserva la nueva posición.
-
-Si el destino no tiene un estado de reproducción actual, la API devuelve `404` con `No playback state available for target device`.
+1. `POST /api/agent/command` con `{"command":"seek","position_sec":...}` envía `transport.seek` a la instancia propietaria del destino y espera su confirmación.
+2. El motor nunca escribe el estado de reproducción en nombre del dispositivo; el reproductor busca y publica su estado actualizado antes de confirmar `applied`.
+3. Si no suena nada en el destino, el destino responde `409` `{"status": "rejected", "reason": "nothing_playing"}` (o `invalid_state`).
 
 ## Pódcasts
 
@@ -673,9 +687,9 @@ Para "reproducir X en mi escritorio":
 
 1. Verifique el token con `GET /api/agent/verify`.
 2. Leer dispositivos con `GET /api/devices`.
-3. Seleccione `Desktop` con `active_sid`; si falta, pida al usuario que abra `/player/desktop/`.
+3. Seleccione `Desktop` con `online: true` y `protocol` definido; si falta, pida al usuario que abra `/player/desktop/`.
 4. Llame a `POST /api/agent/play` con `{"query":"X","device_id":"Desktop"}`.
-5. Si la respuesta es `warning`, informe que el dispositivo está fuera de línea.
+5. Compruebe la respuesta: `applied` significa que el destino reprodujo y publicó el estado; `unreachable` (`offline`/`timeout`) o `rejected` (`needs_gesture`, `update_required`, etc.) explica por qué no lo hizo.
 
 Para «añadir X a la cola»: la lista de próximas canciones pertenece al reproductor y
 no existe un punto de acceso que permita añadir elementos. Ofrece reproducir X ahora
@@ -720,11 +734,13 @@ Problemas comunes:
 
 | Síntoma                                                            | Significado                                                                                 | Arreglar                                                                                                                     |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `warning: Device appears offline`                                  | El dispositivo está registrado pero no tiene una unión activa a la sala Socket.IO           | Abrir/recargar el reproductor en ese dispositivo                                                                             |
-| `Target device not found`                                          | El agente utilizó un ID/nombre de dispositivo desconocido                                   | Llame a `/api/devices` y apunte a un dispositivo real                                                                        |
-| El comando devuelve `sent` pero no se reproduce nada.              | Por lo general, no se bloquea ningún socket activo o reproducción automática del navegador. | Marque `active_sid`; después de recargar, toque el mensaje de reproducción remota una vez                                    |
-| Buscar retornos `seek requires position_sec`                       | El agente envió `seek` sin posición absoluta                                                | Enviar `{"command":"seek","position_sec":75}`                                                                                |
-| La búsqueda no devuelve ningún estado de reproducción              | El dispositivo de destino no ha informado de un seguimiento actual                          | Inicie la reproducción primero o apunte al dispositivo activo desde `/api/devices`                                           |
+| `503 unreachable` (`offline`) | El dispositivo está registrado pero no tiene ninguna instancia Socket.IO conectada | Abrir/recargar el reproductor en ese dispositivo |
+| `504 unreachable` (`timeout`) | La instancia de destino no confirmó el comando a tiempo | Reintentar o comprobar la pestaña/aplicación del reproductor |
+| `404 rejected` (`unknown_device`) | El agente utilizó un ID/nombre de dispositivo desconocido o no hay ningún dispositivo registrado | Llame a `/api/devices` y apunte a un dispositivo real |
+| `409 rejected` (`update_required`) | El dispositivo está en línea sin protocolo de control remoto (aplicación antigua) | Actualizar Soundsible en ese dispositivo |
+| `409 rejected` (`needs_gesture`) | La política de reproducción automática del navegador bloqueó el audio tras una recarga reciente | Pedir al usuario que toque reproducir una vez en ese dispositivo |
+| `400 rejected` (`invalid`) en búsqueda | El agente envió `seek` sin un `position_sec` válido no negativo | Enviar `{"command":"seek","position_sec":75}` |
+| `409 rejected` (`nothing_playing`) | El dispositivo de destino no tiene ninguna pista actual | Inicie la reproducción primero o apunte al dispositivo activo desde `/api/devices` |
 | La identificación de Deezer falla                                  | Los ID de Deezer son solo metadatos                                                         | Resolver por título/artista mediante YouTube Music                                                                           |
 | La cola de descarga rechaza el `video_id` sin procesar             | `/api/downloader/queue` requiere `items[].song_str`                                         | Enviar URL completa de YouTube en `song_str` más `video_id`                                                                  |
 | La cola de descarga rechaza `ytmusic_search` con texto sin formato | Los tipos de fuente YouTube explícitos requieren URL de YouTube resueltas                   | Busque primero, luego ponga en cola la URL del resultado seleccionado; u omita `source_type` para utilizar texto sin formato |
@@ -736,11 +752,13 @@ Problemas comunes:
 GET  /api/health
 GET  /api/devices
 POST /api/devices/register
+POST /api/devices/<device_id>/commands
+POST /api/devices/transfer
 
 POST /api/agent/token          admin
 GET  /api/agent/verify         agent token
 POST /api/agent/play           agent token
-POST /api/agent/command        agent token; pause/play/next/seek
+POST /api/agent/command        agent token; pause/play/next/previous/seek
 GET  /api/agent/debug/socketio agent token
 
 GET  /api/library
@@ -759,8 +777,8 @@ POST /api/library/playlists/<name>/tracks
 
 GET    /api/playback/state
 PUT    /api/playback/state
-POST   /api/playback/handoff
-POST   /api/playback/notify-stop
+POST   /api/playback/remote-command   wrapper over /api/devices/<id>/commands
+POST   /api/playback/handoff          wrapper over /api/devices/transfer
 
 GET  /api/downloader/youtube/search?q=&limit=&source=
 GET  /api/downloader/youtube/peek?id=

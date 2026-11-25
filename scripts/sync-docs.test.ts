@@ -36,12 +36,27 @@ it('discovers moved guides from the new release without fetching stale snapshot 
       globalThis.fetch = async (url) => {
         if (url.endsWith('/releases/latest'))
           return Response.json({ ...published, tag_name: published.tag, published_at: published.publishedAt, html_url: published.url });
+        if (url.endsWith('/commits/main')) return Response.json({ sha: 'main-showcase-sha' });
         if (url.includes('/commits/')) return Response.json({ sha: published.sha });
         if (url.includes('/git/trees/'))
           return Response.json({ tree: [...files.keys()].map(path => ({ path, type: 'blob' })) });
-        const prefix = 'https://raw.githubusercontent.com/' + published.repository + '/' + published.sha + '/';
-        if (!url.startsWith(prefix)) throw new Error('Unexpected fixture request: ' + url);
-        const data = files.get(url.slice(prefix.length));
+        const releasePrefix = 'https://raw.githubusercontent.com/' + published.repository + '/' + published.sha + '/';
+        const showcasePrefix = 'https://raw.githubusercontent.com/' + published.repository + '/main-showcase-sha/';
+        const isShowcase = (p) =>
+          p.startsWith('docs/images/screenshots/') ||
+          p === 'docs/images/readme-dark.png' ||
+          p === 'docs/images/readme-light.png' ||
+          p === 'docs/images/social-card.png';
+        if (url.startsWith(showcasePrefix)) {
+          const path = url.slice(showcasePrefix.length);
+          if (!isShowcase(path)) throw new Error('Non-showcase file fetched from main: ' + path);
+          const data = files.get(path);
+          return data ? new Response(data) : new Response('', { status: 404 });
+        }
+        if (!url.startsWith(releasePrefix)) throw new Error('Unexpected fixture request: ' + url);
+        const path = url.slice(releasePrefix.length);
+        if (isShowcase(path)) throw new Error('Showcase file fetched from release instead of main: ' + path);
+        const data = files.get(path);
         return data ? new Response(data) : new Response('', { status: 404 });
       };
     `,

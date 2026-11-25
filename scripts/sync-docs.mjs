@@ -17,6 +17,19 @@ if (release.draft || release.prerelease)
   throw new Error('Documentation requires a stable, published release.');
 const commit = await json(`commits/${encodeURIComponent(release.tag_name)}`);
 const tree = await json(`git/trees/${commit.sha}?recursive=1`);
+// Showcase screenshots and social cards track `main` so landing page visuals
+// refresh as soon as updated captures land, while guides remain pinned to the
+// latest stable release.
+const isShowcaseImage = (path) =>
+  path.startsWith('docs/images/screenshots/') ||
+  path === 'docs/images/readme-dark.png' ||
+  path === 'docs/images/readme-light.png' ||
+  path === 'docs/images/social-card.png';
+const showcaseCommit = process.env.SOURCE_TAG ? commit : await json('commits/main');
+const showcaseTree =
+  showcaseCommit.sha === commit.sha
+    ? tree
+    : await json(`git/trees/${showcaseCommit.sha}?recursive=1`);
 const temp = 'content/.upstream-next';
 await rm(temp, { recursive: true, force: true });
 await mkdir(temp, { recursive: true });
@@ -34,16 +47,25 @@ const publicDocs = tree.tree
 // Discover from the requested release, not from the previous local snapshot.
 // A moved guide in that snapshot must not force a fetch of its retired path.
 const sources = [...new Set([...curatedCatalog.map((x) => x.source), ...publicDocs])];
-const assets = new Set([
+const releaseAssets = new Set([
   'branding/logo-app.png',
   ...tree.tree
-    .filter((x) => x.path.startsWith('docs/images/') && x.type === 'blob')
+    .filter((x) => x.path.startsWith('docs/images/') && x.type === 'blob' && !isShowcaseImage(x.path))
     .map((x) => x.path),
 ]);
+const showcaseAssets = new Set(
+  showcaseTree.tree
+    .filter((x) => isShowcaseImage(x.path) && x.type === 'blob')
+    .map((x) => x.path),
+);
+const fetchEntries = [
+  ...[...sources, ...releaseAssets].map((path) => ({ path, sha: commit.sha })),
+  ...[...showcaseAssets].map((path) => ({ path, sha: showcaseCommit.sha })),
+];
 try {
-  for (const path of [...sources, ...assets]) {
+  for (const { path, sha } of fetchEntries) {
     const response = await fetch(
-      `https://raw.githubusercontent.com/${repository}/${commit.sha}/${path}`,
+      `https://raw.githubusercontent.com/${repository}/${sha}/${path}`,
     );
     if (!response.ok) throw new Error(`Missing source ${path}: ${response.status}`);
     const bytes = Buffer.from(await response.arrayBuffer());

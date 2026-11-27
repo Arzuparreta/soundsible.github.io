@@ -52,10 +52,13 @@ jobs:
           path: .demo-source
           persist-credentials: false
       - name: Build the release player when supplied by the release
-        if: hashFiles('.demo-source/scripts/pages_demo/build.sh') != ''
         run: |
-          npm ci --prefix .demo-source/ui_web
-          .demo-source/scripts/pages_demo/build.sh "$PWD/public/demo"
+          source=$(mktemp -d "$RUNNER_TEMP/soundsible-source.XXXXXXXX")
+          mv .demo-source "$source/release"
+          if [[ -f "$source/release/scripts/pages_demo/build.sh" ]]; then
+            npm ci --prefix "$source/release/ui_web"
+            "$source/release/scripts/pages_demo/build.sh" "$PWD/public/demo"
+          fi
       - name: Refresh published Android alpha APK
         run: node scripts/sync-android.mjs
         env:

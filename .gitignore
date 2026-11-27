@@ -9,3 +9,5 @@ public/docs-release.json
 playwright-report/
 test-results/
 content/.upstream-next/
+
+public/demo/

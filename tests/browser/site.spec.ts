@@ -278,7 +278,10 @@ test('Docker quick start persists the release pin and stops if the directory exi
 test('the screenshot carousel stays still until the user steps', async ({ page }) => {
   await page.clock.install();
   await page.goto(base);
-  test.skip(await page.locator('[data-launch-demo]').count() > 0, 'Release supplies the playable demo');
+  test.skip(
+    (await page.locator('[data-launch-demo]').count()) > 0,
+    'Release supplies the playable demo',
+  );
   const current = page.locator('.shot.is-current');
   await expect(page.locator('.shot')).toHaveCount(4);
   await expect(current).toHaveAttribute('data-shot-index', '0');
@@ -293,7 +296,10 @@ test('the arrows step through the screenshots and wrap around', async ({ page })
   // The arrows are the only way to advance.
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(base);
-  test.skip(await page.locator('[data-launch-demo]').count() > 0, 'Release supplies the playable demo');
+  test.skip(
+    (await page.locator('[data-launch-demo]').count()) > 0,
+    'Release supplies the playable demo',
+  );
   const current = page.locator('.shot.is-current');
   await expect(current).toHaveAttribute('data-shot-index', '0');
   await page.locator('.shot-arrow.next').click();
@@ -318,7 +324,10 @@ test('the screenshots are the ones taken in the theme the page wears', async ({ 
   });
   await page.addInitScript(() => localStorage.setItem('soundsible:site-theme', 'light'));
   await page.goto(base);
-  test.skip(await page.locator('[data-launch-demo]').count() > 0, 'Release supplies the playable demo');
+  test.skip(
+    (await page.locator('[data-launch-demo]').count()) > 0,
+    'Release supplies the playable demo',
+  );
   await page.waitForLoadState('networkidle');
   // Each slide holds its screen in every theme; only the page's own is fetched.
   expect([...requested]).toEqual(['light']);
@@ -361,7 +370,10 @@ test('mobile captures are separate, fill their frame and enlarge individually', 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(base);
-  test.skip(await page.locator('[data-launch-demo]').count() > 0, 'Release supplies the playable demo');
+  test.skip(
+    (await page.locator('[data-launch-demo]').count()) > 0,
+    'Release supplies the playable demo',
+  );
   const current = page.locator('.shot.is-current');
   for (let i = 0; i < 2; i++) await page.locator('.shot-arrow.next').click();
   for (const name of ['mobile-library', 'mobile-now-playing']) {
@@ -427,12 +439,56 @@ test('theme button cycles through system, light and dark and follows the OS', as
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
-test('the release demo loads only when opened', async ({ page }) => {
+test('the release demo opens and plays inside the landing page', async ({ page }) => {
+  const demoRequests: string[] = [];
+  page.on('request', (request) => {
+    if (request.url().includes('/demo/')) demoRequests.push(request.url());
+  });
+  await page.addInitScript(() => {
+    const play = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () {
+      (window as Window & { demoAudio?: HTMLMediaElement }).demoAudio = this;
+      return play.call(this);
+    };
+  });
   await page.goto(base);
   const launch = page.locator('[data-launch-demo]');
-  test.skip(await launch.count() === 0, 'Release predates the playable demo');
-  const player = page.locator('iframe[data-demo-src]');
-  await expect(player).not.toHaveAttribute('src', /.+/);
+  test.skip((await launch.count()) === 0, 'Release predates the playable demo');
+  const frame = page.locator('iframe[data-demo-src]');
+  await expect(frame).not.toHaveAttribute('src', /.+/);
+  expect(demoRequests).toHaveLength(0);
   await launch.click();
-  await expect(player.contentFrame().getByText('Glass Steps', { exact: true }).first()).toBeVisible();
+  const player = frame.contentFrame();
+  await player.getByRole('link', { name: 'Ashes', exact: true }).click();
+  expect(demoRequests.some((url) => url.endsWith('.mp3'))).toBe(false);
+  await player.getByRole('button', { name: 'Play Let It In by Josh Woodward' }).click();
+  await expect
+    .poll(async () =>
+      player
+        .locator('html')
+        .evaluate(
+          () => (window as Window & { demoAudio?: HTMLMediaElement }).demoAudio?.currentTime ?? 0,
+        ),
+    )
+    .toBeGreaterThan(0.5);
+  await page.getByRole('button', { name: 'Close player' }).click();
+  await expect(frame).not.toHaveAttribute('src', /.+/);
+  await expect(launch).toBeFocused();
+});
+
+test('the Spanish mobile landing opens the full-page demo and music credits', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(base + 'es/');
+  test.skip(
+    (await page.locator('[data-launch-demo]').count()) === 0,
+    'Release predates the playable demo',
+  );
+  const player = page.getByRole('link', { name: 'Abrir reproductor a pantalla completa' });
+  await player.click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(page.getByRole('link', { name: 'Ashes', exact: true })).toBeVisible();
+  await page.goto(base + 'es/');
+  await page.getByRole('link', { name: 'Créditos musicales' }).click();
+  await expect(page.getByRole('heading', { name: 'Music credits' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'CC BY 4.0' }).first()).toBeVisible();
 });

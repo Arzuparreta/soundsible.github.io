@@ -1,5 +1,5 @@
 ---
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import images from '../generated/images.json';
 import Layout from '../layouts/Layout.astro';
 import { href, pick, release, repoUrl, type Locale } from '../lib/site';
@@ -18,6 +18,24 @@ const t = (en: string, es: string) => pick(locale, en, es);
 // Every capture is lazy, the first slide's too: a lazy image the page hides is
 // never fetched, so only the theme on show is downloaded.
 const demoReady = existsSync('public/demo/player.html');
+const demoSleeves = demoReady
+  ? [
+      ...new Map(
+        (
+          JSON.parse(readFileSync('public/demo/catalog.json', 'utf8')) as Array<{
+            album_id: string;
+            album: string;
+            artist: string;
+          }>
+        ).map((track) => [track.album_id, track]),
+      ).values(),
+    ]
+      .slice(0, 2)
+      .map((album) => ({
+        ...album,
+        art: `data:image/svg+xml;base64,${readFileSync(`public/demo/media/${album.album_id}.svg`, 'base64')}`,
+      }))
+  : [];
 const imported: Record<string, string> = images;
 const screenshot = (name: string) => {
   const single = imported[`docs/images/${name}.png`];
@@ -140,89 +158,117 @@ const shots = [
           >
         </aside>
       </div>
-      {demoReady ? (
-        <section class="live-demo" aria-label={t('Playable demo', 'Demo interactiva')}>
-          <button type="button" data-launch-demo>
-            <img src={shots[0].images[0].src.dark} alt="" width="1920" height="1080" />
-            <span>{t('Try Soundsible', 'Probar Soundsible')} ▸</span>
-          </button>
-          <iframe hidden data-demo-src={publicAsset('demo/')} title={t('Soundsible player', 'Reproductor de Soundsible')} />
-          <footer><a href={publicAsset('demo/')}>{t('Open full-page player', 'Abrir el reproductor a pantalla completa')}</a>
-          <a href={publicAsset('demo/credits.html')}>{t('Music credits', 'Créditos musicales')}</a></footer>
-        </section>
-      ) : (
-      <div
-        class="shot-stage"
-        data-carousel={shots.length > 1 ? '' : undefined}
-        role={shots.length > 1 ? 'group' : undefined}
-        aria-roledescription={shots.length > 1 ? t('carousel', 'carrusel') : undefined}
-        aria-label={shots.length > 1
-          ? t('Soundsible screenshots', 'Capturas de Soundsible')
-          : undefined}
-      >
-        {
-          shots.length > 1 && (
-            <button
-              type="button"
-              class="shot-arrow prev"
-              data-shot-step="-1"
-              aria-label={t('Previous screenshot', 'Captura anterior')}
-            >
-              <span aria-hidden="true" />
-            </button>
-          )
-        }
-        <figure class="product-figure">
-          <div class="shots">
-            {
-              shots.map((shot, index) => (
-                <a
-                  class:list={['shot', index === 0 && 'is-current']}
-                  href={shot.images[0].src.dark}
-                  data-shot-index={index}
-                  data-portrait={shot.images[0].height > shot.images[0].width ? '' : undefined}
-                  data-image-preview
-                  aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
-                >
-                  <>
-                    <span class="shot-media">
-                      {shot.images.map((image) =>
-                        themes.map(({ id }) => (
-                          <img
-                            class={`theme-${id}`}
-                            src={image.src[id]}
-                            alt={image.alt}
-                            width={image.width}
-                            height={image.height}
-                            loading="lazy"
-                            fetchpriority={index === 0 ? 'high' : 'auto'}
-                          />
-                        )),
-                      )}
-                    </span>
-                    <span class="image-enlarge" aria-hidden="true">
-                      ↗
-                    </span>
-                  </>
+      {
+        demoReady ? (
+          <section class="live-demo" aria-label={t('Playable demo', 'Demo interactiva')}>
+            <div class="demo-toolbar">
+              <p>
+                {t('Play music from an open collection', 'Escucha música de una colección abierta')}
+              </p>
+              <div class="demo-links">
+                <a href={publicAsset(`demo/index.html?lang=${locale}`)}>
+                  {t('Open full-page player', 'Abrir reproductor a pantalla completa')} ↗
                 </a>
-              ))
-            }
-          </div>
-        </figure>
-        {
-          shots.length > 1 && (
+                <a href={publicAsset('demo/credits.html')}>
+                  {t('Music credits', 'Créditos musicales')}
+                </a>
+                <button type="button" hidden data-close-demo>
+                  {t('Close player', 'Cerrar reproductor')}
+                </button>
+              </div>
+            </div>
             <button
               type="button"
-              class="shot-arrow next"
-              data-shot-step="1"
-              aria-label={t('Next screenshot', 'Captura siguiente')}
+              data-launch-demo
+              aria-controls="demo-player"
+              aria-expanded="false"
             >
-              <span aria-hidden="true" />
+              <span class="demo-sleeves" aria-hidden="true">
+                {demoSleeves.map((album) => (
+                  <span class="demo-album">
+                    <img src={album.art} width="400" height="400" alt="" />
+                    <strong>{album.album}</strong>
+                    <small>{album.artist}</small>
+                  </span>
+                ))}
+              </span>
+              <span class="demo-cta">{t('Try Soundsible', 'Probar Soundsible')} ▸</span>
             </button>
-          )
-        }
-      </div>
-      )}
+            <iframe
+              id="demo-player"
+              hidden
+              data-demo-src={publicAsset(`demo/index.html?lang=${locale}`)}
+              title={t('Soundsible player', 'Reproductor de Soundsible')}
+            />
+          </section>
+        ) : (
+          <div
+            class="shot-stage"
+            data-carousel={shots.length > 1 ? '' : undefined}
+            role={shots.length > 1 ? 'group' : undefined}
+            aria-roledescription={shots.length > 1 ? t('carousel', 'carrusel') : undefined}
+            aria-label={
+              shots.length > 1 ? t('Soundsible screenshots', 'Capturas de Soundsible') : undefined
+            }
+          >
+            {shots.length > 1 && (
+              <button
+                type="button"
+                class="shot-arrow prev"
+                data-shot-step="-1"
+                aria-label={t('Previous screenshot', 'Captura anterior')}
+              >
+                <span aria-hidden="true" />
+              </button>
+            )}
+            <figure class="product-figure">
+              <div class="shots">
+                {shots.map((shot, index) => (
+                  <a
+                    class:list={['shot', index === 0 && 'is-current']}
+                    href={shot.images[0].src.dark}
+                    data-shot-index={index}
+                    data-portrait={shot.images[0].height > shot.images[0].width ? '' : undefined}
+                    data-image-preview
+                    aria-label={t('Enlarge this screenshot', 'Ampliar esta captura')}
+                  >
+                    <>
+                      <span class="shot-media">
+                        {shot.images.map((image) =>
+                          themes.map(({ id }) => (
+                            <img
+                              class={`theme-${id}`}
+                              src={image.src[id]}
+                              alt={image.alt}
+                              width={image.width}
+                              height={image.height}
+                              loading="lazy"
+                              fetchpriority={index === 0 ? 'high' : 'auto'}
+                            />
+                          )),
+                        )}
+                      </span>
+                      <span class="image-enlarge" aria-hidden="true">
+                        ↗
+                      </span>
+                    </>
+                  </a>
+                ))}
+              </div>
+            </figure>
+            {shots.length > 1 && (
+              <button
+                type="button"
+                class="shot-arrow next"
+                data-shot-step="1"
+                aria-label={t('Next screenshot', 'Captura siguiente')}
+              >
+                <span aria-hidden="true" />
+              </button>
+            )}
+          </div>
+        )
+      }
     </section>
     <section class="home-bottom">
       <div>
@@ -239,32 +285,131 @@ const shots = [
       >
     </section>
   </main>
-  <dialog id="image-dialog" aria-label={t('Screenshot', 'Captura')}>
-    <button type="button" data-close-dialog>{t('Close', 'Cerrar')} ✕</button><img
-      src={shots[0].images[0].src.dark}
-      alt={shots[0].images[0].alt}
-      width={shots[0].images[0].width}
-      height={shots[0].images[0].height}
-      loading="lazy"
-    />
-  </dialog>
+  {
+    !demoReady && shots[0] && (
+      <dialog id="image-dialog" aria-label={t('Screenshot', 'Captura')}>
+        <>
+          <button type="button" data-close-dialog>
+            {t('Close', 'Cerrar')} ✕
+          </button>
+          <img
+            src={shots[0].images[0].src.dark}
+            alt={shots[0].images[0].alt}
+            width={shots[0].images[0].width}
+            height={shots[0].images[0].height}
+            loading="lazy"
+          />
+        </>
+      </dialog>
+    )
+  }
 </Layout>
 
 <script>
   const launch = document.querySelector<HTMLButtonElement>('[data-launch-demo]');
-  launch?.addEventListener('click', () => {
-    const frame = document.querySelector<HTMLIFrameElement>('iframe[data-demo-src]')!;
-    frame.src = frame.dataset.demoSrc!;
-    frame.hidden = false;
-    launch.hidden = true;
-    frame.focus();
-  });
+  const close = document.querySelector<HTMLButtonElement>('[data-close-demo]');
+  const frame = document.querySelector<HTMLIFrameElement>('#demo-player');
+  if (launch && close && frame) {
+    launch.addEventListener('click', () => {
+      frame.src = frame.dataset.demoSrc!;
+      frame.hidden = false;
+      close.hidden = false;
+      launch.hidden = true;
+      launch.setAttribute('aria-expanded', 'true');
+      frame.focus();
+    });
+    close.addEventListener('click', () => {
+      frame.hidden = true;
+      frame.removeAttribute('src');
+      close.hidden = true;
+      launch.hidden = false;
+      launch.setAttribute('aria-expanded', 'false');
+      launch.focus();
+    });
+  }
 </script>
 <style>
-  .live-demo { width: 100%; min-width: 0; }
-  .live-demo button { position: relative; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
-  .live-demo button img { display: block; width: 100%; height: auto; border-radius: .75rem; }
-  .live-demo button span { position: absolute; bottom: 1rem; left: 1rem; border-radius: 2rem; background: #fff; color: #17171a; padding: .7rem 1.2rem; font-weight: 700; }
-  .live-demo iframe { width: 100%; height: clamp(28rem, 72vh, 50rem); border: 0; }
-  .live-demo footer { display: flex; flex-wrap: wrap; gap: 1rem; margin-block: 1rem; }
+  .live-demo {
+    width: 100%;
+    min-width: 0;
+  }
+  .demo-toolbar,
+  .demo-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+  }
+  .demo-toolbar {
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .demo-toolbar p {
+    margin: 0;
+    font-weight: 650;
+  }
+  .demo-links {
+    font-size: 0.875rem;
+  }
+  .demo-links a,
+  .demo-links button {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .demo-links button {
+    cursor: pointer;
+  }
+  [data-launch-demo] {
+    display: grid;
+    width: 100%;
+    justify-items: center;
+    gap: 1.5rem;
+    padding: clamp(1rem, 4vw, 3rem);
+    border: 0;
+    background: #181a1c;
+    color: #f5f5f2;
+    cursor: pointer;
+    border-radius: 0.75rem;
+  }
+  .demo-sleeves {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 14rem));
+    gap: clamp(1rem, 4vw, 2rem);
+  }
+  .demo-album {
+    display: grid;
+    gap: 0.2rem;
+    text-align: left;
+  }
+  .demo-album img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .demo-album small {
+    color: #c6cbc6;
+  }
+  .demo-cta {
+    border-radius: 2rem;
+    background: #eff6eb;
+    color: #171c18;
+    padding: 0.7rem 1.2rem;
+    font-weight: 700;
+  }
+  [data-launch-demo]:hover .demo-cta {
+    background: #d4e8cd;
+  }
+  .live-demo iframe {
+    width: 100%;
+    height: clamp(28rem, 76svh, 56rem);
+    border: 0;
+    border-radius: 0.75rem;
+    background: #101014;
+  }
+  .live-demo [hidden] {
+    display: none;
+  }
 </style>

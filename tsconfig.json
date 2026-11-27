@@ -14,6 +14,8 @@
   ],
   "exclude": [
     "dist",
+    ".demo-source",
+    "public/demo",
     "playwright-report",
     "test-results"
   ]

@@ -42,6 +42,20 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           SOURCE_TAG: ${{ inputs.source_tag }}
         run: npm run docs:sync
+      - name: Resolve the demo source
+        id: demo
+        run: echo "sha=$(node -p "require('./content/upstream/release.json').sha")" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: Arzuparreta/soundsible
+          ref: ${{ steps.demo.outputs.sha }}
+          path: .demo-source
+          persist-credentials: false
+      - name: Build the release player when supplied by the release
+        if: hashFiles('.demo-source/scripts/pages_demo/build.sh') != ''
+        run: |
+          npm ci --prefix .demo-source/ui_web
+          .demo-source/scripts/pages_demo/build.sh "$PWD/public/demo"
       - name: Refresh published Android alpha APK
         run: node scripts/sync-android.mjs
         env:
